@@ -18,22 +18,24 @@ Las principales entidades de la aplicación son:
 - **Usuario**: Clientes del gimnasio que pueden acceder a entrenamientos y planes de nutrición.
 - **Nutrición**: Planes alimenticios personalizados según los objetivos del usuario.
 - **Entrenamiento**: Rutinas de ejercicios personalizadas para cada usuario.
-- **Gimnasio**: Los usuarios eligen donde ir.
+- **Comentario Entrenamiento**: Los usuarios pueden publicar comentarios sobre los entrenamientos.
+- **Comentario Nutrición**: Los usuarios pueden publicar comentarios sobre la nutrición.
   
-![image](![image](https://github.com/user-attachments/assets/4bc5973a-0ea9-4801-81b8-f486ba7dab55)
+![image](https://github.com/user-attachments/assets/4bc5973a-0ea9-4801-81b8-f486ba7dab55)
 
-)
+
 
 
 ## 🔑 Permisos de los usuarios
-- **Anónimo**: Puede ver los diferentes gimnasios disponibles, no puede acceder a planes personalizados de entrenamiento, no puede acceder a planes de nutrición, puede registrarse
-- **Registrado**: Puede ver los diferentes gimnasios disponibles(Gimnasio), puede apuntarse a un gimnasio(Gimnasio),  puede acceder a sus planes de entrenamiento(Entrenamiento), puede solicitar planes personalizados o automáticos de entrenamiento(Entrenamiento), puede acceder a sus planes de nutrición(Nutrición), puede solicitar planes personalizados o automáticos de nutrición(Nutrición).
+- **Anónimo**: Puede ver los diferentes entreamientos y rutinas disponibles, no puede acceder a los comentarios personalizados de entrenamiento ni a los comentarios de nutrición, puede registrarse
+- **Registrado**: Puede ver los diferentes comentarios publicados(Comentario), puede publicar un comentario(Comentario),  puede acceder a sus planes de entrenamiento(Entrenamiento), puede solicitar planes personalizados o automáticos de entrenamiento(Entrenamiento), puede acceder a sus planes de nutrición(Nutrición), puede solicitar planes personalizados o automáticos de nutrición(Nutrición).
 - **Admin**: Tiene todos los permisos de un usuario registrado y permisos para crear planes de entrenamiento y de nutrición.
 
 ## 🖼️ Imágenes
 Las siguientes entidades tendrán imágenes asociadas:
-- **Usuario**: Los usuarios podrán tener foto de perfil. Los usuarios anónimos podrán tener un icono por defecto.
-- **Gimnasio**: Cada gimnasio podrán tener una o varias imágenes asociadas.
+- **Usuario**: Los usuarios podrán tener foto de perfil.
+- **Entrenamiento**: Los entrenamientos tendrán fotos asignadas.
+- **Nutrición**: La nutrición tendrá imágenes asociadas.
 
 ## 📊 Gráficos
 Se mostrarán los siguientes gráficos:
