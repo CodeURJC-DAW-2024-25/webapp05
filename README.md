@@ -20,7 +20,9 @@ Las principales entidades de la aplicación son:
 - **Entrenamiento**: Rutinas de ejercicios personalizadas para cada usuario.
 - **Gimnasio**: Los usuarios eligen donde ir.
   
-![image](https://github.com/user-attachments/assets/965806d1-d51f-49ce-8c22-756aff21e697)
+![image](![image](https://github.com/user-attachments/assets/4bc5973a-0ea9-4801-81b8-f486ba7dab55)
+
+)
 
 
 ## 🔑 Permisos de los usuarios
