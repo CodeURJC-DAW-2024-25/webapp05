@@ -1,4 +1,4 @@
-# GymBros
+# AlphaGym
 
 ## 📋 Integrantes del equipo de desarrollo
 
@@ -6,7 +6,7 @@
 | ------------- |:-------------:| :---------:|:---------:|
 |  Catalin   | Mazarache | c.mazarache.2021@alumnos.urjc.es | CataUrjc|
 |  Adrián   | Esteban Martin      |   a.estebanm.2021@alumnos.urjc.es | aadri-2003 |
-| Miguel | Pradillo Bartolomé    |   m.pradillo.2020@alumnos.urjc.es | MikePradiBart |
+| Jonathan Xavier | Medina Salas    |   jx.medina@alumnos.urjc.es | XdeXavi |
 | Adrián | Dueñas Mínguez  |   a.duenas.2021@alumnos.urjc.es | AdriDM-urjc |
 | Víctor | Candel Casado     |   v.candel.2020@alumnos.urjc.es  | victorcc02 |
 
