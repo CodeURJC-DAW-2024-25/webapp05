@@ -91,3 +91,23 @@ footer {
 footer p {
     margin: 0;
 }
+
+/* Button More Results */
+.btn-load-more {
+    background-color: rgb(201, 64, 75); 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.btn-load-more:hover {
+    background-color: #ba2c38; 
+}
+
+
