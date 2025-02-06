@@ -13,18 +13,21 @@
 <body>
   <!---Inicio header-->
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                  <a class="nav-link active" aria-current="page" href="#">AlphaGym</a>
-                  <a class="nav-link" href="diet.html">Diet</a>
-                  <a class="nav-link" href="training.html">Training</a>
-                  <a class="nav-link" href="profile.html">Profile</a>
-                </div>
-              </div>
+      <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">AlphaGym</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="diet.html">Diet</a></li>
+                    <li class="nav-item"><a class="nav-link" href="training.html">Training</a></li>
+                    <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+                </ul>
             </div>
-          </nav>
+        </div>
+      </nav>
     </header>
     <!---Fin header-->
 
@@ -53,8 +56,62 @@
     </div>
     <!---Fin Carousel-->
 
+    <!---Servicios-->
+    <section id="services" class="py-5 text-center">
+      <div class="container">
+          <h2 class="mb-4">Our Services</h2>
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="card shadow-sm">
+                      <img src="assets/images/training.jpg" class="card-img-top" alt="Routine">
+                      <div class="card-body">
+                          <h5 class="card-title">Personal Routine</h5>
+                          <p class="card-text">Customized training programs to achieve your fitness goals.</p>
+                          <a href="training.html" class="btn btn-service">Explore Routine</a> <!-- Botón -->
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="card shadow-sm">
+                      <img src="assets/images/diet.png" class="card-img-top" alt="Nutrition">
+                      <div class="card-body">
+                          <h5 class="card-title">Nutrition Plans</h5>
+                          <p class="card-text">Healthy meal plans to complement your workouts.</p>
+                          <a href="diet.html" class="btn btn-service">Explore Nutrition</a> <!-- Botón -->
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </section>
+    <!---Fin Servicios-->
+
+    <!---Testimonios-->
+    <section id="testimonials" class="py-5 text-center">
+      <div class="container">
+          <h2 class="mb-4">What Our Clients Say</h2>
+          <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                  <div class="carousel-item active">
+                      <p class="lead">"Este gimnasio me ha cambiado la vida. Gran ambiente y entrenadores profesionales." - Javi</p>
+                  </div>
+                  <div class="carousel-item">
+                      <p class="lead">"Las clases en grupo son geniales, me siento motivada cada día." - Sara</p>
+                  </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon"></span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon"></span>
+              </button>
+          </div>
+      </div>
+    </section>
+    <!---Fin Testimonios-->
+
     <!---Inicio footer-->
-    <footer class="bg-black text-center py-5">
+    <footer class="bg-dark text-white text-center py-3">
         <div class="container px-5">
             <div class="text-white-50 small">
                 <div class="mb-2">&copy; web 2024/2025. All Rights Reserved.</div>
