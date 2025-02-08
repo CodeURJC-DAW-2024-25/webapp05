@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Training Routine</title>
+    <title>New Routine</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
@@ -40,11 +40,11 @@
         <h2 class="text-center">Create New Training Routine</h2>
         <form id="routineForm">
             <div class="mb-3">
-                <label for="routineName" class="form-label">Routine Name</label>
+                <label for="routineName" class="form-label">Routine Name:</label>
                 <input type="text" class="form-control" id="routineName" required>
             </div>
             <div class="mb-3">
-                <label for="intensity" class="form-label">Intensity</label>
+                <label for="intensity" class="form-label">Intensity:</label>
                 <select class="form-select" id="intensity" required>
                     <option value="50%">50%</option>
                     <option value="60%">60%</option>
@@ -55,7 +55,7 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="goal" class="form-label">Training Goal</label>
+                <label for="goal" class="form-label">Training Goal:</label>
                 <select class="form-select" id="goal" required>
                     <option value="increase_weight">Increase Weight</option>
                     <option value="increase_volume">Increase Volume</option>
@@ -63,12 +63,19 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="exercises" class="form-label">Exercises (list them here)</label>
+                <label for="exercises" class="form-label">Exercises (list them here):</label>
                 <textarea class="form-control" id="exercises" rows="4"
                     placeholder="E.g., Squats, Bench Press, Deadlifts..." required></textarea>
             </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Comments:</label>
+                <button class="btn-load-more w-100">Add Comment</button>
+            </div>
+
             <div class="d-flex justify-content-center gap-3">
                 <button type="submit" class="btn-load-more">Save Routine</button>
+                <button class="btn-load-more" onclick="window.location.href='training.html'">Return</button>
             </div>
 
         </form>
