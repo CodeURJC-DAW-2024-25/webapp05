@@ -7,8 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+    <!---Inicio header-->
     <!---Inicio header-->
     <header>
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -30,7 +33,72 @@
       </header>
       <!---Fin header-->
     <!---Fin header-->
-    <!--Inicio footer-->
+
+         <!-- Nutrition Plans Section -->
+         <section class="container py-5">
+          <h2 class="text-center mb-4">Nutrition Plans</h2>
+          <div id="resultsContainer" class="row">
+              <!-- Dieta 1 -->
+              <div class="col-12 col-md-4 mb-4">
+                  <div class="card shadow-sm">
+                      <img src="assets/images/deficitcalorico.jpeg" class="card-img-top" alt="Deficit calórico">
+                      <div class="card-body">
+                          <h5 class="card-title">Deficit calórico</h5>
+                          <ul>
+                              <li><strong>Desayuno</strong> – 2 huevos + cafe</li>
+                              <li><strong>Comida </strong>– Ensalada + 100g pechuga de pollo </li>
+                              <li><strong>Merienda</strong> – Rebanada de pan integral</li>
+                              <li><strong>Cena</strong> – Verduras + 150g de pescado</li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+      
+              <!-- Dieta 2 -->
+              <div class="col-12 col-md-4 mb-4">
+                  <div class="card shadow-sm">
+                      <img src="assets/images/volumen.jpeg" class="card-img-top" alt="Superavit calórico">
+                      <div class="card-body">
+                          <h5 class="card-title">Superávit calórico</h5>
+                          <ul>
+                              <li><strong>Desayuno</strong> – 6 huevos + 60g de avena con leche</li>
+                              <li><strong>Almuerzo</strong> – 30g de almendras </li>
+                              <li><strong>Comida </strong> – taza de arroz + 150g de carne magra</li>
+                              <li><strong>Merienda</strong> – batido de proteinas + frutos secos</li>
+                              <li><strong>Cena</strong> – 150g de salmon + 200g de patata</li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+      
+              <!-- Dieta 3 -->
+              <div class="col-12 col-md-4 mb-4">
+                  <div class="card shadow-sm">
+                      <img src="assets/images/mantenimiento.jpg" class="card-img-top" alt="Mantenimiento">
+                      <div class="card-body">
+                          <h5 class="card-title">Mantenimiento</h5>
+                          <ul>
+                              <li><strong>Desayuno</strong>– 2 huevos revueltos + 50 g de avena </li>
+                              <li><strong>Comida </strong> – 150 g de pollo + ensalada con aceite </li>
+                              <li><strong>Merienda</strong> – yogur griego natural con almendras</li>
+                              <li><strong>Cena</strong> – 120 g de salmón + verduras salteadas </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+      
+             
+          </div>
+      
+          <!-- Botón para cargar más y botón de añadir dieta -->
+          <div class="text-center">
+              <button id="loadMore" class="btn-load-more">More Results</button>
+              <button id="addDiet" class="btn-load-more">Add Diet</button>
+          </div>
+      </section>
+      <!-- Fin Training Plans Section -->
+
+    <!---Inicio footer-->
     <footer class="bg-dark text-white text-center py-5">
         <div class="container px-5">
             <div class="text-white-50 small">
