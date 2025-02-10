@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AlphaGym</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
@@ -13,7 +12,6 @@
 </head>
 
 <body>
-    <!---Inicio header-->
     <header>
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
             <div class="container">
@@ -25,21 +23,137 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="nutrition.html">Nutrition</a></li>
                         <li class="nav-item"><a class="nav-link" href="training.html">Training</a></li>
-                        <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html">Log out</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <!---Fin header-->
+
+    <!-- Contenedor principal -->
+    <div class="container d-flex justify-content-center align-items-start flex-wrap mt-4">
+        
+        <!-- Perfil del administrador -->
+        <div class="form-container-register me-3">
+            <p class="title text-center">Administrator Profile</p>
+            <form class="form">
+                <input type="email" class="input" placeholder="Alicia Rodriguez">
+                <input type="email" class="input" placeholder="aliciaRO@gmail.com">
+                <input type="email" class="input" placeholder="Eugenia de Montijo 76 BºC">
+                <input type="password" class="input" placeholder="Change Password">
+                <input type="password" class="input" placeholder="Confirm Password">
+                <a href="account.html" class="btn-load">Submit</a>
+            </form>
+            
+        </div>
+        
+        
+        <!-- Contenedor Training y Nutrition -->
+        <div class="d-flex flex-wrap justify-content-between gap-3">
+
+            <!-- Training -->
+            <div class="form-container-plans">
+                <p class="title text-center">Training</p>
+                <form class="form">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Plan Pecho</h5>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="#" class="btn-load-2" onclick="window.location.href='showRoutine.html'">Edit</a>
+                                <a href="#" class="btn-load-2">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Plan Espalda</h5>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="#" class="btn-load-2" onclick="window.location.href='showRoutine.html'">Edit</a>
+                                <a href="#" class="btn-load-2">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Plan Brazo</h5>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="#" class="btn-load-2" onclick="window.location.href='showRoutine.html'">Edit</a>
+                                <a href="#" class="btn-load-2">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-center gap-3">
+                    <button id="loadMore" class="btn-load">More Routines</button>
+                    <button id="newRoutine" class="btn-load" onclick="window.location.href='newRoutine.html'">New Routine</button>
+                </div>
+            </div>
+
+            <!-- Nutrition -->
+            <div class="form-container-plans">
+                <p class="title text-center">Nutrition</p>
+                <form class="form">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Dieta 1</h5>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="#" class="btn-load-2" onclick="window.location.href='showDiet.html'">Edit</a>
+                                <a href="#" class="btn-load-2">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm">    
+                        <div class="card-body">
+                            <h5 class="card-title">Dieta 2</h5>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="#" class="btn-load-2" onclick="window.location.href='showDiet.html'">Edit</a>
+                                <a href="#" class="btn-load-2">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Dieta 3</h5>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="#" class="btn-load-2" onclick="window.location.href='showDiet.html'">Edit</a>
+                                <a href="#" class="btn-load-2">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-center gap-3">
+                    <button id="loadMore" class="btn-load">More Results</button>
+                    <button id="newDiet" class="btn-load" onclick="window.location.href='newDiet.html'">New Diet</button>
+                </div>
+            </div>
+            
+           <!-- <div class="form-container-plans">
+                <p class="title text-center">Notifications: X</p>
+                
+               
+                <div class="d-flex justify-content-center gap-3">
+                    <button id="loadMore" class="btn-load">See notifications</button>
+            
+                </div> 
+     
+            </div>-->
+
+        </div>
+    <div class="d-flex flex-wrap justify-content-between gap-3">
+            <div class="card-body">
+                <h5 class="card-title">Notifications: X</h5>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="#" class="btn-load-2">See Notifications</a>
+                </div>
+            </div>
+        </div>
+    </div>
     
 
-    <!---Inicio footer-->
     <footer class="bg-dark text-white text-center py-5">
         <div class="container px-5">
             <div class="text-white-50 small">
-                <div class="mb-2">&copy; web 2024/2025. All Rights Reserved.</div>
+                <div class="mb-2">&copy; Web 2024/2025. All Rights Reserved.</div>
                 <a href="#">Privacy</a>
                 <span class="mx-1">&middot;</span>
                 <a href="#">Terms</a>
@@ -48,7 +162,6 @@
             </div>
         </div>
     </footer>
-    <!---Fin footer-->
 </body>
 
 </html>
