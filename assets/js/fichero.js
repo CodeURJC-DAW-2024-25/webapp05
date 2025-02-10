@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var newRoutineButton = document.getElementById("newRoutine");
   if (newRoutineButton) {
     newRoutineButton.addEventListener("click", function () {
-      window.location.href = "rutina.html";
+      window.location.href = "newRoutine.html";
     });
   } else {
     console.warn("Botón 'newRoutine' no encontrado en esta página.");
