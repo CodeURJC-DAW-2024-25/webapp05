@@ -324,7 +324,7 @@ footer p {
 /* ========================= */
 /* Clase Footer para error.html */
 /* ========================= */
-.footer {
+.footerError {
   position: fixed;
   bottom: 0;
   width: 100%;
