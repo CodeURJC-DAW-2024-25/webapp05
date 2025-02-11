@@ -1,17 +1,23 @@
 document.addEventListener("DOMContentLoaded", function () {
   console.log("Página cargada, ejecutando scripts...");
 
-  // ✅ Solo añadir evento si el botón existe
-  var newRoutineButton = document.getElementById("newRoutine");
-  if (newRoutineButton) {
-    newRoutineButton.addEventListener("click", function () {
-      window.location.href = "newRoutine.html";
-    });
-  } else {
-    console.warn("Botón 'newRoutine' no encontrado en esta página.");
+  // Función para agregar eventos a botones
+  function addNavigationEvent(buttonId, targetPage) {
+    var button = document.getElementById(buttonId);
+    if (button) {
+      button.addEventListener("click", function () {
+        window.location.href = targetPage;
+      });
+    } else {
+      console.warn(`Botón '${buttonId}' no encontrado en esta página.`);
+    }
   }
 
-  // ✅ Verificar si el modal existe antes de usarlo
+  // ✅ Agregamos eventos para los botones necesarios
+  addNavigationEvent("newRoutine", "newRoutine.html");
+  addNavigationEvent("addDiet", "newDiet.html");
+
+  // ✅ Verificar si el modal de error existe antes de usarlo
   var errorModalElement = document.getElementById("errorModal");
   if (errorModalElement) {
     var errorModal = new bootstrap.Modal(errorModalElement);

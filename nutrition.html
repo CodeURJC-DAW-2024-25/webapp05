@@ -15,7 +15,8 @@
     />
     <link rel="stylesheet" href="assets/css/styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </head>
+    <script src="assets/js/fichero.js"></script>
+</head>
 
   <body>
     <!---Inicio header-->
@@ -81,35 +82,23 @@
           </div>
         </div>
 
-        <!-- Dieta 2 -->
-        <div class="col-12 col-md-4 mb-4">
-          <div class="card shadow-sm">
-            <img
-              src="assets/images/volumen.jpeg"
-              class="card-img-top"
-              alt="Caloric surplus"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Caloric surplus</h5>
-              <ul>
-                <li>
-                  <strong>Desayuno</strong> – 6 huevos + 60g de avena con leche
-                </li>
-                <li><strong>Almuerzo</strong> – 30g de almendras</li>
-                <li>
-                  <strong>Comida </strong> – taza de arroz + 150g de carne magra
-                </li>
-                <li>
-                  <strong>Merienda</strong> – batido de proteinas + frutos secos
-                </li>
-                <li><strong>Cena</strong> – 150g de salmon + 200g de patata</li>
-              </ul>
+            <!-- Dieta 2 -->
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <img src="assets/images/volumen.jpeg" class="card-img-top" alt="Caloric surplus">
+                    <div class="card-body">
+                        <h5 class="card-title">Caloric surplus</h5>
+                        <ul>
+                            <li><strong>Desayuno</strong> – 6 huevos + 60g de avena con leche</li>
+                            <li><strong>Almuerzo</strong> – 30g de almendras </li>
+                            <li><strong>Comida </strong> – taza de arroz + 150g de carne magra</li>
+                            <li><strong>Merienda</strong> – batido de proteinas + frutos secos</li>
+                            <li><strong>Cena</strong> – 150g de salmon + 200g de patata</li>
+                        </ul>
+                    </div>
+                    <a href="showDiet.html" class="btn btn-service">Look for caloric surplus details!</a>
+                </div>
             </div>
-            <a href="showDiet.html" class="btn btn-service"
-              >Look for caloric surplus details!</a
-            >
-          </div>
-        </div>
 
         <!-- Dieta 3 -->
         <div class="col-12 col-md-4 mb-4">
@@ -155,6 +144,11 @@
           Add Diet
         </button>
       </div>
+        <!-- Botón para cargar más y botón de añadir dieta -->
+        <div class="text-center">
+            <button id="loadMore" class="btn-load">More Results</button>
+            <button id="addDiet" class="btn-load">Add Diet</button>
+        </div>
     </section>
     <!-- Fin Training Plans Section -->
 
