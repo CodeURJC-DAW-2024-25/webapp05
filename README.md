@@ -106,7 +106,7 @@ Esta pantalla será lo que verá el usuario cuando decida añadir una nueva diet
 ## Pantalla para Ver Comentarios: 
 Esta pantalla es exclusiva para los usuarios registrados y los administradores, por lo tanto los usuarios no registrados no podrán tener acceso a esta página. En ella los usuarios verán los diferentes comentarios realizados sobre una dieta o una rutina. Cada comentario tiene un botón para notificar al administrador en el caso de que el usuario considere inapropiado el comentario.
 
-![image](https://github.com/user-attachments/assets/a938d86d-48b8-446c-b36f-bf16b28af4db)
+![image](https://github.com/user-attachments/assets/4ac13334-b5e8-4704-9ca6-818f9181fc9d)
 
 ## Pantalla para Añadir Comentarios: 
 Al igual que la pantalla anterior se necesitan ciertos privilegios para acceder a esta página. Los usuarios podrán realizar comentarios acerca de una rutina o dieta rellenando el formulario que consta de un nombre para el comentario y el propio comentario.
