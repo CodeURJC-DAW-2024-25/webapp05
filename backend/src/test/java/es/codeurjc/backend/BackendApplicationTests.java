@@ -1,10 +1,10 @@
-package es.codeurjc.helloword_vscode;
+package es.codeurjc.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HellowordVscodeApplicationTests {
+class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {
