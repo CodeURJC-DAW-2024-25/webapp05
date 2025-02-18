@@ -1,35 +1,43 @@
-{{>header}} <!-- Incluimos el header -->
+{{>header}}
+<!-- Incluimos el header -->
 
-    <!-- Formulario de Comentario -->
-    <div class="container mt-5">
-      <h2 class="text-center">Create a new comment</h2>
-      <form id="commentForm">
-        <div class="mb-3">
-          <label for="commentTitle" class="form-label">Comment title:</label>
-          <input type="text" class="form-control" id="commentTitle" required />
-        </div>
-        <div class="mb-3">
-          <label for="commentText" class="form-label">Comment:</label>
-          <textarea
-            class="form-control"
-            id="commentText"
-            rows="4"
-            placeholder="Write here your comment..."
-            required
-          ></textarea>
-        </div>
-        <div class="d-flex justify-content-center gap-3">
-          <button type="submit" class="btn-load">Submit Comment</button>
-          <button
-            class="btn-load"
-            onclick="window.location.href='newRoutine.html'"
-          >
-            Return
-          </button>
-          <!-- Este boton deberia cambiar la referencia segun de donde venga-->
-        </div>
-      </form>
+<!-- Formulario de Comentario -->
+<div class="container mt-5">
+  <h2 class="text-center">Create a new comment</h2>
+  <form id="commentForm" method="post" action="/comments">
+    <div class="mb-3">
+      <!--Comment title -->
+      <label for="commentTitle" class="form-label">Comment title:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="commentTitle"
+        name="title"
+        required
+      />
     </div>
-    <!-- Fin Formulario de Comentario -->
+    <div class="mb-3">
+      <label for="commentText" class="form-label">Comment:</label>
+      <textarea
+        class="form-control"
+        id="commentText"
+        rows="4"
+        placeholder="Write here your comment..."
+        name="comment"
+        required
+      ></textarea>
+    </div>
+    <div class="d-flex justify-content-center gap-3">
+      <button type="submit" class="btn-load">Submit Comment</button>
+      <button
+        class="btn-load"
+        onclick="window.location.href='newRoutine.html'">Return
+      </button>
+      <!-- Este boton deberia cambiar la referencia segun de donde venga-->
+    </div>
+  </form>
+</div>
+<!-- Fin Formulario de Comentario -->
 
-{{>footer}} <!-- Incluimos el footer -->
+{{>footer}}
+<!-- Incluimos el footer -->
