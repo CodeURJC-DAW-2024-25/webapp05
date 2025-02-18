@@ -4,9 +4,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO) 
     private long id; 
     
-    private String firstName; 
-    private String lastName; 
-
+    private String name; 
+    private String email;
+    private String address;
+    
     // Constructor necesario para la carga desde BBDD 
     protected User() {} 
     
