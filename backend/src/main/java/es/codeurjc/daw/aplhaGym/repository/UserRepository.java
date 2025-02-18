@@ -1,12 +1,16 @@
-package com.example.webapp05.model;
+package es.codeurjc.daw.aplhaGym.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import es.codeurjc.daw.aplhaGym.model.User;
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByName(String name); 
     List<User> findByEmail(String email);
     List<User> findByAddress(String address);
     List<User> findByNameAndEmail(String name, String email);
-    List<User> findByNameAndAddress(String name, String address);   
+    List<User> findByNameAndAddress(String name, String address);  
+
 }

@@ -1,4 +1,4 @@
-package es.codeurjc.backend;
+package es.codeurjc.daw.aplhaGym.controller;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
