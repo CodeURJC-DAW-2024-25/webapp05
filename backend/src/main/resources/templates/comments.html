@@ -1,60 +1,77 @@
-{{>header}} <!-- Incluimos el header -->
+{{>header}}
+<!-- Incluimos el header -->
 
-    <!-- Comments Section -->
-    <section class="container py-5">
-      <h2 class="text-center mb-4">Comments</h2>
-      <div id="resultsContainer" class="row">
-        <!-- Comentario 1 -->
-        <div class="col-12 col-md-4 mb-4">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">Descansos</h5>
-              <ul>
-                <li>
-                  Es importante hacer descansos entre series para evitar fatigar
-                  el musculo y optimizar el entrenamiento.
-                </li>
-              </ul>
-              <a href="#" class="btn-load-2">Report</a>
-            </div>
-          </div>
-        </div>
-        <!-- Comentario 2 -->
-        <div class="col-12 col-md-4 mb-4">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">Hidratación</h5>
-              <ul>
-                <li>
-                  Dado que esta rutina de ejercicios es muy aerobica, la
-                  correcta hidratacion es extremadamente importante.
-                </li>
-              </ul>
-              <a href="#" class="btn-load-2">Report</a>
-            </div>
-          </div>
+<!-- Comments Section -->
+<section class="container py-5">
+  <h2 class="text-center mb-4">Comments</h2>
+  <div id="resultsContainer" class="row">
+    <!-- Comentarios estáticos -->
+    <div class="col-12 col-md-4 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Descansos</h5>
+          <ul>
+            <li>
+              Es importante hacer descansos entre series para evitar fatigar el
+              músculo y optimizar el entrenamiento.
+            </li>
+          </ul>
+          <a href="#" class="btn-load-2">Report</a>
         </div>
       </div>
+    </div>
 
-      <!-- Botón para cargar más y botón de añadir comentarios -->
-      <div class="text-center">
-        <button id="loadMore" class="btn-load">More Comments</button>
-        <button
-          id="addComment"
-          class="btn-load"
-          onclick="window.location.href='newComment.html'"
-        >
-          Add Comment
-        </button>
-        <button
-          class="btn-load"
-          onclick="window.location.href='newRoutine.html'"
-        >
-          Return
-        </button>
-        <!-- Este boton deberia cambiar la referencia segun de donde venga-->
+    <div class="col-12 col-md-4 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Hidratación</h5>
+          <ul>
+            <li>
+              Dado que esta rutina de ejercicios es muy aeróbica, la correcta
+              hidratación es extremadamente importante.
+            </li>
+          </ul>
+          <a href="#" class="btn-load-2">Report</a>
+        </div>
       </div>
-    </section>
-    <!-- Fin Comments Section -->
-     
-{{>footer}} <!-- Incluimos el footer -->
+    </div>
+
+    <!-- Comentario dinámico añadido desde el formulario -->
+    <div class="col-12 col-md-4 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{title}}</h5>
+          <ul>
+            {{#comment}}
+            <li> 
+              {{.}}
+            </li>
+            {{/comment}}           
+          </ul>
+          <a href="#" class="btn-load-2">Report</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón para cargar más y botón de añadir comentarios -->
+  <div class="text-center">
+    <button id="loadMore" class="btn-load">More Comments</button>
+    {{#user}}
+    <button
+      id="addComment"
+      class="btn-load"
+      onclick="window.location.href='newComment.html'">
+      Add Comment
+    </button>
+    {{/user}}
+    <button class="btn-load" onclick="window.location.href='newRoutine.html'">
+      Return
+    </button>
+    <!-- Este botón debería cambiar la referencia según de dónde venga-->
+  </div>
+</section>
+<!-- Fin Comments Section -->
+
+{{>footer}}
+<!-- Incluimos el footer -->
