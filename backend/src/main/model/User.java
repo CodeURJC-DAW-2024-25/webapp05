@@ -9,21 +9,23 @@ import javax.persistence.Id;
 public class User { 
     @Id 
     @GeneratedValue(strategy = GenerationType.AUTO) 
+
     private long id; 
-    
     private String name; 
     private String email;
     private String address;
+    private String password;
 
     // Constructor necesario para la carga desde BBDD 
     protected User() {} 
     
-    public User(String name, String email, String address) {
+    public User(String name, String email, String address, String password) {
         this.name = name; 
         this.email = email; 
         this.address = address;
+        this.password = password;
     }
-    
+
     // Getters
     public String getName() {
         return name;
@@ -37,6 +39,10 @@ public class User {
         return address;
     }
 
+    public String getPassword() {
+        return password;
+      }
+      
     // Setters
     public void setName(String name) {
         this.name = name;
@@ -50,4 +56,8 @@ public class User {
         this.address = address;
     }
     
-}
+    public void setPassword(String password) {
+      this.password = password;
+    }
+
+} 
