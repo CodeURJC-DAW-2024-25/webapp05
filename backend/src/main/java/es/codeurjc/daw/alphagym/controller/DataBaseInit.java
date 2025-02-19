@@ -1,11 +1,12 @@
-package es.codeurjc.daw.aplhaGym.controller;
+package es.codeurjc.daw.alphagym.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.boot.CommandLineRunner;
 
-import es.codeurjc.daw.aplhaGym.model.User;
-import es.codeurjc.daw.aplhaGym.repository.UserRepository;
+import es.codeurjc.daw.alphagym.model.User;
+import es.codeurjc.daw.alphagym.repository.UserRepository;
+
+import org.springframework.boot.CommandLineRunner;
 
 @Controller
 public class DataBaseInit implements CommandLineRunner {

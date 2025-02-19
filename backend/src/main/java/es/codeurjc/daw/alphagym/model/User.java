@@ -1,4 +1,4 @@
-package es.codeurjc.daw.aplhaGym.model;
+package es.codeurjc.daw.alphagym.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package es.codeurjc.daw.aplhaGym.controller;
+package es.codeurjc.daw.alphagym.controller;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

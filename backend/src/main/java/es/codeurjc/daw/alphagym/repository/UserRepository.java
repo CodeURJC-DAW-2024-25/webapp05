@@ -1,10 +1,10 @@
-package es.codeurjc.daw.aplhaGym.repository;
+package es.codeurjc.daw.alphagym.repository;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import es.codeurjc.daw.aplhaGym.model.User;
+import es.codeurjc.daw.alphagym.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByName(String name); 
