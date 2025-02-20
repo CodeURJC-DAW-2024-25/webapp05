@@ -5,11 +5,11 @@
   <img src="..\static\images\gym5.jpg" class="fondo-login" />
   <div class="form-container">
     <p class="title">Welcome Back</p>
-    <form class="form">
-      <input type="email" class="input" placeholder="Email" />
-      <input type="password" class="input" placeholder="Password" />
-      <p><a href="restartprofile.html">Forgot Password?</a></p>
-      <a href="account.html" class="btn-load">Login</a>
+    <form class="form" method="post">
+      <input type="email" class="input" placeholder="Email" value={{email}}/>
+      <input type="password" class="input" placeholder="Password" value={{password}}/>
+      <p>{{#user}}<a href="restartprofile.html">Forgot Password?</a>{{/user}}</p>
+      {{user}}<a href="account.html" class="btn-load">Login</a>{{/user}}
     </form>
     <p>Don't have an account?<a href="register.html"> Sign up</a></p>
   </div>

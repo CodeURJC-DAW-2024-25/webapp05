@@ -10,13 +10,11 @@
       <div class="card shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Descansos</h5>
-          <ul>
-            <li>
+          <textarea>
               Es importante hacer descansos entre series para evitar fatigar el
               músculo y optimizar el entrenamiento.
-            </li>
-          </ul>
-          <a href="#" class="btn-load-2">Report</a>
+          </textarea>
+          <!--<a href="#" class="btn-load-2">Report</a>--> <!-- Vamos a borrar los comentarios por defecto-->
         </div>
       </div>
     </div>
@@ -25,33 +23,27 @@
       <div class="card shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Hidratación</h5>
-          <ul>
-            <li>
+          <textarea>
               Dado que esta rutina de ejercicios es muy aeróbica, la correcta
               hidratación es extremadamente importante.
-            </li>
-          </ul>
-          <a href="#" class="btn-load-2">Report</a>
+          </textarea>
+          <!--<a href="#" class="btn-load-2">Report</a>--> <!-- Vamos a borrar los comentarios por defecto-->
         </div>
       </div>
     </div>
 
     <!-- Comentario dinámico añadido desde el formulario -->
+    {{#comment}}
     <div class="col-12 col-md-4 mb-4">
       <div class="card shadow-sm">
         <div class="card-body">
           <h5 class="card-title">{{title}}</h5>
-          <ul>
-            {{#comment}}
-            <li> 
-              {{.}}
-            </li>
-            {{/comment}}           
-          </ul>
-          <a href="#" class="btn-load-2">Report</a>
+          <textarea>{{comment}}</textarea>                  
+          <a href="#" class="btn-load-2">Report</a><!-- Preguntar al profe si es necesario un post o como enviarlo/recogerlo en la lista del Admin-->
         </div>
       </div>
     </div>
+    {{/comment}}  
   </div>
 
   <!-- Botón para cargar más y botón de añadir comentarios -->
