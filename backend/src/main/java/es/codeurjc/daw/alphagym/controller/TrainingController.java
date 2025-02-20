@@ -25,6 +25,8 @@ public class TrainingController {
     @Autowired
     private TrainingRepository trainingRepository;
 
+    //esto guardpalo para despues 
+/* 
     @GetMapping("/routines")
     public String showAllRoutines(Model model, @RequestParam("userId") Long userId){
         model.addAttribute("routines",trainingService.getAllTrainings(userId));
@@ -36,6 +38,7 @@ public class TrainingController {
         }
         return "redirect:/training";
     }
+*/
 
     //  @GetMapping("/routines/{routineId}")
 

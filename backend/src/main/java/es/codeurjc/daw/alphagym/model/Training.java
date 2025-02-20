@@ -17,12 +17,12 @@ public class Training {
     private String image;
     private String goal;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "user_id")
+    //private User user;
 
-    @ManyToMany(mappedBy = "listTrainingComments")
-    private List<TrainingComment> listTrainingComments;
+    //@ManyToMany(mappedBy = "listTrainingComments")
+    //private List<TrainingComment> listTrainingComments;
 
     public Training(String trainingName, int duration, String intensity, String description, String image, String goal) {
         this.trainingName = trainingName;
