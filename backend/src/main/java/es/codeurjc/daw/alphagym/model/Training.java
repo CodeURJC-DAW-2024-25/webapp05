@@ -11,6 +11,7 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.AUTO)
     
     private long id;
+    private String name;
     private String title;
     private String description; 
     private String image;
@@ -18,13 +19,14 @@ public class Training {
     public Training() {
     }
 
-    public Training(String description, String image, String title) {
+    public Training(String name, String description, String image, String title) {
         this.description = description;
         this.image = image;
         this.title = title;
     }
 
     // Getters
+    public String getName() { return name;}
     public String getTitle() {
         return title;
     }   
@@ -38,6 +40,7 @@ public class Training {
     }
 
     // Setters
+    public void setName(String name) { this.name = name; }
 
     public void setTitle(String title) {
         this.title = title;

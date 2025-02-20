@@ -12,6 +12,7 @@ public class Nutrition {
     @GeneratedValue(strategy = GenerationType.AUTO)
     
     private long id;
+    private String name;
     private String title; 
     private String description;
     private String image;
@@ -26,6 +27,8 @@ public class Nutrition {
     }
 
     // Getters
+    public String getName() { return name; }
+
     public String getTitle() {
         return title;
     }
@@ -39,6 +42,7 @@ public class Nutrition {
     }
 
     // Setters
+    public void setName(String name) { this.name = name; }
 
     public void setTitle(String title) {
         this.title = title;
