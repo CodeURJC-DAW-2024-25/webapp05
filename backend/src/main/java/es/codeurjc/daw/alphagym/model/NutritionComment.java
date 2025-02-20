@@ -10,8 +10,7 @@ public class NutritionComment {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
-    private long id;
+    private Long id;
     private String comment;
     private String author;
     private String title;

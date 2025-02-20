@@ -1,55 +1,61 @@
 package es.codeurjc.daw.alphagym.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    
-    private long id;
-    private String name;
-    private String title;
-    private String description; 
+    private Long id;
+    private String trainingName;
+    private int duration;
+    private String intensity;
+    private String description;
+    @Column(length = 1500000)
     private String image;
+    private String goal;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToMany(mappedBy = "listTrainingComments")
+    private List<TrainingComment> listTrainingComments;
+
+    public Training(String trainingName, int duration, String intensity, String description, String image, String goal) {
+        this.trainingName = trainingName;
+        this.description = description;
+        this.image = image;
+    }
 
     public Training() {
     }
 
-    public Training(String name, String description, String image, String title) {
-        this.description = description;
-        this.image = image;
-        this.title = title;
-    }
-
     // Getters
-    public String getName() { return name;}
-    public String getTitle() {
-        return title;
-    }   
 
-    public String getDescription() {
-        return description;
-    }
+    public long getId() { return id;}
 
-    public String getImage() {
-        return image;
-    }
+    public int getDuration() { return duration;}
+    public String getTrainingName() { return trainingName;}
+
+    public String getIntensity() { return intensity;}
+    public String getDescription() { return description;}
+
+    public String getGoal() { return goal;}
+    public String getImage() { return image;}
 
     // Setters
-    public void setName(String name) { this.name = name; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
+    public void setId(long id) {this.id = id;}
+    public void setDuration(int duration) { this.duration = duration;}
+    public void setTrainingName(String name) { this.trainingName = name; }
+    public void setIntensity(String intensity) { this.intensity = intensity;}
     public void setDescription(String description) {
         this.description = description;
     }
-    
+    public void setGoal(String goal) { this.goal = goal;}
     public void setImage(String image) {
         this.image = image;
     }

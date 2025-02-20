@@ -10,8 +10,7 @@ import jakarta.persistence.Id;
 public class Nutrition {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    
-    private long id;
+    private Long id;
     private String name;
     private String title; 
     private String description;

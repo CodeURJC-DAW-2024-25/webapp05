@@ -28,4 +28,12 @@ public class UserService {
         userRepository.save(user);
         return user;
     }
+
+    public User getUser(Long id){
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        return null;
+    }
 }
