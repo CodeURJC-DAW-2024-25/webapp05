@@ -1,0 +1,94 @@
+{{>header}}  <!-- Incluimos el header -->
+{{>navbar}}  <!-- Incluimos el navbar -->
+
+    <!-- Nutrition Plans Section -->
+    <section class="container py-5">
+      <h2 class="text-center mb-4">Nutrition Plans</h2>
+      <div id="resultsContainer" class="row">
+        <!-- Dieta 1 -->
+        <div class="col-12 col-md-4 mb-4">
+          <div class="card shadow-sm">
+            <img
+              src="..\static\images\deficitcalorico.jpeg"
+              class="card-img-top"
+              alt="Caloric deficit"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Caloric deficit</h5>
+              <ul>
+                <li><strong>Desayuno</strong> – 2 huevos + cafe</li>
+                <li>
+                  <strong>Comida </strong>– Ensalada + 100g pechuga de pollo
+                </li>
+                <li><strong>Merienda</strong> – Rebanada de pan integral</li>
+                <li><strong>Cena</strong> – Verduras + 150g de pescado</li>
+              </ul>
+            </div>
+            <a href="showDiet.html" class="btn btn-service"
+              >Look for caloric deficit details!</a
+            >
+          </div>
+        </div>
+
+            <!-- Dieta 2 -->
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <img src="..\static\images\volumen.jpeg" class="card-img-top" alt="Caloric surplus">
+                    <div class="card-body">
+                        <h5 class="card-title">Caloric surplus</h5>
+                        <ul>
+                            <li><strong>Desayuno</strong> – 6 huevos + 60g de avena con leche</li>
+                            <li><strong>Almuerzo</strong> – 30g de almendras </li>
+                            <li><strong>Comida </strong> – taza de arroz + 150g de carne magra</li>
+                            <li><strong>Merienda</strong> – batido de proteinas + frutos secos</li>
+                            <li><strong>Cena</strong> – 150g de salmon + 200g de patata</li>
+                        </ul>
+                    </div>
+                    <a href="showDiet.html" class="btn btn-service">Look for caloric surplus details!</a>
+                </div>
+            </div>
+
+        <!-- Dieta 3 -->
+        <div class="col-12 col-md-4 mb-4">
+          <div class="card shadow-sm">
+            <img
+              src="..\static\images\mantenimiento.jpg"
+              class="card-img-top"
+              alt="Maintenance diet"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Maintenance diet</h5>
+              <ul>
+                <li>
+                  <strong>Desayuno</strong>– 2 huevos revueltos + 50 g de avena
+                </li>
+                <li>
+                  <strong>Comida </strong> – 150 g de pollo + ensalada con
+                  aceite
+                </li>
+                <li>
+                  <strong>Merienda</strong> – yogur griego natural con almendras
+                </li>
+                <li>
+                  <strong>Cena</strong> – 120 g de salmón + verduras salteadas
+                </li>
+              </ul>
+            </div>
+            <a href="showDiet.html" class="btn btn-service"
+              >Look for maintenance diet details!</a
+            >
+          </div>
+        </div>
+      </div>
+
+      </div>
+        <!-- Botón para cargar más y botón de añadir dieta -->
+        <div class="text-center">
+            <button id="loadMore" class="btn-load">More Results</button>
+            <button id="addDiet" class="btn-load">Add Diet</button>
+        </div>
+            
+    </section>
+    <!-- Fin Training Plans Section -->
+
+{{>footer}}  <!-- Incluimos el footer -->

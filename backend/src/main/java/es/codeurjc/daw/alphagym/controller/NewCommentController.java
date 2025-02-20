@@ -13,6 +13,6 @@ public class NewCommentController {
         // comments.html
         model.addAttribute("title", title);
         model.addAttribute("comment", comment);
-        return "comments"; // La página comments.html se va a cargar con los nuevos valores
+        return "newComment"; // La página comments.html se va a cargar con los nuevos valores
     }
 }

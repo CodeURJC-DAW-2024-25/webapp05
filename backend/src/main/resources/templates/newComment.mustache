@@ -1,21 +1,21 @@
-{{>header}} <!-- Incluimos el header -->
-{{>navbar}} <!-- Incluimos el navbar -->
+{{>header}} {{! Incluimos el header }}
+{{>navbar}} {{! Incluimos el navbar }}
 
-<!-- Formulario de Comentario -->
+{{! Formulario de Comentario }}
 <div class="container mt-5">
   <h2 class="text-center">Create a new comment</h2>
   <form id="commentForm" method="post" action="/comments">
     <div class="mb-3">
-      <!--Comment title -->
       <label for="commentTitle" class="form-label">Comment title:</label>
       <input
         type="text"
         class="form-control"
         id="commentTitle"
         name="title"
-        value="{{title}}" 
+        value="{{title}}"
         required
-      /><!-- Aqui deberia ir el titulo de la rutina/dieta -->
+      />
+      {{! Aqui deberia ir el titulo de la rutina o dieta }}
     </div>
     <div class="mb-3">
       <label for="commentText" class="form-label">Comment:</label>
@@ -26,19 +26,20 @@
         placeholder="Write here your comment..."
         name="comment"
         required
-      >{{comment}}</textarea><!--Aquí va el comentario-->
+      >{{comment}}</textarea>
+      {{! Aquí va el comentario }}
     </div>
     <div class="d-flex justify-content-center gap-3">
       <button type="submit" class="btn-load">Submit Comment</button>
       <button
+        type="button"
         class="btn-load"
-        onclick="window.location.href='newRoutine.html'">Return
+        onclick="history.back()">Return
       </button>
-      <!-- Este boton deberia cambiar la referencia segun de donde venga-->
+      {{! Este botón debería cambiar la referencia según de dónde venga }}
     </div>
   </form>
 </div>
-<!-- Fin Formulario de Comentario -->
+{{! Fin Formulario de Comentario }}
 
-{{>footer}}
-<!-- Incluimos el footer -->
+{{>footer}} {{! Incluimos el footer }}

@@ -1,0 +1,69 @@
+{{>header}} <!-- Incluimos el header -->
+{{>navbar}} <!-- Incluimos el navbar -->
+
+    <!-- Formulario de Rutina -->
+    <div class="container mt-5">
+      <h2 class="text-center">Create a new diet</h2>
+      <form id="dietForm">
+        <div class="mb-3">
+          <label for="dietName" class="form-label">Diet name:</label>
+          <input type="text" class="form-control" id="dietName" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="dietNCalories" class="form-label"
+            >Diet Number of calories:</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="dietNCalories"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="goal" class="form-label">Diet Goal:</label>
+          <select class="form-select" id="goal" required>
+            <option value="increase_volume">Maintain weight</option>
+            <option value="increase_weight">Increase Weight</option>
+            <option value="lose_weight">Lose Weight</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="meals" class="form-label"
+            >Meals of the day (list them here):</label
+          >
+          <textarea
+            class="form-control"
+            id="meals"
+            rows="4"
+            placeholder="E.g., eggs, meat, fish..."
+            required
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Comments:</label>
+          <button
+            class="btn-load w-100"
+            onclick="window.location.href='newComment.html'"
+          >
+            Add Comment
+          </button>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3">
+          <button type="submit" class="btn-load">Save Diet</button>
+          <button
+            class="btn-load"
+            onclick="window.location.href='nutrition.html'"
+          >
+            Return
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- Fin Formulario de Rutina -->
+     
+{{>footer}} <!-- Incluimos el footer -->
