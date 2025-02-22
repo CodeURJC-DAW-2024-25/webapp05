@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 
 
 public interface TrainingRepository extends JpaRepository<Training, Long> {
-
-   Optional<List<Training>> findByUser(User user);
-
+    
+    Optional<List<Training>> findByUser(User user);
+    
     List<Training> findById(long id);
 
 }
