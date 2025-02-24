@@ -18,6 +18,7 @@ import java.util.Optional;
 
 @Service
 public class TrainingCommentService {
+    /*
 
     @Autowired
     private TrainingCommentRepository trainingCommentRepository;
@@ -27,4 +28,5 @@ public class TrainingCommentService {
         trainingCommentRepository.save(trainingComment1);
         return trainingComment1;
     }
+        */
 }

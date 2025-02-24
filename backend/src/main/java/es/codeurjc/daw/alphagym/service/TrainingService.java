@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @Service
 public class TrainingService {
+    /* 
 
     @Autowired
     private TrainingRepository trainingRepository;
@@ -38,5 +39,6 @@ public class TrainingService {
         }
         return null;
     }
+    */
 
 }

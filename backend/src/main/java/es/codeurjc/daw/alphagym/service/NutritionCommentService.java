@@ -18,6 +18,7 @@ import java.util.Optional;
 @Service
 public class NutritionCommentService {
 
+    /*
     @Autowired
     NutritionCommentRepository nutritionCommentRepository;
 
@@ -28,5 +29,5 @@ public class NutritionCommentService {
         nutritionCommentRepository.save(nutritionComment1);
         return nutritionComment;
     }
-
+*/
 }

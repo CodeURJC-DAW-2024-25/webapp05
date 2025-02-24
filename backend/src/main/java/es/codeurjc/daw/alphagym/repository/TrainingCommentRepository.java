@@ -11,4 +11,5 @@ import es.codeurjc.daw.alphagym.model.TrainingComment;
 public interface TrainingCommentRepository extends JpaRepository<TrainingComment, Long> {
     List<TrainingComment> findById(long id);
     
+    
 }

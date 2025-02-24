@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Service
 public class NutritionService {
-
+/*
     @Autowired
     private NutritionRepository nutritionRepository;
     @Autowired
@@ -32,5 +32,6 @@ public class NutritionService {
         nutritionRepository.save(nutrition1);
         return nutrition1;
     }
+        */
 }
 
