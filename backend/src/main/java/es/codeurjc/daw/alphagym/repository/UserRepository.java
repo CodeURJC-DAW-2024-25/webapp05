@@ -7,8 +7,8 @@ import es.codeurjc.daw.alphagym.model.User;
 import java.util.Optional;
 
 public interface    UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findById(Long id);
 
-    List<User> findByEmail(String email);
+    List<User> findByName(String name);
+    Optional<User> findByEmail(String email);
 
 }

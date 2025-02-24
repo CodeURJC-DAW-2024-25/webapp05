@@ -12,11 +12,10 @@ import org.springframework.boot.CommandLineRunner;
 public class DataBaseInit implements CommandLineRunner {
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        //repository.save(new User("Alicia Rodriguez", "aliciaRo@gmail,com" , "Calle Eugenia de Montijo 76", "1234"));
-        //falta añadir un admin 
+        userRepository.save(new User("user1", "user1gmail,com", "123"));
     }
 }
