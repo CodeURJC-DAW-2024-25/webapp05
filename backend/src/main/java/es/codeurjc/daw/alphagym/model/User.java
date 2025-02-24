@@ -24,6 +24,12 @@ public class User {
 
     @OneToMany(cascade=CascadeType.ALL)
     private List<NutritionComment> nutritionComments;
+
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Training> trainings;
+
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Nutrition> nutritions;
     
     public User(String name, String email, String password) {
         this.name = name; 
@@ -35,6 +41,14 @@ public class User {
     public User() {}
 
     // Getters
+
+    public List<Training> getTrainings() {
+        return trainings;
+    }
+
+    public List<Nutrition> getNutritions() {
+        return nutritions;
+    }
     
     public List<TrainingComment> getTrainingComments() {
         return trainingComments;
@@ -59,6 +73,14 @@ public class User {
       }
       
     // Setters
+
+    public void setTrainings(List<Training> trainings) {
+        this.trainings = trainings;
+    }
+
+    public void setNutritions(List<Nutrition> nutritions) {
+        this.nutritions = nutritions;
+    }
 
     public void setTrainingComments(List<TrainingComment> trainingComments) {
         this.trainingComments = trainingComments;
