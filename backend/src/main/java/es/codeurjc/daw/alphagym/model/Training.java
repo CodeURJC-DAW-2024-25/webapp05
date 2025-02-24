@@ -10,7 +10,7 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private String trainingName;
+    private String name;
     private int duration;
     private String intensity;
     private String description;
@@ -21,8 +21,8 @@ public class Training {
     @OneToMany(cascade=CascadeType.ALL)
     private List<TrainingComment> comments;
 
-    public Training(String trainingName, int duration, String intensity, String description, String image, String goal) {
-        this.trainingName = trainingName;
+    public Training(String name, int duration, String intensity, String description, String image, String goal) {
+        this.name = name;
         this.duration = duration;
         this.intensity = intensity;
         this.description = description;
@@ -42,7 +42,7 @@ public class Training {
     public long getId() { return id;}
 
     public int getDuration() { return duration;}
-    public String getTrainingName() { return trainingName;}
+    public String getName() { return name;}
 
     public String getIntensity() { return intensity;}
     public String getDescription() { return description;}
@@ -57,7 +57,7 @@ public class Training {
     }
     public void setId(long id) {this.id = id;}
     public void setDuration(int duration) { this.duration = duration;}
-    public void setTrainingName(String name) { this.trainingName = name; }
+    public void setName(String name) { this.name = name; }
     public void setIntensity(String intensity) { this.intensity = intensity;}
     public void setDescription(String description) {
         this.description = description;

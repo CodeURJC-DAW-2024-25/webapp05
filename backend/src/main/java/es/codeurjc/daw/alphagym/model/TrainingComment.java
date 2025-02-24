@@ -14,6 +14,7 @@ public class TrainingComment{
     private String comment;
     private String author;
     private String title;
+    private boolean isNotified = false;
 
     protected TrainingComment() {
     }
@@ -37,6 +38,10 @@ public class TrainingComment{
         return author;
     }
 
+    public boolean getIsNotified() {
+        return isNotified;
+    }
+
     // Setters
     public void setComment(String comment) {
         this.comment = comment;
@@ -48,5 +53,9 @@ public class TrainingComment{
 
     public void setTitle(String title){
         this.title = title;
+    }
+
+    public void setNotified(boolean isNotified) {
+        this.isNotified = isNotified;
     }
 }

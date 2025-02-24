@@ -2,56 +2,84 @@
 {{>navbar}} <!-- Incluimos el navbar -->
 {{#user}}
   <div class="container-account">
-    <img src="..\static\images\usuario.jpg" class="usuario" />
-    <div class="form-container">
-      <p class="title">Profile</p>
-      <form class="form">
-        <input type="text" class="input" placeholder="Alicia Rodriguez" />
-        <input type="email" class="input" placeholder="aliciaRO@gmail.com" />
-        <input type="password" class="input" placeholder="Change Password" />
-        <input type="password" class="input" placeholder="Confirm Password" />
-        <a href="account.html" class="btn-load">Submit</a>
-      </form>
-    </div>
+        <div class="profile-container">
+            <div id="profile-picture-container">
+                <img src="/user/image/{{id}}" alt="User Profile" class="profile-image" id="profileImage">
+                <input type="file" id="imageInput" class="edit-input" style="display:none;" onchange="previewImage(this)">
+                <button onclick="document.getElementById('imageInput').click()" class="edit-button avatar-btn">Cambiar imagen</button>
+            </div>
+          <div class="form-container">
+                <h1 class="title">Profile</h1>
+                <h2 class="title">Nombre:</h2>  
+                <div class="edit-container">
+                    <p class="user-name" id="userName">{{name}}</p>
+                    <input type="text" id="nameInput" class="edit-input" style="display:none;">
+                    <button class="edit-button" id="editNameBtn" onclick="editField('userName', 'nameInput', 'saveNameBtn', 'editNameBtn')">Editar</button>
+                    <button id="saveNameBtn" class="save-button" onclick="saveField('userName', 'nameInput', 'saveNameBtn', 'editNameBtn')" style="display:none;">Guardar</button>
+                </div>
+          </div>
+          <div class="form-container">
+              <h2 class="title">Email:</h2>
+              <div class="edit-container">
+                  <p class="user-email" id="userEmail">{{email}}</p>
+                  <input type="email" id="emailInput" class="edit-input" style="display:none;">
+                  <button class="edit-button" id="editEmailBtn" onclick="editField('userEmail', 'emailInput', 'saveEmailBtn', 'editEmailBtn')">Editar</button>
+                  <button id="saveEmailBtn" class="save-button" onclick="saveField('userEmail', 'emailInput', 'saveEmailBtn', 'editEmailBtn')" style="display:none;">Guardar</button>
+              </div>
+          </div>            
+        </div>
   </div>
+  
   <section>
-    <div class="container-account2">
-      <div class="form-container-plans2">
-        <p class="title">Training</p>
-        <form class="form2">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">Plan Pecho</h5>
-              <a href="#" class="btn-load-2">Delete</a>
-            </div>
-          </div>
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">Plan Espalda</h5>
-              <a href="#" class="btn-load-2">Delete</a>
-            </div>
-          </div>
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">Plan Brazo</h5>
-              <a href="#" class="btn-load-2">Delete</a>
-            </div>
-          </div>
-        </form>
-      </div>
+      <div class="container-account2">
+        <div class="form-container-plans2">
+          <h1 class="title">Training</h1>
 
-      <div class="form-container-plans2">
-        <p class="title">Nutrition</p>
-        <form class="form">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">Dieta 1</h5>
-              <a href="#" class="btn-load-2">Delete</a>
-            </div>
-          </div>
-        </form>
+          <ul>
+          {{#trainings}}            
+                <div class="card shadow-sm">
+                  <div class="card-body">
+                    <div id="training/nutrition-picture-container">
+                      <img src="/training/image/{{id}}" alt="training" class="training" id="trainingImage">
+                    </div>
+                    <h5 class="card-title">{{name}}</h5>
+                    <h5 class="card-title">{{goal}}</h5>
+                    <h5 class="card-title">{{description}}</h5>
+                    <h5 class="card-title">{{duration}}</h5>
+                    <h5 class="card-title">{{intensity}}</h5>
+                    <a href="#" class="btn-load-2">Delete</a>
+                  </div>
+                </div>
+          {{/trainings}}
+          </ul>
+
+          {{^trainings}}
+          <p>No hay planes de entrenamiento añadidos al perfil</p>
+        </div>
+
+        <div class="form-container-plans2">
+          <h1 class="title">Nutrition</h1>
+
+          <ul>
+          {{#nutritions}}
+              <div class="card shadow-sm">
+                <div class="card-body">
+                    <div id="training/nutrition-picture-container">
+                      <img src="/nutrition/image/{{id}}" alt="nutrition" class="nutrition-image" id="nutritionImage">
+                    </div>
+                  <h5 class="card-title">{{title}}</h5>
+                  <h5 class="card-title">{{name}}</h5>
+                  <h5 class="card-title">{{description}}</h5>
+                  <a href="#" class="btn-load-2">Delete</a>
+                </div>
+              </div>
+          {{/nutritions}}
+          </ul>
+          
+          {{^nutritions}}
+          <p>No hay planes de nutrición añadidos al perfil</p>
+        </div>
       </div>
-    </div>
   </section>
 {{/user}}
 

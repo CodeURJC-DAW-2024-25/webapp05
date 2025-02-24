@@ -14,6 +14,7 @@ public class NutritionComment {
     private String comment;
     private String author;
     private String title;
+    private boolean isNotified = false;
 
     // Constructor necesario para la carga desde BBDD
     protected NutritionComment() {
@@ -39,6 +40,10 @@ public class NutritionComment {
         return author;
     }
 
+    public boolean getIsNotified() {
+        return isNotified;
+    }
+
     // Setters
     public void setComment(String comment) {
         this.comment = comment;
@@ -52,5 +57,8 @@ public class NutritionComment {
         this.title = title;
     } 
 
+    public void setNotified(boolean isNotified) {
+        this.isNotified = isNotified;
+    }
     
 }

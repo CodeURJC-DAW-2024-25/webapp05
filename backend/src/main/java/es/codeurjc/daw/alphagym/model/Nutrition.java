@@ -27,12 +27,14 @@ public class Nutrition {
     }
 
     public Nutrition(String name, String title, String description, String image) {
+        this.name = name;
         this.title = title;
         this.description = description;
         this.image = image;
     }
 
     // Getters
+
 
     public List<NutritionComment> getComments() {
         return comments;
