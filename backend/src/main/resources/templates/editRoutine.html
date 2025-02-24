@@ -1,0 +1,62 @@
+{{>header}} <!-- Incluimos el header -->
+{{>navbar}} <!-- Incluimos el navbar -->
+
+<!-- Vista de Rutina -->
+<div class="container mt-5">
+    <h2 class="text-center">Edit the routine {{training.id}} </h2>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Routine Name </label>
+        <input id="routineName" name="name" type="text" class="form-control" value="{{training.name}}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Routine Intensity:</label>
+        <select class="form-select" id="intensity" name="intensity" >
+            <option value="50%" selected>50%</option>
+            <option value="60%">60%</option>
+            <option value="70%">70%</option>
+            <option value="80%">80%</option>
+            <option value="90%">90%</option>
+            <option value="100%">100%</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Routine Goal:</label>
+        <select class="form-select" id="goal" name="goal">
+            <option value="increase_weight" selected>Increase Weight</option>
+            <option value="increase_volume">Increase Volume</option>
+            <option value="lose_weight">Lose Weight</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Routine exercises:</label>
+        <textarea name ="description" class="form-control" rows="4" value={{training.description}}>
+        </textarea>
+    </div>
+
+    <div class="mb-3">
+        <button class="btn-load w-100"
+                onclick="window.location.href='newComment.html'">
+            Add Comment
+        </button>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3">
+        <button class="btn-load">Suscribe</button>
+        <button class="btn-load" onclick="window.location.href='comments.html'">
+            View Comments
+        </button>
+        <button class="btn-load">Edit</button>
+        <button class="btn-load">Delete</button>
+        <button class="btn-load" onclick="window.location.href='training.html'">
+            Return
+        </button>
+    </div>
+</div>
+<!-- Fin Vista de Rutina -->
+
+
+{{>footer}} <!-- Incluimos el footer -->

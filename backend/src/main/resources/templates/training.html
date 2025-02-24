@@ -5,149 +5,25 @@
     <section class="container py-5">
       <h2 class="text-center mb-4">Training Plans</h2>
       <div id="resultsContainer" class="row">
-        <!-- Plan 1 -->
-        <div class="col-12 col-md-4 mb-4">
-          <div class="card shadow-sm">
-            <img
-              src="..\static\images\plan_pecho.jpg"
-              class="card-img-top"
-              alt="Plan Pecho"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Chest Plan</h5>
-              <ul>
-                <li>Press de banca – 4x8-10</li>
-                <li>Press inclinado con mancuernas – 4x10</li>
-                <li>Fondos en paralelas – 3x10</li>
-                <li>Cruces en polea – 4x12</li>
-              </ul>
-            </div>
-            <a href="showRoutine.html" class="btn btn-service"
-              >Go to chest plan!</a
-            >
-          </div>
-        </div>
-
-        <!-- Plan 2 -->
-        <div class="col-12 col-md-4 mb-4">
-          <div class="card shadow-sm">
-            <img
-              src="..\static\images\plan_brazo.jpeg"
-              class="card-img-top"
-              alt="Plan Brazo"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Arms Plan</h5>
-              <ul>
-                <li>Curl con barra – 4x10</li>
-                <li>Curl martillo con mancuernas – 3x12</li>
-                <li>Press francés – 4x10</li>
-                <li>Fondos en paralelas – 3x10</li>
-              </ul>
-            </div>
-            <a href="showRoutine.html" class="btn btn-service"
-              >Go to arms plan!</a
-            >
-          </div>
-        </div>
-
-        <!-- Plan 3 -->
-        <div class="col-12 col-md-4 mb-4">
-          <div class="card shadow-sm">
-            <img
-              src="..\static\images\plan_pierna.jpeg"
-              class="card-img-top"
-              alt="Plan pierna"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Legs Plan</h5>
-              <ul>
-                <li>Sentadillas – 4x8-10</li>
-                <li>Peso muerto rumano – 3x12</li>
-                <li>Extensiones de cuádriceps – 3x15</li>
-                <li>Elevaciones de pantorrilla – 4x15</li>
-              </ul>
-            </div>
-            <a href="showRoutine.html" class="btn btn-service"
-              >Go to legs plan!</a
-            >
-          </div>
-        </div>
-
-        <!-- Plan 4 -->
-        <div class="col-12 col-md-4 mb-4">
-          <div class="card shadow-sm">
-            <img
-              src="..\static\images\plan_abs.jpg"
-              class="card-img-top"
-              alt="Plan Abdominales"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Abs Plan</h5>
-              <ul>
-                <li>Crunch en máquina – 4x15</li>
-                <li>Toques de talón (oblicuos) – 3x20</li>
-                <li>Rodillo abdominal (ab wheel) – 3x10</li>
-                <li>Plancha (estática) – 3x45s</li>
-              </ul>
-            </div>
-            <a href="showRoutine.html" class="btn btn-service"
-              >Go to abs plan!</a
-            >
-          </div>
-        </div>
-
-        <!-- Plan 5 -->
-        <div class="col-12 col-md-4 mb-4">
-          <div class="card shadow-sm">
-            <img
-              src="..\static\images\plan_espalda.jpeg"
-              class="card-img-top"
-              alt="Plan Espalda"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Back Plan</h5>
-              <ul>
-                <li>Dominadas – 4x8-10</li>
-                <li>Remo con barra – 4x10</li>
-                <li>Jalón al pecho en polea – 3x12</li>
-                <li>Remo con mancuerna – 3x12</li>
-              </ul>
-            </div>
-            <a href="showRoutine.html" class="btn btn-service"
-              >Go to back plan!</a
-            >
-          </div>
-        </div>
-
-        <!-- Plan 6 -->
-        <div class="col-12 col-md-4 mb-4">
-          <div class="card shadow-sm">
-            <img
-              src="..\static\images\plan_hombros.jpeg"
-              class="card-img-top"
-              alt="Plan Hombro"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Shoulder Plan</h5>
-              <ul>
-                <li>Press militar con barra – 4x10</li>
-                <li>Elevaciones laterales – 3x12</li>
-                <li>Pájaros (elevaciones posteriores) – 3x12</li>
-                <li>Encogimientos con barra (trapecios) – 4x12</li>
-              </ul>
-            </div>
-            <a href="showRoutine.html" class="btn btn-service"
-              >Go to shoulder plan!</a
-            >
-          </div>
-        </div>
+          {{#trainings}}
+              <div class="col-12 col-md-4 mb-4">
+                  <div class="card shadow-sm">
+                      <img src="{{image}}" class="card-img-top" alt="{{alt}}" />
+                      <div class="card-body">
+                          <h5 class="card-title">{{title}}</h5>
+                              <p>Exercises:</p>
+                              <p>{{exercises}}</p>
+                      </div>
+                      <button  onclick="window.location.href='showRoutine.html'" class="btn btn-service">Go to {{title}}!</button>
+                  </div>
+              </div>
+          {{/trainings}}
       </div>
 
       <!-- Botones en la misma línea -->
       <div class="d-flex justify-content-center gap-3">
-        <button id="loadMore" class="btn-load">More Results</button>
-        <button id="newRoutine" class="btn-load">New Routine</button>
+        <button id="loadMore" class="btn-load">More Results</button> <!-- AJAX -->
+        <button id="newRoutine" class="btn-load"  onclick="window.location.href='newRoutine.html'">New Routine</button>
       </div>
     </section>
     <!-- Fin Training Plans Section -->
