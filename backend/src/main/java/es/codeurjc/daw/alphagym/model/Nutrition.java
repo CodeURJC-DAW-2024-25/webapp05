@@ -1,10 +1,14 @@
 package es.codeurjc.daw.alphagym.model;
 
+import java.util.List;
+
 import jakarta.annotation.Generated;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Nutrition {
@@ -16,6 +20,9 @@ public class Nutrition {
     private String description;
     private String image;
 
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<NutritionComment> comments;
+
     public Nutrition() {
     }
 
@@ -26,7 +33,13 @@ public class Nutrition {
     }
 
     // Getters
-    public String getName() { return name; }
+
+    public List<NutritionComment> getComments() {
+        return comments;
+    }
+
+    public String getName() { 
+        return name; }
 
     public String getTitle() {
         return title;
@@ -41,6 +54,11 @@ public class Nutrition {
     }
 
     // Setters
+
+    public void setComments(List<NutritionComment> comments) {
+        this.comments = comments;
+    }
+
     public void setName(String name) { this.name = name; }
 
     public void setTitle(String title) {

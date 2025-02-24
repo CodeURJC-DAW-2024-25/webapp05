@@ -9,6 +9,7 @@ public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     private String trainingName;
     private int duration;
     private String intensity;
@@ -17,23 +18,26 @@ public class Training {
     private String image;
     private String goal;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "user_id")
-    //private User user;
-
-    //@ManyToMany(mappedBy = "listTrainingComments")
-    //private List<TrainingComment> listTrainingComments;
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<TrainingComment> comments;
 
     public Training(String trainingName, int duration, String intensity, String description, String image, String goal) {
         this.trainingName = trainingName;
+        this.duration = duration;
+        this.intensity = intensity;
         this.description = description;
         this.image = image;
+        this.goal = goal;
     }
 
     public Training() {
     }
 
     // Getters
+
+    public List<TrainingComment> getComments() {
+        return comments;
+    }
 
     public long getId() { return id;}
 
@@ -48,6 +52,9 @@ public class Training {
 
     // Setters
 
+    public void setTrainingComments(List<TrainingComment> comments) {
+        this.comments = comments;
+    }
     public void setId(long id) {this.id = id;}
     public void setDuration(int duration) { this.duration = duration;}
     public void setTrainingName(String name) { this.trainingName = name; }

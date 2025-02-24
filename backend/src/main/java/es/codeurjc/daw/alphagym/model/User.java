@@ -1,19 +1,29 @@
 package es.codeurjc.daw.alphagym.model;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity 
 public class User {
 
-    @Id
+    @Id ()
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name; 
     private String email;
     private String password;
+
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<TrainingComment> trainingComments;
+
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<NutritionComment> nutritionComments;
     
     public User(String name, String email, String password) {
         this.name = name; 
@@ -25,6 +35,15 @@ public class User {
     public User() {}
 
     // Getters
+    
+    public List<TrainingComment> getTrainingComments() {
+        return trainingComments;
+    }
+
+    public List<NutritionComment> getNutritionComments() {
+        return nutritionComments;
+    }
+
     public Long getId() { return id;}
 
     public String getName() {
@@ -40,6 +59,14 @@ public class User {
       }
       
     // Setters
+
+    public void setTrainingComments(List<TrainingComment> trainingComments) {
+        this.trainingComments = trainingComments;
+    }
+
+    public void setNutritionComments(List<NutritionComment> nutritionComments) {
+        this.nutritionComments = nutritionComments;
+    }
 
     public void setId(Long id) {
         this.id = id;
