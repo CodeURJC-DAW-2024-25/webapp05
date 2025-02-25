@@ -1,19 +1,18 @@
 {{>header}} <!-- Incluimos el header -->
 {{>navbar}} <!-- Incluimos el navbar -->
 
-    <!-- Formulario de Rutina -->
+    <!-- Formulario de Dieta -->
     <div class="container mt-5">
       <h2 class="text-center">Create a new diet</h2>
       <form id="dietForm">
         <div class="mb-3">
           <label for="dietName" class="form-label">Diet name:</label>
-          <input type="text" class="form-control" id="dietName" name="name" placeholder="Write the name of the routine" required />
+          <input type="text" class="form-control" id="dietName" name="name" placeholder="Write the name of the diet"  required />
         </div>
 
         <div class="mb-3">
           <label for="dietNCalories" class="form-label"
-            >Diet Number of calories:</label
-          >
+            >Diet Number of calories:</label>
           <input
             class="form-control"
             id="dietNCalories"
@@ -21,7 +20,6 @@
             required
           />
         </div>
-
         <div class="mb-3">
           <label for="goal" class="form-label">Diet Goal:</label>
           <select class="form-select" id="goal" name="goal" required>
@@ -65,6 +63,6 @@
         </div>
       </form>
     </div>
-    <!-- Fin Formulario de Rutina -->
+    <!-- Fin Formulario de Dieta -->
      
 {{>footer}} <!-- Incluimos el footer -->
