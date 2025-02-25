@@ -16,6 +16,7 @@ public class DataBaseInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        
         userRepository.save(new User("user1", "user1gmail,com", "123"));
     }
 }

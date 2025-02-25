@@ -18,6 +18,7 @@ public class UserService {
     }
 
     public User getUser(Long id){
+        @SuppressWarnings("unchecked")
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             return user.get();
@@ -40,7 +41,7 @@ public class UserService {
     public boolean exist(Long id) {
         return userRepository.existsById(id);
     }
-    
+
     public boolean existEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         return user.isPresent();
