@@ -5,24 +5,22 @@
     <section class="container py-5">
       <h2 class="text-center mb-4">Nutrition Plans</h2>
       <div id="resultsContainer" class="row">
-        <!-- Dieta 1 -->
         <ul>        
-          {{#nutrition}}
+          {{#nutritions}}
           <div class="col-12 col-md-4 mb-4">
             <div class="card shadow-sm">
               <div class="card-body">
                 <div id="training/nutrition-picture-container">
-                  <img src=nutrition/image/{{id}} alt= "nutrition" class="nutrition" id="nutritionImage">
+                  <img src="{{image}}" alt= "nutrition" class="nutrition" id="nutritionImage">
                 </div>
                 <h5 class="card-title">{{name}}</h5>
                   <p>Meals:</p>
                   <p>{{description}}</p>
-                <!-- <h5 class="card-title">{{description}}</h5> -->
                 <a href="showDiet.html" class="btn btn-service">Look for {{name}} details!</a>
               </div>
             </div>
           </div>
-          {{/nutrition}}
+          {{/nutritions}}
         </ul> 
       </div>
         <!-- Botón para cargar más y botón de añadir dieta -->
