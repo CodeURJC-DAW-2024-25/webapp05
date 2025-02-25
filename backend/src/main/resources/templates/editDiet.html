@@ -1,0 +1,59 @@
+{{>header}} <!-- Incluimos el header -->
+{{>navbar}} <!-- Incluimos el navbar -->
+
+<!-- Vista de Nutricion -->
+<div class="container mt-5">
+    <h2 class="text-center">Edit nutrition {{nutrition.id}} </h2>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Nutrition Name </label>
+        <input id="nutritionName" name="name" type="text" class="form-control" value="{{nutrition.name}}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Nutrition Calories:</label>
+        <select class="form-select" id="calories" name="calories" >
+            <option value="2000" {% if nutrition.calories =="2000" %}selected{% endif %}>2000</option>
+            <option value="2500" {% if nutrition.calories =="2500" %}selected{% endif %}>2500</option>
+            <option value="3000" {% if nutrition.calories =="3000" %}selected{% endif %}>3000</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Nutrition Goal:</label>
+        <select class="form-select" id="goal" name="goal">
+            <option value="increase_weight" {% if nutrition.goal =="Increase_Weight" %}selected{% endif %}>Increase Weight</option>
+            <option value="maintain_weight" {% if nutrition.goal =="Maintain_Weight" %}selected{% endif %}>Increase Volume</option>
+            <option value="lose_weight" {% if nutrition.goal =="Lose_Weight" %}selected{% endif %}>Lose Weight</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Nutrition meals:</label>
+        <textarea name ="description" class="form-control" rows="4" value={{nutrition.description}}>
+        </textarea>
+    </div>
+
+    <div class="mb-3">
+        <button class="btn-load w-100"
+                onclick="window.location.href='newComment.html'">
+            Add Comment
+        </button>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3">
+        <button class="btn-load">Suscribe</button>
+        <button class="btn-load" onclick="window.location.href='comments.html'">
+            View Comments
+        </button>
+        <button class="btn-load">Edit</button>
+        <button class="btn-load">Delete</button>
+        <button class="btn-load" onclick="window.location.href='nutrition.html'">
+            Return
+        </button>
+    </div>
+</div>
+<!-- Fin Vista de Nutricion -->
+
+
+{{>footer}} <!-- Incluimos el footer -->

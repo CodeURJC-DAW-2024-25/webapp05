@@ -7,7 +7,7 @@
       <form id="dietForm">
         <div class="mb-3">
           <label for="dietName" class="form-label">Diet name:</label>
-          <input type="text" class="form-control" id="dietName" required />
+          <input type="text" class="form-control" id="dietName" name="name" placeholder="Write the name of the routine" required />
         </div>
 
         <div class="mb-3">
@@ -15,16 +15,16 @@
             >Diet Number of calories:</label
           >
           <input
-            type="number"
             class="form-control"
             id="dietNCalories"
+            name="calories"
             required
           />
         </div>
 
         <div class="mb-3">
           <label for="goal" class="form-label">Diet Goal:</label>
-          <select class="form-select" id="goal" required>
+          <select class="form-select" id="goal" name="goal" required>
             <option value="increase_volume">Maintain weight</option>
             <option value="increase_weight">Increase Weight</option>
             <option value="lose_weight">Lose Weight</option>
@@ -35,12 +35,13 @@
             >Meals of the day (list them here):</label
           >
           <textarea
+            name="description"
             class="form-control"
             id="meals"
             rows="4"
             placeholder="E.g., eggs, meat, fish..."
-            required
-          ></textarea>
+            required>
+          </textarea>
         </div>
 
         <div class="mb-3">

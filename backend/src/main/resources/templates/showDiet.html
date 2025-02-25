@@ -3,32 +3,28 @@
 
     <!-- Vista de Dieta -->
     <div class="container mt-5">
-      <h2 class="text-center">Diet Details</h2>
+      <h2 class="text-center">Diet Details of routine{{nutrition.id}}</h2>
 
       <div class="mb-3">
         <label class="form-label fw-bold">Diet Name:</label>
-        <p class="form-control">Caloric deficit</p>
+        <p class="form-control">{{nutrition.name}}</p>
       </div>
 
       <div class="mb-3">
         <label class="form-label fw-bold">Diet Number of Calories:</label>
-        <p class="form-control">2000 kcal</p>
+        <p class="form-control">{{nutrition.calories}}</p>
       </div>
 
       <div class="mb-3">
         <label class="form-label fw-bold">Diet Goal:</label>
-        <p class="form-control">Maintain Weight</p>
+        <p class="form-control">{{nutrition.goal}}</p>
       </div>
 
       <div class="mb-3">
         <label class="form-label fw-bold">Meals of the Day:</label>
         <textarea class="form-control" rows="4" readonly>
-                Desayuno – 2 huevos + café
-                Comida – Ensalada + 100g pechuga de pollo
-                Merienda – Rebanada de pan integral
-                Cena – Verduras + 150g de pescado
-            </textarea
-        >
+                {{nutrition.description}}
+            </textarea>
       </div>
 
       <div class="mb-3">

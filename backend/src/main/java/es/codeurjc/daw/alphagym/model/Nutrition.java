@@ -16,9 +16,10 @@ public class Nutrition {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String title; 
     private String description;
     private String image;
+    private String goal;
+    private int calories;
 
     @OneToMany(cascade=CascadeType.ALL)
     private List<NutritionComment> comments;
@@ -26,15 +27,27 @@ public class Nutrition {
     public Nutrition() {
     }
 
-    public Nutrition(String name, String title, String description, String image) {
+    public Nutrition(String name, String description, String image, String goal, int calories) {
         this.name = name;
-        this.title = title;
         this.description = description;
         this.image = image;
+        this.goal = goal;
+        this.calories = calories;
     }
 
     // Getters
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public String getGoal() {
+        return this.goal;
+    }
+
+    public int getCalories() {
+        return this.calories;
+    }
 
     public List<NutritionComment> getComments() {
         return comments;
@@ -43,9 +56,6 @@ public class Nutrition {
     public String getName() { 
         return name; }
 
-    public String getTitle() {
-        return title;
-    }
 
     public String getDescription() {
         return description;
@@ -57,15 +67,23 @@ public class Nutrition {
 
     // Setters
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setGoal(String goal) {
+        this.goal = goal;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
     public void setComments(List<NutritionComment> comments) {
         this.comments = comments;
     }
 
     public void setName(String name) { this.name = name; }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public void setDescription(String description) {
         this.description = description;
