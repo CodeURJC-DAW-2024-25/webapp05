@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Service
 public class NutritionService {
-/*
+
     @Autowired
     private NutritionRepository nutritionRepository;
     @Autowired
@@ -27,11 +27,36 @@ public class NutritionService {
     @Autowired
     private NutritionCommentService nutritionCommentService;
 
-    public Nutrition createNutrition(Nutrition nutrition, User user) {
-        Nutrition nutrition1 = new Nutrition(nutrition.getName(),nutrition.getTitle(),nutrition.getDescription(), nutrition.getImage());
+    /*public Nutrition createNutrition(Nutrition nutrition, User user) {
+        Nutrition nutrition1 = new Nutrition(nutrition.getName(),nutrition.getCalories(), 
+        nutrition.getDescription(), nutrition.getGoal());
         nutritionRepository.save(nutrition1);
         return nutrition1;
     }
-        */
+    
+    public Nutrition getNutrition (Long id){
+        Optional<Nutrition> theNutrition = nutritionRepository.findById(id);
+        if (theNutrition.isPresent()){
+            Nutrition nutrition = theNutrition.get();
+            return nutrition;
+        } else {
+            return null;
+        }
+    }
+
+    public Nutrition updateNutrition(Long nutritionId, Nutrition nutrition, User user){
+        Optional<Nutrition> theNutrition = nutritionRepository.findById(nutritionId);
+        if (theNutrition.isPresent()){
+            Nutrition nutrition1 = theNutrition.get();
+            nutrition.setUser(user);
+            nutrition.setId(nutritionId);
+            nutritionRepository.save(nutrition1);
+            
+            return nutrition1;
+        }
+        return null;
+    }*/
+
+    
 }
 

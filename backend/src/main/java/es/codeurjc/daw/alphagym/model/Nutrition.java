@@ -3,9 +3,12 @@ package es.codeurjc.daw.alphagym.model;
 import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -22,17 +25,24 @@ public class Nutrition {
     @OneToMany(cascade=CascadeType.ALL)
     private List<NutritionComment> comments;
 
-    public Nutrition() {
-    }
 
-    public Nutrition(String name, String description, String image, String goal, int calories) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+
+    public Nutrition(String name, int calories, String goal, String description) {
         this.name = name;
-        this.description = description;
-        this.image = image;
-        this.goal = goal;
         this.calories = calories;
+        this.goal = goal;
+        this.description = description;
+        //this.image = "/images/emptyImage.png";
     }
-
+        
+    public Nutrition() {
+        }
+    
+        
     // Getters
 
     public Long getId() {
@@ -63,6 +73,10 @@ public class Nutrition {
         return image;
     }
 
+    public User getUser() {
+        return this.user;
+    }
+
     // Setters
 
     public void setId(Long id) {
@@ -89,6 +103,10 @@ public class Nutrition {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     
 }
