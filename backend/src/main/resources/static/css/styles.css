@@ -351,6 +351,11 @@ h2 {
 }
 
 
+/*mostrar descripciones, esto sirve para los saltos de linea*/
+.description {
+  white-space: pre-line;
+}
+
 /* ========================= */
 /* Clase Footer para error.html */
 /* ========================= */

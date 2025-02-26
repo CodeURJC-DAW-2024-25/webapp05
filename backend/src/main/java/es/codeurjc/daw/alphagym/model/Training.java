@@ -21,13 +21,17 @@ public class Training {
     @OneToMany(cascade=CascadeType.ALL)
     private List<TrainingComment> comments;
 
-    public Training(String name, int duration, String intensity, String description, String image, String goal) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+    public Training(String name, String intensity,int duration,  String goal, String description) {
         this.name = name;
-        this.duration = duration;
         this.intensity = intensity;
-        this.description = description;
-        this.image = image;
+        this.duration = duration;
         this.goal = goal;
+        this.description = description;
+        this.image = "/images/emptyImage.png";
+
     }
 
     public Training() {
@@ -50,6 +54,8 @@ public class Training {
     public String getGoal() { return goal;}
     public String getImage() { return image;}
 
+    public User getUser() { return user; }
+
     // Setters
 
     public void setTrainingComments(List<TrainingComment> comments) {
@@ -66,5 +72,5 @@ public class Training {
     public void setImage(String image) {
         this.image = image;
     }
-
+    public void setUser(User user) {this.user = user;}
 }

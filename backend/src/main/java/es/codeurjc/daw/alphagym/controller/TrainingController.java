@@ -26,19 +26,19 @@ public class TrainingController {
     private TrainingRepository trainingRepository;
 
     //esto guardpalo para despues 
-/* 
-    @GetMapping("/routines")
-    public String showAllRoutines(Model model, @RequestParam("userId") Long userId){
-        model.addAttribute("routines",trainingService.getAllTrainings(userId));
-        User user = userService.getUser(userId);
+
+    @GetMapping("/trainings")
+    public String showAllRoutines(Model model){//,  @RequestParam("userId") Long userId){
+        model.addAttribute("trainings",trainingService.getAllTrainings());
+        //User user = userService.getUser(userId);
         //De momento lo siguiente no tiene sentido porque aunque no haya user (usuario no registrado) se le deben mostrar todas las rutinas
-        if(user != null){
-            model.addAttribute("userId",user.getId());
+        /*if(trainingService.getAllTrainings() != null){
+           // model.addAttribute("userId",user.getId());
             return "training";
-        }
-        return "redirect:/training";
+        }*/
+        return "training";
     }
-*/
+
 
     //  @GetMapping("/routines/{routineId}")
 

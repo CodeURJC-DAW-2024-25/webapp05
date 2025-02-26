@@ -23,6 +23,11 @@
     </div>
 
     <div class="mb-3">
+        <label class="form-label fw-bold">Routine Duration </label>
+        <input id="routineDuration" name="duration" type="int" class="form-control" value="{{training.duration}}">
+    </div>
+
+    <div class="mb-3">
         <label class="form-label fw-bold">Routine Goal:</label>
         <select class="form-select" id="goal" name="goal">
             <option value="increase_weight" {% if training.goal =="Increase_Weight" %}selected{% endif %}>Increase Weight</option>

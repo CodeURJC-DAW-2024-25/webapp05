@@ -1,25 +1,24 @@
 {{>header}}  <!-- Incluimos el header -->
-{{>navbar}}  <!-- Incluimos el navbar -->
+ <!-- Incluimos el navbar -->
 
     <!-- Training Plans Section -->
     <section class="container py-5">
       <h2 class="text-center mb-4">Training Plans</h2>
       <div id="resultsContainer" class="row">
-        <ul>
+
           {{#trainings}}
               <div class="col-12 col-md-4 mb-4">
                   <div class="card shadow-sm">
-                      <img src="{{image}}" class="card-img-top" alt="{{title}}" />
+                      <img src="{{image}}" class="card-img-top" alt="{{name}}" />
                       <div class="card-body">
-                          <h5 class="card-title">{{title}}</h5>
-                              <p>Exercises:</p>
-                              <p>{{exercises}}</p>
+                          <h5 class="card-title">{{name}}</h5>
+                          <p class="description">{{description}}</p>
                       </div>
-                      <button  onclick="window.location.href='showRoutine.html'" class="btn btn-service">Go to {{title}}!</button>
+                      <button  onclick="window.location.href='showRoutine.html'" class="btn btn-service">Go to {{name}}!</button>
                   </div>
               </div>
           {{/trainings}}
-        </ul>
+
       </div>
 
       <!-- Botones en la misma línea -->
