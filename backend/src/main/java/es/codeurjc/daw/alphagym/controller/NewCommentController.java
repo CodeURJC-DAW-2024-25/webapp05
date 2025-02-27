@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class NewCommentController {
-    @PostMapping("/comments")
+    @PostMapping("/comment")
     public String comments(Model model, @RequestParam String title, @RequestParam String comment) {
         // Agregar el título y comentario al modelo para que se muestren en
         // comments.html
@@ -17,4 +17,6 @@ public class NewCommentController {
         */
         return "newComment"; // La página comments.html se va a cargar con los nuevos valores   
     }
+
+   
 }
