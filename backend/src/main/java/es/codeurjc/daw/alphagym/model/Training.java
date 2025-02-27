@@ -21,6 +21,9 @@ public class Training {
     @OneToMany(cascade=CascadeType.ALL)
     private List<TrainingComment> comments;
 
+    //@OnetoMany() mappedBy = "trainings" //tengo que mirar la sintaxis 
+    //private List<User> users;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
