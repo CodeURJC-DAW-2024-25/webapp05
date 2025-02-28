@@ -2,6 +2,7 @@ package es.codeurjc.daw.alphagym.service;
 
 
 import es.codeurjc.daw.alphagym.model.Nutrition;
+import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.repository.NutritionRepository;
@@ -37,9 +38,23 @@ public class NutritionService {
                 "Merienda: Rebanada de pan integral\n" +
                 "Cena: Verduras + 150g de pescado");
 
+        Nutrition caloricSurplus = new Nutrition ("Caloric Supurplus", 300, "increase_weight", "Desayuno: 6 huevos + 60g de avena con leche\n" +
+                "Comida: Taza de arroz + 150g de carne magra\n" +
+                "Merienda: Batido de proteinas + frutos secos\n" +
+                "Cena: 150g de salmon + 200g de patata");
+
+        Nutrition maintenanceDiet = new Nutrition ("Maintenance Diet", 200, "maintenance_weight", "Desayuno: 2 huevos revueltos + 50 g de avena\n" +
+                "Comida: 150 g de pollo + ensalada con aceite\n" +
+                "Merienda: Yogur griego natural con almendras\n" +
+                "Cena: 120 g de salmón + verduras salteadas");
+
         caloricDeficit.setImage("/images/deficitcalorico.jpeg");
+        caloricSurplus.setImage("/images/volumen.jpeg");
+        maintenanceDiet.setImage("/images/mantenimiento.jpeg");
 
         createNutrition(caloricDeficit);
+        createNutrition(caloricSurplus);
+        createNutrition(maintenanceDiet);
 
 
 
@@ -48,6 +63,11 @@ public class NutritionService {
         Nutrition nutrition1 = new Nutrition(nutrition.getName(),nutrition.getCalories(), nutrition.getDescription(), nutrition.getGoal());
         nutritionRepository.save(nutrition1);
         return nutrition1;
+    }
+
+    public List<Nutrition> getAllNutritions(){
+        List<Nutrition> listNutrition = nutritionRepository.findAll();
+        return listNutrition.isEmpty() ? null : listNutrition;
     }
 
 

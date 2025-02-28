@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.User;
+import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.service.NutritionCommentService;
 import es.codeurjc.daw.alphagym.service.NutritionService;
 import es.codeurjc.daw.alphagym.service.UserService;
@@ -25,6 +26,16 @@ public class NutritionController {
     private UserService userService;
     @Autowired
     private NutritionCommentService nutritionCommentService;
+    @Autowired
+    private NutritionRepository nutritionRepository;
+
+
+    @GetMapping("/nutritions")
+    public String showAllDiets(Model model){
+        model.addAttribute("nutritions",nutritionService.getAllNutritions());
+
+        return "nutrition";
+    }
 
     
 }
