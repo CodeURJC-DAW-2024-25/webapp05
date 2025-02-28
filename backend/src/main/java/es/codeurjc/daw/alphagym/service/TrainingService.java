@@ -42,16 +42,39 @@ public class TrainingService {
                 "               Extensiones de cuádriceps: 3x15\n" +
                 "               Elevaciones de pantorrilla: 4x15");
 
+        Training absPlan = new Training("Abs Plan", "50%", 30, "lose_weight", "Crunch en máquina: 4x15\n" +
+                "                Toques de talón (oblicuos): 3x20\n" +
+                "                Rodillo abdominal (ab wheel): 3x10\n" +
+                "                Plancha (estática): 3x45s");
+
+        Training backPlan = new Training ("Back Plan", "90%", 90, "increase_volume", "Dominadas: 4x8-10\n" +
+                "                Remo con barra: 4x10\n" +
+                "                Jalón al pecho en polea: 3x12\n" +
+                "                Remo con mancuerna: 3x12" );
+
+        Training shoulderPlan = new Training ("Shoulder Plan", "70%", 60, "increase_volume", "Press militar con barra: 4x10\n" +
+                "                Elevaciones laterales: 3x12\n" +
+                "                Pájaros (elevaciones posteriores): 3x12\n" +
+                "                Encogimientos con barra (trapecios): 4x12");
+
         chestPlan.setImage("/images/plan_pecho.jpg");
         armsPlan.setImage("/images/plan_brazo.jpeg");
         legsPlan.setImage("/images/plan_pierna.jpeg");
+        absPlan.setImage("/images/plan_abs.jpg");
+        backPlan.setImage("/images/plan_espalda.jpeg");
+        shoulderPlan.setImage("/images/plan_hombros.jpeg");
 
         createTraining(chestPlan);
         createTraining(armsPlan);
         createTraining(legsPlan);
+        createTraining(absPlan);
+        createTraining(backPlan);
+        createTraining(shoulderPlan);
+
     }
 
     public void createTraining(Training training) {
+
         trainingRepository.save(training);
     }
 
