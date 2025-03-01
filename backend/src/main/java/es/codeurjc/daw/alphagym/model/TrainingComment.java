@@ -14,11 +14,11 @@ public class TrainingComment{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String comment;
+    private String description;
     private String author;
-    private String name;
+    private String title;
     private boolean isNotified = false;
-
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "training_id")
     private Training training;
@@ -33,15 +33,15 @@ public class TrainingComment{
     protected TrainingComment() {
     }
 
-    public TrainingComment(String comment, String author, String name) {
-        this.comment = comment;
+    public TrainingComment(String description, String author, String title) {
+        this.description = description;
         this.author = author;
-        this.name = name;
+        this.title = title;
     }
 
-    public TrainingComment(String comment, String name) {
-        this.comment = comment;     
-        this.name = name;
+    public TrainingComment(String description, String title) {
+        this.description = description;     
+        this.title = title;
     }
 
     // Getters
@@ -52,12 +52,12 @@ public class TrainingComment{
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public String getComment() {
-        return comment;
+    public String getdescription() {
+        return description;
     }
 
     public String getAuthor() {
@@ -69,16 +69,16 @@ public class TrainingComment{
     }
 
     // Setters
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setdescription(String description) {
+        this.description = description;
     }
 
     public void setAuthor(String author) {
         this.author = author;
     }
 
-    public void name(String name){
-        this.name = name;
+    public void setTitle(String title){
+        this.title = title;
     }
 
     public void setNotified(boolean isNotified) {

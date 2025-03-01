@@ -27,11 +27,11 @@ public class TrainingCommentService {
 
     @PostConstruct
     public void trainingCommentConstructor() {
-        TrainingComment descansos = new TrainingComment("Es importante hacer descansos entre series para evitar fatigar el\r\n" + //
-                "              músculo y optimizar el entrenamiento.", "Descansos");
+        TrainingComment descansos = new TrainingComment("Es importante hacer descansos entre series para evitar fatigar el" +
+                " músculo y optimizar el entrenamiento.", "Descansos");
 
-        TrainingComment hidratación = new TrainingComment("Dado que esta rutina de ejercicios es muy aeróbica, la correcta\r\n" + //
-                "              hidratación es extremadamente importante.", "Hidratación");
+        TrainingComment hidratación = new TrainingComment("Dado que esta rutina de ejercicios es muy aeróbica, la correcta" +
+                " hidratación es extremadamente importante.", "Hidratación");
 
 
         createTrainingComment(descansos);
