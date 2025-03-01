@@ -1,5 +1,5 @@
 {{>header}}  <!-- Incluimos el header -->
-  <!-- Incluimos el navbar -->
+{{>navbar}}  <!-- Incluimos el navbar -->
 
     <!-- Nutrition Plans Section -->
     <section class="container py-5">
@@ -15,7 +15,7 @@
                 <h5 class="card-title">{{name}}</h5>
                   <p>Meals:</p>
                   <p>{{description}}</p>
-                <a href="showDiet.html" class="btn btn-service">Look for {{name}} details!</a>
+                <a href="/nutritions/{{this.id}}" class="btn btn-service">Look for {{name}} details!</a>
               </div>
             </div>
           </div>

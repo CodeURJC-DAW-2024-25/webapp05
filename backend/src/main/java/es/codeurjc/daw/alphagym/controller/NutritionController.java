@@ -31,10 +31,30 @@ public class NutritionController {
 
 
     @GetMapping("/nutritions")
-    public String showAllDiets(Model model){
+    public String showAllDiets(Model model){//,  @RequestParam("userId") Long userId){
         model.addAttribute("nutritions",nutritionService.getAllNutritions());
-
+        //User user = userService.getUser(userId);
+        //De momento lo siguiente no tiene sentido porque aunque no haya user (usuario no registrado) se le deben mostrar todas las rutinas
+        /*if(trainingService.getAllTrainings() != null){
+           // model.addAttribute("userId",user.getId());
+            return "training";
+        }*/
         return "nutrition";
+    }
+
+    @GetMapping("/nutritions/{id}")
+    public String detailsNutrition(Model model, @PathVariable Long id/*, @RequestParam("userId") Long userId*/){
+        Nutrition nutrition = nutritionService.getNutrition(id);
+        if (nutrition == null) {
+            return "redirect:/nutrition";
+        }
+        model.addAttribute("nutrition", nutrition);
+        /*User user = userService.getUser(userId);
+        if(user != null){
+            model.addAttribute("userId",user.getId());
+            return "detailsNutrition";
+        }*/
+        return "redirect:/showDiet";
     }
 
     

@@ -56,9 +56,9 @@ public class NutritionService {
         createNutrition(caloricSurplus);
         createNutrition(maintenanceDiet);
 
-
-
     }
+
+
     public Nutrition createNutrition(Nutrition nutrition) { // habra q añadirle un usuario
         Nutrition nutrition1 = new Nutrition(nutrition.getName(),nutrition.getCalories(), nutrition.getGoal(), nutrition.getDescription(), nutrition.getImage());
         nutritionRepository.save(nutrition1);
@@ -71,7 +71,7 @@ public class NutritionService {
     }
 
 
-    /*
+    
     public Nutrition getNutrition (Long id){
         Optional<Nutrition> theNutrition = nutritionRepository.findById(id);
         if (theNutrition.isPresent()){
@@ -82,7 +82,9 @@ public class NutritionService {
         }
     }
 
-    public Nutrition updateNutrition(Long nutritionId, Nutrition nutrition, User user){
+
+    /*
+    public Nutrition updateNutritionPatch(Long nutritionId, Nutrition nutrition, User user){
         Optional<Nutrition> theNutrition = nutritionRepository.findById(nutritionId);
         if (theNutrition.isPresent()){
             Nutrition nutrition1 = theNutrition.get();
