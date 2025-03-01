@@ -5,39 +5,12 @@
 <section class="container py-5">
   <h2 class="text-center mb-4">Comments</h2>
   <div id="resultsContainer" class="row">
-    <!-- Comentarios estáticos -->
-    <div class="col-12 col-md-4 mb-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">Descansos</h5>
-          <textarea>
-              Es importante hacer descansos entre series para evitar fatigar el
-              músculo y optimizar el entrenamiento.
-          </textarea>
-          <!--<a href="#" class="btn-load-2">Report</a>--> <!-- Vamos a borrar los comentarios por defecto-->
-        </div>
-      </div>
-    </div>
 
-    <div class="col-12 col-md-4 mb-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">Hidratación</h5>
-          <textarea>
-              Dado que esta rutina de ejercicios es muy aeróbica, la correcta
-              hidratación es extremadamente importante.
-          </textarea>
-          <!--<a href="#" class="btn-load-2">Report</a>--> <!-- Vamos a borrar los comentarios por defecto-->
-        </div>
-      </div>
-    </div>
-
-    <!-- Comentario dinámico añadido desde el formulario -->
     {{#comment}}
     <div class="col-12 col-md-4 mb-4">
       <div class="card shadow-sm">
         <div class="card-body">
-          <h5 class="card-title">{{title}}</h5>
+          <h5 class="card-title">{{name}}</h5>
           <textarea>{{comment}}</textarea>                  
           <a href="#" class="btn-load-2">Report</a><!-- Preguntar al profe si es necesario un post o como enviarlo/recogerlo en la lista del Admin-->
         </div>

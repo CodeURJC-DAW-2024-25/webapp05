@@ -19,12 +19,11 @@ public class NutritionCommentService {
     
     @Autowired
     private NutritionCommentRepository nutritionCommentRepository;
-    /*@Autowired
+    @Autowired
     private NutritionRepository nutritionRepository;
     @Autowired
     private UserService userService;
-    @Autowired
-    private NutritionService nutritionService;*/
+    
 
     public List<NutritionComment> getAllNutritionComments() {
         List<NutritionComment> listNutritionComment = nutritionCommentRepository.findAll();

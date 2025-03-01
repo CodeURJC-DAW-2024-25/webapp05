@@ -20,13 +20,10 @@ import jakarta.annotation.PostConstruct;
 public class TrainingCommentService {
 
     @Autowired
-    public UserService userService;
+    private UserService userService;
     @Autowired
-    public TrainingCommentRepository trainingCommentRepository;
-    /*@Autowired
-    public TrainingRepository trainingRepository;
-    @Autowired
-    public TrainingService trainingService;*/
+    private TrainingCommentRepository trainingCommentRepository;
+
 
     @PostConstruct
     public void trainingCommentConstructor() {
@@ -37,25 +34,20 @@ public class TrainingCommentService {
                 "              hidratación es extremadamente importante.", "Hidratación");
 
 
-        //Optional<Training> chestPlan = trainingRepository.findById((long) 1);
-        //Optional<Training> armsPlan = trainingRepository.findById((long) 2);
-        //descansos.setTraining(chestPlan.get());//no sé pq no va, vuelvo en nada
-        //hidratación.setTraining(armsPlan.get());
-
         createTrainingComment(descansos);
         createTrainingComment(hidratación);
 
     }
 
         
-    /*public List<TrainingComment> getAllTrainingComments(Long trainingId) {
-        List<TrainingComment> listTrainingComments = trainingCommentRepository.findByTrainingId(trainingId);
+    public List<TrainingComment> getAllTrainingComments(Long trainingId) {
+        List<TrainingComment> listTrainingComments = trainingCommentRepository.findAll();
         return listTrainingComments.isEmpty() ? null : listTrainingComments;
-    }*/
+    }
 
-    public TrainingComment createTrainingComment(TrainingComment trainingComment) {
+    public void createTrainingComment(TrainingComment trainingComment) {
+
         trainingCommentRepository.save(trainingComment);
-        return trainingComment;
     }
            
     /*public Training getTraining(Long id){
