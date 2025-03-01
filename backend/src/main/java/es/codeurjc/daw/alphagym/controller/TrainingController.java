@@ -1,5 +1,6 @@
 package es.codeurjc.daw.alphagym.controller;
 
+import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
 import es.codeurjc.daw.alphagym.service.TrainingCommentService;
@@ -40,7 +41,20 @@ public class TrainingController {
     }
 
 
-    //  @GetMapping("/routines/{routineId}")
+    @GetMapping("/trainings/{routineId}")
+    public String showRoutine(Model model, @PathVariable Long routineId){
+        Training training = trainingService.getTraining(routineId);
+        if(training == null){
+            return "redirect:/trainings";
+        }
+
+        model.addAttribute("training",training);
+
+        return "showRoutine";
+    }
+
+
+
 
     //  @GetMapping("/routines/createRoutine")
 

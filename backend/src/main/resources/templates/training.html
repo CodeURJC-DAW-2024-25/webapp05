@@ -1,6 +1,6 @@
 {{>header}}  <!-- Incluimos el header -->
- <!-- Incluimos el navbar -->
-{{>navbar}} 
+{{>navbar}}<!-- Incluimos el navbar -->
+
     <!-- Training Plans Section -->
     <section class="container py-5">
       <h2 class="text-center mb-4">Training Plans</h2>
@@ -14,7 +14,7 @@
                           <h5 class="card-title">{{name}}</h5>
                           <p class="description">{{description}}</p>
                       </div>
-                      <button  onclick="window.location.href='showRoutine.html'" class="btn btn-service">Go to {{name}}!</button>
+                      <button class="btn btn-service goToShowRoutine" data-training-id="{{id}}">Go to {{name}}!</button>
                   </div>
               </div>
           {{/trainings}}

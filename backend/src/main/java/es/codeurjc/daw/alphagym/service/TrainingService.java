@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -81,6 +82,16 @@ public class TrainingService {
     public List<Training> getAllTrainings(){
         List<Training> listTraining = trainingRepository.findAll();
         return listTraining.isEmpty() ? null : listTraining;
+    }
+
+    public Training getTraining(Long id){
+        Optional<Training> theRoutine = trainingRepository.findById(id);
+        if (theRoutine.isPresent()) {
+            Training training = theRoutine.get();
+            return training;
+        } else {
+            return null;
+        }
     }
 /*
     public Collection<Training> getUserTrainings(Long id){

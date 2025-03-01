@@ -24,10 +24,9 @@ public class TrainingCommentController {
     @Autowired
     public TrainingService trainingService;
     
-    @GetMapping("/trainingComments/{trainingId}")
-
+    /*@GetMapping("/trainingComments/{trainingId}")
     public String showAllTrainingComments(Model model, @PathVariable Long trainingId){
         model.addAttribute("comments", trainingCommentService.getAllTrainingComments(trainingId));
         return "comments";
-    }
+    }*/
 }

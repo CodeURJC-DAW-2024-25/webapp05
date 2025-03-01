@@ -43,4 +43,17 @@ document.addEventListener("DOMContentLoaded", function () {
   } else {
     console.warn("Modal 'errorModal' no encontrado en esta página.");
   }
+
+  var buttons = document.querySelectorAll(".goToShowRoutine");
+  buttons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      var trainingId = button.dataset.trainingId; // We get de id from data-attribute
+
+      if (trainingId) {
+        window.location.href = "/trainings/" + trainingId; // Send the url to the controller to see the training view
+      } else {
+        console.warn("ID del entrenamiento no encontrado.");
+      }
+    });
+  });
 });
