@@ -11,29 +11,38 @@ public class NutritionComment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String comment;
+    private String description;
     private String author;
-    private String title;
+    private String name;
     private boolean isNotified = false;
+    private Long nutritionId;
 
-    // Constructor necesario para la carga desde BBDD
+
     protected NutritionComment() {
     }
 
-    public NutritionComment(String comment, String author, String title) {
-        this.comment = comment;
+    public NutritionComment(String description, String author, String name) {
+        this.description = description;
         this.author = author;
-        this.title = title;
+        this.name = name;
+    }
+
+    public NutritionComment(String description, String name) {
+        this.description = description;     
+        this.name = name;
     }
 
     // Getters
-
-    public String getTitle() {
-        return title;
+    public Long getId() {
+        return id;
     }
 
-    public String getComment() {
-        return comment;
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getAuthor() {
@@ -44,21 +53,32 @@ public class NutritionComment {
         return isNotified;
     }
 
+    public Long getNutritionId() {
+        return nutritionId;
+    }
+
     // Setters
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setAuthor(String author) {
         this.author = author;
     }
 
-    public void setTitle(String title){
-        this.title = title;
+    public void setName(String name){
+        this.name = name;
     } 
 
     public void setNotified(boolean isNotified) {
         this.isNotified = isNotified;
     }
     
+    public void setNutritionId(Long nutritionId) {
+        this.nutritionId = nutritionId;
+    }
 }

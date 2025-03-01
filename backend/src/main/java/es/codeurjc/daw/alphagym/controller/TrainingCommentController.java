@@ -27,4 +27,16 @@ public class TrainingCommentController {
         model.addAttribute("comment", trainingCommentService.getAllTrainingComments(trainingId));
         return "comments";
     }
+
+    @GetMapping("/trainingComments/{trainingId}/newComment")
+    public String newComment(Model model, @PathVariable Long trainingId){
+        return "newComment";
+    }
+
+    @GetMapping("/trainingComments/{trainingId}/{commentId}")
+    public String showComment(Model model, @PathVariable Long trainingId, @PathVariable Long commentId){
+        return "comment";
+    }
+
+
 }

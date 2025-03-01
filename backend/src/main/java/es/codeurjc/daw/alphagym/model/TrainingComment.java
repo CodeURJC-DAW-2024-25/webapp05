@@ -16,44 +16,34 @@ public class TrainingComment{
     private Long id;
     private String description;
     private String author;
-    private String title;
+    private String name;
     private boolean isNotified = false;
+    private Long trainingId;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "training_id")
-    private Training training;
-
-    public Training getTraining() { 
-        return training; 
-    }
-    public void setTraining(Training training) {
-        this.training = training;
-    }
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "training_id")
 
     protected TrainingComment() {
     }
 
-    public TrainingComment(String description, String author, String title) {
+    public TrainingComment(String description, String author, String name) {
         this.description = description;
         this.author = author;
-        this.title = title;
+        this.name = name;
     }
 
-    public TrainingComment(String description, String title) {
+    public TrainingComment(String description, String name) {
         this.description = description;     
-        this.title = title;
+        this.name = name;
     }
 
     // Getters
     public Long getId() {
         return id;
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
     public String getdescription() {
@@ -68,7 +58,15 @@ public class TrainingComment{
         return isNotified;
     }
 
+    public Long getTrainingId() { 
+        return trainingId; 
+    }
+
     // Setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setdescription(String description) {
         this.description = description;
     }
@@ -77,11 +75,15 @@ public class TrainingComment{
         this.author = author;
     }
 
-    public void setTitle(String title){
-        this.title = title;
+    public void setName(String name){
+        this.name = name;
     }
 
     public void setNotified(boolean isNotified) {
         this.isNotified = isNotified;
+    }
+
+    public void setTrainingId(Long trainingId) {
+        this.trainingId = trainingId;
     }
 }
