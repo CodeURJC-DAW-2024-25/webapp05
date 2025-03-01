@@ -54,7 +54,7 @@ public class NutritionController {
             model.addAttribute("userId",user.getId());
             return "detailsNutrition";
         }*/
-        return "redirect:/showDiet";
+        return "showDiet";
     }
 
     
