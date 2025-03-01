@@ -2,16 +2,18 @@
 {{> navbar}}  <!-- Incluimos el navbar -->
 
 <div class="container-account">
-  <img src="/images/gym5.jpg" class="fondo-login" />
+  <img src="/images/gym5.jpg" class="fondo-login" alt="gym-login" />
   <div class="form-container">
     <p class="title">Welcome Back</p>
-    <form class="form" method="post">
-      <input type="email" class="input" placeholder="Email" value={{email}}/>
-      <input type="password" class="input" placeholder="Password" value={{password}}/>
-      <p>{{#user}}<a href="restartprofile.html">Forgot Password?</a>{{/user}}</p>
-      {{#user}}<a href="account.html" class="btn-load">Login</a>{{/user}}
-    </form>
-    <p>Don't have an account?<a href="register.html"> Sign up</a></p>
+    <form class="form" action="/login" method="post">
+      <input type="email" class="input" placeholder="Email" name="username" required />
+      <input type="password" class="input" placeholder="Password" name="password" required />
+      <input type="hidden" name="_csrf" value="{{token}}"/>
+      <p><a href="restartprofile.html">Forgot Password?</a></p>
+      <input type="submit" class="btn-load" value="Login" />
+      <p>Don't have an account? <a href="/register">Sign up</a></p>
+  </form>
+  
   </div>
 </div>
 

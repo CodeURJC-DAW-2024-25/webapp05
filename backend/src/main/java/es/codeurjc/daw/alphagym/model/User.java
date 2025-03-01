@@ -1,23 +1,45 @@
 package es.codeurjc.daw.alphagym.model;
 
 import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.sql.Blob;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
-@Entity 
+@Entity
 public class User {
 
     @Id ()
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String name; 
+
+    @Column(unique = true, nullable = false)
     private String email;
-    private String password;
+
+    @JsonIgnore
+    private String encodedPassword;
+
+    @Lob
+	@JsonIgnore
+	private Blob img_user;
+
+	@JsonIgnore
+	private boolean image;
+
+    //los roles
+    @ElementCollection(fetch = FetchType.EAGER)
+	private List<String> roles;
 
     @OneToMany(cascade=CascadeType.ALL)
     private List<TrainingComment> trainingComments;
@@ -25,20 +47,33 @@ public class User {
     @OneToMany(cascade=CascadeType.ALL)
     private List<NutritionComment> nutritionComments;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     private List<Training> trainings;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     private List<Nutrition> nutritions;
     
-    public User(String name, String email, String password) {
+    public User(String name, String email, String encodedPassword, String... roles) {
         this.name = name; 
         this.email = email; 
-        this.password = password;
+        this.encodedPassword = encodedPassword;
+        this.roles = List.of(roles);
     }
 
     // Constructor necesario para la carga desde BBDD
     public User() {}
+
+    public Boolean isRole(String rol) {
+		return this.roles.contains(rol);
+	}
+
+    public void addRole(String role) {
+		this.roles.add(role);
+	}
+
+    public boolean isImage() {
+		return image;
+	}
 
     // Getters
 
@@ -68,9 +103,17 @@ public class User {
         return email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEncodedPassword() {
+        return encodedPassword;
       }
+
+    public List<String> getRoles() {
+		return roles;
+	}
+
+    public Blob getImg_user() {
+		return img_user;
+	}
       
     // Setters
 
@@ -102,8 +145,20 @@ public class User {
         this.email = email;
     }
     
-    public void setPassword(String password) {
-      this.password = password;
+    public void setEncodedPassword(String password) {
+      this.encodedPassword = password;
     }
+
+    public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
+    public void setImg_user(Blob img_user) {
+		this.img_user = img_user;
+	}
+
+    public void setImage(boolean image) {
+		this.image = image;
+	}
     
 } 

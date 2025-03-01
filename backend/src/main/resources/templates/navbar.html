@@ -14,31 +14,34 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="nutrition.html">Nutrition</a>
+              <a class="nav-link" href="nutrition">Nutrition</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="training.html">Training</a>
+              <a class="nav-link" href="training">Training</a>
             </li>
             {{#admin}}
             <li class="nav-item">
-              <a class="nav-link" href="admin.html">Admin</a>
+              <a class="nav-link" href="admin">Admin</a>
             </li>
             {{/admin}} 
             {{^user}}
             <li class="nav-item">
-              <a class="nav-link" href="login.html">Login</a>
+              <a class="nav-link" href="login">Login</a>
             </li>
             {{/user}}
             {{#user}}
             <li class="nav-item">
-              <a class="nav-link" href="account.html">Account</a>
+              <a class="nav-link" href="account">Account</a>
             </li>
             <li class="nav-item">
+              <form action="/logout" method="post">
               <a class="nav-link" href="index.html">Log out</a>
+              <input type="hidden" name="_csrf" value="{{token}}"/>
+              </form> 
             </li>
             {{/user}}
             <li class="nav-item">
-              <a class="nav-link" href="register.html">Register</a>
+              <a class="nav-link" href="register">Register</a>
             </li>
           </ul>
         </div>

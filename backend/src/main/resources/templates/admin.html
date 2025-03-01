@@ -6,10 +6,11 @@
   <div class="form-container-plans3">
     <p class="title text-center">Administrator Profile</p>
   
-    <form class="form" action='adminController'>
+    <form class="form" action='showadmin'>
       <input type="email" class="input" value="{{admin.name}}"/>
       <input type="email" class="input" value="{{admin.email}}" />
-      <a href="account.html" class="btn-load">Submit</a>
+      <input type="hidden" name="_csrf" value="{{token}}"/>
+      <a href="account" class="btn-load">Submit</a>
     </form>
   </div>
 
