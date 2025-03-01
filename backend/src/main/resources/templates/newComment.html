@@ -2,9 +2,10 @@
 {{>navbar}} <!-- Incluimos el navbar -->
 
 <!-- Formulario de Comentario -->
-<div class="container mt-5">
+<div class="container mt-5 flex-grow-1">
   <h2 class="text-center">Create a new comment</h2>
-  <form id="commentForm" method="post" action="/comments">
+  <form id="commentForm" method="post" action="/comments"><!--Comprobar donde va a ir dirigido el action-->
+    <input type="hidden" name="_csrf" value="{{token}}"/>
     <div class="mb-3">
       <!--Comment title -->
       <label for="commentTitle" class="form-label">Comment title:</label>
@@ -12,8 +13,7 @@
         type="text"
         class="form-control"
         id="commentTitle"
-        name="title"
-        value="{{title}}" 
+        name="title" 
         required
       /><!-- Aqui deberia ir el titulo de la rutina/dieta -->
     </div>
@@ -26,7 +26,7 @@
         placeholder="Write here your comment..."
         name="comment"
         required
-      >{{comment}}</textarea><!--Aquí va el comentario-->
+      ></textarea><!--Aquí va el comentario-->
     </div>
     <div class="d-flex justify-content-center gap-3">
       <button type="submit" class="btn-load">Submit Comment</button>
