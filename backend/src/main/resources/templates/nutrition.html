@@ -1,17 +1,16 @@
 {{>header}}  <!-- Incluimos el header -->
-{{>navbar}}  <!-- Incluimos el navbar -->
+  <!-- Incluimos el navbar -->
 
     <!-- Nutrition Plans Section -->
     <section class="container py-5">
       <h2 class="text-center mb-4">Nutrition Plans</h2>
       <div id="resultsContainer" class="row">
-        <ul>        
           {{#nutritions}}
           <div class="col-12 col-md-4 mb-4">
             <div class="card shadow-sm">
               <div class="card-body">
                 <div id="training/nutrition-picture-container">
-                  <img src="{{image}}" alt= "nutrition" class="nutrition" id="nutritionImage">
+                  <img src="{{image}}" alt= {{name}} class="nutrition" id="nutritionImage">
                 </div>
                 <h5 class="card-title">{{name}}</h5>
                   <p>Meals:</p>
@@ -21,7 +20,6 @@
             </div>
           </div>
           {{/nutritions}}
-        </ul> 
       </div>
         <!-- Botón para cargar más y botón de añadir dieta -->
         <div class="text-center">

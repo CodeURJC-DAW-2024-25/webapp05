@@ -36,9 +36,18 @@ public class Nutrition {
         this.calories = calories;
         this.goal = goal;
         this.description = description;
-        //this.image = "/images/emptyImage.png";
+        this.image = "/images/emptyImage.png";
     }
-        
+
+    //Momnetaneo y experimental, puede que se quite. Para construir las dietas predefinidas
+    public Nutrition(String name, int calories, String goal, String description, String Image) {
+        this.name = name;
+        this.calories = calories;
+        this.goal = goal;
+        this.description = description;
+        this.image = Image;
+    }
+
     public Nutrition() {
         }
     

@@ -50,7 +50,7 @@ public class NutritionService {
 
         caloricDeficit.setImage("/images/deficitcalorico.jpeg");
         caloricSurplus.setImage("/images/volumen.jpeg");
-        maintenanceDiet.setImage("/images/mantenimiento.jpeg");
+        maintenanceDiet.setImage("/images/mantenimiento.jpg");
 
         createNutrition(caloricDeficit);
         createNutrition(caloricSurplus);
@@ -60,7 +60,7 @@ public class NutritionService {
 
     }
     public Nutrition createNutrition(Nutrition nutrition) { // habra q añadirle un usuario
-        Nutrition nutrition1 = new Nutrition(nutrition.getName(),nutrition.getCalories(), nutrition.getDescription(), nutrition.getGoal());
+        Nutrition nutrition1 = new Nutrition(nutrition.getName(),nutrition.getCalories(), nutrition.getGoal(), nutrition.getDescription(), nutrition.getImage());
         nutritionRepository.save(nutrition1);
         return nutrition1;
     }
