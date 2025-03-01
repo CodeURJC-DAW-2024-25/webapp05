@@ -62,7 +62,7 @@ public class WebSecurityConfig {
                         
 						
 						// PRIVATE PAGES
-                        .requestMatchers("/account").authenticated()
+                        .requestMatchers("/account").authenticated() //o ponerlo de la misma manera que el resto 
 						.requestMatchers("/newNutrition").hasAnyRole("USER")
 						.requestMatchers("/newTraining").hasAnyRole("USER")
 						.requestMatchers("/editNutrition/*").hasAnyRole("ADMIN", "USER")
