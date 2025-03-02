@@ -2,6 +2,8 @@ package es.codeurjc.daw.alphagym.service;
 
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
+import es.codeurjc.daw.alphagym.security.LoginRequest;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.hibernate.engine.jdbc.BlobProxy;
@@ -12,7 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-//import es.codeurjc.daw.alphagym.model.LoginRequest;
 
 
 import java.io.IOException;
@@ -31,14 +32,14 @@ public class UserService {
      @Autowired
     private PasswordEncoder passwordEncoder;
     //no se porque al importarlo no me lo coje
-    /*ublic ResponseEntity<Object> login(LoginRequest loginRequest) {
+    public ResponseEntity<Object> login(LoginRequest loginRequest) {
         
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return ResponseEntity.ok().build();
-    }*/
+    }
 
     public User updateUserName(Long userId, String newName) {
         Optional<User> userOptional = userRepository.findById(userId);
