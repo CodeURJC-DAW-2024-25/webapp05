@@ -15,7 +15,7 @@
                 <h5 class="card-title">{{name}}</h5>
                   <p>Meals:</p>
                   <p>{{description}}</p>
-                <a href="/nutritions/{{this.id}}" class="btn btn-service">Look for {{name}} details!</a>
+                <a href="/nutritions/{{id}}" class="btn btn-service">Look for {{name}} details!</a>
               </div>
             </div>
           </div>
@@ -24,7 +24,7 @@
         <!-- Botón para cargar más y botón de añadir dieta -->
         <div class="text-center">
             <button id="loadMore" class="btn-load">More Results</button>
-            <a href="/nutritions/newDiet.html" class="btn-load">Add Diet</a>
+            <a id ="newDiet" href="/nutritions/newDiet" class="btn-load">Add Diet</a>
             <!-- <button id="addDiet" class="btn-load">Add Diet</button> -->
         </div>
             

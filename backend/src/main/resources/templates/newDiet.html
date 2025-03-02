@@ -4,7 +4,8 @@
     <!-- Formulario de Dieta -->
     <div class="container mt-5">
       <h2 class="text-center">Create a new diet</h2>
-      <form id="dietForm"> <!--Incluir el action con la respectiva ruta, va a tener una estructura similar a la de newRoutine.html-->
+      <form id="dietForm" name="createForm" action="/nutritions/createDiet" method="post" onsubmit=" true/*return validateForm()*/">
+        <input type="hidden" name="_csrf" value="{{token}}"/>
         
         <div class="mb-3">
           <label for="dietName" class="form-label">Diet name:</label>

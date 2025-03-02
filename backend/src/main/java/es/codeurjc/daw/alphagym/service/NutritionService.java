@@ -87,14 +87,27 @@ public class NutritionService {
 
 
     
-    public Nutrition editNutrition(Long id, Nutrition nutrition/* , User user*/){
-        Optional<Nutrition> theNutrition = nutritionRepository.findById(id);
-        if (theNutrition.isPresent()){
-            Nutrition nutrition1 = theNutrition.get();
-            //nutrition.setUser(user);
+    public Nutrition editDiet(Long id, Nutrition nutrition/* , User user*/){
+        Optional<Nutrition> theDiet = nutritionRepository.findById(id);
+        if(theDiet.isPresent()) {
+
             nutrition.setId(id);
-            nutritionRepository.save(nutrition1);
-            return nutrition1;
+            nutrition.setImage(theDiet.get().getImage());
+            //training.setGymUser(user);
+            nutritionRepository.save(nutrition);
+            return nutrition;
+        }
+        return null;
+    }
+
+    public Nutrition deleteDiet(Long id){
+        Optional<Nutrition> theDiet = nutritionRepository.findById(id);
+        if (theDiet.isPresent()) {
+            Nutrition nutrition = theDiet.get();
+            //User user = routine.getGymUser();
+            //user.getListRoutine().remove(routine);
+            nutritionRepository.delete(nutrition);
+            return nutrition;
         }
         return null;
     }

@@ -5,9 +5,11 @@
 <div class="container mt-5">
     <h2 class="text-center">Edit nutrition {{nutrition.id}} </h2>
 
+    <form name="editForm" method="post" onsubmit="return true/*validateEditDietForm()*/" method="post" action="/nutritions/editDiet/{{nutrition.id}}">
+        <input type="hidden" name="_csrf" value="{{token}}"/>
     <div class="mb-3">
         <label class="form-label fw-bold">Nutrition Name </label>
-        <input id="nutritionName" name="name" type="text" class="form-control" value="{{nutrition.name}}">
+        <input id="nutritionName" name="name" type="text" class="form-control" value="{{nutrition.name}}" placeholder="{{nutrition.name}}">
     </div>
 
     <div class="mb-3">
@@ -18,15 +20,16 @@
     <div class="mb-3">
         <label class="form-label fw-bold">Nutrition Goal:</label>
         <select class="form-select" id="goal" name="goal">
-            <option value="maintain_weight" {% if nutrition.goal =="maintain_weight" %}selected{% endif %}>Maintain Weight</option>
-            <option value="increase_weight" {% if nutrition.goal =="increase_weight" %}selected{% endif %}>Increase Weight</option>
-            <option value="lose_weight" {% if nutrition.goal =="lose_weight" %}selected{% endif %}>Lose Weight</option>
+            <option value="Maintain_weight" {% if nutrition.goal =="Maintain_weight" %}selected{% endif %}>Maintain Weight</option>
+            <option value="Increase_weight" {% if nutrition.goal =="Increase_weight" %}selected{% endif %}>Increase Weight</option>
+            <option value="Lose_weight" {% if nutrition.goal =="Lose_weight" %}selected{% endif %}>Lose Weight</option>
         </select>
     </div>
 
     <div class="mb-3">
         <label class="form-label fw-bold">Nutrition meals:</label>
-        <textarea name ="description" class="form-control" rows="4" value={{nutrition.description}}>
+        <textarea name ="description" class="form-control" rows="4">
+            {{nutrition.description}}
         </textarea>
     </div>
 
@@ -38,16 +41,10 @@
     </div>
 
     <div class="d-flex justify-content-center gap-3">
-        <button class="btn-load">Suscribe</button>
-        <button class="btn-load" onclick="window.location.href='comments.html'">
-            View Comments
-        </button>
-        <button class="btn-load">Edit</button>
-        <button class="btn-load">Delete</button>
-        <button class="btn-load" onclick="window.location.href='nutrition.html'">
-            Return
-        </button>
+        <button class="btn-load" type="submit">Save</button>
+        <a href="/nutritions/{{nutrition.id}}" class="btn-load">Cancel</a>
     </div>
+    </form>
 </div>
 <!-- Fin Vista de Nutricion -->
 

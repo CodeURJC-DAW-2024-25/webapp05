@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import es.codeurjc.daw.alphagym.model.NutritionComment;
+import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.NutritionRepository;
@@ -55,7 +56,6 @@ public class NutritionController {
         } else {
             model.addAttribute("logged", false);
         }
-
         CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
         model.addAttribute("token", token.getToken());
     }
@@ -87,10 +87,10 @@ public class NutritionController {
         return "showDiet";
     }
 
-    @GetMapping("/nutritions/newDiet.html")
+    @GetMapping("/nutritions/newDiet")
     public String createNutrition(Model model /*,@RequestParam("userId") Long userId*/ ) {
         model.addAttribute("nutricion",new Nutrition());
-        /*GymUser user = userService.getGymUser(userId);
+        /*User user = userService.getUser(userId);
         if (user != null){
             model.addAttribute("userId",user.getId());
             return "createNutrition";
@@ -98,9 +98,9 @@ public class NutritionController {
         return "newDiet";
     }
 
-    @PostMapping("/nutritions/newDiet.html")
+    @PostMapping("/nutritions/newDiet")
     public String createNutritionPost(@ModelAttribute Nutrition nutrition/* , @RequestParam("userId") Long userId*/){
-        /*GymUser user = userService.getGymUser(userId);
+        /*User user = userService.getUser(userId);
         if (user != null){
             nutrition.setGymUser(user);
             Nutrition nut = nutritionService.createNutrition(nutrition,user);
@@ -110,15 +110,38 @@ public class NutritionController {
         return "redirect:/nutritions";
     }
 
-    @GetMapping("/nutritions/editDiet.html")
-    public String editNutrition(Model model, @PathVariable Long id/* , @RequestParam("userId") Long userId*/) {
+    @GetMapping("/nutritions/editDiet/{id}")
+    public String editDiet(Model model, @PathVariable Long id/* , @RequestParam("userId") Long userId*/) {
         Nutrition nutrition = nutritionService.getNutrition(id);
-        if(nutrition != null){
-            model.addAttribute("nutrition", nutrition);
+        if(nutrition == null){
+            return "redirect:/nutritions";
         }
+        model.addAttribute("nutrition",nutrition);
         //model.addAttribute("userId",userId);
         return "editDiet";
     }
+
+    @PostMapping("/nutritions/editDiet/{id}")
+    public String editDietPost(@ModelAttribute Nutrition nutrition, @PathVariable Long id){//, @RequestParam("userId") Long userId
+        //User user = userService.getUser(userId);
+        try {
+            nutritionService.editDiet(id, nutrition);
+
+            return "redirect:/nutritions/" + id;
+        } catch (Exception e) {
+            // Manejar la excepción, por ejemplo, registrar el error y mostrar un mensaje al usuario
+            e.printStackTrace(); // Para depuración, considera usar un logger
+            return "redirect:/nutritions/editDiet/" + id + "?error=true"; // Redirigir con un parámetro de error
+        }
+    }
+
+    @GetMapping("/nutritions/delete/{id}")
+    public  String deleteDietPost(@PathVariable Long id /*@RequestParam("userId") Long userId*/){
+        nutritionService.deleteDiet(id);
+        //User user = userService.getGymUser(userId);
+        return "redirect:/nutritions";
+    }
+
 
     
 }
