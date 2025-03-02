@@ -1,5 +1,8 @@
 package es.codeurjc.daw.alphagym.controller;
 
+import java.security.Principal;
+import java.util.Optional;
+
 import com.samskivert.mustache.Mustache;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
@@ -7,10 +10,13 @@ import es.codeurjc.daw.alphagym.repository.TrainingRepository;
 import es.codeurjc.daw.alphagym.service.TrainingCommentService;
 import es.codeurjc.daw.alphagym.service.TrainingService;
 import es.codeurjc.daw.alphagym.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -31,7 +37,27 @@ public class TrainingController {
     @Autowired
     private TrainingRepository trainingRepository;
 
-    //esto guardpalo para despues 
+    @ModelAttribute("user")
+    public void addAttributes(Model model, HttpServletRequest request){
+
+        Principal principal = request.getUserPrincipal();
+
+        if (principal != null) {
+            Optional <User> user = userService.findByEmail(principal.getName()); //se usa getName porque asi se hace desde security
+            if (user.isPresent()){
+                if (user.get().isRole("USER")){
+                    model.addAttribute("user", true);
+                }
+                if (user.get().isRole("ADMIN")){
+                    model.addAttribute("admin", true);
+                }
+            }
+            model.addAttribute("logged", true);
+            model.addAttribute("userName", principal.getName());
+        } else {
+            model.addAttribute("logged", false);
+        }
+    }
 
     @GetMapping("/trainings")
     public String showAllRoutines(Model model){//,  @RequestParam("userId") Long userId){
