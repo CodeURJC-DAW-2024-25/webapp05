@@ -21,10 +21,10 @@ public class NutritionComment {
     protected NutritionComment() {
     }
 
-    public NutritionComment(String description, String author, String name) {
+    public NutritionComment(String description, String name, Long nutritionId) {
         this.description = description;
-        this.author = author;
         this.name = name;
+        this.nutritionId = nutritionId;
     }
 
     public NutritionComment(String description, String name) {

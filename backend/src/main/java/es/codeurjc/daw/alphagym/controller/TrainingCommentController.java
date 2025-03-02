@@ -63,7 +63,7 @@ public class TrainingCommentController {
     
     @GetMapping("/trainingComments/{trainingId}")
     public String showAllTrainingComments(Model model, @PathVariable Long trainingId){
-        model.addAttribute("comment", trainingCommentService.getAllTrainingComments(trainingId));
+        model.addAttribute("comment", trainingCommentService.getTrainingComments(trainingId));
         return "comments";
     }
 

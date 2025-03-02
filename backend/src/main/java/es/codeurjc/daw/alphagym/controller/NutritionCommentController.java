@@ -58,8 +58,8 @@ public class NutritionCommentController {
     }
 
     @GetMapping("/nutritionComments/{nutritionId}")
-    public String showAllNutritionComments(Model model){
-        model.addAttribute("comment",nutritionCommentService.getAllNutritionComments());
+    public String showAllNutritionComments(Model model, @PathVariable Long nutritionId){
+        model.addAttribute("comment",nutritionCommentService.getNutritionComments(nutritionId));
         return "comments";
     }
 

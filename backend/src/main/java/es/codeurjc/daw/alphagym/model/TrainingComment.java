@@ -26,10 +26,10 @@ public class TrainingComment{
     protected TrainingComment() {
     }
 
-    public TrainingComment(String description, String author, String name) {
+    public TrainingComment(String description, String name, Long trainingId) {
         this.description = description;
-        this.author = author;
         this.name = name;
+        this.trainingId = trainingId;
     }
 
     public TrainingComment(String description, String name) {
