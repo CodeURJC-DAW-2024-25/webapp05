@@ -1,20 +1,33 @@
 package es.codeurjc.daw.alphagym.controller;
 
+import java.security.Principal;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
 import es.codeurjc.daw.alphagym.service.TrainingCommentService;
 import es.codeurjc.daw.alphagym.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 @Controller
 public class TrainingCommentController { 
       
-    /*
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private TrainingCommentService trainingCommentService;
+    @Autowired
+    private TrainingCommentRepository trainingCommentRepository;
+
+    
     @ModelAttribute("user")
     public void addAttributes(Model model, HttpServletRequest request){
 
@@ -36,14 +49,7 @@ public class TrainingCommentController {
             model.addAttribute("logged", false);
         }
     }
-    */
     
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private TrainingCommentService trainingCommentService;
-    @Autowired
-    private TrainingCommentRepository trainingCommentRepository;
 
     
     @GetMapping("/trainingComments/{trainingId}")
