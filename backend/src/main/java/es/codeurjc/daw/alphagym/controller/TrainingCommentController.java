@@ -76,13 +76,7 @@ public class TrainingCommentController {
     public String showComment(Model model, @PathVariable Long trainingId, @PathVariable Long commentId){
         return "comment";
     }
-    /*
-    @PostMapping("/trainingComments/{trainingId}")
-    public String createComment(Model model,@PathVariable Long trainingId){
-        model.addAttribute("comment", trainingCommentService.getAllTrainingComments(trainingId));
-        return "comments";
-    }
-    */
+
     @PostMapping("/trainingComments/{trainingId}")
     public String createComment(Model model,@PathVariable Long trainingId, @RequestParam String commentTitle,@RequestParam String commentText){
 

@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CsrfToken;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -57,6 +58,9 @@ public class TrainingController {
         } else {
             model.addAttribute("logged", false);
         }
+
+        CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+        model.addAttribute("token", token.getToken());
     }
 
     @GetMapping("/trainings")
