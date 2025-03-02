@@ -4,7 +4,7 @@
     <!-- Formulario de Rutina -->
     <div class="container mt-5">
       <h2 class="text-center">Create New Training Routine </h2>
-      <form id="routineForm" ><!-- name="createForm" action="/routines/createRoutine?userId={{userId}}" method="post" onsubmit="return validateForm()"> -->
+      <form id="routineForm" name="createForm" action="/trainings/createRoutine" method="post" onsubmit=" true/*return validateForm()*/">
         <div class="mb-3">
           <label for="routineName" class="form-label">Routine Name:</label>
           <input type="text" class="form-control" id="routineName" name="name" required placeholder="Write the name of new routine" />

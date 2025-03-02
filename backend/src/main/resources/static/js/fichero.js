@@ -44,8 +44,8 @@ document.addEventListener("DOMContentLoaded", function () {
     console.warn("Modal 'errorModal' no encontrado en esta página.");
   }
 
-  var buttons = document.querySelectorAll(".goToShowRoutine");
-  buttons.forEach(function (button) {
+  var buttonShowRoutine = document.querySelectorAll(".goToShowRoutine");
+  buttonShowRoutine.forEach(function (button) {
     button.addEventListener("click", function () {
       var trainingId = button.dataset.trainingId; // We get de id from data-attribute
 
@@ -56,4 +56,48 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+  var buttonEditRoutine = document.querySelectorAll(".goToEditRoutine");
+  buttonEditRoutine.forEach(function (button) {
+    button.addEventListener("click", function () {
+      var trainingId = button.dataset.trainingId; // We get de id from data-attribute
+
+      if (trainingId) {
+        window.location.href = "/trainings/editRoutine/" + trainingId; // Send the url to the controller to see the edit training view
+      } else {
+        console.warn("ID del entrenamiento no encontrado.");
+      }
+    });
+  });
+
+  function validateEditRoutineForm(){
+    let routineName = document.forms["editForm"]["routineName"].value;
+    console.log(routineName)
+    if(routineName === ""){
+      alert("Longitud en el nombre de la rutina no válida (nombre vacío).");
+      return false;
+    }
+    if(routineName.length > 30){
+      alert("Longitud en el nombre de la rutina no válida (muy largo).");
+      return false;
+    }
+    let duration = document.forms["editForm"]["routineDuration"].value;
+    if(duration < 1){
+      alert("Duración no válida. Recuerda que la duración se mide en números (minutos).");
+      return false;
+    }
+    if(duration > 200){
+      alert("No debes exceder las 6 horas de entrenamiento, esto puede ser malo para tu salud");
+      return false;
+    }
+    let exercises = document.forms["editForm"]["description"].value;
+    if(description.length < 5){
+      alert("Longitud incorrecta, demasiado corta. Por favor rellene este campo.");
+      return false;
+    }
+    if(description.length > 255){
+      alert("Longitud excedida: 255 caracteres como máximo");
+      return false;
+    }
+    return true;
+  }
 });

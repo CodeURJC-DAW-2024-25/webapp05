@@ -2,6 +2,7 @@
 {{>navbar}}  <!-- Incluimos el navbar -->
 
     <!-- Vista de Rutina -->
+
     <div class="container mt-5">
       <h2 class="text-center">Routine Details of routine {{training.id}} </h2>
 
@@ -45,7 +46,7 @@
         <button class="btn-load" onclick="window.location.href='comments.html'">
           View Comments
         </button>
-        <button class="btn-load">Edit</button>
+        <button class="btn-load goToEditRoutine" data-training-id="{{training.id}}" >Edit</button>
         <button class="btn-load">Delete</button>
         <button class="btn-load" onclick="window.location.href='training.html'">
           Return

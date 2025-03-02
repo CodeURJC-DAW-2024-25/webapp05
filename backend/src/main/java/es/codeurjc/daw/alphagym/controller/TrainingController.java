@@ -1,5 +1,6 @@
 package es.codeurjc.daw.alphagym.controller;
 
+import com.samskivert.mustache.Mustache;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
@@ -9,10 +10,14 @@ import es.codeurjc.daw.alphagym.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.function.BiFunction;
+
+import java.util.List;
+import java.util.function.Function;
 
 @Controller
 public class TrainingController {
@@ -41,9 +46,9 @@ public class TrainingController {
     }
 
 
-    @GetMapping("/trainings/{routineId}")
-    public String showRoutine(Model model, @PathVariable Long routineId){
-        Training training = trainingService.getTraining(routineId);
+    @GetMapping("/trainings/{trainingId}")
+    public String showRoutine(Model model, @PathVariable Long trainingId){
+        Training training = trainingService.getTraining(trainingId);
         if(training == null){
             return "redirect:/trainings";
         }
@@ -53,16 +58,56 @@ public class TrainingController {
         return "showRoutine";
     }
 
+    @GetMapping("/trainings/createRoutine")
+    public String createRoutine(Model model){//, @RequestParam("userId") Long userId
+        model.addAttribute("training",new Training());
+        //User user = userService.getGymUser(userId);
+        //if(user != null){
+            //model.addAttribute("userId",user.getId());
+            return "newRoutine";
+       // }
+       // return "redirect:/Login";
+    }
+    @PostMapping("/trainings/createRoutine")
+    public String createRoutinePost(@ModelAttribute Training training){//, @RequestParam("userId") Long userId
+        //User user = userService.getGymUser(userId);
+        //if (user != null){ aqui iria logica de user
+            //training.setUser(user);
+            trainingService.createTraining(training);
+            return "redirect:/trainings";
+        //}
+        //return "redirect:/trainings";
+    }
 
 
+    @GetMapping("/trainings/editRoutine/{routineId}")
+    public String editRoutine(Model model, @PathVariable Long routineId){//, @RequestParam("userId") Long userId
+        Training training = trainingService.getTraining(routineId);
+        //User user = userService.getUser(userId);
+//        if(user == null){
+//            return "redirect:/Login";
+//        }
+        if(training == null){
+            return "redirect:/trainings";
+        }
+        model.addAttribute("training",training);
+        //model.addAttribute("userId",userId);
+        return "editRoutine";
+    }
+    @PostMapping("/trainings/editRoutine/{trainingId}")
+    public String editRoutinePost(@ModelAttribute Training training, @PathVariable Long trainingId){//, @RequestParam("userId") Long userId
+        //GymUser user = userService.getGymUser(userId);
+        try {
+            trainingService.updateRoutine(trainingId, training);
 
-    //  @GetMapping("/routines/createRoutine")
+            return "redirect:/trainings/" + trainingId;
+        } catch (Exception e) {
+            // Manejar la excepción, por ejemplo, registrar el error y mostrar un mensaje al usuario
+            e.printStackTrace(); // Para depuración, considera usar un logger
+            return "redirect:/trainings/editRoutine/" + trainingId + "?error=true"; // Redirigir con un parámetro de error
+        }
+    }
 
-    //  @PostMapping("/routines/createRoutine")
-
-    //  @GetMapping("/routines/editRoutine/{routineId}")
-
-    //  @PostMapping("/routines/editRoutine/{routineId}")
 
     //  @GetMapping("/routines/delete/{routineId}")
 }
