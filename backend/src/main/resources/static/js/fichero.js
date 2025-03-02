@@ -101,3 +101,18 @@ document.addEventListener("DOMContentLoaded", function () {
     return true;
   }
 });
+
+
+function redirectFromComments() {
+  let pathSegments = window.location.pathname.split("/"); 
+  let lastSegment = pathSegments.pop(); 
+  let firstSegment = pathSegments.pop().replace("Comments", "s"); 
+  window.location.href = `/${firstSegment}/${lastSegment}`;
+}
+
+function redirectFromNewComments(event) {
+  event.preventDefault();
+  let pathSegments = window.location.pathname.split("/"); 
+  pathSegments.pop(); 
+  window.location.href = pathSegments.join("/");
+}

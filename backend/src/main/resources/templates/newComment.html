@@ -4,8 +4,7 @@
 <!-- Start Comment Form -->
 <div class="container mt-5 flex-grow-1">
   <h2 class="text-center">Create a new comment</h2>
-  <form id="commentForm" method="post" action="/comments"><!--Check where the action is going to be directed-->
-    <input type="hidden" name="_csrf" value="{{token}}"/>
+  <form id="commentForm" method="post" onsubmit="redirectFromNewComments(event)">
     <div class="mb-3">
       <!--Comment title -->
       <label for="commentTitle" class="form-label">Comment title:</label>
@@ -32,7 +31,7 @@
       <button type="submit" class="btn-load">Submit Comment</button>
       <button
         class="btn-load"
-        onclick="window.location.href='newRoutine.html'">Return
+        onclick="redirectFromNewComments(event)">Return
       </button>
       <!-- This button should change the reference depending on where it comes from-->
     </div>

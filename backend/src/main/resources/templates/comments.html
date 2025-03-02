@@ -22,15 +22,10 @@
   <!-- Load more button and add comments button -->
   <div class="text-center">
     <button id="loadMore" class="btn-load">More Comments</button>
-    {{#user}}
-    <button
-      id="addComment"
-      class="btn-load"
-      onclick="window.location.href='newComment.html'">
+    <button id="addComment" class="btn-load" onclick="window.location.href=window.location.pathname + '/newComment'">
       Add Comment
     </button>
-    {{/user}}
-    <button class="btn-load" onclick="window.location.href='newRoutine.html'">
+    <button class="btn-load" onclick="redirectFromComments()">
       Return
     </button>
     <!-- This button should change the reference depending on where it comes from-->
