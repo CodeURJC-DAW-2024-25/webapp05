@@ -7,6 +7,9 @@ import es.codeurjc.daw.alphagym.repository.TrainingRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -110,6 +113,18 @@ public class TrainingService {
             return training;
         }
 
+        return null;
+    }
+
+    public Training deleteRoutine(Long id){
+        Optional<Training> theRoutine = trainingRepository.findById(id);
+        if (theRoutine.isPresent()) {
+            Training training = theRoutine.get();
+            //User user = routine.getGymUser();
+            //user.getListRoutine().remove(routine);
+            trainingRepository.delete(training);
+            return training;
+        }
         return null;
     }
 /*

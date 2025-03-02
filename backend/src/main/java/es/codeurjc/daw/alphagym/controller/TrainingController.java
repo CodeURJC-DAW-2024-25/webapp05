@@ -106,9 +106,9 @@ public class TrainingController {
     }
 
 
-    @GetMapping("/trainings/editRoutine/{routineId}")
-    public String editRoutine(Model model, @PathVariable Long routineId){//, @RequestParam("userId") Long userId
-        Training training = trainingService.getTraining(routineId);
+    @GetMapping("/trainings/editRoutine/{trainingId}")
+    public String editRoutine(Model model, @PathVariable Long trainingId){//, @RequestParam("userId") Long userId
+        Training training = trainingService.getTraining(trainingId);
         //User user = userService.getUser(userId);
 //        if(user == null){
 //            return "redirect:/Login";
@@ -134,7 +134,13 @@ public class TrainingController {
         }
     }
 
+    @GetMapping("/trainings/delete/{trainingId}")
+    public  String deleteRoutinePost(@PathVariable Long trainingId, @RequestParam("userId") Long userId){
+        trainingService.deleteRoutine(trainingId);
+        //User user = userService.getGymUser(userId);
+        return "redirect:/trainings";
+    }
 
-    //  @GetMapping("/routines/delete/{routineId}")
+
 }
 
