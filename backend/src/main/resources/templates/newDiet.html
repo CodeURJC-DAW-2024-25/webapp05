@@ -5,6 +5,7 @@
     <div class="container mt-5">
       <h2 class="text-center">Create a new diet</h2>
       <form id="dietForm"> <!--Incluir el action con la respectiva ruta, va a tener una estructura similar a la de newRoutine.html-->
+        
         <div class="mb-3">
           <label for="dietName" class="form-label">Diet name:</label>
           <input type="text" class="form-control" id="dietName" name="name" placeholder="Write the name of the diet"  required />
@@ -54,12 +55,7 @@
 
         <div class="d-flex justify-content-center gap-3">
           <button type="submit" class="btn-load">Save Diet</button>
-          <button
-            class="btn-load"
-            onclick="window.location.href='nutrition.html'"
-          >
-            Return
-          </button>
+          <a href="/nutritions" class="btn-load">Return</a>
         </div>
       </form>
     </div>

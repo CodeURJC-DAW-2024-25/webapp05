@@ -12,7 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import es.codeurjc.daw.alphagym.model.LoginRequest;
+//import es.codeurjc.daw.alphagym.model.LoginRequest;
 
 
 import java.io.IOException;
@@ -31,14 +31,14 @@ public class UserService {
      @Autowired
     private PasswordEncoder passwordEncoder;
     //no se porque al importarlo no me lo coje
-    public ResponseEntity<Object> login(LoginRequest loginRequest) {
+    /*ublic ResponseEntity<Object> login(LoginRequest loginRequest) {
         
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return ResponseEntity.ok().build();
-    }
+    }*/
 
     public User updateUserName(Long userId, String newName) {
         Optional<User> userOptional = userRepository.findById(userId);
