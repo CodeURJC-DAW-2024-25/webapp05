@@ -1,7 +1,7 @@
-{{>header}} <!-- Incluimos el header -->
-{{>navbar}} <!-- Incluimos el navbar -->
+{{>header}} <!-- Header included -->
+{{>navbar}} <!-- Navbar included -->
 
-<!-- Comments Section -->
+<!-- Start Comments Section -->
 <section class="container py-5 flex-grow-1">
   <h2 class="text-center mb-4">Comments</h2>
   <div id="resultsContainer" class="row">
@@ -13,13 +13,13 @@
           <h5 class="card-title">{{name}}</h5>
           <p class="description">{{description}}</p>                  
         </div>
-        <a href="#" class="btn-load-2">Report</a><!-- Preguntar al profe si es necesario un post o como enviarlo/recogerlo en la lista del Admin-->
+        <a href="#" class="btn-load-2">Report</a>
       </div>
     </div>
     {{/comment}}  
   </div>
 
-  <!-- Botón para cargar más y botón de añadir comentarios -->
+  <!-- Load more button and add comments button -->
   <div class="text-center">
     <button id="loadMore" class="btn-load">More Comments</button>
     {{#user}}
@@ -33,10 +33,10 @@
     <button class="btn-load" onclick="window.location.href='newRoutine.html'">
       Return
     </button>
-    <!-- Este botón debería cambiar la referencia según de dónde venga-->
+    <!-- This button should change the reference depending on where it comes from-->
   </div>
 </section>
-<!-- Fin Comments Section -->
+<!-- End Comments Section -->
 
 {{>footer}}
-<!-- Incluimos el footer -->
+<!-- Footer included -->

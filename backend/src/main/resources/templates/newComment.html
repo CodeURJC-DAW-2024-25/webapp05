@@ -1,10 +1,10 @@
-{{>header}} <!-- Incluimos el header -->
-{{>navbar}} <!-- Incluimos el navbar -->
+{{>header}} <!-- Header included -->
+{{>navbar}} <!-- Navbar included -->
 
-<!-- Formulario de Comentario -->
+<!-- Start Comment Form -->
 <div class="container mt-5 flex-grow-1">
   <h2 class="text-center">Create a new comment</h2>
-  <form id="commentForm" method="post" action="/comments"><!--Comprobar donde va a ir dirigido el action-->
+  <form id="commentForm" method="post" action="/comments"><!--Check where the action is going to be directed-->
     <input type="hidden" name="_csrf" value="{{token}}"/>
     <div class="mb-3">
       <!--Comment title -->
@@ -15,7 +15,7 @@
         id="commentTitle"
         name="title" 
         required
-      /><!-- Aqui deberia ir el titulo de la rutina/dieta -->
+      /><!-- The title of the routine/diet should go here. -->
     </div>
     <div class="mb-3">
       <label for="commentText" class="form-label">Comment:</label>
@@ -26,7 +26,7 @@
         placeholder="Write here your comment..."
         name="comment"
         required
-      ></textarea><!--Aquí va el comentario-->
+      ></textarea><!--Here goes the comment-->
     </div>
     <div class="d-flex justify-content-center gap-3">
       <button type="submit" class="btn-load">Submit Comment</button>
@@ -34,11 +34,11 @@
         class="btn-load"
         onclick="window.location.href='newRoutine.html'">Return
       </button>
-      <!-- Este boton deberia cambiar la referencia segun de donde venga-->
+      <!-- This button should change the reference depending on where it comes from-->
     </div>
   </form>
 </div>
-<!-- Fin Formulario de Comentario -->
+<!-- End Comment Form -->
 
 {{>footer}}
-<!-- Incluimos el footer -->
+<!-- Footer included -->
