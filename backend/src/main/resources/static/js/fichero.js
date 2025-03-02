@@ -110,9 +110,17 @@ function redirectFromComments() {
   window.location.href = `/${firstSegment}/${lastSegment}`;
 }
 
-function redirectFromNewComments(event) {
+function redirectFromNewComments(event, preventer) {
   event.preventDefault();
   let pathSegments = window.location.pathname.split("/"); 
-  pathSegments.pop(); 
-  window.location.href = pathSegments.join("/");
+  pathSegments.pop();
+  let newUrl = pathSegments.join("/");
+  if (preventer){
+    window.location.href = newUrl;
+  } else {
+    let form = document.getElementById("commentForm");
+    form.action = newUrl;
+    form.submit();
+  }
+  
 }

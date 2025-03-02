@@ -4,12 +4,16 @@ import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
 import es.codeurjc.daw.alphagym.service.TrainingCommentService;
@@ -24,8 +28,10 @@ public class TrainingCommentController {
     private UserService userService;
     @Autowired
     private TrainingCommentService trainingCommentService;
-    @Autowired
-    private TrainingCommentRepository trainingCommentRepository;
+    //@Autowired
+    //private TrainingCommentRepository trainingCommentRepository;
+    //@Autowired
+    //private TrainingComment trainingComment;
 
     
     @ModelAttribute("user")
@@ -48,6 +54,9 @@ public class TrainingCommentController {
         } else {
             model.addAttribute("logged", false);
         }
+
+        CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+        model.addAttribute("token", token.getToken());
     }
     
 
@@ -74,7 +83,17 @@ public class TrainingCommentController {
         return "comments";
     }
     */
+    @PostMapping("/trainingComments/{trainingId}")
+    public String createComment(Model model,@PathVariable Long trainingId, @RequestParam String commentTitle,@RequestParam String commentText){
 
+        TrainingComment trainingComment = new TrainingComment(commentText,commentTitle);
+        trainingComment.setTrainingId(trainingId); // Asociar el comentario con el entrenamiento
+        trainingCommentService.createTrainingComment(trainingComment);
+
+        model.addAttribute("comment", trainingCommentService.getAllTrainingComments(trainingId));
+
+        return "comments";
+    }
 
 
 
