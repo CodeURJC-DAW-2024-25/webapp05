@@ -90,9 +90,7 @@ public class TrainingCommentController {
         trainingComment.setTrainingId(trainingId); // Asociar el comentario con el entrenamiento
         trainingCommentService.createTrainingComment(trainingComment);
 
-        model.addAttribute("comment", trainingCommentService.getAllTrainingComments(trainingId));
-
-        return "comments";
+        return "redirect:/trainingComments/" + trainingId;
     }
 
 
