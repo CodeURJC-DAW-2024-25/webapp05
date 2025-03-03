@@ -35,7 +35,7 @@ public class UserService {
     public ResponseEntity<Object> login(LoginRequest loginRequest) {
         
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return ResponseEntity.ok().build();
