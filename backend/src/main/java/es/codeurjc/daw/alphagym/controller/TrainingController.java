@@ -116,6 +116,7 @@ public class TrainingController {
     public String editRoutine(Model model, @PathVariable Long trainingId){//, @RequestParam("userId") Long userId
 
         List <Intensity> intensities = new ArrayList<>();
+            intensities.add(new Intensity(50, false));
             intensities.add(new Intensity(60, false));
             intensities.add(new Intensity(70, false));
             intensities.add(new Intensity(80, false));
