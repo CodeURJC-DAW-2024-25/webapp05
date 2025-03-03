@@ -61,9 +61,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/nutritions").permitAll()
 						.requestMatchers("/index").permitAll()
 						.requestMatchers("/trainingComments/*").permitAll()
+						.requestMatchers("/nutritionComments/*").permitAll()
 
-                        
-						
 						// PRIVATE PAGES
                         .requestMatchers("/account").authenticated() //o ponerlo de la misma manera que el resto 
 						.requestMatchers("/newNutrition").hasAnyRole("USER")
@@ -72,13 +71,15 @@ public class WebSecurityConfig {
                         .requestMatchers("/editTraining/*").hasAnyRole("ADMIN", "USER")
 						.requestMatchers("/removeTraining/*").hasAnyRole("ADMIN")
                         .requestMatchers("/removeNutrition/*").hasAnyRole("ADMIN")
+						.requestMatchers(("/trainingComments/**")).hasAnyRole("ADMIN", "USER")
                         )
+
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
 						.failureUrl("/error")
 						.defaultSuccessUrl("/account")
-
 						.permitAll())
+						
 				.logout(logout -> logout
 						.logoutUrl("/logout")
 						.logoutSuccessUrl("/")

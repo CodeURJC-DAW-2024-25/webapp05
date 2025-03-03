@@ -77,7 +77,7 @@ public class TrainingCommentController {
         return "comment";
     }
 
-    @PostMapping("/trainingComments/{trainingId}")
+    @PostMapping("/trainingComments/{trainingId}/newComment")
     public String createComment(Model model,@PathVariable Long trainingId, @RequestParam String commentTitle,@RequestParam String commentText){
 
         TrainingComment trainingComment = new TrainingComment(commentText,commentTitle);
