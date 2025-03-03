@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.Optional;
 
 import com.samskivert.mustache.Mustache;
+
+import es.codeurjc.daw.alphagym.dtos.Intensity;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
@@ -22,7 +24,7 @@ import org.springframework.security.web.csrf.CsrfToken;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.function.BiFunction;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -112,6 +114,15 @@ public class TrainingController {
 
     @GetMapping("/trainings/editTraining/{trainingId}")
     public String editRoutine(Model model, @PathVariable Long trainingId){//, @RequestParam("userId") Long userId
+
+        List <Intensity> intensities = new ArrayList<>();
+            intensities.add(new Intensity(60, false));
+            intensities.add(new Intensity(70, false));
+            intensities.add(new Intensity(80, false));
+            intensities.add(new Intensity(90, false));
+            intensities.add(new Intensity(100, false));
+        model.addAttribute("intensities", intensities);
+        
         Training training = trainingService.getTraining(trainingId);
         //User user = userService.getUser(userId);
 //        if(user == null){

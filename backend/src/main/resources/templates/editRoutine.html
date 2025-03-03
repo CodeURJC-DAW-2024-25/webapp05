@@ -14,13 +14,19 @@
 
     <div class="mb-3">
         <label class="form-label fw-bold">Routine Intensity:</label>
-        <select class="form-select" id="intensity" name="intensity" >
+        <!-- <select class="form-select" id="intensity" name="intensity" >
             <option value="50%" {% if training.intensity =="50%" %}selected{% endif %}>50%</option>
             <option value="60%" {% if training.intensity =="60%" %}selected{% endif %}>60%</option>
             <option value="70%" {% if training.intensity =="70%" %}selected{% endif %}>70%</option>
             <option value="80%" {% if training.intensity =="80%" %}selected{% endif %}>80%</option>
             <option value="90%" {% if training.intensity =="90%" %}selected{% endif %}>90%</option>
             <option value="100%" {% if training.intensity =="100%" %}selected{% endif %}>100%</option>
+        </select>
+        -->
+        <select class="form-select" id="intensity" name="intensity" >
+            {{#intensities}}
+             <option value="{{intensity}}" {{#selected}}>selected {{/selected}}</option>
+            {{/intensities}}
         </select>
     </div>
 
