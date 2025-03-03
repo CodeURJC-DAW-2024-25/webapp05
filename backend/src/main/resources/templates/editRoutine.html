@@ -14,18 +14,9 @@
 
     <div class="mb-3">
         <label class="form-label fw-bold">Routine Intensity:</label>
-        <!-- <select class="form-select" id="intensity" name="intensity" >
-            <option value="50%" {% if training.intensity =="50%" %}selected{% endif %}>50%</option>
-            <option value="60%" {% if training.intensity =="60%" %}selected{% endif %}>60%</option>
-            <option value="70%" {% if training.intensity =="70%" %}selected{% endif %}>70%</option>
-            <option value="80%" {% if training.intensity =="80%" %}selected{% endif %}>80%</option>
-            <option value="90%" {% if training.intensity =="90%" %}selected{% endif %}>90%</option>
-            <option value="100%" {% if training.intensity =="100%" %}selected{% endif %}>100%</option>
-        </select>
-        -->
         <select class="form-select" id="intensity" name="intensity" >
             {{#intensities}}
-             <option value="{{intensity}}" {{#selected}}>selected{{/selected}}</option>
+             <option value="{{intensity}}" {{#selected}}selected{{/selected}}> {{#intensity}}{{.}}{{/intensity}}</option>
             {{/intensities}}
         </select>
     </div>
@@ -38,9 +29,9 @@
     <div class="mb-3">
         <label class="form-label fw-bold">Routine Goal:</label>
         <select class="form-select" id="goal" name="goal">
-            <option value="Increase_weight" {% if training.goal =="Increase_weight" %}selected{% endif %}>Increase Weight</option>
-            <option value="Increase_volume" {% if training.goal =="Increase_volume" %}selected{% endif %}>Increase Volume</option>
-            <option value="Lose_weight" {% if training.goal =="Lose_weight" %}selected{% endif %}>Lose Weight</option>
+            {{#goals}}
+                <option value="{{goal}}" {{#selected}}selected{{/selected}}>{{#goal}}{{.}}{{/goal}}</option>
+            {{/goals}}
         </select>
     </div>
 

@@ -3,9 +3,8 @@ package es.codeurjc.daw.alphagym.controller;
 import java.security.Principal;
 import java.util.Optional;
 
-import com.samskivert.mustache.Mustache;
-
-import es.codeurjc.daw.alphagym.dtos.Intensity;
+import es.codeurjc.daw.alphagym.dtosEdit.Goal;
+import es.codeurjc.daw.alphagym.dtosEdit.Intensity;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
@@ -17,16 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfToken;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.function.BiFunction;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 @Controller
 public class TrainingController {
@@ -114,21 +107,27 @@ public class TrainingController {
 
     @GetMapping("/trainings/editTraining/{trainingId}")
     public String editRoutine(Model model, @PathVariable Long trainingId){//, @RequestParam("userId") Long userId
+        Training training = trainingService.getTraining(trainingId);
+        String originalIntensity = training.getIntensity();
+        String originalGoal = training.getGoal();
 
         List <Intensity> intensities = new ArrayList<>();
-            intensities.add(new Intensity(50, false));
-            intensities.add(new Intensity(60, false));
-            intensities.add(new Intensity(70, false));
-            intensities.add(new Intensity(80, false));
-            intensities.add(new Intensity(90, false));
-            intensities.add(new Intensity(100, false));
+        intensities.add(new Intensity("50%", "50%".equals(originalIntensity)));
+        intensities.add(new Intensity("60%", "60%".equals(originalIntensity)));
+        intensities.add(new Intensity("70%", "70%".equals(originalIntensity)));
+        intensities.add(new Intensity("80%", "80%".equals(originalIntensity)));
+        intensities.add(new Intensity("90%", "90%".equals(originalIntensity)));
+        intensities.add(new Intensity("100%", "100%".equals(originalIntensity)));
+
+        List <Goal> goals = new ArrayList<>();
+        goals.add(new Goal("Increase weight", "Increase weight".equals(originalGoal)));
+        goals.add(new Goal("Increase volume", "Increase volume".equals(originalGoal)));
+        goals.add(new Goal("Lose weight", "Lose weight".equals(originalGoal)));
+
         model.addAttribute("intensities", intensities);
-        
-        Training training = trainingService.getTraining(trainingId);
-        //User user = userService.getUser(userId);
-//        if(user == null){
-//            return "redirect:/Login";
-//        }
+        model.addAttribute("goals", goals);
+
+
         if(training == null){
             return "redirect:/trainings";
         }

@@ -29,39 +29,6 @@ public class NutritionService {
     @Autowired
     private NutritionCommentService nutritionCommentService;
 
-
-    @PostConstruct
-    public void nutritionConstructor(){
-
-        Nutrition caloricDeficit = new Nutrition ("Caloric Deficit", 100, "lose_weight", 
-                "Desayuno: 2 huevos + café\n" +
-                "Comida: Ensalada + 100g pechuga de pollo\n" +
-                "Merienda: Rebanada de pan integral\n" +
-                "Cena: Verduras + 150g de pescado");
-
-        Nutrition caloricSurplus = new Nutrition ("Caloric Supurplus", 300, "increase_weight", 
-                "Desayuno: 6 huevos + 60g de avena con leche\n" +
-                "Comida: Taza de arroz + 150g de carne magra\n" +
-                "Merienda: Batido de proteinas + frutos secos\n" +
-                "Cena: 150g de salmon + 200g de patata");
-
-        Nutrition maintenanceDiet = new Nutrition ("Maintenance Diet", 200, "maintenance_weight", 
-                "Desayuno: 2 huevos revueltos + 50 g de avena\n" +
-                "Comida: 150 g de pollo + ensalada con aceite\n" +
-                "Merienda: Yogur griego natural con almendras\n" +
-                "Cena: 120 g de salmón + verduras salteadas");
-
-        caloricDeficit.setImage("/images/deficitcalorico.jpeg");
-        caloricSurplus.setImage("/images/volumen.jpeg");
-        maintenanceDiet.setImage("/images/mantenimiento.jpg");
-
-        createNutrition(caloricDeficit);
-        createNutrition(caloricSurplus);
-        createNutrition(maintenanceDiet);
-
-    }
-
-
     public Nutrition createNutrition(Nutrition nutrition) { // habra q añadirle un usuario
         Nutrition nutrition1 = new Nutrition(nutrition.getName(),nutrition.getCalories(), nutrition.getGoal(), nutrition.getDescription());
         if (nutrition.getImage() != null && !nutrition.getImage().equals("/images/emptyImage.png")) {
@@ -88,8 +55,6 @@ public class NutritionService {
         }
     }
 
-
-    
     public Nutrition editDiet(Long id, Nutrition nutrition/* , User user*/){
         Optional<Nutrition> theDiet = nutritionRepository.findById(id);
         if(theDiet.isPresent()) {
