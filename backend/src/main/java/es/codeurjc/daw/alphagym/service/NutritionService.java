@@ -63,7 +63,10 @@ public class NutritionService {
 
 
     public Nutrition createNutrition(Nutrition nutrition) { // habra q añadirle un usuario
-        Nutrition nutrition1 = new Nutrition(nutrition.getName(),nutrition.getCalories(), nutrition.getGoal(), nutrition.getDescription(), nutrition.getImage());
+        Nutrition nutrition1 = new Nutrition(nutrition.getName(),nutrition.getCalories(), nutrition.getGoal(), nutrition.getDescription());
+        if (nutrition.getImage() != null && !nutrition.getImage().equals("/images/emptyImage.png")) {
+            nutrition1.setImage(nutrition.getImage());
+        }
         nutritionRepository.save(nutrition1);
         return nutrition1;
     }

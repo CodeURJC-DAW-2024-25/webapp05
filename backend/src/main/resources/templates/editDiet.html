@@ -5,7 +5,7 @@
 <div class="container mt-5">
     <h2 class="text-center">Edit nutrition {{nutrition.id}} </h2>
 
-    <form name="editForm" method="post" onsubmit="return true/*validateEditDietForm()*/" method="post" action="/nutritions/editDiet/{{nutrition.id}}">
+    <form name="editForm" method="post" onsubmit="return true/*validateEditDietForm()*/" method="post" action="/nutritions/editNutrition/{{nutrition.id}}">
         <input type="hidden" name="_csrf" value="{{token}}"/>
     <div class="mb-3">
         <label class="form-label fw-bold">Nutrition Name </label>
@@ -33,12 +33,6 @@
         </textarea>
     </div>
 
-    <div class="mb-3">
-        <button class="btn-load w-100"
-                onclick="window.location.href='newComment.html'">
-            Add Comment
-        </button>
-    </div>
 
     <div class="d-flex justify-content-center gap-3">
         <button class="btn-load" type="submit">Save</button>

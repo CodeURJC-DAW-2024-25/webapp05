@@ -4,7 +4,8 @@
     <!-- Formulario de Rutina -->
     <div class="container mt-5">
       <h2 class="text-center">Create New Training Routine </h2>
-      <form id="routineForm" name="createForm" action="/trainings/createRoutine" method="post" onsubmit=" true/*return validateForm()*/">
+      <form id="routineForm" name="createForm" action="/trainings/createRoutine" method="post" onsubmit="return validateRoutineForm()">
+          <input type="hidden" name="_csrf" value="{{token}}"/>
         <div class="mb-3">
           <label for="routineName" class="form-label">Routine Name:</label>
           <input type="text" class="form-control" id="routineName" name="name" required placeholder="Write the name of new routine" />
@@ -22,7 +23,7 @@
         </div>
         <div class="mb-3">
             <label for="routineDuration" class="form-label">Routine Duration:</label>
-            <input type="int" class="form-control" id="routineDuration" name="duration" required placeholder="Write the duration of new routine" />
+            <input type="number" class="form-control" id="routineDuration" name="duration" required placeholder="Write the duration of new routine" />
         </div>
         <div class="mb-3">
           <label for="goal" class="form-label">Training Goal:</label>
@@ -39,23 +40,9 @@
           <textarea  name= "description" class="form-control"  id="exercises"  rows="4"  placeholder="E.g., Squats, Bench Press, Deadlifts..."  required></textarea>
         </div>
 
-        <div class="mb-3">
-          <button
-            class="btn-load w-100"
-            onclick="window.location.href='newComment.html'"
-          >
-            Add Comment
-          </button>
-        </div>
-
         <div class="d-flex justify-content-center gap-3">
-          <button type="submit" class="btn-load">Save Routine</button>
-          <button
-            class="btn-load"
-            onclick="window.location.href='training.html'"
-          >
-            Return
-          </button>
+            <button type="submit" class="btn-load">Save Routine</button>
+            <a href="/trainings" class="btn-load">Cancel</a>
         </div>
       </form>
     </div>

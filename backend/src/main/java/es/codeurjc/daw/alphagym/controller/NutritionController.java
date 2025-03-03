@@ -89,7 +89,7 @@ public class NutritionController {
 
     @GetMapping("/nutritions/newDiet")
     public String createNutrition(Model model /*,@RequestParam("userId") Long userId*/ ) {
-        model.addAttribute("nutricion",new Nutrition());
+        model.addAttribute("nutrition",new Nutrition());
         /*User user = userService.getUser(userId);
         if (user != null){
             model.addAttribute("userId",user.getId());
@@ -98,7 +98,7 @@ public class NutritionController {
         return "newDiet";
     }
 
-    @PostMapping("/nutritions/newDiet")
+    @PostMapping("/nutritions/newNutrition")
     public String createNutritionPost(@ModelAttribute Nutrition nutrition/* , @RequestParam("userId") Long userId*/){
         /*User user = userService.getUser(userId);
         if (user != null){
@@ -110,7 +110,7 @@ public class NutritionController {
         return "redirect:/nutritions";
     }
 
-    @GetMapping("/nutritions/editDiet/{id}")
+    @GetMapping("/nutritions/editNutrition/{id}")
     public String editDiet(Model model, @PathVariable Long id/* , @RequestParam("userId") Long userId*/) {
         Nutrition nutrition = nutritionService.getNutrition(id);
         if(nutrition == null){
@@ -121,7 +121,7 @@ public class NutritionController {
         return "editDiet";
     }
 
-    @PostMapping("/nutritions/editDiet/{id}")
+    @PostMapping("/nutritions/editNutrition/{id}")
     public String editDietPost(@ModelAttribute Nutrition nutrition, @PathVariable Long id){//, @RequestParam("userId") Long userId
         //User user = userService.getUser(userId);
         try {

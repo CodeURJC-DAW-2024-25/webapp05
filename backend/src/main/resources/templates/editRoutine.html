@@ -5,7 +5,8 @@
 
 <div class="container mt-5">
     <h2 class="text-center">Edit the routine {{training.id}} </h2>
-    <form name="editForm" method="post" onsubmit="return true/*validateEditRoutineForm()*/" method="post" action="/trainings/editRoutine/{{training.id}}">
+    <form name="editForm" method="post" onsubmit="return validateRoutineForm()" method="post" action="/trainings/editTraining/{{training.id}}">
+        <input type="hidden" name="_csrf" value="{{token}}"/>
     <div class="mb-3">
         <label class="form-label fw-bold">Routine Name </label>
         <input id="routineName" name="name" type="text" class="form-control" value="{{training.name}}" placeholder="{{training.name}}">
@@ -39,9 +40,7 @@
 
     <div class="mb-3">
         <label class="form-label fw-bold">Routine exercises:</label>
-        <textarea name ="description" class="form-control" rows="4">
-            {{training.description}}
-        </textarea>
+        <textarea name ="description" class="form-control" rows="4"> {{training.description}} </textarea>
 
     </div>
 
@@ -49,7 +48,6 @@
     <div class="d-flex justify-content-center gap-3">
         <button class="btn-load" type="submit">Save</button>
         <a href="/trainings/{{training.id}}" class="btn-load">Cancel</a>
-
     </div>
     </form>
 </div>

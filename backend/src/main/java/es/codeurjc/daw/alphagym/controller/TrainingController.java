@@ -110,7 +110,7 @@ public class TrainingController {
     }
 
 
-    @GetMapping("/trainings/editRoutine/{trainingId}")
+    @GetMapping("/trainings/editTraining/{trainingId}")
     public String editRoutine(Model model, @PathVariable Long trainingId){//, @RequestParam("userId") Long userId
         Training training = trainingService.getTraining(trainingId);
         //User user = userService.getUser(userId);
@@ -124,7 +124,7 @@ public class TrainingController {
         //model.addAttribute("userId",userId);
         return "editRoutine";
     }
-    @PostMapping("/trainings/editRoutine/{trainingId}")
+    @PostMapping("/trainings/editTraining/{trainingId}")
     public String editRoutinePost(@ModelAttribute Training training, @PathVariable Long trainingId){//, @RequestParam("userId") Long userId
         //GymUser user = userService.getGymUser(userId);
         try {
