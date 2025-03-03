@@ -57,8 +57,11 @@ public class WebSecurityConfig {
                         .requestMatchers("/loginerror").permitAll()
                         .requestMatchers("/trainings").permitAll()
                         .requestMatchers("/nutritions").permitAll()
-                        .requestMatchers("/training/*").permitAll()
-                        .requestMatchers("/nutrition/*").permitAll()
+                        .requestMatchers("/trainings/*").permitAll()
+                        .requestMatchers("/nutritions").permitAll()
+						.requestMatchers("/index").permitAll()
+						.requestMatchers("/trainingComments/*").permitAll()
+
                         
 						
 						// PRIVATE PAGES

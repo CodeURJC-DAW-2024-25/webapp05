@@ -57,6 +57,14 @@ public class UserController {
         CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
         model.addAttribute("token", token.getToken());
     }
+
+    @GetMapping("/index")
+    public String index(Model model, HttpServletRequest request) {
+
+        Principal principal = request.getUserPrincipal();
+
+        return "index";
+    }
     
     @GetMapping("/register")
     public String signup(Model model, HttpServletRequest request) {
