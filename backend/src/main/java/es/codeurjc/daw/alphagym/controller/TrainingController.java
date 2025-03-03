@@ -139,7 +139,7 @@ public class TrainingController {
     }
 
     @GetMapping("/trainings/delete/{trainingId}")
-    public  String deleteRoutinePost(@PathVariable Long trainingId, @RequestParam("userId") Long userId){
+    public  String deleteRoutinePost(@PathVariable Long trainingId){//, @RequestParam("userId") Long userId
         trainingService.deleteRoutine(trainingId);
         //User user = userService.getGymUser(userId);
         return "redirect:/trainings";

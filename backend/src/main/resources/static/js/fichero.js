@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-  var buttonEditTaining = document.querySelectorAll(".goToEditRoutine");
+  var buttonEditRoutine = document.querySelectorAll(".goToEditRoutine");
   buttonEditRoutine.forEach(function (button) {
     button.addEventListener("click", function () {
       var trainingId = button.dataset.trainingId; // We get de id from data-attribute
