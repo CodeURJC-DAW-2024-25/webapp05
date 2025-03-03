@@ -51,20 +51,19 @@ public class WebSecurityConfig {
 						// PUBLIC PAGES
 						.requestMatchers("/").permitAll()
 						.requestMatchers("/images/**", "/css/**", "/js/**").permitAll() // Acceso a los recursos estáticos
-                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/index").permitAll()
+						.requestMatchers("/login").permitAll()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/error").permitAll()
-                        .requestMatchers("/loginerror").permitAll()
                         .requestMatchers("/trainings").permitAll()
-                        .requestMatchers("/nutritions").permitAll()
-                        .requestMatchers("/trainings/*").permitAll()
-                        .requestMatchers("/nutritions").permitAll()
-						.requestMatchers("/index").permitAll()
+						.requestMatchers("/trainings/*").permitAll()
+						.requestMatchers("/nutritions").permitAll()
+                        .requestMatchers("/nutritions/*").permitAll()                     
 						.requestMatchers("/trainingComments/*").permitAll()
 						.requestMatchers("/nutritionComments/*").permitAll()
 
 						// PRIVATE PAGES
-                        .requestMatchers("/account").authenticated() 
+                        .requestMatchers("/account").hasAnyRole("USER")
 						.requestMatchers("/newNutrition").hasAnyRole("USER")
 						.requestMatchers("/newTraining").hasAnyRole("USER")
 						.requestMatchers("/editNutrition/*").hasAnyRole("ADMIN", "USER")
@@ -74,7 +73,7 @@ public class WebSecurityConfig {
 						.requestMatchers(("/trainingComments/**")).hasAnyRole("ADMIN", "USER")
 						.requestMatchers(("/nutritionComments/**")).hasAnyRole("ADMIN", "USER")
 						.requestMatchers("/admin").hasRole("ADMIN") 
-						.requestMatchers("/user/new").authenticated()  
+						.requestMatchers("/user/new").hasRole("USER")
                         )
 
 				.formLogin(formLogin -> formLogin
