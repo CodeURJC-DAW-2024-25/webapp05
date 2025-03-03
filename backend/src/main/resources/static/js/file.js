@@ -93,7 +93,7 @@ function validateRoutineForm(){
     alert("Longitud en el nombre de la rutina no válida (nombre vacío).");
     return false;
   }
-  if(routineName.length > 30){
+  if(name.length > 30){
     alert("Longitud en el nombre de la rutina no válida (muy largo).");
     return false;
   }
@@ -104,6 +104,39 @@ function validateRoutineForm(){
   }
   if(duration > 200){
     alert("No debes exceder las 6 horas de entrenamiento, esto puede ser malo para tu salud");
+    return false;
+  }
+  let description = document.forms["editForm"]["description"].value;
+  if(description.length < 5){
+    alert("Longitud incorrecta, demasiado corta. Por favor rellene este campo.");
+    return false;
+  }
+  if(description.length > 255){
+    alert("Longitud excedida: 255 caracteres como máximo");
+    return false;
+  }
+  return true;
+}
+
+function validateNutritionForm(){
+
+  let name = document.forms["editForm"]["name"].value;
+  console.log(dietName)
+  if(name === ""){
+    alert("Longitud en el nombre de la dieta no válida (nombre vacío).");
+    return false;
+  }
+  if(name.length > 30){
+    alert("Longitud en el nombre de la dieta no válida (muy largo).");
+    return false;
+  }
+  let calories = document.forms["editForm"]["calories"].value;
+  if(calories < 50 ){
+    alert("Calorias no válidas. Las calorias deben ser más de 50 por un tema de salud");
+    return false;
+  }
+  if(calories > 2500){
+    alert("No debes exceder las 2500 calorias, esto puede ser malo para tu salud");
     return false;
   }
   let description = document.forms["editForm"]["description"].value;

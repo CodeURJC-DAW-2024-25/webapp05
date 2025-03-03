@@ -4,7 +4,7 @@
     <!-- Formulario de Dieta -->
     <div class="container mt-5">
       <h2 class="text-center">Create a new diet</h2>
-      <form id="dietForm" name="createForm" action="/nutritions/newNutrition" method="post" onsubmit=" true/*return validateForm()*/">
+      <form id="dietForm" name="createForm" action="/nutritions/newNutrition" method="post" onsubmit=" return validateNutritionForm()">
         <input type="hidden" name="_csrf" value="{{token}}"/>
         
         <div class="mb-3">
