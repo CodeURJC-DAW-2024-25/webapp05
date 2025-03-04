@@ -1,23 +1,23 @@
-package es.codeurjc.daw.alphagym.dtos;
+package es.codeurjc.daw.alphagym.dtosEdit;
 
 public class Intensity {
     
-    private int intensity;
+    private String intensity;
     private boolean selected;
 
     public Intensity() {
     }
 
-    public Intensity(int intensity, boolean selected) {
+    public Intensity(String intensity, boolean selected) {
         this.intensity = intensity;
         this.selected = selected;
     }
 
-    public int getIntensity() {
+    public String getIntensity() {
         return intensity;
     }
 
-    public void setIntensity(int intensity) {
+    public void setIntensity(String intensity) {
         this.intensity = intensity;
     }
 

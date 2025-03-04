@@ -3,8 +3,11 @@ package es.codeurjc.daw.alphagym.controller;
 
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import es.codeurjc.daw.alphagym.dtosEdit.Goal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -87,7 +90,7 @@ public class NutritionController {
         return "showDiet";
     }
 
-    @GetMapping("/nutritions/newDiet")
+    @GetMapping("/nutritions/newNutrition")
     public String createNutrition(Model model /*,@RequestParam("userId") Long userId*/ ) {
         model.addAttribute("nutrition",new Nutrition());
         /*User user = userService.getUser(userId);
@@ -113,9 +116,19 @@ public class NutritionController {
     @GetMapping("/nutritions/editNutrition/{id}")
     public String editDiet(Model model, @PathVariable Long id/* , @RequestParam("userId") Long userId*/) {
         Nutrition nutrition = nutritionService.getNutrition(id);
+        String originalGoal = nutrition.getGoal();
+
+        List<Goal> goals = new ArrayList<>();
+        goals.add(new Goal("Maintain weight", "Maintain weight".equals(originalGoal)));
+        goals.add(new Goal("Increase weight", "Increase weight".equals(originalGoal)));
+        goals.add(new Goal("Lose weight", "Lose weight".equals(originalGoal)));
+
+
         if(nutrition == null){
             return "redirect:/nutritions";
         }
+
+        model.addAttribute("goals", goals);
         model.addAttribute("nutrition",nutrition);
         //model.addAttribute("userId",userId);
         return "editDiet";
