@@ -1,42 +1,45 @@
 {{>header}} <!-- Incluimos el header -->
- <!--  Incluimos el navbar -->
 
-    <!--Inicio ERROR-->
-    <div
-      class="modal fade"
-      id="errorModal"
-      tabindex="-1"
-      aria-labelledby="errorModalLabel"
-      aria-hidden="true"
+<!--  Incluimos el navbar -->
+
+<div class="d-flex flex-column min-vh-100">
+  <!--Inicio ERROR-->
+  <div
+    class="modal fade"
+    id="errorModal"
+    tabindex="-1"
+    aria-labelledby="errorModalLabel"
+    aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="errorModalLabel">Error de Página</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            An error occurred while trying to access the URL.
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-danger"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-          </div>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="errorModalLabel">Page Error</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          An error occurred while trying to access the URL.
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
         </div>
       </div>
     </div>
-    <!--Fin ERROR-->
+  </div>
+  <!--Fin ERROR-->
 
+  <main class="flex-grow-1"> 
     <!-- Contenedor del Spinner y Card de Error -->
     <div
       id="errorContent"
@@ -64,6 +67,8 @@
       </div>
     </div>
     <!-- Fin Contenedor del Spinner y Card de Error -->
-
-{{>footer}}
-<!-- Incluimos el footer -->
+  </main>
+  
+  {{>footer}}
+  <!-- Incluimos el footer -->
+</div>
