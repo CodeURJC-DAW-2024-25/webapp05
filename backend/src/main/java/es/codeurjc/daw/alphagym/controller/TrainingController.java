@@ -13,6 +13,7 @@ import es.codeurjc.daw.alphagym.service.TrainingService;
 import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -59,26 +60,32 @@ public class TrainingController {
     }
 
     @GetMapping("/trainings")
-    public String showAllRoutines(Model model){//,  @RequestParam("userId") Long userId){
+    public String showAllRoutines(Model model){
         model.addAttribute("trainings",trainingService.getAllTrainings());
-        //User user = userService.getUser(userId);
-        //De momento lo siguiente no tiene sentido porque aunque no haya user (usuario no registrado) se le deben mostrar todas las rutinas
-        /*if(trainingService.getAllTrainings() != null){
-           // model.addAttribute("userId",user.getId());
-            return "training";
-        }*/
         return "training";
     }
 
 
     @GetMapping("/trainings/{trainingId}")
-    public String showRoutine(Model model, @PathVariable Long trainingId){
+    public String showRoutine(Model model, @PathVariable Long trainingId, Principal principal) {
         Training training = trainingService.getTraining(trainingId);
-        if(training == null){
+
+        if (training == null) {
             return "redirect:/trainings";
         }
 
-        model.addAttribute("training",training);
+        model.addAttribute("training", training);
+
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                model.addAttribute("logged", true);
+                model.addAttribute("admin", user.get().isRole("ADMIN")); // Agrega la variable "admin"
+            }
+        } else {
+            model.addAttribute("logged", false);
+            model.addAttribute("admin", false); // Si no está autenticado, no es admin
+        }
 
         return "showRoutine";
     }
@@ -136,7 +143,7 @@ public class TrainingController {
         return "editRoutine";
     }
     @PostMapping("/trainings/editTraining/{trainingId}")
-    public String editRoutinePost(@ModelAttribute Training training, @PathVariable Long trainingId){//, @RequestParam("userId") Long userId
+    public String editRoutinePost(@ModelAttribute Training training,@PathVariable Long trainingId){//, @RequestParam("userId") Long userId
         //GymUser user = userService.getGymUser(userId);
         try {
             trainingService.updateRoutine(trainingId, training);

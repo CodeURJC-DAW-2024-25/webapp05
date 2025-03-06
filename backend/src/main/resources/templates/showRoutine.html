@@ -30,13 +30,16 @@
         <label class="form-label fw-bold">Routine exercises:</label>
         <textarea class="form-control" rows="4" readonly>{{training.description}}</textarea>
       </div>
-
+{{#logged}}
       <div class="mb-3">
         <a class="btn-load w-100" href="/trainingComments/{{training.id}}/newComment"> Add Comment </a>
       </div>
+{{/logged}}
 
       <div class="d-flex justify-content-center gap-3">
+    {{#logged}}
         <button class="btn-load">Suscribe</button>
+    {{/logged}}
         <a class="btn-load" href="/trainingComments/{{training.id}}">View Comments</a>
         <button class="btn-load goToEditRoutine" data-training-id="{{training.id}}" >Edit</button>
         {{#admin}}
