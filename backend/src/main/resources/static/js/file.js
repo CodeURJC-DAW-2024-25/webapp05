@@ -151,6 +151,22 @@ function validateNutritionForm(){
   return true;
 }
 
+function editImage(){
+  let trainingImage = document.getElementById("uTrainingImage");
+  let input = document.getElementById("editTrainingImageInput");
+  let trainingImageInput = document.getElementById("trainingImage");
+
+  if(input.files && input.files[0]){
+    let reader = new FileReader();
+    reader.onload = function(e){
+      trainingImage.src = e.target.result;
+      trainingImageInput.value = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }else{
+    trainingImageInput.value = trainingImageInput.getAttribute("data-training-image");
+  }
+}
 function redirectFromComments() {
   let pathSegments = window.location.pathname.split("/"); 
   let lastSegment = pathSegments.pop(); 

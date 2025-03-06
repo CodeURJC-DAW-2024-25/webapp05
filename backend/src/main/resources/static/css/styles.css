@@ -372,3 +372,36 @@ h2 {
   width: 100%;
   display: absolute; /* Oculto por defecto */
 }
+
+.editImageInput {
+  position: absolute;
+  font-size: 100px;
+  opacity: 0;
+  right: 0;
+  top: 0;
+}
+
+.editImageInputContainer {
+  text-align: center;
+}
+
+.editImageButton {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  border-radius: 5px;
+  background: linear-gradient(to bottom, royalblue, dodgerblue);
+  border: none;
+  height: 30px;
+  width: 120px;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  line-height: 30px;
+}
+
+.editImageButtonText {
+  position: relative;
+  z-index: 1;
+
+}
