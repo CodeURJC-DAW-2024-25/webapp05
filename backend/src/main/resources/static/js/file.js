@@ -69,19 +69,53 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-  var buttonEditRoutine = document.querySelectorAll(".goToEditRoutine");
-  buttonEditRoutine.forEach(function (button) {
+  var buttonDeleteRoutine = document.querySelectorAll(".goToDeleteRoutine");
+  buttonDeleteRoutine.forEach(function (button) {
     button.addEventListener("click", function () {
       var trainingId = button.dataset.trainingId; // We get de id from data-attribute
 
       if (trainingId) {
-        window.location.href = "/trainings/editTraining/" + trainingId; // Send the url to the controller to see the edit training view
+        let confirmation = confirm('¿Estas seguro de querer eliminar esta rutina?');
+        if(confirmation) {
+          window.location.href = "/trainings/delete/" + trainingId; // Send the url to the controller to see the edit training view
+        }
       } else {
         console.warn("ID del entrenamiento no encontrado.");
       }
     });
   });
 
+  var buttonSuscribeRoutine = document.querySelectorAll(".goToSubscribeRoutine");
+  buttonSuscribeRoutine.forEach(function (button) {
+    button.addEventListener("click", function () {
+      var trainingId = button.dataset.trainingId; // We get de id from data-attribute
+
+      if (trainingId) {
+        let confirmation = confirm('¿Estas seguro de querer suscribirte esta rutina?');
+        if(confirmation) {
+          window.location.href = "/trainings/subscribe/" + trainingId;
+        }
+      } else {
+        console.warn("ID del entrenamiento no encontrado.");
+      }
+    });
+  });
+
+  var buttonUnsubscribeRoutine = document.querySelectorAll(".goToUnsubscribeRoutine");
+  buttonUnsubscribeRoutine.forEach(function (button) {
+    button.addEventListener("click", function () {
+      var trainingId = button.dataset.trainingId; // We get de id from data-attribute
+
+      if (trainingId) {
+        let confirmation = confirm('¿Estas seguro de querer desuscribirte de esta rutina?');
+        if(confirmation) {
+          window.location.href = "/trainings/unsubscribe/" + trainingId;
+        }
+      } else {
+        console.warn("ID del entrenamiento no encontrado.");
+      }
+    });
+  });
 });
 
 
@@ -167,6 +201,8 @@ function editImage(){
     trainingImageInput.value = trainingImageInput.getAttribute("data-training-image");
   }
 }
+
+
 function redirectFromComments() {
   let pathSegments = window.location.pathname.split("/"); 
   let lastSegment = pathSegments.pop(); 
@@ -186,5 +222,29 @@ function redirectFromNewComments(event, preventer) {
     form.action = newUrl;
     form.submit();
   }
+
+  /*function unsubscribeOfTraining(trainingId) {
+    fetch(`/trainings/unsubscribe/${trainingId}`, { method: "POST" })
+        .then(response => {
+          if (response.ok) {
+            location.reload(); // Recargar la página para actualizar la vista
+          } else {
+            alert("Error al desuscribirse");
+          }
+        })
+        .catch(error => console.error("Error:", error));
+  }
+
+  function subscribeToTraining(trainingId) {
+    fetch(`/trainings/subscribe/${trainingId}`, { method: "POST" })
+        .then(response => {
+          if (response.ok) {
+            location.reload(); // Recargar la página para actualizar la vista
+          } else {
+            alert("Error al suscribirse");
+          }
+        })
+        .catch(error => console.error("Error:", error));
+  }*/
   
 }

@@ -56,7 +56,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/trainings").permitAll()
-						.requestMatchers("/trainings/*").permitAll()
+						.requestMatchers("/trainings/**").permitAll()
 						.requestMatchers("/nutritions").permitAll()
                         .requestMatchers("/nutritions/*").permitAll()                     
 						.requestMatchers("/trainingComments/*").permitAll()

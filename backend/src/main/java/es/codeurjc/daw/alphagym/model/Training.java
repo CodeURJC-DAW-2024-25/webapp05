@@ -1,5 +1,7 @@
 package es.codeurjc.daw.alphagym.model;
 
+import es.codeurjc.daw.alphagym.model.User;
+
 import jakarta.persistence.*;
 
 import java.util.List;

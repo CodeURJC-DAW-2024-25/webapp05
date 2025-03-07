@@ -86,12 +86,12 @@ public class DataBaseInit {
         backPlan.setImage("/images/plan_espalda.jpeg");
         shoulderPlan.setImage("/images/plan_hombros.jpeg");
 
-        trainingService.createTraining(chestPlan);
-        trainingService.createTraining(armsPlan);
-        trainingService.createTraining(legsPlan);
-        trainingService.createTraining(absPlan);
-        trainingService.createTraining(backPlan);
-        trainingService.createTraining(shoulderPlan);
+        trainingService.createTraining(chestPlan, null);
+        trainingService.createTraining(armsPlan, null);
+        trainingService.createTraining(legsPlan, null);
+        trainingService.createTraining(absPlan, null);
+        trainingService.createTraining(backPlan, null);
+        trainingService.createTraining(shoulderPlan,null);
 
         //Nutritions Examples
         Nutrition caloricDeficit = new Nutrition ("Caloric Deficit", 100, "Lose weight",

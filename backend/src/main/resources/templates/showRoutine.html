@@ -37,14 +37,23 @@
 {{/logged}}
 
       <div class="d-flex justify-content-center gap-3">
-    {{#logged}}
-        <button class="btn-load">Suscribe</button>
-    {{/logged}}
+        {{#logged}}
+            {{^admin}}
+                {{#subscribed}}
+                    <button class="btn-load goToUnsubscribeRoutine" data-training-id="{{training.id}}">Unsubscribe</button>
+                {{/subscribed}}
+                {{^subscribed}}
+                    <button class="btn-load goToSubscribeRoutine" data-training-id="{{training.id}}">Subscribe</button>
+                {{/subscribed}}
+            {{/admin}}
+        {{/logged}}
         <a class="btn-load" href="/trainingComments/{{training.id}}">View Comments</a>
-        <button class="btn-load goToEditRoutine" data-training-id="{{training.id}}" >Edit</button>
-        {{#admin}}
-            <a class="btn-load" href="/trainings/delete/{{training.id}}">Delete</a>
-        {{/admin}}
+         {{#canEdit}}
+            <button class="btn-load goToEditRoutine" data-training-id="{{training.id}}" >Edit</button>
+         {{/canEdit}}
+          {{#admin}}
+            <button class="btn-load goToDeleteRoutine" data-training-id="{{training.id}}">Delete</button>
+          {{/admin}}
         <a class="btn-load" href="/trainings">Return</a>
       </div>
     </div>

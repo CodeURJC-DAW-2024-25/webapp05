@@ -2,8 +2,10 @@ package es.codeurjc.daw.alphagym.service;
 
 
 import es.codeurjc.daw.alphagym.model.Training;
+import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
+import es.codeurjc.daw.alphagym.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +28,15 @@ public class TrainingService {
     @Autowired
     private UserService userService;
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private TrainingCommentService trainingCommentService;
 
-    public Training createTraining(Training training) {
+
+
+    public Training createTraining(Training training, User user) {
         Training newTraining = new Training(training.getName(),training.getIntensity(),training.getDuration(),training.getGoal(),training.getDescription());
-        //newTraining.setGymUser(user);
+        newTraining.setUser(user);
         if (training.getImage() != null && !training.getImage().equals("/images/emptyImage.png")) {
             newTraining.setImage(training.getImage());
         }
@@ -53,13 +59,14 @@ public class TrainingService {
         }
     }
 
-    public Training updateRoutine(Long routineId, Training training){//, GymUser user
+    public Training updateRoutine(Long routineId, Training training, User user){
         Optional<Training> theRoutine = trainingRepository.findById(routineId);
         if(theRoutine.isPresent()) {
-
             training.setId(routineId);
             training.setImage(theRoutine.get().getImage());
-            //training.setGymUser(user);
+            if (theRoutine.get().getUser()!=null){
+                training.setUser(user);
+            }
             trainingRepository.save(training);
             return training;
         }
@@ -71,12 +78,32 @@ public class TrainingService {
         Optional<Training> theRoutine = trainingRepository.findById(id);
         if (theRoutine.isPresent()) {
             Training training = theRoutine.get();
-            //User user = routine.getGymUser();
-            //user.getListRoutine().remove(routine);
+
+            List<User> usersWithTraining = userRepository.findByTrainingsContaining(training);
+            for (User user : usersWithTraining) {
+                user.getTrainings().remove(training);
+                userRepository.save(user); // Guardar los cambios en el usuario ya que no hay mapped by cascade
+            }
             trainingRepository.delete(training);
             return training;
         }
         return null;
+    }
+
+    public void subscribeTraining(Long trainingId , User user) {
+        Optional<Training> training = trainingRepository.findById(trainingId);
+        if (training.isPresent()) {
+            user.getTrainings().add(training.get());
+            userRepository.save(user);
+        }
+    }
+
+    public void unsubscribeTraining(Long trainingId, User user) {
+        Optional<Training> training = trainingRepository.findById(trainingId);
+        if (training.isPresent()) {
+            user.getTrainings().remove(training.get());
+            userRepository.save(user);
+        }
     }
 /*
     public Collection<Training> getUserTrainings(Long id){

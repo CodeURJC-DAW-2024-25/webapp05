@@ -125,6 +125,7 @@ public class UserController {
             //aqui hay que preguntar al servicio si tiene nutricion y rutina y luego añadirle abajo con addAttribute
             
             model.addAttribute("user", user.get());
+            model.addAttribute("trainings", user.get().getTrainings());
             //aqui añadir 
             return "account";
 
