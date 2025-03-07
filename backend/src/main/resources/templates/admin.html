@@ -5,12 +5,11 @@
   <!-- Perfil del administrador -->
   <div class="form-container-plans3">
     <p class="title text-center">Administrator Profile</p>
-  
-    <form class="form" action='/showadmin'>
+    <form class="form" action='/editAdmin' method="post">
       <input type="email" class="input" value="{{admin.name}}"/>
       <input type="email" class="input" value="{{admin.email}}" />
       <input type="hidden" name="_csrf" value="{{token}}"/>
-      <a href="account" class="btn-load">Submit</a>
+      <input type="submit" class="btn-load" value="Submit" />
     </form>
   </div>
 
@@ -20,71 +19,6 @@
       <div class="d-flex justify-content-center gap-3">
         <a href="#" class="btn-load-2">See Notifications</a>
       </div>
-    </div>
-  </div>
-
-  <!-- Contenedor Training y Nutrition -->
-  <div class="d-flex flex-row justify-content-between gap-3 w-100">
-    <!-- Training -->
-    <div class="form-container-plans2">
-      <p class="title text-center">Training</p>
-      <ul>
-      {{#trainings}}
-          <form class="form">
-            <div class="card shadow-sm">
-              <div class="card-body">
-                <div id="training/nutrition-picture-container">
-                  <img src=training/image/{{id}} alt= "training" class="training" id="trainingImage">
-                </div>
-                <h5 class="card-title">{{title}}</h5>
-                <h5 class="card-title">{{name}}</h5>
-                <div class="d-flex justify-content-center gap-3">
-                  <button type="button" class="btn-load-2" onclick="window.location.href='showRoutine.html'">Edit</button>
-                  <a href="#" class="btn-load-2">Delete</a>
-                </div>
-              </div>
-            </div>
-          </form>
-      {{/trainings}}
-          <div class="d-flex justify-content-center gap-3">
-            <button id="loadMore" class="btn-load">More Results</button>
-            <button id="newDiet" class="btn-load" onclick="window.location.href='newDiet.html'">New Training</button>
-          </div>
-      </ul>
-      {{^training}}
-          <h1>No hay entrenamientos disponibles</h1>
-          <div class="d-flex justify-content-center gap-3">
-            <button id="newDiet" class="btn-load" onclick="window.location.href='newDiet.html'">New Training</button>
-          </div>
-    </div>
-
-    <!-- Nutrition -->
-    <div class="form-container-plans2">
-      <p class="title text-center">Nutrition</p>
-      <ul>
-      {{#nutritions}}
-      <form class="form">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">Dieta 1</h5>
-            <div class="d-flex justify-content-center gap-3">
-              <button type="button" class="btn-load-2" onclick="window.location.href='showDiet.html'">Edit</button>
-              <a href="#" class="btn-load-2">Delete</a>
-            </div>
-          </div>
-        </div>
-      </form>
-      {{/nutritions}}
-          <div class="d-flex justify-content-center gap-3">
-            <button id="loadMore" class="btn-load">More Results</button>
-            <button id="newDiet" class="btn-load" onclick="window.location.href='newDiet.html'">New Diet</button>
-          </div>
-      </ul>
-      {{^nutrition}}
-          <h1>No hay dietas disponibles</h1>
-          <div class="d-flex justify-content-center gap-3">
-            <button id="newDiet" class="btn-load" onclick="window.location.href='newDiet.html'">New Training</button>
-          </div>
     </div>
   </div>
 </div>

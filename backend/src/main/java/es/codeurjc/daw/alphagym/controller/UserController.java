@@ -67,7 +67,7 @@ public class UserController {
     }
     
     @GetMapping("/register")
-    public String signup(Model model, HttpServletRequest request) {
+    public String register(Model model, HttpServletRequest request) {
 
         Principal principal = request.getUserPrincipal();
 
@@ -110,22 +110,43 @@ public class UserController {
         if (principal == null) {
             return "login";
         } else {
-            return "redirect:/";
+            return "redirect:/index";
         }
     }
 
-     @GetMapping("/account")
+    @GetMapping("/account")
     public String profile(Model model, HttpServletRequest request) {
 
         String principal = request.getUserPrincipal().getName();
         Optional<User> user = userService.findByEmail(principal);
 
         if (user.isPresent()) {
+
             //aqui hay que preguntar al servicio si tiene nutricion y rutina y luego añadirle abajo con addAttribute
             
             model.addAttribute("user", user.get());
             //aqui añadir 
             return "account";
+
+        } else {
+            return "redirect:/login";
+        }
+    }
+    
+    @GetMapping("/admin")
+    public String admin(Model model, HttpServletRequest request) {
+
+        String principal = request.getUserPrincipal().getName();
+        Optional<User> admin = userService.findByEmail(principal);
+
+        if (admin.isPresent()) {
+
+            //aqui hay meterle los comentarios reportados
+            //model.addAtribute(isNotified);
+            
+            model.addAttribute("admin", admin.get());
+            //aqui añadir 
+            return "admin";
 
         } else {
             return "redirect:/login";

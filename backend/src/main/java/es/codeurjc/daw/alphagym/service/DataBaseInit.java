@@ -39,7 +39,7 @@ public class DataBaseInit {
     public void init() throws IOException {
 
         //Users Examples
-        User admin = new User("admin@admin.com", "admin", passwordEncoder.encode("adminpass"), "ADMIN", "USER");
+        User admin = new User("admin", "admin@admin.com", passwordEncoder.encode("adminpass"), "ADMIN", "USER");
         userRepository.save(admin);
 
         User user = new User("user", "user@user.com", passwordEncoder.encode("pass"), "USER");

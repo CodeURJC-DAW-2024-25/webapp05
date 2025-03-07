@@ -7,37 +7,38 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav ms-auto">
-                  <li class="nav-item">
-                      <a class="nav-link" href="/nutritions">Nutrition</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="/trainings">Training</a>
-                  </li>
-                  {{#admin}}
-                  <li class="nav-item">
-                      <a class="nav-link" href="/admin">Admin</a>
-                  </li>
-                  {{/admin}}
-                  {{^user}}
-                  <li class="nav-item">
-                      <a class="nav-link" href="/login">Login</a>
-                  </li>
-                  {{/user}}
-                  {{#user}}
-                  <li class="nav-item">
-                      <a class="nav-link" href="/account">Account</a>
-                  </li>
-                  <li class="nav-item">
-                      <form action="/logout" method="post">
-                          <input type="hidden" name="_csrf" value="{{token}}" />
-                          <button type="submit" class="nav-link btn btn-link p-0 text-decoration-none">Log out</button>
-                      </form>
-                  </li>
-                  {{/user}}
-                  {{^user}}
-                  <li class="nav-item">
-                      <a class="nav-link" href="/register">Register</a>
-                  </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/nutritions">Nutrition</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/trainings">Training</a>
+                    </li>
+                    {{#admin}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">Admin</a>
+                    </li>
+                    </li>
+                    {{/admin}}
+                    {{^user}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    {{/user}}
+                    {{#user}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/account">Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="/logout" method="post">
+                            <input type="hidden" name="_csrf" value="{{token}}" />
+                            <button type="submit" class="nav-link">Log out</button>
+                        </form>
+                    </li>
+                    {{/user}}
+                    {{^user}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
                   {{/user}}
               </ul>
           </div>

@@ -1,33 +1,27 @@
 {{>header}} <!-- Incluimos el header -->
 {{>navbar}} <!-- Incluimos el navbar -->
 {{#user}}
-  <div class="container-account">
-        <div class="profile-container">
-            <div id="profile-picture-container">
-                <img src="/user/image/{{id}}" alt="User Profile" class="profile-image" id="profileImage">
-                <input type="file" id="imageInput" class="edit-input" style="display:none;" onchange="previewImage(this)">
-                <button onclick="document.getElementById('imageInput').click()" class="edit-button avatar-btn">Cambiar imagen</button>
-            </div>
+  <div class="form-container2">
+    <h1 class="title">Profile</h1>
+  </div>
+  <div class="container-account2">
+    <form class="form" action='/editAccount' method="post" enctype="multipart/form-data">
+      <div id="profile-picture-container">
+        <!--<img src="/user/image/{{id}}" alt="User Profile" class="profile-image" id="profileImage">  esto cuando tengamos una imagen valida-->
+        <img src="images/profile-picture-default.jpg" class="foto-perfil" alt="Foto de perfil">
+      </div>
+      <input type="file" name="image" placeholder="Foto" accept=".jpg, .jpeg, .png">
+      <div class="profile-container">
           <div class="form-container">
-                <h1 class="title">Profile</h1>
-                <h2 class="title">Nombre:</h2>  
-                <div class="edit-container">
-                    <p class="user-name" id="userName">{{name}}</p>
-                    <input type="text" id="nameInput" class="edit-input" style="display:none;">
-                    <button class="edit-button" id="editNameBtn" onclick="editField('userName', 'nameInput', 'saveNameBtn', 'editNameBtn')">Editar</button>
-                    <button id="saveNameBtn" class="save-button" onclick="saveField('userName', 'nameInput', 'saveNameBtn', 'editNameBtn')" style="display:none;">Guardar</button>
-                </div>
-          </div>
-          <div class="form-container">
-              <h2 class="title">Email:</h2>
-              <div class="edit-container">
-                  <p class="user-email" id="userEmail">{{email}}</p>
-                  <input type="email" id="emailInput" class="edit-input" style="display:none;">
-                  <button class="edit-button" id="editEmailBtn" onclick="editField('userEmail', 'emailInput', 'saveEmailBtn', 'editEmailBtn')">Editar</button>
-                  <button id="saveEmailBtn" class="save-button" onclick="saveField('userEmail', 'emailInput', 'saveEmailBtn', 'editEmailBtn')" style="display:none;">Guardar</button>
-              </div>
-          </div>            
-        </div>
+            <h2 class="title">Nombre:</h2>
+            <input type="name" class="input" value="{{user.name}}"/>
+            <h2 class="title">Email:</h2>
+            <input type="email" class="input" value="{{user.email}}" />
+            <input type="hidden" name="_csrf" value="{{token}}"/>
+            <input type="submit" class="btn-load" value="Submit" />
+          </div>  
+      </div> 
+      </form>  
   </div>
   
   <section>

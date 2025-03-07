@@ -249,6 +249,10 @@ h2 {
 
 /* Account  */
 
+.form-container2 {
+  text-align: center;
+}
+
 .usuario{
   display: flex;
   justify-content: center;

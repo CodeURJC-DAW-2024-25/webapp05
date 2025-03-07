@@ -31,7 +31,7 @@ public class UserService {
 
      @Autowired
     private PasswordEncoder passwordEncoder;
-    //no se porque al importarlo no me lo coje
+    
     public ResponseEntity<Object> login(LoginRequest loginRequest) {
         
         Authentication authentication = authenticationManager.authenticate(
