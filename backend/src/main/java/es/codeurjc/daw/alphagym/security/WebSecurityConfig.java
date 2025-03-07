@@ -79,7 +79,7 @@ public class WebSecurityConfig {
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
 						.failureUrl("/error")
-						.defaultSuccessUrl("/account")
+						.defaultSuccessUrl("/index")
 						.permitAll())
 
 				.logout(logout -> logout
