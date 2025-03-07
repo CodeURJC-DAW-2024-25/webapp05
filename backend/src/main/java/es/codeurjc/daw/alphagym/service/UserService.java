@@ -1,5 +1,6 @@
 package es.codeurjc.daw.alphagym.service;
 
+import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import es.codeurjc.daw.alphagym.security.LoginRequest;
@@ -61,25 +62,19 @@ public class UserService {
         return null; // Or throw an exception
     }
 
-    public User createUser(String name, String email, String pass, MultipartFile image, String... roles) throws IOException {
-        User user = new User();
+    public User createUser(User user) throws IOException {
+        User newUser = new User(user.getName(),user.getEmail(),user.getEncodedPassword(),"USER");
 
-        user.setName(name);
-        user.setEmail(email);
-        user.setEncodedPassword(passwordEncoder.encode(pass));
-        user.setRoles(List.of(roles));
-
-        if (!image.isEmpty()) {
-            user.setImg_user(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
-            user.setImage(true);
+        if (user.getImg_user() != null && !user.getImg_user().equals("/images/profile-picture-default.jpg")) {
+            newUser.setImg_user(user.getImg_user());
         }
 
-        userRepository.save(user);
+        userRepository.save(newUser);
 
         return user;
     }
 
-    public void updateUserImage(Long userId, MultipartFile file) throws Exception {
+    /*public void updateUserImage(Long userId, MultipartFile file) throws Exception {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -90,7 +85,7 @@ public class UserService {
         } else {
             throw new Exception("User not found");
         }
-    }
+    }*/
 
     public Optional<User> findByEmail(String email){
         return userRepository.findByEmail(email);

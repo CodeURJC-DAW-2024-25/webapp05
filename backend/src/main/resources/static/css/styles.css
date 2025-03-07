@@ -187,7 +187,8 @@ h2 {
 }
 
 .form-container {
-  width: 350px;
+  width: 80%; /* Se ajusta dinámicamente al tamaño de la pantalla */
+  max-width: 500px; /* Para que no sea demasiado grande */
   height: auto;
   justify-content: center;
   text-align: center;
@@ -197,6 +198,7 @@ h2 {
   box-sizing: border-box;
   padding: 20px;
 }
+
 
 .title {
   font-size: 25px;
@@ -231,8 +233,16 @@ h2 {
   height: auto;
   width: auto;
   margin-right: 200px; /* Agrega un espacio entre la imagen y el formulario */
- 
 }
+
+.foto-perfil {
+  width: 100px; /* Ajusta el tamaño según prefieras */
+  height: 100px; /* Debe ser igual al width para mantener la forma circular */
+  border-radius: 50%;
+  object-fit: cover; /* Para que la imagen no se deforme */
+  border: 2px solid #fff; /* Opcional: añade un borde blanco */
+}
+
 
 .container-account2 {
   width: 100%;

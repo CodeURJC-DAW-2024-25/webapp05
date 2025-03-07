@@ -72,18 +72,18 @@ public class UserController {
         Principal principal = request.getUserPrincipal();
 
         if (principal == null) {
+            model.addAttribute("user", new User());
             return "register";
         } else {
-            return "redirect:/";
+            return "redirect:/index";
         }
     }
     
     @PostMapping("/user/new")
-    public String createUser(Model model, @RequestParam MultipartFile image, @RequestParam String name,
-            @RequestParam String email, @RequestParam String password) {
+    public String createUser(@ModelAttribute User user, Model model) {
         try {
             // Check if user already exists with the given email
-            Optional<User> existingUser = userService.findByEmail(email);
+            Optional<User> existingUser = userService.findByEmail(user.getEmail());
            
             if (existingUser.isPresent()) {
                 // User exists, so we return an error message
@@ -91,9 +91,9 @@ public class UserController {
                 return "register"; 
             }
 
-            userService.createUser(name, email, password, image, "USER");
+            userService.createUser(user);
 
-            return "redirect:/"; 
+            return "redirect:/index"; 
 
         } catch (Exception e) {
             e.printStackTrace();
