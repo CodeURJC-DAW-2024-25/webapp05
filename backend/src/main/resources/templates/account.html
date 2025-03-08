@@ -5,28 +5,20 @@
     <h1 class="title">Profile</h1>
   </div>
   <div class="container-account2">
-    <form class="form" action='/editAccount/{{user.id}}' method="post" enctype="multipart/form-data">
+    <form class="form" action='/editAccount' method="post" enctype="multipart/form-data">
       <input type="hidden" name="id" value="{{user.id}}" />
       {{#user.image}}
         <img src="{{user.image}}" class="img-fluid mb-3" alt="User Image">
-        <div class="form-check">
-            <input type="checkbox" name="removeImage" class="form-check-input" id="removeImage">
-            <label class="form-check-label" for="removeImage">Remove Image</label>
-        </div>
-        <div class="mb-3">
-            <label for="updateImage" class="form-label">Update Image</label>
-        </div>
       {{/user.image}}
 
       {{^user.image}}
       <div id="profile-picture-container">
         <img src="images/profile-picture-default.jpg" class="foto-perfil" alt="No image">
       </div>
-      <div class="mb-3">
-        <label for="uploadImage" class="form-label">Upload Image</label>
-      </div>
       {{/user.image}}
-
+      <div class="mb-3">
+        <label for="image" class="form-label">Update Image</label>
+      </div>
       <input type="file" name="imageField" placeholder="Foto" accept=".jpg, .jpeg, .png">
       <div class="profile-container">
           <div class="form-container">

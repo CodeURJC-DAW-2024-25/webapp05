@@ -104,7 +104,7 @@ public class UserController {
 
             // Save the user in the database
             userService.save(user);
-            
+
             return "redirect:/login"; 
 
         } catch (Exception e) {
@@ -146,28 +146,34 @@ public class UserController {
         }
     }
 
-    @PostMapping("/editAccount/{id}")
-    public String editAccount(Model model, @ModelAttribute User user, @PathVariable Long id, boolean removeImage, MultipartFile imageField)
-        throws IOException, SQLException {
+    @PostMapping("/editAccount")
+    public String editAccount(Model model, @RequestParam String name, 
+                          @RequestParam String email, @RequestParam MultipartFile imageField, Principal principal) 
+                          throws IOException {
 
         try {
-            Optional<User> userOld = userService.findById(id);
+            // Buscar usuario autenticado por su email en lugar de recibirlo como parámetro
+            Optional<User> userOptional = userService.findByEmail(principal.getName());
 
-            if (userOld.isPresent()) {
-                User updateUser = userOld.get();
+            if (userOptional.isPresent()) {
+                User updateUser = userOptional.get();
 
-                // Actualizar nombre solo si no está vacío
-                if (user.getName() != null && !user.getName().trim().isEmpty()) {
-                    userService.updateUserName(user.getId(), user.getName());
+                // Actualizar nombre si no está vacío
+                if (name != null && !name.trim().isEmpty()) {
+                    updateUser.setName(name);
+                    userService.updateUserName(updateUser.getId(), name);
                 }
 
-                // Actualizar email solo si no está vacío
-                if (user.getEmail() != null && !user.getEmail().trim().isEmpty()) {
-                    userService.updateUserEmail(user.getId(), user.getEmail());
+                // Actualizar email si no está vacío
+                if (email != null && !email.trim().isEmpty()) {
+                    updateUser.setEmail(email);
+                    userService.updateUserEmail(updateUser.getId(), email);
                 }
 
-                // Actualizar imagen si se proporciona o eliminarla si es necesario
-                userService.updateUserImage(updateUser, removeImage, imageField);
+                if (imageField != null && !imageField.isEmpty()) {
+					updateUser.setImg_user(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
+                    updateUser.setImage(true);  
+				}
 
                 // Guardar usuario con los cambios realizados
                 userService.save(updateUser);
@@ -176,13 +182,13 @@ public class UserController {
 
             } else {
                 model.addAttribute("error", "Usuario no encontrado");
-                return "editAccount"; // Regresar al formulario de edición si no se encuentra el usuario
+                return "editAccount"; 
             }
 
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Ha ocurrido un error inesperado.");
-            return "editAccount"; // Regresar con error si algo falla
+            return "editAccount"; 
         }
     }
 

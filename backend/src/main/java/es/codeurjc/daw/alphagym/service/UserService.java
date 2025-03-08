@@ -92,7 +92,7 @@ public class UserService {
         }
     }
 
-    public void updateUserImage(User user, boolean removeImage, MultipartFile imageField) throws IOException, SQLException {
+    /*public void updateUserImage(User user, boolean removeImage, MultipartFile imageField) throws IOException, SQLException {
 		
 		if (!imageField.isEmpty()) {
 			user.setImg_user(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
@@ -111,7 +111,7 @@ public class UserService {
 				}
 			}
 		}
-	}
+	}*/
 
     public Optional<User> findByEmail(String email){
         return userRepository.findByEmail(email);
