@@ -1,6 +1,8 @@
 package es.codeurjc.daw.alphagym.model;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,13 +18,14 @@ public class Nutrition {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String name;
     private String description;
     private String image;
     private String goal;
     private int calories;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     private List<NutritionComment> comments;
 
 
@@ -44,6 +47,12 @@ public class Nutrition {
     
         
     // Getters
+    public List<NutritionComment> getComments() {
+        if (comments == null) {
+            comments = new ArrayList<>();
+        }
+        return comments;
+    }
 
     public Long getId() {
         return this.id;
@@ -55,10 +64,6 @@ public class Nutrition {
 
     public int getCalories() {
         return this.calories;
-    }
-
-    public List<NutritionComment> getComments() {
-        return comments;
     }
 
     public String getName() { 
@@ -78,6 +83,9 @@ public class Nutrition {
     }
 
     // Setters
+    public void setNutritionComments(List<NutritionComment> comments) {
+        this.comments = comments;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -89,10 +97,6 @@ public class Nutrition {
 
     public void setCalories(int calories) {
         this.calories = calories;
-    }
-
-    public void setComments(List<NutritionComment> comments) {
-        this.comments = comments;
     }
 
     public void setName(String name) { this.name = name; }
