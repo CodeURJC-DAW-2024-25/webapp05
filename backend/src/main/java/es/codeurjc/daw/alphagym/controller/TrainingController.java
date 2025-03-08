@@ -198,6 +198,20 @@ public class TrainingController {
         return "redirect:/trainings";
     }
 
+    @GetMapping("/trainings/deleteFromList/{trainingId}")
+    public  String deleteRoutineFromListPost(@PathVariable Long trainingId, Principal principal){
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                trainingService.unsubscribeTraining(trainingId, user.get());
+                return "redirect:/account";
+            }
+        }
+        return null;
+    }
+
+
+
 
 }
 

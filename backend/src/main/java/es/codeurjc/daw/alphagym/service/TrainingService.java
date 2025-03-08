@@ -105,6 +105,8 @@ public class TrainingService {
             userRepository.save(user);
         }
     }
+
+
 /*
     public Collection<Training> getUserTrainings(Long id){
         Optional<List<Training>> listTrainingUser = trainingRepository.findByUser(userService.getUser(id));

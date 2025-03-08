@@ -116,6 +116,23 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+
+  var buttonDeleteRoutineFromList = document.querySelectorAll(".goToDeleteRoutineFromList");
+  buttonDeleteRoutineFromList.forEach(function (button) {
+    button.addEventListener("click", function () {
+      var trainingId = button.dataset.trainingId; // We get de id from data-attribute
+
+      if (trainingId) {
+        let confirmation = confirm('¿Estas seguro de querer desuscribirte de esta rutina?');
+        if(confirmation) {
+          window.location.href = "/trainings/deleteFromList/" + trainingId;
+        }
+      } else {
+        console.warn("ID del entrenamiento no encontrado.");
+      }
+    });
+  });
+
 });
 
 
@@ -222,29 +239,5 @@ function redirectFromNewComments(event, preventer) {
     form.action = newUrl;
     form.submit();
   }
-
-  /*function unsubscribeOfTraining(trainingId) {
-    fetch(`/trainings/unsubscribe/${trainingId}`, { method: "POST" })
-        .then(response => {
-          if (response.ok) {
-            location.reload(); // Recargar la página para actualizar la vista
-          } else {
-            alert("Error al desuscribirse");
-          }
-        })
-        .catch(error => console.error("Error:", error));
-  }
-
-  function subscribeToTraining(trainingId) {
-    fetch(`/trainings/subscribe/${trainingId}`, { method: "POST" })
-        .then(response => {
-          if (response.ok) {
-            location.reload(); // Recargar la página para actualizar la vista
-          } else {
-            alert("Error al suscribirse");
-          }
-        })
-        .catch(error => console.error("Error:", error));
-  }*/
   
 }

@@ -37,7 +37,7 @@
             <input type="hidden" name="_csrf" value="{{token}}"/>
           </div> 
           <div>
-            <input type="submit" class="btn-load" value="Save" />
+              <button class="btn-load" type="submit">Save</button>
           </div>
            
       </div> 
@@ -54,14 +54,11 @@
                 <div class="card shadow-sm">
                   <div class="card-body">
                     <div id="training/nutrition-picture-container">
-                      <img src="¨{{image}}" alt="training" class="training" id="trainingImage">
+                      <img src="{{image}}" alt="training" class="training" id="trainingImage">
                     </div>
                     <h5 class="card-title">{{name}}</h5>
-                    <h5 class="card-title">{{goal}}</h5>
-                    <h5 class="card-title">{{description}}</h5>
-                    <h5 class="card-title">{{duration}}</h5>
-                    <h5 class="card-title">{{intensity}}</h5>
-                    <a href="#" class="btn-load-2">Delete</a>
+                    <button class="btn-load-2 goToDeleteRoutineFromList" data-training-id="{{id}}">Delete</button>
+                    <button class="btn-load-2 goToShowRoutine" data-training-id="{{id}}">Show more details</button>
                   </div>
                 </div>
           {{/trainings}}
