@@ -146,6 +146,25 @@ public class UserController {
         }
     }
 
+    @GetMapping("/account/image")
+	public ResponseEntity<Object> downloadImage(Principal principal) throws SQLException {
+        if (principal != null) {
+
+            Optional<User> user = userService.findByEmail(principal.getName());
+
+            if (user.isPresent() && user.get().getImg_user() != null) {
+
+                Resource file = new InputStreamResource(user.get().getImg_user().getBinaryStream());
+
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                        .contentLength(user.get().getImg_user().length())
+                        .body(file);
+                } 
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
     @PostMapping("/editAccount")
     public String editAccount(Model model, @RequestParam String name, 
                           @RequestParam String email, @RequestParam MultipartFile imageField, Principal principal) 
@@ -191,22 +210,6 @@ public class UserController {
             return "editAccount"; 
         }
     }
-
-    @GetMapping("/users/{id}/image")
-	public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
-
-		Optional<User> user = userService.findById(id);
-		if (user.isPresent() && user.get().getImg_user() != null) {
-
-			Resource file = new InputStreamResource(user.get().getImg_user().getBinaryStream());
-
-			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-					.contentLength(user.get().getImg_user().length()).body(file);
-
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-	}
     
     @GetMapping("/admin")
     public String admin(Model model, HttpServletRequest request) {
