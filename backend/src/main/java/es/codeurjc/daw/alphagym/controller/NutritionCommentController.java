@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.service.NutritionCommentService;
+import es.codeurjc.daw.alphagym.service.NutritionService;
 import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -28,6 +30,8 @@ public class NutritionCommentController {
     private NutritionCommentService nutritionCommentService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private NutritionService nutritionService;
     //@Autowired
     //private NutritionCommentRepository nutritionCommentRepository;
 
@@ -77,8 +81,8 @@ public class NutritionCommentController {
     public String createComment(Model model,@PathVariable Long nutritionId, @RequestParam String commentTitle,@RequestParam String commentText){
 
         NutritionComment nutritionComment = new NutritionComment(commentText,commentTitle);
-        nutritionComment.setNutritionId(nutritionId); // Asociar el comentario con el entrenamiento
-        nutritionCommentService.createNutritionComment(nutritionComment);
+        Nutrition nutrition = nutritionService.getNutrition(nutritionId);
+        nutritionCommentService.createNutritionComment(nutritionComment,nutrition);
 
         return "redirect:/nutritionComments/" + nutritionId;
     }

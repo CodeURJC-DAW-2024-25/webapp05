@@ -2,14 +2,14 @@ package es.codeurjc.daw.alphagym.service;
 
 import java.io.IOException;
 
-import es.codeurjc.daw.alphagym.model.Nutrition;
-import es.codeurjc.daw.alphagym.model.Training;
-import es.codeurjc.daw.alphagym.model.TrainingComment;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import es.codeurjc.daw.alphagym.model.Nutrition;
+import es.codeurjc.daw.alphagym.model.NutritionComment;
+import es.codeurjc.daw.alphagym.model.Training;
+import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
@@ -42,6 +42,8 @@ public class DataBaseInit {
 
     @Autowired
     private TrainingCommentService trainingCommentService;
+    @Autowired
+    private NutritionCommentService nutritionCommentService;
 
     @PostConstruct
     public void init() throws IOException {
@@ -123,9 +125,9 @@ public class DataBaseInit {
         caloricSurplus.setImage("/images/volumen.jpeg");
         maintenanceDiet.setImage("/images/mantenimiento.jpg");
 
-        nutritionService.createNutrition(caloricDeficit);
-        nutritionService.createNutrition(caloricSurplus);
-        nutritionService.createNutrition(maintenanceDiet);
+        caloricDeficit = nutritionService.createNutrition(caloricDeficit);
+        caloricSurplus = nutritionService.createNutrition(caloricSurplus);
+        maintenanceDiet = nutritionService.createNutrition(maintenanceDiet);
 
         //training comments examples
         TrainingComment descansos = new TrainingComment("Es importante hacer descansos entre series para evitar fatigar el músculo y optimizar el entrenamiento.", "Descansos");
@@ -163,6 +165,44 @@ public class DataBaseInit {
         trainingCommentService.createTrainingComment(entidad13, shoulderPlan);
         trainingCommentService.createTrainingComment(entidad14, chestPlan);
         trainingCommentService.createTrainingComment(entidad15, chestPlan);
+
+        //nutrition comment examples
+        NutritionComment variedad = new NutritionComment("Es importante comer variado", "Variedad");
+        NutritionComment frutas = new NutritionComment("Es necesario comer mucha fruta", "Frutas");
+        NutritionComment comentario1 = new NutritionComment("Comentario 1", "Entrenamiento Básico");
+        NutritionComment comentario2 = new NutritionComment("Comentario 2", "Fuerza");
+        NutritionComment comentario3 = new NutritionComment("Comentario 3", "Cardio Intenso");
+        NutritionComment comentario4 = new NutritionComment("Comentario 4", "Rutina de Piernas");
+        NutritionComment comentario5 = new NutritionComment("Comentario 5", "Espalda y Bíceps");
+        NutritionComment comentario6 = new NutritionComment("Comentario 6", "Pecho y Tríceps");
+        NutritionComment comentario7 = new NutritionComment("Comentario 7", "Entrenamiento Funcional");
+        NutritionComment comentario8 = new NutritionComment("Comentario 8", "HIIT");
+        NutritionComment comentario9 = new NutritionComment("Comentario 9", "Entrenamiento Full Body");
+        NutritionComment comentario10 = new NutritionComment("Comentario 10", "CrossFit");
+        NutritionComment comentario11 = new NutritionComment("Comentario 11", "Pilates");
+        NutritionComment comentario12 = new NutritionComment("Comentario 12", "Yoga");
+        NutritionComment comentario13 = new NutritionComment("Comentario 13", "Abdominales");
+        NutritionComment comentario14 = new NutritionComment("Comentario 14", "Glúteos y Piernas");
+        NutritionComment comentario15 = new NutritionComment("Comentario 15", "Rutina de Flexibilidad");
+
+
+        nutritionCommentService.createNutritionComment(variedad,caloricDeficit);
+        nutritionCommentService.createNutritionComment(frutas,caloricDeficit);
+        nutritionCommentService.createNutritionComment(comentario1,caloricDeficit);
+        nutritionCommentService.createNutritionComment(comentario2,caloricSurplus);
+        nutritionCommentService.createNutritionComment(comentario3,caloricDeficit);
+        nutritionCommentService.createNutritionComment(comentario4,caloricDeficit);
+        nutritionCommentService.createNutritionComment(comentario5,caloricSurplus);
+        nutritionCommentService.createNutritionComment(comentario6,caloricDeficit);
+        nutritionCommentService.createNutritionComment(comentario7,caloricSurplus);
+        nutritionCommentService.createNutritionComment(comentario8,caloricDeficit);
+        nutritionCommentService.createNutritionComment(comentario9,caloricDeficit);
+        nutritionCommentService.createNutritionComment(comentario10,maintenanceDiet);
+        nutritionCommentService.createNutritionComment(comentario11,caloricDeficit);
+        nutritionCommentService.createNutritionComment(comentario12,caloricDeficit);
+        nutritionCommentService.createNutritionComment(comentario13,maintenanceDiet);
+        nutritionCommentService.createNutritionComment(comentario14,caloricDeficit);
+        nutritionCommentService.createNutritionComment(comentario15,caloricDeficit);
 
 
     }
