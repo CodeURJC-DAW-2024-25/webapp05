@@ -95,7 +95,7 @@ public class DataBaseInit {
         backPlan.setImage("/images/plan_espalda.jpeg");
         shoulderPlan.setImage("/images/plan_hombros.jpeg");
 
-        chestPlan = trainingService.createTraining(chestPlan, null);
+        chestPlan = trainingService.createTraining(chestPlan, null); 
         armsPlan = trainingService.createTraining(armsPlan, null);
         legsPlan = trainingService.createTraining(legsPlan, null);
         absPlan = trainingService.createTraining(absPlan, null);
@@ -125,9 +125,9 @@ public class DataBaseInit {
         caloricSurplus.setImage("/images/volumen.jpeg");
         maintenanceDiet.setImage("/images/mantenimiento.jpg");
 
-        caloricDeficit = nutritionService.createNutrition(caloricDeficit);
-        caloricSurplus = nutritionService.createNutrition(caloricSurplus);
-        maintenanceDiet = nutritionService.createNutrition(maintenanceDiet);
+        caloricDeficit = nutritionService.createNutrition(caloricDeficit, null);
+        caloricSurplus = nutritionService.createNutrition(caloricSurplus, null);
+        maintenanceDiet = nutritionService.createNutrition(maintenanceDiet, null);
 
         //training comments examples
         TrainingComment descansos = new TrainingComment("Es importante hacer descansos entre series para evitar fatigar el músculo y optimizar el entrenamiento.", "Descansos");

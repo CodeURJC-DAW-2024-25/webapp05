@@ -3,12 +3,13 @@ package es.codeurjc.daw.alphagym.repository;
 import java.util.List;
 
 import es.codeurjc.daw.alphagym.model.Training;
+import es.codeurjc.daw.alphagym.model.Nutrition;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import es.codeurjc.daw.alphagym.model.User;
 import java.util.Optional;
 
-public interface    UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional findById(Long id);
     Optional<User> findByEmail(String email);
@@ -16,5 +17,6 @@ public interface    UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
 
     List<User> findByTrainingsContaining(Training training);
+    List<User> findByNutritionsContaining(Nutrition nutrition);
 
 }

@@ -64,57 +64,86 @@ public class NutritionController {
     }
     
     @GetMapping("/nutritions")
-    public String showAllDiets(Model model){//,  @RequestParam("userId") Long userId){
-        model.addAttribute("nutritions",nutritionService.getAllNutritions());
-        //User user = userService.getUser(userId);
-        //De momento lo siguiente no tiene sentido porque aunque no haya user (usuario no registrado) se le deben mostrar todas las rutinas
-        /*if(trainingService.getAllTrainings() != null){
-           // model.addAttribute("userId",user.getId());
-            return "training";
-        }*/
+    public String showAllDiets(Model model){
+        model.addAttribute("nutritions", nutritionService.getAllNutritions());
         return "nutrition";
     }
 
     @GetMapping("/nutritions/{id}")
-    public String detailsNutrition(Model model, @PathVariable Long id/*, @RequestParam("userId") Long userId*/){
+    public String detailsNutrition(Model model, @PathVariable Long id, Principal principal){
         Nutrition nutrition = nutritionService.getNutrition(id);
         if (nutrition == null) {
             return "redirect:/nutritions";
         }
         model.addAttribute("nutrition", nutrition);
-        /*User user = userService.getUser(userId);
-        if(user != null){
-            model.addAttribute("userId",user.getId());
-            return "detailsNutrition";
-        }*/
+        
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                Boolean isAdmin = user.get().isRole("ADMIN");
+                 // Evitar NullPointerException si la rutina no tiene usuario asignado
+                 Boolean canEdit = isAdmin || (nutrition.getUser() != null && nutrition.getUser().getId().equals(user.get().getId()));
+                 boolean isSubscribed = user.get().getNutritions().contains(nutrition);
+ 
+                model.addAttribute("subscribed", isSubscribed);
+                model.addAttribute("logged", true);
+                model.addAttribute("admin", user.get().isRole("ADMIN")); // Agrega la variable "admin"
+                model.addAttribute("canEdit", canEdit);
+            }
+        } else {
+            model.addAttribute("logged", false);
+            model.addAttribute("admin", false); // Si no está autenticado, no es admin
+        }
+
         return "showDiet";
     }
 
+    @GetMapping("/nutritions/subscribe/{id}")
+     public String subscribeToDiet(@PathVariable Long id, Principal principal) {
+         if (principal != null) {
+             Optional<User> user = userService.findByEmail(principal.getName());
+             if (user.isPresent()) {
+                 nutritionService.subscribeNutrition(id, user.get());
+             }
+         }
+         return "redirect:/nutritions/" + id;
+     }
+ 
+     @GetMapping("/nutritions/unsubscribe/{id}")
+     public String unsubscribeFromDiet(@PathVariable Long id, Principal principal) {
+         if (principal != null) {
+             Optional<User> user = userService.findByEmail(principal.getName());
+             if (user.isPresent()) {
+                 nutritionService.unsubscribeNutrition(id, user.get());
+             }
+         }
+         return "redirect:/nutritions/" + id;
+     }
+
     @GetMapping("/nutritions/newNutrition")
-    public String createNutrition(Model model /*,@RequestParam("userId") Long userId*/ ) {
+    public String createNutrition(Model model ) {
         model.addAttribute("nutrition",new Nutrition());
-        /*User user = userService.getUser(userId);
-        if (user != null){
-            model.addAttribute("userId",user.getId());
-            return "createNutrition";
-        }*/
         return "newDiet";
     }
 
     @PostMapping("/nutritions/newNutrition")
-    public String createNutritionPost(@ModelAttribute Nutrition nutrition/* , @RequestParam("userId") Long userId*/){
-        /*User user = userService.getUser(userId);
-        if (user != null){
-            nutrition.setGymUser(user);
-            Nutrition nut = nutritionService.createNutrition(nutrition,user);
-            return "redirect:/ListFoods?nutritionId=" + nut.getId();
-        }*/
-        nutritionService.createNutrition(nutrition);
+    public String createNutritionPost(@ModelAttribute Nutrition nutrition, Principal principal){
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                if (user.get().isRole("ADMIN")) {
+                    nutritionService.createNutrition(nutrition, null);
+                } else {
+                    nutritionService.createNutrition(nutrition, user.get());
+                }
+                return "redirect:/trainings";
+            }
+        }
         return "redirect:/nutritions";
     }
 
     @GetMapping("/nutritions/editNutrition/{id}")
-    public String editDiet(Model model, @PathVariable Long id/* , @RequestParam("userId") Long userId*/) {
+    public String editDiet(Model model, @PathVariable Long id) {
         Nutrition nutrition = nutritionService.getNutrition(id);
         String originalGoal = nutrition.getGoal();
 
@@ -122,39 +151,52 @@ public class NutritionController {
         goals.add(new Goal("Maintain weight", "Maintain weight".equals(originalGoal)));
         goals.add(new Goal("Increase weight", "Increase weight".equals(originalGoal)));
         goals.add(new Goal("Lose weight", "Lose weight".equals(originalGoal)));
+        model.addAttribute("goals", goals);
 
-
-        if(nutrition == null){
+        if (nutrition == null){
             return "redirect:/nutritions";
         }
 
-        model.addAttribute("goals", goals);
         model.addAttribute("nutrition",nutrition);
-        //model.addAttribute("userId",userId);
         return "editDiet";
     }
 
     @PostMapping("/nutritions/editNutrition/{id}")
-    public String editDietPost(@ModelAttribute Nutrition nutrition, @PathVariable Long id){//, @RequestParam("userId") Long userId
-        //User user = userService.getUser(userId);
+    public String editDietPost(@ModelAttribute Nutrition nutrition, @PathVariable Long id, Model model, Principal principal) {
         try {
-            nutritionService.editDiet(id, nutrition);
-
-            return "redirect:/nutritions/" + id;
+            if (principal != null) {
+                Optional<User> user = userService.findByEmail(principal.getName());
+                nutritionService.editDiet(id, nutrition, user.get());
+                return "redirect:/nutritions/" + id;
+            }
         } catch (Exception e) {
             // Manejar la excepción, por ejemplo, registrar el error y mostrar un mensaje al usuario
             e.printStackTrace(); // Para depuración, considera usar un logger
+            model.addAttribute("error", "Ha ocurrido un error.");
             return "redirect:/nutritions/editDiet/" + id + "?error=true"; // Redirigir con un parámetro de error
         }
+
+        return null;
     }
 
     @GetMapping("/nutritions/delete/{id}")
-    public  String deleteDietPost(@PathVariable Long id /*@RequestParam("userId") Long userId*/){
+    public  String deleteDietPost(@PathVariable Long id){
         nutritionService.deleteDiet(id);
-        //User user = userService.getGymUser(userId);
+        //User user = userService.getUser(userId);
         return "redirect:/nutritions";
     }
 
+    @GetMapping("/nutritions/deleteFromList/{id}")
+    public  String deleteDietFromListPost(@PathVariable Long id, Principal principal){
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                nutritionService.unsubscribeNutrition(id, user.get());
+                return "redirect:/account";
+            }
+        }
+        return null;
+    }
 
     
 }

@@ -31,19 +31,30 @@
             </textarea>
       </div>
 
+{{#logged}}
       <div class="mb-3">
           <a class="btn-load w-100" href="/nutritionComments/{{nutrition.id}}/newComment"> Add Comment </a>
       </div>
+{{/logged}}      
 
       <div class="d-flex justify-content-center gap-3">
-        <button class="btn-load">Suscribe</button>
-        <a class="btn-load" href="/nutritionComments/{{nutrition.id}}" >
-          View Comments
-        </a>
-        <a class="btn-load" href="/nutritions/editNutrition/{{nutrition.id}}" >Edit Diet</a>
-        {{#admin}}
-            <a class="btn-load" href="/nutritions/delete/{{nutrition.id}}">Delete</a>
-        {{/admin}}
+        {{#logged}}
+          {{^admin}}
+            {{#subscribed}}
+                  <button class="btn-load goToUnsubscribeDiet" data-nutrition-id="{{nutrition.id}}">Unsubscribe</button>
+            {{/subscribed}}
+            {{^subscribed}}
+                  <button class="btn-load goToSubscribeDiet" data-nutrition-id="{{id}}">Subscribe</button>
+            {{/subscribed}}
+          {{/admin}}
+        {{/logged}} 
+        <a class="btn-load" href="/nutritionComments/{{nutrition.id}}">View Comments</a>
+        {{#canEdit}}
+             <button class="btn-load goToEditDiet" data-nutrition-id="{{nutrition.id}}" >Edit</button>
+          {{/canEdit}}
+            {{#admin}}
+             <button class="btn-load goToDeleteDiet" data-nutrition-id="{{nutrition.id}}">Delete</button>
+           {{/admin}}
         <a href="/nutritions" class="btn-load">Return</a>
       </div>
     </div>

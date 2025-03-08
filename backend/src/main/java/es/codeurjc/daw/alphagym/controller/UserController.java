@@ -138,6 +138,7 @@ public class UserController {
             
             model.addAttribute("user", user.get());
             model.addAttribute("trainings", user.get().getTrainings());
+            model.addAttribute("nutritions", user.get().getNutritions());
             //aqui añadir 
             return "account";
 
