@@ -4,6 +4,7 @@ import es.codeurjc.daw.alphagym.model.User;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ public class Training {
     private String image;
     private String goal;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TrainingComment> comments;
 
     //@OnetoMany() mappedBy = "trainings" //tengo que mirar la sintaxis 
@@ -45,6 +46,9 @@ public class Training {
     // Getters
 
     public List<TrainingComment> getComments() {
+        if (comments == null) {
+            comments = new ArrayList<>();
+        }
         return comments;
     }
 

@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.Training;
+import es.codeurjc.daw.alphagym.model.TrainingComment;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,9 @@ public class DataBaseInit {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TrainingCommentService trainingCommentService;
 
     @PostConstruct
     public void init() throws IOException {
@@ -88,12 +93,12 @@ public class DataBaseInit {
         backPlan.setImage("/images/plan_espalda.jpeg");
         shoulderPlan.setImage("/images/plan_hombros.jpeg");
 
-        trainingService.createTraining(chestPlan, null);
-        trainingService.createTraining(armsPlan, null);
-        trainingService.createTraining(legsPlan, null);
-        trainingService.createTraining(absPlan, null);
-        trainingService.createTraining(backPlan, null);
-        trainingService.createTraining(shoulderPlan,null);
+        chestPlan = trainingService.createTraining(chestPlan, null);
+        armsPlan = trainingService.createTraining(armsPlan, null);
+        legsPlan = trainingService.createTraining(legsPlan, null);
+        absPlan = trainingService.createTraining(absPlan, null);
+        backPlan = trainingService.createTraining(backPlan, null);
+        shoulderPlan = trainingService.createTraining(shoulderPlan, null);
 
         //Nutritions Examples
         Nutrition caloricDeficit = new Nutrition ("Caloric Deficit", 100, "Lose weight",
@@ -121,6 +126,45 @@ public class DataBaseInit {
         nutritionService.createNutrition(caloricDeficit);
         nutritionService.createNutrition(caloricSurplus);
         nutritionService.createNutrition(maintenanceDiet);
+
+        //training comments examples
+        TrainingComment descansos = new TrainingComment("Es importante hacer descansos entre series para evitar fatigar el músculo y optimizar el entrenamiento.", "Descansos");
+        TrainingComment hidratación = new TrainingComment("Dado que esta rutina de ejercicios es muy aeróbica, la correcta hidratación es extremadamente importante.", "Hidratación");
+        TrainingComment entidad1 = new TrainingComment("Comentario 1", "Entrenamiento Básico");
+        TrainingComment entidad2 = new TrainingComment("Comentario 2", "Fuerza");
+        TrainingComment entidad3 = new TrainingComment("Comentario 3", "Cardio Intenso");
+        TrainingComment entidad4 = new TrainingComment("Comentario 4", "Rutina de Piernas");
+        TrainingComment entidad5 = new TrainingComment("Comentario 5", "Espalda y Bíceps");
+        TrainingComment entidad6 = new TrainingComment("Comentario 6", "Pecho y Tríceps");
+        TrainingComment entidad7 = new TrainingComment("Comentario 7", "Entrenamiento Funcional");
+        TrainingComment entidad8 = new TrainingComment("Comentario 8", "HIIT");
+        TrainingComment entidad9 = new TrainingComment("Comentario 9", "Entrenamiento Full Body");
+        TrainingComment entidad10 = new TrainingComment("Comentario 10", "CrossFit");
+        TrainingComment entidad11 = new TrainingComment("Comentario 11", "Pilates");
+        TrainingComment entidad12 = new TrainingComment("Comentario 12", "Yoga");
+        TrainingComment entidad13 = new TrainingComment("Comentario 13", "Abdominales");
+        TrainingComment entidad14 = new TrainingComment("Comentario 14", "Glúteos y Piernas");
+        TrainingComment entidad15 = new TrainingComment("Comentario 15", "Rutina de Flexibilidad");
+
+        trainingCommentService.createTrainingComment(descansos, chestPlan);
+        trainingCommentService.createTrainingComment(hidratación, chestPlan);
+        trainingCommentService.createTrainingComment(entidad1, chestPlan);
+        trainingCommentService.createTrainingComment(entidad2, armsPlan);
+        trainingCommentService.createTrainingComment(entidad3, chestPlan);
+        trainingCommentService.createTrainingComment(entidad4, chestPlan);
+        trainingCommentService.createTrainingComment(entidad5, legsPlan);
+        trainingCommentService.createTrainingComment(entidad6, chestPlan);
+        trainingCommentService.createTrainingComment(entidad7, absPlan);
+        trainingCommentService.createTrainingComment(entidad8, chestPlan);
+        trainingCommentService.createTrainingComment(entidad9, chestPlan);
+        trainingCommentService.createTrainingComment(entidad10, backPlan);
+        trainingCommentService.createTrainingComment(entidad11, chestPlan);
+        trainingCommentService.createTrainingComment(entidad12, chestPlan);
+        trainingCommentService.createTrainingComment(entidad13, shoulderPlan);
+        trainingCommentService.createTrainingComment(entidad14, chestPlan);
+        trainingCommentService.createTrainingComment(entidad15, chestPlan);
+
+
     }
     
 }

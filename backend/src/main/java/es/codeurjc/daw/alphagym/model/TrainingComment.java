@@ -18,19 +18,13 @@ public class TrainingComment{
     private String author;
     private String name;
     private boolean isNotified = false;
-    private Long trainingId;
+    ///////////////////////private Long trainingId;
     
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "training_id")
+    @ManyToOne
+    private Training training;
 
     protected TrainingComment() {
-    }
-
-    public TrainingComment(String description, String name, Long trainingId) {
-        this.description = description;
-        this.name = name;
-        this.trainingId = trainingId;
-    }
+    } 
 
     public TrainingComment(String description, String name) {
         this.description = description;     
@@ -58,9 +52,10 @@ public class TrainingComment{
         return isNotified;
     }
 
-    public Long getTrainingId() { 
-        return trainingId; 
+    public Training getTraining() {
+        return training;
     }
+
 
     // Setters
     public void setId(Long id) {
@@ -83,7 +78,7 @@ public class TrainingComment{
         this.isNotified = isNotified;
     }
 
-    public void setTrainingId(Long trainingId) {
-        this.trainingId = trainingId;
+    public void setTraining(Training training) {
+        this.training = training;
     }
 }

@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
 import es.codeurjc.daw.alphagym.service.TrainingCommentService;
+import es.codeurjc.daw.alphagym.service.TrainingService;
 import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -28,6 +30,8 @@ public class TrainingCommentController {
     private UserService userService;
     @Autowired
     private TrainingCommentService trainingCommentService;
+    @Autowired
+    private TrainingService trainingService;
     //@Autowired
     //private TrainingCommentRepository trainingCommentRepository;
     //@Autowired
@@ -77,12 +81,12 @@ public class TrainingCommentController {
         return "comment";
     }
 
-    @PostMapping("/trainingComments/{trainingId}/newComment")
+    @PostMapping("/trainingComments/{trainingId}")
     public String createComment(Model model,@PathVariable Long trainingId, @RequestParam String commentTitle,@RequestParam String commentText){
 
         TrainingComment trainingComment = new TrainingComment(commentText,commentTitle);
-        trainingComment.setTrainingId(trainingId); // Asociar el comentario con el entrenamiento
-        trainingCommentService.createTrainingComment(trainingComment);
+        Training training = trainingService.getTraining(trainingId);
+        trainingCommentService.createTrainingComment(trainingComment,training);
 
         return "redirect:/trainingComments/" + trainingId;
     }
