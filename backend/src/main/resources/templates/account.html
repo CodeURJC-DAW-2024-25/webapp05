@@ -6,20 +6,40 @@
   </div>
   <div class="container-account2">
     <form class="form" action='/editAccount' method="post" enctype="multipart/form-data">
+      <input type="hidden" name="id" value="{{user.id}}" />
+      {{#user.image}}
+        <img src="/users/{{user.id}}/image" class="img-fluid mb-3" alt="User Image">
+        <div class="form-check">
+            <input type="checkbox" name="removeImage" class="form-check-input" id="removeImage">
+            <label class="form-check-label" for="removeImage">Remove Image</label>
+        </div>
+        <div class="mb-3">
+            <label for="updateImage" class="form-label">Update Image</label>
+        </div>
+      {{/user.image}}
+
+      {{^user.image}}
       <div id="profile-picture-container">
-        <!--<img src="/user/image/{{id}}" alt="User Profile" class="profile-image" id="profileImage">  esto cuando tengamos una imagen valida-->
-        <img src="images/profile-picture-default.jpg" class="foto-perfil" alt="Foto de perfil">
+        <img src="images/profile-picture-default.jpg" class="foto-perfil" alt="No image">
       </div>
-      <input type="file" name="image" placeholder="Foto" accept=".jpg, .jpeg, .png">
+      <div class="mb-3">
+        <label for="uploadImage" class="form-label">Upload Image</label>
+      </div>
+      {{/user.image}}
+
+      <input type="file" name="imageField" placeholder="Foto" accept=".jpg, .jpeg, .png">
       <div class="profile-container">
           <div class="form-container">
             <h2 class="title">Nombre:</h2>
-            <input type="name" class="input" value="{{user.name}}"/>
+            <input type="name" class="input" value="{{user.name}}" name="name"/>
             <h2 class="title">Email:</h2>
-            <input type="email" class="input" value="{{user.email}}" />
+            <input type="email" class="input" value="{{user.email}}" name="email"/>
             <input type="hidden" name="_csrf" value="{{token}}"/>
-            <input type="submit" class="btn-load" value="Submit" />
-          </div>  
+          </div> 
+          <div>
+            <input type="submit" class="btn-load" value="Save" />
+          </div>
+           
       </div> 
       </form>  
   </div>
@@ -34,7 +54,7 @@
                 <div class="card shadow-sm">
                   <div class="card-body">
                     <div id="training/nutrition-picture-container">
-                      <img src="{{image}}" alt="training" class="training" id="trainingImage">
+                      <img src="¨{{image}}" alt="training" class="training" id="trainingImage">
                     </div>
                     <h5 class="card-title">{{name}}</h5>
                     <h5 class="card-title">{{goal}}</h5>
@@ -79,4 +99,4 @@
   </section>
 {{/user}}
 
-{{> footer}}
+{{>footer}}

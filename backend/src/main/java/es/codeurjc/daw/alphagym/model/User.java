@@ -1,6 +1,9 @@
 package es.codeurjc.daw.alphagym.model;
 
 import java.util.List;
+
+import org.springframework.web.context.annotation.SessionScope;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Blob;
 import jakarta.persistence.CascadeType;
@@ -16,6 +19,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
+@SessionScope
 public class User {
 
     @Id ()
@@ -32,7 +36,10 @@ public class User {
 
     @Lob
 	@JsonIgnore
-	private String img_user;
+	private Blob img_user;
+
+    @JsonIgnore
+	private boolean image;
 
     //los roles
     @ElementCollection(fetch = FetchType.EAGER)
@@ -55,7 +62,6 @@ public class User {
         this.email = email; 
         this.encodedPassword = encodedPassword;
         this.roles = List.of(roles);
-        this.img_user = "/images/profile-picture-default.png";
     }
 
     // Constructor necesario para la carga desde BBDD
@@ -69,6 +75,9 @@ public class User {
 		this.roles.add(role);
 	}
 
+    public boolean isImage() {
+		return image;
+	}
 
     // Getters
 
@@ -106,7 +115,7 @@ public class User {
 		return roles;
 	}
 
-    public String getImg_user() {
+    public Blob getImg_user() {
 		return img_user;
 	}
       
@@ -148,8 +157,11 @@ public class User {
 		this.roles = roles;
 	}
 
-    public void setImg_user(String img_user) {
+    public void setImg_user(Blob img_user) {
 		this.img_user = img_user;
 	}
     
+    public void setImage(boolean image) {
+		this.image = image;
+	}
 } 

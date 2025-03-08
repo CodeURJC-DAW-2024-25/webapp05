@@ -1,30 +1,36 @@
 package es.codeurjc.daw.alphagym.controller;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.sql.SQLException;
 import java.util.Optional;
 
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.codeurjc.daw.alphagym.model.User;
-import es.codeurjc.daw.alphagym.repository.UserRepository;
 import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -72,7 +78,6 @@ public class UserController {
         Principal principal = request.getUserPrincipal();
 
         if (principal == null) {
-            model.addAttribute("user", new User());
             return "register";
         } else {
             return "redirect:/index";
@@ -80,10 +85,11 @@ public class UserController {
     }
     
     @PostMapping("/user/new")
-    public String createUser(@ModelAttribute User user, Model model) {
+    public String createUser(Model model, @RequestParam MultipartFile image, @RequestParam String name,
+            @RequestParam String email, @RequestParam String password) {
         try {
             // Check if user already exists with the given email
-            Optional<User> existingUser = userService.findByEmail(user.getEmail());
+            Optional<User> existingUser = userService.findByEmail(email);
            
             if (existingUser.isPresent()) {
                 // User exists, so we return an error message
@@ -91,7 +97,7 @@ public class UserController {
                 return "register"; 
             }
 
-            userService.createUser(user);
+            userService.createUser(name, email, password, image, "USER");
 
             return "redirect:/index"; 
 
@@ -133,6 +139,62 @@ public class UserController {
             return "redirect:/login";
         }
     }
+
+    @PostMapping("/editAccount")
+    public String editAccount(Model model, @ModelAttribute User user, boolean removeImage, MultipartFile imageField)
+        throws IOException, SQLException {
+
+        try {
+            Optional<User> userOld = userService.findById(user.getId());
+
+            if (userOld.isPresent()) {
+                User updateUser = userOld.get();
+
+                // Actualizar nombre solo si no está vacío
+                if (user.getName() != null && !user.getName().trim().isEmpty()) {
+                    userService.updateUserName(user.getId(), user.getName());
+                }
+
+                // Actualizar email solo si no está vacío
+                if (user.getEmail() != null && !user.getEmail().trim().isEmpty()) {
+                    userService.updateUserEmail(user.getId(), user.getEmail());
+                }
+
+                // Actualizar imagen si se proporciona o eliminarla si es necesario
+                userService.updateUserImage(updateUser, removeImage, imageField);
+
+                // Guardar usuario con los cambios realizados
+                userService.save(updateUser);
+
+                return "redirect:/account"; 
+
+            } else {
+                model.addAttribute("error", "Usuario no encontrado");
+                return "editAccount"; // Regresar al formulario de edición si no se encuentra el usuario
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "Ha ocurrido un error inesperado.");
+            return "editAccount"; // Regresar con error si algo falla
+        }
+    }
+
+    @GetMapping("/users/{id}/image")
+	public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
+
+		Optional<User> user = userService.findById(id);
+		if (user.isPresent() && user.get().getImg_user() != null) {
+
+			Resource file = new InputStreamResource(user.get().getImg_user().getBinaryStream());
+
+			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+					.contentLength(user.get().getImg_user().length()).body(file);
+
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
     
     @GetMapping("/admin")
     public String admin(Model model, HttpServletRequest request) {
@@ -153,5 +215,6 @@ public class UserController {
             return "redirect:/login";
         }
     }
+    
     
 }

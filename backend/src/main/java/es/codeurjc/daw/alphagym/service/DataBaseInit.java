@@ -46,7 +46,7 @@ public class DataBaseInit {
         userRepository.save(admin);
 
         User user = new User("user", "user@user.com", passwordEncoder.encode("pass"), "USER");
-        userService.createUser(user);
+        userRepository.save(user);
 
         //Trainings Examples
         Training chestPlan = new Training("Chest Plan","80%",60,"Increase volume", "Press de banca : 4x8-10\n" +

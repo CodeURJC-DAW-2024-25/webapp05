@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-     @Autowired
+    @Autowired
     private PasswordEncoder passwordEncoder;
     
     public ResponseEntity<Object> login(LoginRequest loginRequest) {
@@ -42,50 +43,61 @@ public class UserService {
         return ResponseEntity.ok().build();
     }
 
-    public User updateUserName(Long userId, String newName) {
+    public User createUser(String name, String email, String pass, MultipartFile image, String... roles) throws IOException {
+        User user = new User();
+
+        user.setName(name);
+        user.setEmail(email);
+        user.setEncodedPassword(passwordEncoder.encode(pass));
+        user.setRoles(List.of(roles));
+    
+        // Verifica si hay una imagen personalizada o usa la predeterminada o esta vacia
+        if (!image.isEmpty()) {
+            user.setImg_user(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
+            user.setImage(true);
+        }
+    
+        userRepository.save(user); // Guardar usuario en la BD
+    
+        return user; // Devolver el usuario creado correctamente
+    }
+
+    public void updateUserName(Long userId, String newName) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setName(newName);
-            return userRepository.save(user);
         }
-        return null; // Or throw an exception
     }
 
-    public User updateUserEmail(Long userId, String newEmail) {
+    public void updateUserEmail(Long userId, String newEmail) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setEmail(newEmail);
-            return userRepository.save(user);
         }
-        return null; // Or throw an exception
     }
 
-    public User createUser(User user) throws IOException {
-        User newUser = new User(user.getName(),user.getEmail(),user.getEncodedPassword(),"USER");
-
-        if (user.getImg_user() != null && !user.getImg_user().equals("/images/profile-picture-default.jpg")) {
-            newUser.setImg_user(user.getImg_user());
-        }
-
-        userRepository.save(newUser);
-
-        return user;
-    }
-
-    /*public void updateUserImage(Long userId, MultipartFile file) throws Exception {
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setImg_user(BlobProxy.generateProxy(file.getInputStream(), file.getSize()));
-            user.setImage(true);
-            
-            userRepository.save(user);
-        } else {
-            throw new Exception("User not found");
-        }
-    }*/
+    public void updateUserImage(User user, boolean removeImage, MultipartFile imageField) throws IOException, SQLException {
+		
+		if (!imageField.isEmpty()) {
+			user.setImg_user(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
+			user.setImage(true);
+		} else {
+			if (removeImage) {
+				user.setImg_user(null);
+				user.setImage(false);
+			} else {
+				// Maintain the same image loading it before updating the user
+                User dbUser = this.findById(user.getId()).orElseThrow();
+				if (dbUser.isImage()) { //has image?
+					user.setImg_user(BlobProxy.generateProxy(dbUser.getImg_user().getBinaryStream(),
+							dbUser.getImg_user().length()));
+					user.setImage(true);
+				}
+			}
+		}
+	}
 
     public Optional<User> findByEmail(String email){
         return userRepository.findByEmail(email);
