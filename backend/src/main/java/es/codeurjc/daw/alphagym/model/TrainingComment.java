@@ -74,7 +74,7 @@ public class TrainingComment{
         this.name = name;
     }
 
-    public void setNotified(boolean isNotified) {
+    public void setIsNotified(boolean isNotified) {
         this.isNotified = isNotified;
     }
 

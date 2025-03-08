@@ -68,7 +68,8 @@ public class TrainingCommentController {
     @GetMapping("/trainingComments/{trainingId}")
     public String showAllTrainingComments(Model model, @PathVariable Long trainingId){
         model.addAttribute("comment", trainingCommentService.getTrainingComments(trainingId));
-        return "comments";
+        model.addAttribute("training", trainingService.getTraining(trainingId));
+        return "commentTraining";
     }
 
     @GetMapping("/trainingComments/{trainingId}/newComment")
@@ -91,6 +92,17 @@ public class TrainingCommentController {
         return "redirect:/trainingComments/" + trainingId;
     }
 
+    @GetMapping("/trainingComments/{trainingId}/{commentId}/delete")
+    public String deleteComment(Model model, @PathVariable Long trainingId, @PathVariable Long commentId){
+        Training training = trainingService.getTraining(trainingId);
+        trainingCommentService.deleteCommentbyId(training, commentId);
+        return "redirect:/trainingComments/" + trainingId;
+    }
 
+    @GetMapping("/trainingComments/{trainingId}/{commentId}/report")
+    public String reportComment(Model model, @PathVariable Long trainingId, @PathVariable Long commentId){
+        trainingCommentService.reportCommentbyId(commentId);
+        return "redirect:/trainingComments/" + trainingId;
+    }
 
 }

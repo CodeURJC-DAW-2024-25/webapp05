@@ -43,6 +43,24 @@ public class TrainingCommentService {
         training.getComments().add(trainingComment);
         
     }
+
+    public void deleteCommentbyId(Training training, Long commentId) {
+        TrainingComment comment = trainingCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            training.getComments().remove(comment);            
+        }
+        trainingCommentRepository.deleteById(commentId);
+        
+    }
+
+    public void reportCommentbyId(Long commentId) {
+        TrainingComment comment = trainingCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            comment.setIsNotified(true);
+            trainingCommentRepository.save(comment);
+        }
+    }
+
            
 }
 
