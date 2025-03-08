@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class NutritionComment {
@@ -15,16 +16,11 @@ public class NutritionComment {
     private String author;
     private String name;
     private boolean isNotified = false;
-    private Long nutritionId;
 
+    @ManyToOne
+    private Nutrition nutrition;
 
     protected NutritionComment() {
-    }
-
-    public NutritionComment(String description, String name, Long nutritionId) {
-        this.description = description;
-        this.name = name;
-        this.nutritionId = nutritionId;
     }
 
     public NutritionComment(String description, String name) {
@@ -53,8 +49,8 @@ public class NutritionComment {
         return isNotified;
     }
 
-    public Long getNutritionId() {
-        return nutritionId;
+    public Nutrition getNutrition() {
+        return nutrition;
     }
 
     // Setters
@@ -78,7 +74,7 @@ public class NutritionComment {
         this.isNotified = isNotified;
     }
     
-    public void setNutritionId(Long nutritionId) {
-        this.nutritionId = nutritionId;
+    public void setNutrition(Nutrition nutrition) {
+        this.nutrition = nutrition;
     }
 }
