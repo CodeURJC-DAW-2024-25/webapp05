@@ -1,0 +1,46 @@
+{{>header}} <!-- Header included -->
+{{>navbar}} <!-- Navbar included -->
+
+<!-- Start Comments Section -->
+<section class="container py-5 flex-grow-1">
+  <h2 class="text-center mb-4">Comments for Training Routine: {{training.name}}</h2>
+  <div class="mb-3">
+    <img src="{{training.image}}" class="card-img-top" alt="{{training.name}}" />
+   </div>
+  <div id="resultsContainer" class="row">
+
+    {{#comment}}
+    <div class="col-12 col-md-4 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{name}}</h5>
+          <p class="description">{{description}}</p>                  
+        </div>
+        <div class="btn-div-extra">
+          {{#admin}}
+          <a href="{{training.id}}/{{id}}/editcomment" class="btn-load">Edit</a>
+          <a href="{{training.id}}/{{id}}/delete" class="btn-load-2">Delete</a> 
+          {{/admin}}
+          <a href="{{training.id}}/{{id}}/report" class="btn-load-2">Report</a> 
+        </div>
+      </div>
+    </div>
+    {{/comment}}  
+  </div>
+
+  <!-- Load more button and add comments button -->
+  <div class="text-center">
+    <button id="loadMore" class="btn-load">More Comments</button>
+    <button id="addComment" class="btn-load" onclick="window.location.href=window.location.pathname + '/newComment'">
+      Add Comment
+    </button>
+    <button class="btn-load" onclick="redirectFromComments()">
+      Return
+    </button>
+    <!-- This button should change the reference depending on where it comes from-->
+  </div>
+</section>
+<!-- End Comments Section -->
+
+{{>footer}}
+<!-- Footer included -->
