@@ -97,9 +97,14 @@ public class UserController {
                 return "register"; 
             }
 
-            userService.createUser(name, email, password, image, "USER");
+            // Manejar caso en que no se suba imagen
+            if (image == null || image.isEmpty()) {
+                userService.createUser(name, email, password, "USER"); 
+            } else {
+                userService.createUser(name, email, password, image, "USER"); 
+            }
 
-            return "redirect:/index"; 
+            return "redirect:/login"; 
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -43,6 +43,7 @@ public class UserService {
         return ResponseEntity.ok().build();
     }
 
+    //Crear un usuario con imagen
     public User createUser(String name, String email, String pass, MultipartFile image, String... roles) throws IOException {
         User user = new User();
 
@@ -61,6 +62,21 @@ public class UserService {
     
         return user; // Devolver el usuario creado correctamente
     }
+
+    //Crear un usuario sin imagen
+    public User createUser(String name, String email, String pass, String... roles) {
+        User user = new User();
+    
+        user.setName(name);
+        user.setEmail(email);
+        user.setEncodedPassword(passwordEncoder.encode(pass));
+        user.setRoles(List.of(roles));
+    
+        userRepository.save(user); // Guardar usuario en la BD
+    
+        return user; // Devolver el usuario creado correctamente
+    }
+    
 
     public void updateUserName(Long userId, String newName) {
         Optional<User> userOptional = userRepository.findById(userId);
