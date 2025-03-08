@@ -137,10 +137,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var buttonShowDiet = document.querySelectorAll(".goToShowDiet");
   buttonShowDiet.forEach(function (button) {
     button.addEventListener("click", function () {
-      var id = button.dataset.id; // We get de id from data-attribute
+      var nutritionId = button.dataset.nutritionId; // We get de id from data-attribute
 
-      if (id) {
-        window.location.href = "/nutritions/" + id; // Send the url to the controller to see the training view
+      if (nutritionId) {
+        window.location.href = "/nutritions/" + nutritionId; // Send the url to the controller to see the training view
       } else {
         console.warn("ID de la nutricion no encontrado.");
       }
@@ -150,10 +150,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var buttonEditDiet = document.querySelectorAll(".goToEditDiet");
   buttonEditDiet.forEach(function (button) {
     button.addEventListener("click", function () {
-      var id = button.dataset.id; // We get de id from data-attribute
+      var nutritionId = button.dataset.nutritionId; // We get de id from data-attribute
 
-      if (id) {
-        window.location.href = "/nutritions/editNutrition/" + id; // Send the url to the controller to see the edit training view
+      if (nutritionId) {
+        window.location.href = "/nutritions/editNutrition/" + nutritionId; // Send the url to the controller to see the edit training view
       } else {
         console.warn("ID de la nutricion no encontrado.");
       }
@@ -162,12 +162,12 @@ document.addEventListener("DOMContentLoaded", function () {
   var buttonDeleteDiet = document.querySelectorAll(".goToDeleteDiet");
   buttonDeleteDiet.forEach(function (button) {
     button.addEventListener("click", function () {
-      var id = button.dataset.id; // We get de id from data-attribute
+      var nutritionId = button.dataset.nutritionId; // We get de id from data-attribute
 
-      if (id) {
+      if (nutritionId) {
         let confirmation = confirm('¿Estas seguro de querer eliminar esta dieta?');
         if(confirmation) {
-          window.location.href = "/nutritions/delete/" + id; // Send the url to the controller to see the edit training view
+          window.location.href = "/nutritions/delete/" + nutritionId; // Send the url to the controller to see the edit training view
         }
       } else {
         console.warn("ID de la nutricion no encontrado.");
@@ -178,12 +178,12 @@ document.addEventListener("DOMContentLoaded", function () {
   var buttonSuscribeDiet = document.querySelectorAll(".goToSubscribeDiet");
   buttonSuscribeDiet.forEach(function (button) {
     button.addEventListener("click", function () {
-      var id = button.dataset.id; // We get de id from data-attribute
+      var nutritionId = button.dataset.nutritionId; // We get de id from data-attribute
 
-      if (id) {
+      if (nutritionId) {
         let confirmation = confirm('¿Estas seguro de querer suscribirte a esta dieta?');
         if(confirmation) {
-          window.location.href = "/nutritions/subscribe/" + id;
+          window.location.href = "/nutritions/subscribe/" + nutritionId;
         }
       } else {
         console.warn("ID de la nutricion no encontrado.");
@@ -194,12 +194,12 @@ document.addEventListener("DOMContentLoaded", function () {
   var buttonUnsubscribeDiet = document.querySelectorAll(".goToUnsubscribeDiet");
   buttonUnsubscribeDiet.forEach(function (button) {
     button.addEventListener("click", function () {
-      var id = button.dataset.id; // We get de id from data-attribute
+      var nutritionId = button.dataset.nutritionId; // We get de id from data-attribute
 
-      if (id) {
+      if (nutritionId) {
         let confirmation = confirm('¿Estas seguro de querer desuscribirte de esta dieta?');
         if(confirmation) {
-          window.location.href = "/nutritions/unsubscribe/" + id;
+          window.location.href = "/nutritions/unsubscribe/" + nutritionId;
         }
       } else {
         console.warn("ID de la nutricion no encontrado.");
@@ -210,12 +210,12 @@ document.addEventListener("DOMContentLoaded", function () {
   var buttonDeleteDietFromList = document.querySelectorAll(".goToDeleteDietFromList");
   buttonDeleteDietFromList.forEach(function (button) {
     button.addEventListener("click", function () {
-      var id = button.dataset.id; // We get de id from data-attribute
+      var nutritionId = button.dataset.nutritionId; // We get de id from data-attribute
 
-      if (id) {
+      if (nutritionId) {
         let confirmation = confirm('¿Estas seguro de querer desuscribirte de esta dieta?');
         if(confirmation) {
-          window.location.href = "/nutritions/deleteFromList/" + id;
+          window.location.href = "/nutritions/deleteFromList/" + nutritionId;
         }
       } else {
         console.warn("ID de la nutricion no encontrado.");
