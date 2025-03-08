@@ -166,6 +166,19 @@ h2 {
   color: white;
 }
 
+.btn-div-extra {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-div-extra a {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+}
 /* Login  */
 
 .container-account {
