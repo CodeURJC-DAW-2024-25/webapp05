@@ -64,7 +64,7 @@ public class WebSecurityConfig {
 
 						// PRIVATE PAGES
                         .requestMatchers("/account").hasAnyRole("USER")
-						.requestMatchers("/editAccount").hasAnyRole("USER")
+						.requestMatchers("/editAccount/**").hasAnyRole("USER")
 						.requestMatchers("/newNutrition").hasAnyRole("USER")
 						.requestMatchers("/newTraining").hasAnyRole("USER")
 						.requestMatchers("/editNutrition/*").hasAnyRole("ADMIN", "USER")

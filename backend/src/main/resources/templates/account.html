@@ -5,10 +5,10 @@
     <h1 class="title">Profile</h1>
   </div>
   <div class="container-account2">
-    <form class="form" action='/editAccount' method="post" enctype="multipart/form-data">
+    <form class="form" action='/editAccount/{{user.id}}' method="post" enctype="multipart/form-data">
       <input type="hidden" name="id" value="{{user.id}}" />
       {{#user.image}}
-        <img src="/users/{{user.id}}/image" class="img-fluid mb-3" alt="User Image">
+        <img src="{{user.image}}" class="img-fluid mb-3" alt="User Image">
         <div class="form-check">
             <input type="checkbox" name="removeImage" class="form-check-input" id="removeImage">
             <label class="form-check-label" for="removeImage">Remove Image</label>

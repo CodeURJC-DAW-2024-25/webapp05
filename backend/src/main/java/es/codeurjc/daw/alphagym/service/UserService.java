@@ -52,7 +52,7 @@ public class UserService {
         user.setEncodedPassword(passwordEncoder.encode(pass));
         user.setRoles(List.of(roles));
     
-        // Verifica si hay una imagen personalizada o usa la predeterminada o esta vacia
+        // Verifica si hay una imagen 
         if (!image.isEmpty()) {
             user.setImg_user(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
             user.setImage(true);
@@ -71,8 +71,6 @@ public class UserService {
         user.setEmail(email);
         user.setEncodedPassword(passwordEncoder.encode(pass));
         user.setRoles(List.of(roles));
-    
-        userRepository.save(user); // Guardar usuario en la BD
     
         return user; // Devolver el usuario creado correctamente
     }

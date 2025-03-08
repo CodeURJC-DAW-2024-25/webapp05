@@ -28,6 +28,7 @@ import org.springframework.stereotype.Controller;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class UserController {
@@ -84,9 +85,10 @@ public class UserController {
         }
     }
     
-    @PostMapping("/user/new")
-    public String createUser(Model model, @RequestParam MultipartFile image, @RequestParam String name,
-            @RequestParam String email, @RequestParam String password) {
+    @PostMapping("/register")
+    public String createUser(@RequestParam String name,@RequestParam String email, 
+            @RequestParam String password, Model model) {
+
         try {
             // Check if user already exists with the given email
             Optional<User> existingUser = userService.findByEmail(email);
@@ -97,19 +99,18 @@ public class UserController {
                 return "register"; 
             }
 
-            // Manejar caso en que no se suba imagen
-            if (image == null || image.isEmpty()) {
-                userService.createUser(name, email, password, "USER"); 
-            } else {
-                userService.createUser(name, email, password, image, "USER"); 
-            }
+            // Create the user
+            User user = userService.createUser(name, email, password, "USER");
 
+            // Save the user in the database
+            userService.save(user);
+            
             return "redirect:/login"; 
 
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Ha ocurrido un error.");
-            return "register"; 
+            return "login"; 
         }
     }
     
@@ -145,12 +146,12 @@ public class UserController {
         }
     }
 
-    @PostMapping("/editAccount")
-    public String editAccount(Model model, @ModelAttribute User user, boolean removeImage, MultipartFile imageField)
+    @PostMapping("/editAccount/{id}")
+    public String editAccount(Model model, @ModelAttribute User user, @PathVariable Long id, boolean removeImage, MultipartFile imageField)
         throws IOException, SQLException {
 
         try {
-            Optional<User> userOld = userService.findById(user.getId());
+            Optional<User> userOld = userService.findById(id);
 
             if (userOld.isPresent()) {
                 User updateUser = userOld.get();

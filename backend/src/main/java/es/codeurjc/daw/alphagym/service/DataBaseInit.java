@@ -43,10 +43,12 @@ public class DataBaseInit {
 
         //Users Examples
         User admin = new User("admin", "admin@admin.com", passwordEncoder.encode("adminpass"), "ADMIN", "USER");
-        userRepository.save(admin);
+        //userRepository.save(admin);
+        userService.save(admin);
 
         User user = new User("user", "user@user.com", passwordEncoder.encode("pass"), "USER");
-        userRepository.save(user);
+        //userRepository.save(user);
+        userService.save(user);
 
         //Trainings Examples
         Training chestPlan = new Training("Chest Plan","80%",60,"Increase volume", "Press de banca : 4x8-10\n" +
