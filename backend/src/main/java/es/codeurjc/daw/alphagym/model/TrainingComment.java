@@ -40,7 +40,7 @@ public class TrainingComment{
         return name;
     }
 
-    public String getdescription() {
+    public String getDescription() {
         return description;
     }
 
@@ -62,7 +62,7 @@ public class TrainingComment{
         this.id = id;
     }
 
-    public void setdescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

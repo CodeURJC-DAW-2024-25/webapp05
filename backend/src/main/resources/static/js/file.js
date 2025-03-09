@@ -342,6 +342,7 @@ function redirectFromEditComments(event, preventer) {
     let newUrl = pathSegments.join("/");
     window.location.href = newUrl;
   } else {
+    let newUrl = pathSegments.join("/");
     let form = document.getElementById("commentForm");
     form.action = newUrl;
     form.submit();

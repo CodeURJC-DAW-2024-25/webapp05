@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
@@ -61,6 +62,12 @@ public class TrainingCommentService {
         }
     }
 
-           
+    public TrainingComment getCommentById(Long commentId) {
+         return trainingCommentRepository.findById(commentId).orElse(null);
+     }
+ 
+    public void updateComment(TrainingComment comment) {
+         trainingCommentRepository.save(comment);
+     }      
 }
 

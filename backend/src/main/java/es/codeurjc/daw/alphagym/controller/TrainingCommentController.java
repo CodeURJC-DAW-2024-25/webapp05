@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;
@@ -77,10 +78,6 @@ public class TrainingCommentController {
         return "newComment";
     }
 
-    @GetMapping("/trainingComments/{trainingId}/{commentId}")
-    public String showComment(Model model, @PathVariable Long trainingId, @PathVariable Long commentId){
-        return "comment";
-    }
 
     @PostMapping("/trainingComments/{trainingId}")
     public String createComment(Model model,@PathVariable Long trainingId, @RequestParam String commentTitle,@RequestParam String commentText){
@@ -104,5 +101,23 @@ public class TrainingCommentController {
         trainingCommentService.reportCommentbyId(commentId);
         return "redirect:/trainingComments/" + trainingId;
     }
+
+    @GetMapping("/trainingComments/{trainingId}/{commentId}/editcomment")
+     public String editComment(Model model, @PathVariable Long trainingId, @PathVariable Long commentId) {
+         model.addAttribute("comment", trainingCommentService.getCommentById(commentId));
+         return "editComment";
+     }
+ 
+     @PostMapping("/trainingComments/{trainingId}/{commentId}")
+     public String updateComment(Model model, @PathVariable Long trainingId, @PathVariable Long commentId,
+             @RequestParam String commentTitle, @RequestParam String commentText) {
+         TrainingComment trainingComment = trainingCommentService.getCommentById(commentId);
+         if (trainingComment != null) {
+             trainingComment.setDescription(commentText);
+             trainingComment.setName(commentTitle);
+             trainingCommentService.updateComment(trainingComment);
+         }
+         return "redirect:/trainingComments/" + trainingId;
+     }
 
 }
