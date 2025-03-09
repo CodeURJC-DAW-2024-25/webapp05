@@ -26,6 +26,8 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 
 import es.codeurjc.daw.alphagym.model.User;
+import es.codeurjc.daw.alphagym.service.NutritionCommentService;
+import es.codeurjc.daw.alphagym.service.TrainingCommentService;
 import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,6 +41,11 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private TrainingCommentService trainingCommentService;
+
+    @Autowired
+    private NutritionCommentService nutritionCommentService;
 
     @ModelAttribute("user")
     public void addAttributes(Model model, HttpServletRequest request){
@@ -222,8 +229,12 @@ public class UserController {
 
             //aqui hay meterle los comentarios reportados
             //model.addAtribute(isNotified);
-            
+            Long[] reportsArray1 = trainingCommentService.getReportAmmmounts(); 
+            Long[] reportsArray2 = nutritionCommentService.getReportAmmmounts();
+
             model.addAttribute("admin", admin.get());
+            model.addAttribute("reportedCount", reportsArray1[0] + reportsArray2[0]);
+            model.addAttribute("notReportedCount", reportsArray1[1] + reportsArray2[1]);
             //aqui añadir 
             return "admin";
 

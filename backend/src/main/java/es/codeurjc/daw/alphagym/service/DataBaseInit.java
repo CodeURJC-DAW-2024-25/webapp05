@@ -148,6 +148,10 @@ public class DataBaseInit {
         TrainingComment entidad14 = new TrainingComment("Comentario 14", "Glúteos y Piernas");
         TrainingComment entidad15 = new TrainingComment("Comentario 15", "Rutina de Flexibilidad");
 
+        entidad3.setIsNotified(true);
+        entidad5.setIsNotified(true);
+        entidad11.setIsNotified(true);
+
         trainingCommentService.createTrainingComment(descansos, chestPlan);
         trainingCommentService.createTrainingComment(hidratación, chestPlan);
         trainingCommentService.createTrainingComment(entidad1, chestPlan);
@@ -169,22 +173,24 @@ public class DataBaseInit {
         //nutrition comment examples
         NutritionComment variedad = new NutritionComment("Es importante comer variado", "Variedad");
         NutritionComment frutas = new NutritionComment("Es necesario comer mucha fruta", "Frutas");
-        NutritionComment comentario1 = new NutritionComment("Comentario 1", "Entrenamiento Básico");
-        NutritionComment comentario2 = new NutritionComment("Comentario 2", "Fuerza");
-        NutritionComment comentario3 = new NutritionComment("Comentario 3", "Cardio Intenso");
-        NutritionComment comentario4 = new NutritionComment("Comentario 4", "Rutina de Piernas");
-        NutritionComment comentario5 = new NutritionComment("Comentario 5", "Espalda y Bíceps");
-        NutritionComment comentario6 = new NutritionComment("Comentario 6", "Pecho y Tríceps");
-        NutritionComment comentario7 = new NutritionComment("Comentario 7", "Entrenamiento Funcional");
-        NutritionComment comentario8 = new NutritionComment("Comentario 8", "HIIT");
-        NutritionComment comentario9 = new NutritionComment("Comentario 9", "Entrenamiento Full Body");
-        NutritionComment comentario10 = new NutritionComment("Comentario 10", "CrossFit");
-        NutritionComment comentario11 = new NutritionComment("Comentario 11", "Pilates");
-        NutritionComment comentario12 = new NutritionComment("Comentario 12", "Yoga");
-        NutritionComment comentario13 = new NutritionComment("Comentario 13", "Abdominales");
-        NutritionComment comentario14 = new NutritionComment("Comentario 14", "Glúteos y Piernas");
-        NutritionComment comentario15 = new NutritionComment("Comentario 15", "Rutina de Flexibilidad");
-
+        NutritionComment comentario1 = new NutritionComment("Proteínas esenciales", "Importante consumir suficiente proteína para la recuperación muscular.");
+        NutritionComment comentario2 = new NutritionComment("Hidratación", "Beber suficiente agua mejora el rendimiento y la recuperación.");
+        NutritionComment comentario3 = new NutritionComment("Carbohidratos y energía", "Los carbohidratos son clave para mantener la energía durante el ejercicio.");
+        NutritionComment comentario4 = new NutritionComment("Grasas saludables", "Las grasas saludables son esenciales para la función hormonal y la energía.");
+        NutritionComment comentario5 = new NutritionComment("Vitaminas y minerales", "Consumir frutas y verduras aporta nutrientes esenciales para el cuerpo.");
+        NutritionComment comentario6 = new NutritionComment("Timing de comidas", "Comer antes y después del entrenamiento mejora el rendimiento y la recuperación.");
+        NutritionComment comentario7 = new NutritionComment("Suplementación", "Los suplementos pueden ayudar, pero la dieta siempre debe ser la base.");
+        NutritionComment comentario8 = new NutritionComment("Fibra y digestión", "Consumir suficiente fibra mejora la digestión y la salud intestinal.");
+        NutritionComment comentario9 = new NutritionComment("Déficit calórico", "Para perder peso, es clave consumir menos calorías de las que se gastan.");
+        NutritionComment comentario10 = new NutritionComment("Superávit calórico", "Para ganar masa muscular, es necesario un superávit calórico.");
+        NutritionComment comentario11 = new NutritionComment("Desayuno equilibrado", "Un buen desayuno debe incluir proteínas, carbohidratos y grasas saludables.");
+        NutritionComment comentario12 = new NutritionComment("Ayuno intermitente", "El ayuno intermitente puede ayudar a controlar el apetito y mejorar la quema de grasa.");
+        NutritionComment comentario13 = new NutritionComment("Electrolitos", "Los electrolitos son clave para la hidratación, especialmente después de entrenar.");
+        NutritionComment comentario14 = new NutritionComment("Reducción de azúcar", "Disminuir el azúcar mejora la salud metabólica y reduce la inflamación.");
+        NutritionComment comentario15 = new NutritionComment("Comidas balanceadas", "Cada comida debe incluir proteínas, grasas saludables y carbohidratos adecuados.");
+        
+        comentario5.setIsNotified(true);
+        comentario7.setIsNotified(true);
 
         nutritionCommentService.createNutritionComment(variedad,caloricDeficit);
         nutritionCommentService.createNutritionComment(frutas,caloricDeficit);

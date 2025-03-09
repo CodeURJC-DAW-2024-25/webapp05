@@ -9,5 +9,6 @@ import es.codeurjc.daw.alphagym.model.NutritionComment;
 public interface NutritionCommentRepository extends JpaRepository<NutritionComment, Long> {
     List<NutritionComment> findById(long id);
     List<NutritionComment> findByNutritionId(Long nutritionId);
+    long countByIsNotified(boolean isNotified);
     
 }

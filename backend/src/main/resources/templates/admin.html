@@ -1,16 +1,18 @@
 {{>header}} <!-- Incluimos el header -->
 {{>navbar}} <!-- Incluimos el navbar -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- Contenedor principal -->
 <div class="container d-flex justify-content-center align-items-start flex-wrap mt-4">
   <!-- Perfil del administrador -->
   <div class="form-container-plans3">
     <p class="title text-center">Admin Profile</p>
     <div class="form">
-      <input type="email" class="input" value="{{admin.name}}" readonly/>
-      <input type="email" class="input" value="{{admin.email}}" readonly/>
+      <input type="text" class="input" value="{{admin.name}}" readonly />
+      <input type="email" class="input" value="{{admin.email}}" readonly />
     </div>
   </div>
 
+  <!-- Sección de notificaciones -->
   <div class="container-admin">
     <div class="card-body2">
       <h5 class="card-title">Notifications: X</h5>
@@ -19,5 +21,13 @@
       </div>
     </div>
   </div>
-</div>
+
+  <div class="container-chart mt-4">
+    <h5 class="text-center">Reported vs. Non-Reported Comments</h5>
+    <canvas id="reportGraphicChart"
+        data-reported="{{reportedCount}}"
+        data-not-reported="{{notReportedCount}}">
+    </canvas>
+  </div>
+
 {{>footer}}

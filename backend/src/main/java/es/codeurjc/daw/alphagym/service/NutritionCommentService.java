@@ -61,4 +61,9 @@ public class NutritionCommentService {
         nutritionCommentRepository.save(comment); // Save updates to the database
     }
 
+    public Long[] getReportAmmmounts() {
+        Long reported = nutritionCommentRepository.countByIsNotified(true);
+        Long notReported = nutritionCommentRepository.countByIsNotified(false);
+        return new Long[] {reported, notReported};
+    } 
 }

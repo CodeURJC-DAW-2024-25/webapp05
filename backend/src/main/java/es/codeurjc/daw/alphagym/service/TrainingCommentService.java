@@ -68,6 +68,12 @@ public class TrainingCommentService {
  
     public void updateComment(TrainingComment comment) {
          trainingCommentRepository.save(comment);
-     }      
+     }
+
+    public Long[] getReportAmmmounts() {
+        Long reported = trainingCommentRepository.countByIsNotified(true);
+        Long notReported = trainingCommentRepository.countByIsNotified(false);
+        return new Long[] {reported, notReported};
+    }      
 }
 

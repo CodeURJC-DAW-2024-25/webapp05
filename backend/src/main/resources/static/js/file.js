@@ -1,3 +1,4 @@
+src="https://cdn.jsdelivr.net/npm/chart.js"
 document.addEventListener("DOMContentLoaded", function () {
   console.log("Página cargada, ejecutando scripts...");
 
@@ -347,4 +348,27 @@ function redirectFromEditComments(event, preventer) {
     form.action = newUrl;
     form.submit();
   }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  const chartElement = document.getElementById("reportGraphicChart");
+  if (chartElement) { // Solo ejecuta si está en la página correcta
+      const reportedCount = parseInt(chartElement.dataset.reported, 10) || 0;
+      const nonReportedCount = parseInt(chartElement.dataset.notReported, 10) || 0;
+      renderReportChart(reportedCount, nonReportedCount);
+  }
+});
+
+function renderReportChart(reportedCount, nonReportedCount) {
+  const ctx = document.getElementById("reportGraphicChart").getContext("2d");
+  new Chart(ctx, {
+      type: "pie",
+      data: {
+          labels: ["Reportados", "No Reportados"],
+          datasets: [{
+              data: [reportedCount, nonReportedCount],
+              backgroundColor: ["red", "blue"]
+          }]
+      }
+  });
 }
