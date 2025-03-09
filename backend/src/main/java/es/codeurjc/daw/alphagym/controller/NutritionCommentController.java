@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.model.User;
-import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.service.NutritionCommentService;
 import es.codeurjc.daw.alphagym.service.NutritionService;
 import es.codeurjc.daw.alphagym.service.UserService;
@@ -63,18 +62,14 @@ public class NutritionCommentController {
 
     @GetMapping("/nutritionComments/{nutritionId}")
     public String showAllNutritionComments(Model model, @PathVariable Long nutritionId){
+        model.addAttribute("nutrition",nutritionService.getNutrition(nutritionId));
         model.addAttribute("comment",nutritionCommentService.getNutritionComments(nutritionId));
-        return "comments";
+        return "commentNutrition";
     }
 
     @GetMapping("/nutritionComments/{nutritionId}/newComment")
     public String newComment(Model model, @PathVariable Long nutritionId){
         return "newComment";
-    }
-
-    @GetMapping("/nutritionComments/{nutritionId}/{commentId}")
-    public String showComment(Model model, @PathVariable Long nutritionId, @PathVariable Long commentId){
-        return "comment";
     }
 
     @PostMapping("/nutritionComments/{nutritionId}")
@@ -86,4 +81,21 @@ public class NutritionCommentController {
 
         return "redirect:/nutritionComments/" + nutritionId;
     }
+    @GetMapping("/nutritionComments/{nutritionId}/{commentId}/delete")
+    public String deleteComment(Model model,@PathVariable Long nutritionId, @PathVariable Long commentId){
+        Nutrition nutrition = nutritionService.getNutrition(nutritionId);
+        nutritionCommentService.deleteCommentbyId(nutrition,commentId);
+        return "redirect:/nutritionComments/" + nutritionId;
+    }
+
+    @GetMapping("/nutritionComments/{nutritionId}/{commentId}/report")
+    public String reportComment(Model model, @PathVariable Long nutritionId, @PathVariable Long commentId){
+        nutritionCommentService.reportCommentbyId(commentId);
+        return "redirect:/nutritionComments/" + nutritionId;
+    }
+
+    
+   
+    
+
 }
