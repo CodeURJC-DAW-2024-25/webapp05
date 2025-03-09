@@ -1,9 +1,7 @@
 package es.codeurjc.daw.alphagym.service;
 
 
-import es.codeurjc.daw.alphagym.model.Nutrition;
-import es.codeurjc.daw.alphagym.model.Training;
-import es.codeurjc.daw.alphagym.model.User;
+import es.codeurjc.daw.alphagym.model.*;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
@@ -81,6 +79,12 @@ public class NutritionService {
                  user.getNutritions().remove(nutrition);
                  userRepository.save(user); // Guardar los cambios en el usuario ya que no hay mapped by cascade
              }
+            List<NutritionComment> nutritionComments = nutritionCommentRepository.findByNutritionId(id);
+
+            for (NutritionComment nutritionComment : nutritionComments) {
+                nutritionCommentRepository.delete(nutritionComment);
+
+            }
             nutritionRepository.delete(nutrition);
             return nutrition;
         }

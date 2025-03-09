@@ -136,7 +136,7 @@ public class NutritionController {
                 } else {
                     nutritionService.createNutrition(nutrition, user.get());
                 }
-                return "redirect:/trainings";
+                return "redirect:/nutritions";
             }
         }
         return "redirect:/nutritions";

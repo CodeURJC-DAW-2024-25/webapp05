@@ -2,6 +2,7 @@ package es.codeurjc.daw.alphagym.service;
 
 
 import es.codeurjc.daw.alphagym.model.Training;
+import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
@@ -83,6 +84,13 @@ public class TrainingService {
             for (User user : usersWithTraining) {
                 user.getTrainings().remove(training);
                 userRepository.save(user); // Guardar los cambios en el usuario ya que no hay mapped by cascade
+            }
+
+            List<TrainingComment> trainingComments = trainingCommentRepository.findByTrainingId(id);
+
+            for (TrainingComment trainingComment : trainingComments) {
+                trainingCommentRepository.delete(trainingComment);
+
             }
             trainingRepository.delete(training);
             return training;

@@ -4,7 +4,7 @@
     <!-- Formulario de Rutina -->
     <div class="container mt-5">
       <h2 class="text-center">Create New Training Routine </h2>
-      <form id="routineForm" name="createForm" action="/trainings/createRoutine" method="post" onsubmit="return validateRoutineForm()">
+      <form id="routineForm" name="editForm" action="/trainings/createRoutine" method="post" onsubmit="return validateRoutineForm()">
           <input type="hidden" name="_csrf" value="{{token}}"/>
         <div class="mb-3">
           <label for="routineName" class="form-label">Routine Name:</label>
