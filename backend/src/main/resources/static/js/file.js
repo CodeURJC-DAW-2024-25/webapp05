@@ -332,3 +332,18 @@ function redirectFromNewComments(event, preventer) {
   }
   
 }
+
+function redirectFromEditComments(event, preventer) {
+  event.preventDefault();
+  let pathSegments = window.location.pathname.split("/"); 
+  pathSegments.pop();
+  if (preventer){
+    pathSegments.pop();
+    let newUrl = pathSegments.join("/");
+    window.location.href = newUrl;
+  } else {
+    let form = document.getElementById("commentForm");
+    form.action = newUrl;
+    form.submit();
+  }
+}

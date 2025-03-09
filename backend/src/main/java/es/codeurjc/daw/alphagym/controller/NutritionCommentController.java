@@ -21,32 +21,31 @@ import es.codeurjc.daw.alphagym.service.NutritionService;
 import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
-
 @Controller
 public class NutritionCommentController {
-    
+
     @Autowired
     private NutritionCommentService nutritionCommentService;
     @Autowired
     private UserService userService;
     @Autowired
     private NutritionService nutritionService;
-    //@Autowired
-    //private NutritionCommentRepository nutritionCommentRepository;
-
+    // @Autowired
+    // private NutritionCommentRepository nutritionCommentRepository;
 
     @ModelAttribute("user")
-    public void addAttributes(Model model, HttpServletRequest request){
+    public void addAttributes(Model model, HttpServletRequest request) {
 
         Principal principal = request.getUserPrincipal();
 
         if (principal != null) {
-            Optional <User> user = userService.findByEmail(principal.getName()); //se usa getName porque asi se hace desde security
-            if (user.isPresent()){
-                if (user.get().isRole("USER")){
+            Optional<User> user = userService.findByEmail(principal.getName()); // se usa getName porque asi se hace
+                                                                                // desde security
+            if (user.isPresent()) {
+                if (user.get().isRole("USER")) {
                     model.addAttribute("user", true);
                 }
-                if (user.get().isRole("ADMIN")){
+                if (user.get().isRole("ADMIN")) {
                     model.addAttribute("admin", true);
                 }
             }
@@ -61,41 +60,57 @@ public class NutritionCommentController {
     }
 
     @GetMapping("/nutritionComments/{nutritionId}")
-    public String showAllNutritionComments(Model model, @PathVariable Long nutritionId){
-        model.addAttribute("nutrition",nutritionService.getNutrition(nutritionId));
-        model.addAttribute("comment",nutritionCommentService.getNutritionComments(nutritionId));
+    public String showAllNutritionComments(Model model, @PathVariable Long nutritionId) {
+        model.addAttribute("nutrition", nutritionService.getNutrition(nutritionId));
+        model.addAttribute("comment", nutritionCommentService.getNutritionComments(nutritionId));
         return "commentNutrition";
     }
 
     @GetMapping("/nutritionComments/{nutritionId}/newComment")
-    public String newComment(Model model, @PathVariable Long nutritionId){
+    public String newComment(Model model, @PathVariable Long nutritionId) {
         return "newComment";
     }
 
     @PostMapping("/nutritionComments/{nutritionId}")
-    public String createComment(Model model,@PathVariable Long nutritionId, @RequestParam String commentTitle,@RequestParam String commentText){
+    public String createComment(Model model, @PathVariable Long nutritionId, @RequestParam String commentTitle,
+            @RequestParam String commentText) {
 
-        NutritionComment nutritionComment = new NutritionComment(commentText,commentTitle);
+        NutritionComment nutritionComment = new NutritionComment(commentText, commentTitle);
         Nutrition nutrition = nutritionService.getNutrition(nutritionId);
-        nutritionCommentService.createNutritionComment(nutritionComment,nutrition);
+        nutritionCommentService.createNutritionComment(nutritionComment, nutrition);
 
         return "redirect:/nutritionComments/" + nutritionId;
     }
+
     @GetMapping("/nutritionComments/{nutritionId}/{commentId}/delete")
-    public String deleteComment(Model model,@PathVariable Long nutritionId, @PathVariable Long commentId){
+    public String deleteComment(Model model, @PathVariable Long nutritionId, @PathVariable Long commentId) {
         Nutrition nutrition = nutritionService.getNutrition(nutritionId);
-        nutritionCommentService.deleteCommentbyId(nutrition,commentId);
+        nutritionCommentService.deleteCommentbyId(nutrition, commentId);
         return "redirect:/nutritionComments/" + nutritionId;
     }
 
     @GetMapping("/nutritionComments/{nutritionId}/{commentId}/report")
-    public String reportComment(Model model, @PathVariable Long nutritionId, @PathVariable Long commentId){
+    public String reportComment(Model model, @PathVariable Long nutritionId, @PathVariable Long commentId) {
         nutritionCommentService.reportCommentbyId(commentId);
         return "redirect:/nutritionComments/" + nutritionId;
     }
 
-    
-   
-    
+    @GetMapping("/nutritionComments/{nutritionId}/{commentId}/editcomment")
+    public String editComment(Model model, @PathVariable Long nutritionId, @PathVariable Long commentId) {
+        model.addAttribute("comment", nutritionCommentService.getCommentById(commentId));
+        return "editComment";
+    }
+
+    @PostMapping("/nutritionComments/{nutritionId}/{commentId}")
+    public String updateComment(Model model, @PathVariable Long nutritionId, @PathVariable Long commentId,
+            @RequestParam String commentTitle, @RequestParam String commentText) {
+        NutritionComment nutritionComment = nutritionCommentService.getCommentById(commentId);
+        if (nutritionComment != null) {
+            nutritionComment.setDescription(commentText);
+            nutritionComment.setName(commentTitle);
+            nutritionCommentService.updateComment(nutritionComment);
+        }
+        return "redirect:/nutritionComments/" + nutritionId;
+    }
 
 }
