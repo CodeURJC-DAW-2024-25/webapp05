@@ -107,6 +107,9 @@ public class NutritionService {
          }
      }
 
+     public Optional<Nutrition> findById(Long id) {
+        return nutritionRepository.findById(id);
+    }
 
     /*public List<Nutrition> getUser(User user){
         Optional<List<Nutrition>> nutritions = nutritionRepository.findByUser(user);

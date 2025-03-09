@@ -56,6 +56,9 @@
              <button class="btn-load goToDeleteDiet" data-nutrition-id="{{nutrition.id}}">Delete</button>
            {{/admin}}
         <a href="/nutritions" class="btn-load">Return</a>
+        {{#logged}}
+        <a class="btn-load" href="/nutritions/{{nutrition.id}}/pdf">Download PDF</a>
+        {{/logged}}
       </div>
     </div>
     <!-- Fin Vista de Dieta -->
