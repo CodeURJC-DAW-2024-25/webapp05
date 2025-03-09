@@ -3,6 +3,9 @@ package es.codeurjc.daw.alphagym.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.daw.alphagym.model.NutritionComment;
@@ -27,7 +30,7 @@ public class NutritionCommentService {
     }
 
     public List<NutritionComment> getNutritionComments(Long nutritionId) {
-        List<NutritionComment> listNutritionComments = nutritionCommentRepository.findByNutritionId(nutritionId);
+        List<NutritionComment> listNutritionComments = getPaginatedComments(nutritionId,0,10);
         return listNutritionComments.isEmpty() ? null : listNutritionComments;
     }
 
@@ -66,4 +69,10 @@ public class NutritionCommentService {
         Long notReported = nutritionCommentRepository.countByIsNotified(false);
         return new Long[] {reported, notReported};
     } 
+
+    public List<NutritionComment> getPaginatedComments(Long nutritionId, int page, int limit){
+        Pageable pageable = PageRequest.of(page, limit);
+        Page<NutritionComment> commentsPage = nutritionCommentRepository.findByNutritionId(nutritionId, pageable);
+        return commentsPage.getContent();
+    }
 }

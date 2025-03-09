@@ -372,3 +372,74 @@ function renderReportChart(reportedCount, nonReportedCount) {
       }
   });
 }
+
+
+//EMPIEZA AJAX
+
+let currentPage = 1; // Página actual de comentarios
+const commentsPerPage = 10; // Cantidad de comentarios por carga
+
+document.addEventListener("DOMContentLoaded", function () {
+  const chartElement = document.getElementById("ajaxPagination");
+  if (chartElement) {
+    // Solo ejecuta si está en la página correcta
+    let allComments = document.querySelectorAll("#resultsContainer .col-12.col-md-4.mb-4");
+    allComments.forEach((comment, index) => {
+      if (index >= commentsPerPage) {
+        comment.style.display = "none"; // Ocultar comentarios después de los 10 primeros
+      }
+    });
+  }
+});
+
+function loadMoreComments() {
+  let loadMoreButton = document.getElementById("loadMore");
+  let resultsContainer = document.getElementById("resultsContainer");
+
+  // Crear y mostrar el spinner
+  let spinner = document.createElement("div");
+  spinner.className = "spinner-border text-primary d-block mx-auto my-3";
+  spinner.role = "status";
+  spinner.innerHTML = '<span class="visually-hidden">Loading...</span>';
+  resultsContainer.appendChild(spinner);
+
+  // Deshabilitar botón mientras carga
+  loadMoreButton.disabled = true;
+
+  let xhr = new XMLHttpRequest();
+  let nutritionId = document.getElementById("nutritionId").value;
+  xhr.open(
+    "GET",
+    `/nutritionComments/${nutritionId}/moreComments?page=${
+      currentPage + 1
+    }`,
+    true
+  );
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        let responseHTML = xhr.responseText;
+        let tempDiv = document.createElement("div");
+        tempDiv.innerHTML = responseHTML;
+
+        let newComments = tempDiv.querySelectorAll(".col-12.col-md-4.mb-4");
+        if (newComments.length > 0) {
+          newComments.forEach((comment) => {
+            resultsContainer.appendChild(comment);
+          });
+          currentPage++;
+        } else {
+          loadMoreButton.style.display = "none"; // Ocultar botón si no hay más comentarios
+        }
+      } else {
+        console.error("Error al cargar más comentarios");
+      }
+
+      // Ocultar el spinner y habilitar el botón
+      spinner.remove();
+      loadMoreButton.disabled = false;
+    }
+  };
+  xhr.send();
+}
+
