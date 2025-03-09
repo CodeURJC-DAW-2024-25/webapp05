@@ -122,25 +122,15 @@ public class NutritionCommentController {
 
     @GetMapping("nutritionComments/{nutritionId}/moreComments")
     public ResponseEntity<List<NutritionComment>> loadMoreComments(Model model, @PathVariable Long nutritionId, @RequestParam(required=false) int page) {
-        
-        //Page<NutritionComment> comments = nutritionCommentService.getPaginatedComments(nutritionId, page, 10);
-        //model.addAttribute("comments", comments.getContent());
         List<NutritionComment> comments = nutritionCommentService.getPaginatedComments(nutritionId, page, 10);
         return ResponseEntity.ok(comments);
     }
-    /* 
-    @GetMapping("/nutritionComments/{nutritionId}/loadComments")
-    public String loadComments(Model model,@PathVariable Long trainingId, @RequestParam int page, @RequestParam int limit){
 
-        Page<TrainingComment> comments = nutritionCommentService.getPaginatedComments(1L, 0, 10);
-
-        System.out.println("PAGE: " + comments.getNumber());
-        System.out.println("TOTAL PAGES: " + comments.getTotalPages());
-        System.out.println("TOTAL ELEMENTS: " + comments.getTotalElements());
-
-        model.addAttribute("comments", comments.getContent());
-        return "commentsTraining";
+    @GetMapping("nutritionComments/{nutritionId}/moreComments2")
+    public String loadMoreComments2(Model model, @PathVariable Long nutritionId, @RequestParam(defaultValue = "1") int page) {
+        List<NutritionComment> comments = nutritionCommentService.getPaginatedComments(nutritionId, page, 10);
+        model.addAttribute("comment", comments);
+        return "fragments/commentList :: comments";
     }
-    */
 
 }

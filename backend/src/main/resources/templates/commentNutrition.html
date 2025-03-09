@@ -4,6 +4,7 @@
 <!-- Start Comments Section -->
 <section class="container py-5 flex-grow-1" id="ajaxPagination">
   <h2 class="text-center mb-4" >Comments for Nutrition diet: {{nutrition.name}}</h2>
+  <input type="hidden" id="nutritionId" value="{{nutrition.id}}">
   <div class="mb-3">
     <img src="{{nutrition.image}}" class="card-img-top" alt="{{nutrition.name}}" />
    </div>
@@ -30,7 +31,7 @@
 
   <!-- Load more button and add comments button -->
   <div class="text-center">
-    <button id="loadMore" class="btn-load" onclick="loadNutritionComments()">More Comments</button><!--ADD JS FUNCTION NAME FOR AJAX-->
+    <button id="loadMore" class="btn-load" onclick="loadMoreComments()">More Comments</button><!--ADD JS FUNCTION NAME FOR AJAX-->
     <button id="addComment" class="btn-load" onclick="window.location.href=window.location.pathname + '/newComment'">
       Add Comment
     </button>

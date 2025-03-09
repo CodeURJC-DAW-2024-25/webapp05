@@ -376,7 +376,7 @@ function renderReportChart(reportedCount, nonReportedCount) {
 
 //EMPIEZA AJAX
 
-let currentPage = 1; // Página actual de comentarios
+let currentPage = 0; // Página actual de comentarios
 const commentsPerPage = 10; // Cantidad de comentarios por carga
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -408,28 +408,23 @@ function loadMoreComments() {
 
   let xhr = new XMLHttpRequest();
   let nutritionId = document.getElementById("nutritionId").value;
+  console.log(`/nutritionComments/${nutritionId}/moreComments?page=${currentPage + 1}`);
   xhr.open(
     "GET",
-    `/nutritionComments/${nutritionId}/moreComments?page=${
-      currentPage + 1
-    }`,
+    `/nutritionComments/${nutritionId}/moreComments?page=${currentPage + 1}`,
     true
   );
+
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         let responseHTML = xhr.responseText;
-        let tempDiv = document.createElement("div");
-        tempDiv.innerHTML = responseHTML;
 
-        let newComments = tempDiv.querySelectorAll(".col-12.col-md-4.mb-4");
-        if (newComments.length > 0) {
-          newComments.forEach((comment) => {
-            resultsContainer.appendChild(comment);
-          });
+        if (responseHTML.trim().length > 0) {
+          resultsContainer.insertAdjacentHTML("beforeend", responseHTML);
           currentPage++;
         } else {
-          loadMoreButton.style.display = "none"; // Ocultar botón si no hay más comentarios
+          loadMoreButton.style.display = "none"; // Oculta el botón si no hay más comentarios
         }
       } else {
         console.error("Error al cargar más comentarios");
@@ -440,6 +435,8 @@ function loadMoreComments() {
       loadMoreButton.disabled = false;
     }
   };
+
   xhr.send();
 }
+
 
