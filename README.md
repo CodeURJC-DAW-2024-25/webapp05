@@ -199,9 +199,29 @@ Principalmente he participado en los comentarios de training y nutrition junto c
 | #5             | [file.js](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/resources/static/js/file.js)                                                                         |
 
 
+### Adrián Esteban Martín
 
+#### Descripcion general:
+Mi tarea principal ha sido la entidad "Nutrition", su creación, su edición, de que manera se deben mostrar... Tambien he ayudado en otras tareas, por ejemplo, la tecnología complementaria.
 
+#### Mis 5 commits más relevantes
 
+| Commit | Descripción                          | Link                                                                                                                                                                                                 |
+| ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1     | Start controller and service of nutrition  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/559d4227e0e38ade0a2fc4ddb6df1c77f6dcd4ca](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/559d4227e0e38ade0a2fc4ddb6df1c77f6dcd4ca)|
+| #2     | Fixed Nutrition and add function in to the controller and service | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/6fb4271b6d1a26866a68f45645a05b1a8d22a6c3#diff-687baae317c329d62fdb56208c5b8f1658f894cf5ee7f909da435bad4acd3696](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/6fb4271b6d1a26866a68f45645a05b1a8d22a6c3#diff-687baae317c329d62fdb56208c5b8f1658f894cf5ee7f909da435bad4acd3696) |
+| #3     | Nutritions functions  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/27712db6edfb4523b0877009e16c4447443ac9d5](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/27712db6edfb4523b0877009e16c4447443ac9d5)|
+| #4     | Add functionality to nutrition | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/999fc83cd66741f2a48ac8c0b4caed297c0844f9](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/999fc83cd66741f2a48ac8c0b4caed297c0844f9)|
+| #5     | Add function to generate PDFs | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/b475466286327e7bc224d2f938b32c57741b0431](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/b475466286327e7bc224d2f938b32c57741b0431) |
 
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero                                                                                                                                                                                    |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| #1             | [NutritionController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/NutritionController.java)    |
+| #2             | [NutritionService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/NutritionService.java)      |
+| #3             | [Nutrition.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/model/Nutrition.java)             |
+| #4             | [NutritionRepository.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/repository/NutritionRepository.java)               |
+| #5             | [file.js](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/resources/static/js/file.js)   
 
 
