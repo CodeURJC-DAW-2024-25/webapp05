@@ -129,6 +129,16 @@ En el caso de que el usuario intente acceder a una pantalla para la que no tenga
 ![image](https://github.com/user-attachments/assets/fcd2c7d5-5d1f-4ab1-b42d-9ebfe7d4caaf)
 
 
+## Diagrama de navegación: 
+- **Azul**: Todos los usuarios.
+- **Verde**: Usuario registrado y admin.
+- **Rojo**: Solo admin.
+- **Nota**: Desde todas las páginas se puede acceder a la pantalla de error.
+
+![image](https://github.com/user-attachments/assets/c242a55c-e6a0-47ca-aca1-b75b3245e7f5)
+
+
+
 
 
 
