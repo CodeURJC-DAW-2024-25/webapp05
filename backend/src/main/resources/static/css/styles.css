@@ -142,6 +142,18 @@ h2 {
   display: inline-block;
   margin-top: 20px;
 }
+.btn-load-delete {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 20px;
+}
 
 .btn-load:hover {
   background-color: #1f48c1e5;
@@ -150,6 +162,18 @@ h2 {
 
 .btn-load-2 {
   background-color: rgb(33, 7, 9);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 20px;
+}
+.btn-load-2-delete {
+  background-color:red;
   color: white;
   border: none;
   padding: 10px 20px;
