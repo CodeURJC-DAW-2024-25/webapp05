@@ -152,7 +152,7 @@ public class DataBaseInit {
         entidad5.setIsNotified(true);
         entidad11.setIsNotified(true);
 
-        trainingCommentService.createTrainingComment(descansos, chestPlan,null);
+        trainingCommentService.createTrainingComment(descansos, chestPlan,user);
         trainingCommentService.createTrainingComment(hidratación, chestPlan, null);
         trainingCommentService.createTrainingComment(entidad1, chestPlan,null);
         trainingCommentService.createTrainingComment(entidad2, armsPlan,null);
@@ -192,23 +192,23 @@ public class DataBaseInit {
         comentario5.setIsNotified(true);
         comentario7.setIsNotified(true);
 
-        nutritionCommentService.createNutritionComment(variedad,caloricDeficit);
-        nutritionCommentService.createNutritionComment(frutas,caloricDeficit);
-        nutritionCommentService.createNutritionComment(comentario1,caloricDeficit);
-        nutritionCommentService.createNutritionComment(comentario2,caloricSurplus);
-        nutritionCommentService.createNutritionComment(comentario3,caloricDeficit);
-        nutritionCommentService.createNutritionComment(comentario4,caloricDeficit);
-        nutritionCommentService.createNutritionComment(comentario5,caloricSurplus);
-        nutritionCommentService.createNutritionComment(comentario6,caloricDeficit);
-        nutritionCommentService.createNutritionComment(comentario7,caloricSurplus);
-        nutritionCommentService.createNutritionComment(comentario8,caloricDeficit);
-        nutritionCommentService.createNutritionComment(comentario9,caloricDeficit);
-        nutritionCommentService.createNutritionComment(comentario10,maintenanceDiet);
-        nutritionCommentService.createNutritionComment(comentario11,caloricDeficit);
-        nutritionCommentService.createNutritionComment(comentario12,caloricDeficit);
-        nutritionCommentService.createNutritionComment(comentario13,maintenanceDiet);
-        nutritionCommentService.createNutritionComment(comentario14,caloricDeficit);
-        nutritionCommentService.createNutritionComment(comentario15,caloricDeficit);
+        nutritionCommentService.createNutritionComment(variedad,caloricDeficit,null);
+        nutritionCommentService.createNutritionComment(frutas,caloricDeficit,null);
+        nutritionCommentService.createNutritionComment(comentario1,caloricDeficit,null);
+        nutritionCommentService.createNutritionComment(comentario2,caloricSurplus,null);
+        nutritionCommentService.createNutritionComment(comentario3,caloricDeficit,null);
+        nutritionCommentService.createNutritionComment(comentario4,caloricDeficit,null);
+        nutritionCommentService.createNutritionComment(comentario5,caloricSurplus,null);
+        nutritionCommentService.createNutritionComment(comentario6,caloricDeficit,null);
+        nutritionCommentService.createNutritionComment(comentario7,caloricSurplus,null);
+        nutritionCommentService.createNutritionComment(comentario8,caloricDeficit,null);
+        nutritionCommentService.createNutritionComment(comentario9,caloricDeficit,null);
+        nutritionCommentService.createNutritionComment(comentario10,maintenanceDiet,null);
+        nutritionCommentService.createNutritionComment(comentario11,caloricDeficit,null);
+        nutritionCommentService.createNutritionComment(comentario12,caloricDeficit,null);
+        nutritionCommentService.createNutritionComment(comentario13,maintenanceDiet,null);
+        nutritionCommentService.createNutritionComment(comentario14,caloricDeficit,null);
+        nutritionCommentService.createNutritionComment(comentario15,caloricDeficit,null);
 
 
     }

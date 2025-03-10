@@ -6,11 +6,18 @@
       <p class="description">{{description}}</p>
     </div>
     <div class="btn-div-extra">
-      {{#admin}}
-      <a href="{{training.id}}/{{id}}/editcomment" class="btn-load">Edit</a>
-      <a href="{{training.id}}/{{id}}/delete" class="btn-load-2">Delete</a> 
-      {{/admin}}
-      <a href="{{training.id}}/{{id}}/report" class="btn-load-2">Report</a>
+        {{#canEdit}}
+            <a href="{{training.id}}/{{id}}/editcomment" class="btn-load">Edit</a>
+        {{/canEdit}}
+          {{#admin}}
+            <a href="{{training.id}}/{{id}}/delete" class="btn-load-2">Delete</a>
+          {{/admin}}
+        {{#logged}}
+            {{^admin}}
+              <a href="{{training.id}}/{{id}}/report" class="btn-load-2">Report</a>
+            {{/admin}}
+        {{/logged}}
+
     </div>
   </div>
 </div>

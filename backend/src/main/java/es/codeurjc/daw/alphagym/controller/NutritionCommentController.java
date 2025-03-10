@@ -1,9 +1,9 @@
 package es.codeurjc.daw.alphagym.controller;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+import es.codeurjc.daw.alphagym.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import es.codeurjc.daw.alphagym.model.Nutrition;
-import es.codeurjc.daw.alphagym.model.NutritionComment;
-import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.service.NutritionCommentService;
 import es.codeurjc.daw.alphagym.service.NutritionService;
@@ -65,12 +62,35 @@ public class NutritionCommentController {
     public String showAllNutritionComments(Model model, @PathVariable Long nutritionId, Principal principal) {
         model.addAttribute("nutrition", nutritionService.getNutrition(nutritionId));
         model.addAttribute("comment", nutritionCommentService.getNutritionComments(nutritionId));
+        boolean isAdmin = false;
+        Long loggedUserId = null;
         if (principal != null) {
             Optional<User> user = userService.findByEmail(principal.getName());
             if (user.isPresent()) {
                 model.addAttribute("logged", true);
+                isAdmin = user.get().isRole("ADMIN"); // Asegúrate de que este método devuelve un booleano
+                loggedUserId = user.get().getId();
             }
         }
+
+        List<NutritionComment> nutritionComments = nutritionCommentService.getNutritionComments(nutritionId);
+        List<Map<String, Object>> commentList = new ArrayList<>();
+
+        for (NutritionComment nutritionComment : nutritionComments) {
+            Map<String, Object> commentMap = new HashMap<>();
+            commentMap.put("id", nutritionComment.getId());
+            commentMap.put("name", nutritionComment.getName());
+            commentMap.put("description", nutritionComment.getDescription());
+
+            //Validate for only admin and author can edit the comment
+            boolean canEdit = isAdmin || (nutritionComment.getUser() != null && nutritionComment.getUser().getId().equals(loggedUserId));
+
+            commentMap.put("canEdit", canEdit);
+            commentMap.put("isAdmin", isAdmin);
+            commentList.add(commentMap);
+        }
+
+        model.addAttribute("comment", commentList);
         return "commentNutrition";
     }
 
@@ -81,12 +101,19 @@ public class NutritionCommentController {
 
     @PostMapping("/nutritionComments/{nutritionId}")
     public String createComment(Model model, @PathVariable Long nutritionId, @RequestParam String commentTitle,
-            @RequestParam String commentText) {
-
-        NutritionComment nutritionComment = new NutritionComment(commentText, commentTitle);
-        Nutrition nutrition = nutritionService.getNutrition(nutritionId);
-        nutritionCommentService.createNutritionComment(nutritionComment, nutrition);
-
+            @RequestParam String commentText, Principal principal) {
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            NutritionComment nutritionComment = new NutritionComment(commentText, commentTitle);
+            Nutrition nutrition = nutritionService.getNutrition(nutritionId);
+            if (user.isPresent()) {
+                if (user.get().isRole("ADMIN")) {
+                    nutritionCommentService.createNutritionComment(nutritionComment, nutrition, null);
+                } else {
+                    nutritionCommentService.createNutritionComment(nutritionComment, nutrition, user.get());
+                }
+            }
+        }
         return "redirect:/nutritionComments/" + nutritionId;
     }
 
@@ -111,7 +138,7 @@ public class NutritionCommentController {
 
     @PostMapping("/nutritionComments/{nutritionId}/{commentId}")
     public String updateComment(Model model, @PathVariable Long nutritionId, @PathVariable Long commentId,
-            @RequestParam String commentTitle, @RequestParam String commentText) {
+            @RequestParam String commentTitle, @RequestParam String commentText, Principal principal) {
         NutritionComment nutritionComment = nutritionCommentService.getCommentById(commentId);
         if (nutritionComment != null) {
             nutritionComment.setDescription(commentText);
@@ -129,9 +156,35 @@ public class NutritionCommentController {
         */
     
     @GetMapping("/nutritionComments/{nutritionId}/moreComments")
-    public String loadMoreComments2(Model model, @PathVariable Long nutritionId, @RequestParam(defaultValue = "1") int page) {
+    public String loadMoreComments2(Model model, @PathVariable Long nutritionId, @RequestParam(defaultValue = "1") int page, Principal principal) {
         List<NutritionComment> comments = nutritionCommentService.getPaginatedComments(nutritionId, page, 10);
-        model.addAttribute("comment", comments);
+        Nutrition nutrition = nutritionService.getNutrition(nutritionId);
+        model.addAttribute("nutrition", nutrition);
+
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                model.addAttribute("logged", true);
+                List<Map<String, Object>> commentList = new ArrayList<>();
+                for (NutritionComment nutritionComment : comments) {
+                    Map<String, Object> commentMap = new HashMap<>();
+                    commentMap.put("id", nutritionComment.getId());
+                    commentMap.put("name", nutritionComment.getName());
+                    commentMap.put("description", nutritionComment.getDescription());
+
+                    // Validate for only admin and author can edit the comment
+                    boolean canEdit = user.get().isRole("ADMIN") || (nutritionComment.getUser() != null && nutritionComment.getUser().getId().equals(user.get().getId()));
+
+                    commentMap.put("canEdit", canEdit);
+                    commentMap.put("isAdmin", user.get().isRole("ADMIN"));
+                    commentList.add(commentMap);
+                }
+                model.addAttribute("comment", commentList);
+            }
+        }else {
+            model.addAttribute("comment", comments);
+        }
+
         return "fragments/commentsNutritionList";
     }
     

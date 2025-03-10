@@ -18,11 +18,17 @@
           <p class="description">{{description}}</p>                  
         </div>
         <div class="btn-div-extra">
+        {{#canEdit}}
+            <a href="{{nutrition.id}}/{{id}}/editcomment" class="btn-load">Edit</a>
+        {{/canEdit}}
           {{#admin}}
-          <a href="{{nutrition.id}}/{{id}}/editcomment" class="btn-load">Edit</a>
-          <a href="{{nutrition.id}}/{{id}}/delete" class="btn-load-2">Delete</a> 
+            <a href="{{nutrition.id}}/{{id}}/delete" class="btn-load-2">Delete</a>
           {{/admin}}
-          <a href="{{nutrition.id}}/{{id}}/report" class="btn-load-2">Report</a> 
+        {{#logged}}
+            {{^admin}}
+              <a href="{{nutrition.id}}/{{id}}/report" class="btn-load-2">Report</a>
+            {{/admin}}
+        {{/logged}}
         </div>
       </div>
     </div>
@@ -32,9 +38,11 @@
   <!-- Load more button and add comments button -->
   <div class="text-center">
     <button id="loadMore" class="btn-load" onclick="loadMoreComments()">More Comments</button><!--ADD JS FUNCTION NAME FOR AJAX-->
-    <button id="addComment" class="btn-load" onclick="window.location.href=window.location.pathname + '/newComment'">
-      Add Comment
-    </button>
+    {{#logged}}
+        <button id="addComment" class="btn-load" onclick="window.location.href=window.location.pathname + '/newComment'">
+          Add Comment
+        </button>
+    {{/logged}}
     <button class="btn-load" onclick="redirectFromComments()">
       Return
     </button>

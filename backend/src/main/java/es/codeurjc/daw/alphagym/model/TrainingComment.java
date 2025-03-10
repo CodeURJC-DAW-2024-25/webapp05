@@ -15,7 +15,7 @@ public class TrainingComment{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String description;
-    private String author;
+
     private String name;
     private boolean isNotified = false;
     ///////////////////////private Long trainingId;
@@ -47,9 +47,6 @@ public class TrainingComment{
         return description;
     }
 
-    public String getAuthor() {
-        return author;
-    }
 
     public boolean getIsNotified() {
         return isNotified;
@@ -72,9 +69,6 @@ public class TrainingComment{
         this.description = description;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
 
     public void setName(String name){
         this.name = name;

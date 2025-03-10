@@ -6,11 +6,17 @@
       <p class="description">{{description}}</p>
     </div>
     <div class="btn-div-extra">
-      {{#admin}}
-      <a href="{{nutrition.id}}/{{id}}/editcomment" class="btn-load">Edit</a>
-      <a href="{{nutrition.id}}/{{id}}/delete" class="btn-load-2">Delete</a> 
+    {{#canEdit}}
+        <a href="{{nutrition.id}}/{{id}}/editcomment" class="btn-load">Edit</a>
+    {{/canEdit}}
+    {{#admin}}
+        <a href="{{nutrition.id}}/{{id}}/delete" class="btn-load-2">Delete</a>
       {{/admin}}
-      <a href="{{nutrition.id}}/{{id}}/report" class="btn-load-2">Report</a>
+    {{#logged}}
+        {{^admin}}
+          <a href="{{nutrition.id}}/{{id}}/report" class="btn-load-2">Report</a>
+        {{/admin}}
+    {{/logged}}
     </div>
   </div>
 </div>

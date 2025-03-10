@@ -2,6 +2,7 @@ package es.codeurjc.daw.alphagym.service;
 
 import java.util.List;
 
+import es.codeurjc.daw.alphagym.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +35,8 @@ public class NutritionCommentService {
         return listNutritionComments.isEmpty() ? null : listNutritionComments;
     }
 
-    public void createNutritionComment(NutritionComment nutritionComment, Nutrition nutrition) {
+    public void createNutritionComment(NutritionComment nutritionComment, Nutrition nutrition, User user) {
+        nutritionComment.setUser(user);
         nutritionComment.setNutrition(nutrition);
         nutritionComment = nutritionCommentRepository.save(nutritionComment);
         nutrition.getComments().add(nutritionComment);

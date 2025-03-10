@@ -67,21 +67,21 @@ public class TrainingCommentController {
 
 
     @GetMapping("/trainingComments/{trainingId}")
-    public String showAllTrainingComments(Model model, @PathVariable Long trainingId, Principal principal){
-        // model.addAttribute("comment", trainingCommentService.getTrainingComments(trainingId));
+    public String showAllTrainingComments(Model model, @PathVariable Long trainingId, Principal principal) {
         model.addAttribute("training", trainingService.getTraining(trainingId));
 
         boolean isAdmin = false;
-        Long userId = null;
+        Long loggedUserId = null;
 
         if (principal != null) {
             Optional<User> user = userService.findByEmail(principal.getName());
             if (user.isPresent()) {
                 model.addAttribute("logged", true);
-                isAdmin = user.get().isRole("ADMIN"); // Suponiendo que el usuario tiene un método isAdmin()
-                userId = user.get().getId();
+                isAdmin = user.get().isRole("ADMIN"); // Asegúrate de que este método devuelve un booleano
+                loggedUserId = user.get().getId();
             }
         }
+
         List<TrainingComment> trainingComments = trainingCommentService.getTrainingComments(trainingId);
         List<Map<String, Object>> commentList = new ArrayList<>();
 
@@ -91,9 +91,8 @@ public class TrainingCommentController {
             commentMap.put("name", trainingComment.getName());
             commentMap.put("description", trainingComment.getDescription());
 
-            // Avoid NullPointerException if the comment doesn`t have author
-            User commentUser = trainingComment.getUser();
-            boolean canEdit = isAdmin || (commentUser != null && userId != null && commentUser.getId().equals(userId));
+            //Validate for only admin and author can edit the comment
+            boolean canEdit = isAdmin || (trainingComment.getUser() != null && trainingComment.getUser().getId().equals(loggedUserId));
 
             commentMap.put("canEdit", canEdit);
             commentMap.put("isAdmin", isAdmin);
@@ -101,7 +100,6 @@ public class TrainingCommentController {
         }
 
         model.addAttribute("comment", commentList);
-
         return "commentTraining";
     }
 
@@ -189,9 +187,36 @@ public class TrainingCommentController {
     }
 
     @GetMapping("/trainingComments/{trainingId}/moreComments")
-    public String loadMoreComments2(Model model, @PathVariable Long trainingId, @RequestParam(defaultValue = "1") int page) {
+    public String loadMoreComments2(Model model, @PathVariable Long trainingId, @RequestParam(defaultValue = "1") int page, Principal principal) {
         List<TrainingComment> comments = trainingCommentService.getPaginatedComments(trainingId, page, 10);
-        model.addAttribute("comment", comments);
+        Training training = trainingService.getTraining(trainingId);
+        model.addAttribute("training", training);
+
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                model.addAttribute("logged", true);
+                List<Map<String, Object>> commentList = new ArrayList<>();
+                for (TrainingComment trainingComment : comments) {
+                    Map<String, Object> commentMap = new HashMap<>();
+                    commentMap.put("id", trainingComment.getId());
+                    commentMap.put("name", trainingComment.getName());
+                    commentMap.put("description", trainingComment.getDescription());
+
+                    //Validate for only admin and author can edit the comment
+                    boolean canEdit = user.get().isRole("ADMIN") || (trainingComment.getUser() != null && trainingComment.getUser().getId().equals(user.get().getId()));
+
+                    commentMap.put("canEdit", canEdit);
+                    commentMap.put("isAdmin", user.get().isRole("ADMIN"));
+                    commentList.add(commentMap);
+                }
+                model.addAttribute("comment", commentList);
+            }
+        }else {
+            model.addAttribute("comment", comments);
+        }
+
+
         return "fragments/commentsTrainingList";
     }
 
