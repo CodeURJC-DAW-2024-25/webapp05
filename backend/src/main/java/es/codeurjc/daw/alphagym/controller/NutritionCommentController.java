@@ -5,10 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.NutritionComment;
-import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.service.NutritionCommentService;
@@ -119,18 +114,20 @@ public class NutritionCommentController {
         }
         return "redirect:/nutritionComments/" + nutritionId;
     }
-
+    /* 
     @GetMapping("nutritionComments/{nutritionId}/moreComments")
     public ResponseEntity<List<NutritionComment>> loadMoreComments(Model model, @PathVariable Long nutritionId, @RequestParam(required=false) int page) {
         List<NutritionComment> comments = nutritionCommentService.getPaginatedComments(nutritionId, page, 10);
         return ResponseEntity.ok(comments);
     }
-
-    @GetMapping("nutritionComments/{nutritionId}/moreComments2")
+        */
+    
+    @GetMapping("nutritionComments/{nutritionId}/moreComments")
     public String loadMoreComments2(Model model, @PathVariable Long nutritionId, @RequestParam(defaultValue = "1") int page) {
         List<NutritionComment> comments = nutritionCommentService.getPaginatedComments(nutritionId, page, 10);
         model.addAttribute("comment", comments);
-        return "fragments/commentList :: comments";
+        return "fragments/commentList";
     }
+    
 
 }
