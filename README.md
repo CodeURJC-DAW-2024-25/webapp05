@@ -104,9 +104,16 @@ Esta pantalla será lo que verá el usuario cuando decida añadir una nueva diet
 ![image](https://github.com/user-attachments/assets/4ac22f67-1211-48cb-a159-88fc4ae28c7a)
 
 ## Pantalla para Ver Comentarios: 
-Esta pantalla es exclusiva para los usuarios registrados y los administradores, por lo tanto los usuarios no registrados no podrán tener acceso a esta página. En ella los usuarios verán los diferentes comentarios realizados sobre una dieta o una rutina. Cada comentario tiene un botón para notificar al administrador en el caso de que el usuario considere inapropiado el comentario.
+Esta pantalla podrán usarla todos los usuarios. En ella los usuarios verán los diferentes comentarios realizados sobre una dieta o una rutina. Cada comentario tiene un botón para notificar al administrador en el caso de que el usuario considere inapropiado el comentario. El dueño podra modificar sus comentarios y los admin podran eliminar y editar todos los comentarios.
+Habrá una interfaz ligeramente diferente para los comentarios sobre dietas y sobre entrenamientos.
 
-![image](https://github.com/user-attachments/assets/4ac13334-b5e8-4704-9ca6-818f9181fc9d)
+![image](https://github.com/user-attachments/assets/1c4b3d5d-d57b-4a57-afbb-38ede200053e)
+![image](https://github.com/user-attachments/assets/6a09f9ca-a0eb-44d0-896a-100cbf1d2952)
+
+## Pantalla para Editar Comentarios: 
+Se necesitarán ciertos privilegios para acceder a esta página. Los usuarios podrán editar sus propios comentarios y los admin podrán editar todos.
+
+![image](https://github.com/user-attachments/assets/955c9ca5-6be2-475e-9157-c0a6ae8f0cdd)
 
 ## Pantalla para Añadir Comentarios: 
 Al igual que la pantalla anterior se necesitan ciertos privilegios para acceder a esta página. Los usuarios podrán realizar comentarios acerca de una rutina o dieta rellenando el formulario que consta de un nombre para el comentario y el propio comentario.
@@ -135,8 +142,40 @@ En el caso de que el usuario intente acceder a una pantalla para la que no tenga
 - **Rojo**: Solo admin.
 - **Nota**: Desde todas las páginas se puede acceder a la pantalla de error.
 
-![image](https://github.com/user-attachments/assets/c242a55c-e6a0-47ca-aca1-b75b3245e7f5)
+![image](https://github.com/user-attachments/assets/17edecec-d86c-4738-a6df-55e3969d6ebd)
 
+## Diagrama de las entidades de la base de datos: 
+Este es el diagrama generado por MySQL Workbench con las entidades que tenemos configuradas en la base de datos y la relacion entre ellas:
+
+![image](https://github.com/user-attachments/assets/7681880b-314a-408d-a5eb-6a743a78afd0)
+
+
+## Participacion de los miembros
+
+### Adrián Dueñas Minguez
+
+#### Descripcion general:
+Principalmente he participado en los comentarios, en su gestión, creación, edición... También he contribuido a otras tareas menores.
+
+#### Mis 5 commits mas relevantes
+
+| Commit | Descripción                          | Link                                                                                                                                                                                                 |
+| ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1     | Create comments                      | [https://github.com/CodeURJC-DAW-2023-24/webapp06/commit/1079ce988111789ac53597399cd1cc77affc1b58](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/6c4ff4eb3b8c1fab6a0a94c2f46d5bddf79527ad) |
+| #2     | Gestión de reports por los admin     | [https://github.com/CodeURJC-DAW-2023-24/webapp06/commit/30dc1d5295eaf569c70949df9d4022b0c87b9b4a](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ece055ffa4fa6694f6ea7f4777ad4ec4a8d3b648) |
+| #3     | Ajax development                     | [https://github.com/CodeURJC-DAW-2023-24/webapp06/commit/0acc1f72e4650b2b1999ea068373f52b02d2425b](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/7b0adc21272d4aad93f67e09bdeda9f4770757c5) |
+| #4     | Report and delete comments           | [https://github.com/CodeURJC-DAW-2023-24/webapp06/commit/329d4733cb21f99717ba764d50bceb7457a65f13](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/c127cd78daff735e6894d2504fce7f5b41e704de) |
+| #5     | Edit comments                        | [https://github.com/CodeURJC-DAW-2023-24/webapp06/commit/728a361bad3b80b9e13621c33d415272a9fec7ac](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/48b416a8149d41227c63d2b5ec3c116146f1125e) |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero                                                                                                                                                                                    |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| #1             | [NutritionCommentController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/NutritionCommentController.java)    |
+| #2             | [TrainingCommentController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/TrainingCommentController.java)      |
+| #3             | [NutritionCommentService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/NutritionCommentService.java)             |
+| #4             | [TrainingCommentService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/TrainingCommentService.java)               |
+| #5             | [file.js](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/resources/static/js/file.js)                                                                         |
 
 
 
