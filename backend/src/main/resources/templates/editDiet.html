@@ -9,12 +9,12 @@
         <input type="hidden" name="_csrf" value="{{token}}"/>
     <div class="mb-3">
         <label class="form-label fw-bold">Nutrition Name </label>
-        <input id="nutritionName" name="name" type="text" class="form-control" value="{{nutrition.name}}" placeholder="{{nutrition.name}}">
+        <input id="nutritionName" name="name" type="text" class="form-control" value="{{nutrition.name}}" placeholder="{{nutrition.name}}" >
     </div>
 
     <div class="mb-3">
         <label class="form-label fw-bold">Nutrition Calories:</label>
-        <input id="nutritionCalories" name="calories" type="int" class="form-control" value="{{nutrition.calories}}">
+        <input id="nutritionCalories" name="calories" type="number" class="form-control" value="{{nutrition.calories}}">
     </div>
 
     <div class="mb-3">
@@ -28,9 +28,7 @@
 
     <div class="mb-3">
         <label class="form-label fw-bold">Nutrition meals:</label>
-        <textarea name ="description" class="form-control" rows="4">
-            {{nutrition.description}}
-        </textarea>
+        <textarea name ="description" class="form-control" rows="4">{{nutrition.description}}</textarea>
     </div>
 
 

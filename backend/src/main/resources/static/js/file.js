@@ -231,31 +231,31 @@ document.addEventListener("DOMContentLoaded", function () {
 function validateRoutineForm(){
 
   let name = document.forms["editForm"]["name"].value;
-  console.log(routineName)
+  console.log(name)
   if(name === ""){
-    alert("Longitud en el nombre de la rutina no válida (nombre vacío).");
+    alert("Invalid routine name length (empty name).");
     return false;
   }
   if(name.length > 30){
-    alert("Longitud en el nombre de la rutina no válida (muy largo).");
+    alert("Invalid routine name length (too long).");
     return false;
   }
   let duration = document.forms["editForm"]["duration"].value;
   if(duration < 1){
-    alert("Duración no válida. Recuerda que la duración se mide en números (minutos).");
+    alert("Invalid duration. Remember that duration is measured in numbers (minutes).");
     return false;
   }
   if(duration > 200){
-    alert("No debes exceder las 6 horas de entrenamiento, esto puede ser malo para tu salud");
+    alert("You should not exceed 6 hours of training, as it may be harmful to your health.");
     return false;
   }
   let description = document.forms["editForm"]["description"].value;
   if(description.length < 5){
-    alert("Longitud incorrecta, demasiado corta. Por favor rellene este campo.");
+    alert("Incorrect length, too short. Please fill in this field.");
     return false;
   }
   if(description.length > 255){
-    alert("Longitud excedida: 255 caracteres como máximo");
+    alert("Exceeded length: 255 characters maximum.");
     return false;
   }
   return true;
@@ -264,31 +264,31 @@ function validateRoutineForm(){
 function validateNutritionForm(){
 
   let name = document.forms["editForm"]["name"].value;
-  console.log(dietName)
+  console.log(name)
   if(name === ""){
-    alert("Longitud en el nombre de la dieta no válida (nombre vacío).");
+    alert("Invalid diet name length (empty name).");
     return false;
   }
   if(name.length > 30){
-    alert("Longitud en el nombre de la dieta no válida (muy largo).");
+    alert("Invalid diet name length (too long).");
     return false;
   }
   let calories = document.forms["editForm"]["calories"].value;
   if(calories < 50 ){
-    alert("Calorias no válidas. Las calorias deben ser más de 50 por un tema de salud");
+    alert("Invalid calories. Calories must be more than 50 for health reasons.");
     return false;
   }
   if(calories > 2500){
-    alert("No debes exceder las 2500 calorias, esto puede ser malo para tu salud");
+    alert("You should not exceed 2500 calories, as it may be harmful to your health.");
     return false;
   }
   let description = document.forms["editForm"]["description"].value;
   if(description.length < 5){
-    alert("Longitud incorrecta, demasiado corta. Por favor rellene este campo.");
+    alert("Incorrect length, too short. Please fill in this field.");
     return false;
   }
   if(description.length > 255){
-    alert("Longitud excedida: 255 caracteres como máximo");
+    alert("Exceeded length: 255 characters maximum.");
     return false;
   }
   return true;
