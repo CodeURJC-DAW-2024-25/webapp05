@@ -2,19 +2,17 @@ package es.codeurjc.daw.alphagym.service;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
-import es.codeurjc.daw.alphagym.service.TrainingCommentService;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
-import es.codeurjc.daw.alphagym.service.UserService;
-import jakarta.annotation.PostConstruct;
 
 
 @Service
@@ -87,6 +85,12 @@ public class TrainingCommentService {
     public List<TrainingComment> getReportedComments() {
         List<TrainingComment> listTrainingComments = trainingCommentRepository.findByIsNotified(true);
         return listTrainingComments.isEmpty() ? null : listTrainingComments;
+    }     
+    
+    public List<TrainingComment> getPaginatedComments(Long trainingId, int page, int limit){
+        Pageable pageable = PageRequest.of(page, limit);
+        Page<TrainingComment> commentsPage = trainingCommentRepository.findByTrainingId(trainingId, pageable);
+        return commentsPage.getContent();
     }
 }
 

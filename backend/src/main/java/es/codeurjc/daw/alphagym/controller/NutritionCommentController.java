@@ -122,11 +122,11 @@ public class NutritionCommentController {
     }
         */
     
-    @GetMapping("nutritionComments/{nutritionId}/moreComments")
+    @GetMapping("/nutritionComments/{nutritionId}/moreComments")
     public String loadMoreComments2(Model model, @PathVariable Long nutritionId, @RequestParam(defaultValue = "1") int page) {
         List<NutritionComment> comments = nutritionCommentService.getPaginatedComments(nutritionId, page, 10);
         model.addAttribute("comment", comments);
-        return "fragments/commentList";
+        return "fragments/commentsNutritionList";
     }
     
     @GetMapping("/nutritionComments/{commentId}/unreport")

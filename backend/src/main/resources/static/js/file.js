@@ -373,20 +373,17 @@ function renderReportChart(reportedCount, nonReportedCount) {
   });
 }
 
-
-//EMPIEZA AJAX
-
-let currentPage = 0; // Página actual de comentarios
-const commentsPerPage = 10; // Cantidad de comentarios por carga
+//AJAX METHOD
+let currentPage = 0;
+const commentsPerPage = 10; 
 
 document.addEventListener("DOMContentLoaded", function () {
   const chartElement = document.getElementById("ajaxPagination");
   if (chartElement) {
-    // Solo ejecuta si está en la página correcta
     let allComments = document.querySelectorAll("#resultsContainer .col-12.col-md-4.mb-4");
     allComments.forEach((comment, index) => {
       if (index >= commentsPerPage) {
-        comment.style.display = "none"; // Ocultar comentarios después de los 10 primeros
+        comment.style.display = "none"; // Hide extra comments at start
       }
     });
   }
@@ -396,24 +393,27 @@ function loadMoreComments() {
   let loadMoreButton = document.getElementById("loadMore");
   let resultsContainer = document.getElementById("resultsContainer");
 
-  // Crear y mostrar el spinner
   let spinner = document.createElement("div");
   spinner.className = "spinner-border text-primary d-block mx-auto my-3";
   spinner.role = "status";
   spinner.innerHTML = '<span class="visually-hidden">Loading...</span>';
   resultsContainer.appendChild(spinner);
 
-  // Deshabilitar botón mientras carga
   loadMoreButton.disabled = true;
+  let requests = [];
 
   let xhr = new XMLHttpRequest();
-  let nutritionId = document.getElementById("nutritionId").value;
-  console.log(`/nutritionComments/${nutritionId}/moreComments?page=${currentPage + 1}`);
-  xhr.open(
-    "GET",
-    `/nutritionComments/${nutritionId}/moreComments?page=${currentPage + 1}`,
-    true
-  );
+  let nutritionIdElement = document.getElementById("nutritionId");
+  let trainingIdElement = document.getElementById("trainingId");
+
+  let nutritionId = nutritionIdElement ? nutritionIdElement.value : null;
+  let trainingId = trainingIdElement ? trainingIdElement.value : null;
+
+  if (nutritionId) {
+    xhr.open("GET",`/nutritionComments/${nutritionId}/moreComments?page=${currentPage + 1}`,true);
+  }else if (trainingId) {
+    xhr.open("GET",`/trainingComments/${trainingId}/moreComments?page=${currentPage + 1}`,true);
+  }
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
@@ -424,19 +424,18 @@ function loadMoreComments() {
           resultsContainer.insertAdjacentHTML("beforeend", responseHTML);
           currentPage++;
         } else {
-          loadMoreButton.style.display = "none"; // Oculta el botón si no hay más comentarios
+          loadMoreButton.style.display = "none"; // Hide the button if there aren't more comments
         }
       } else {
         console.error("Error al cargar más comentarios");
       }
 
-      // Ocultar el spinner y habilitar el botón
+      // Hide the spinner and enable the button
       spinner.remove();
       loadMoreButton.disabled = false;
     }
   };
 
   xhr.send();
+
 }
-
-

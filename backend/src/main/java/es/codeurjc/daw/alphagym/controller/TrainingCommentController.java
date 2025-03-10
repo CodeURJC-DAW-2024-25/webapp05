@@ -1,6 +1,7 @@
 package es.codeurjc.daw.alphagym.controller;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import es.codeurjc.daw.alphagym.model.Nutrition;
-import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;
@@ -146,6 +145,13 @@ public class TrainingCommentController {
             trainingCommentService.deleteCommentbyId(training, commentId);
         }
         return "redirect:/admin";
+    }
+
+    @GetMapping("/trainingComments/{trainingId}/moreComments")
+    public String loadMoreComments2(Model model, @PathVariable Long trainingId, @RequestParam(defaultValue = "1") int page) {
+        List<TrainingComment> comments = trainingCommentService.getPaginatedComments(trainingId, page, 10);
+        model.addAttribute("comment", comments);
+        return "fragments/commentsTrainingList";
     }
 
 }
