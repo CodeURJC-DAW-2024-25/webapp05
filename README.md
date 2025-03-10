@@ -173,6 +173,32 @@ Principalmente he participado en los comentarios, en su gestión, creación, edi
 | #5             | [file.js](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/resources/static/js/file.js)                                                                         |
 
 
+### Catalin Mazarache
+
+#### Descripcion general:
+Principalmente he participado en los comentarios de training y nutrition junto con la función de cargar más comentarios de training y nutrition de js.
+
+#### Mis 5 commits mas relevantes
+
+| Commit | Descripción                          | Link                                                                                                                                                                                                 |
+| ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1     | AJAX Show more comments for training & nutrition  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/2c33df6661f1fedd0130cdcda2ebc07efcbc37a5](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/2c33df6661f1fedd0130cdcda2ebc07efcbc37a5)|
+| #2     | Create Nutrition Comment  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/c8b54dae898a752b09bd30624e9b7a81db4d7d99](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/c8b54dae898a752b09bd30624e9b7a81db4d7d99) |
+| #3     | Initialize Nutrition Comments  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/d79d2b07955dbddff5c55a5c7f17a13694b9a497](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/d79d2b07955dbddff5c55a5c7f17a13694b9a497)|
+| #4     | Manage Training Comments | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/cddae00ea4148a9ce6a1eb961ec03ca218d085a9](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/cddae00ea4148a9ce6a1eb961ec03ca218d085a9)|
+| #5     | Manage First Comments | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/5fec306b00b5f0fc940439c61fe1c924cbac9548](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/5fec306b00b5f0fc940439c61fe1c924cbac9548) |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero                                                                                                                                                                                    |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| #1             | [NutritionCommentController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/NutritionCommentController.java)    |
+| #2             | [TrainingCommentController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/TrainingCommentController.java)      |
+| #3             | [NutritionCommentService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/NutritionCommentService.java)             |
+| #4             | [TrainingCommentService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/TrainingCommentService.java)               |
+| #5             | [file.js](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/resources/static/js/file.js)                                                                         |
+
+
 
 
 
