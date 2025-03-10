@@ -1,9 +1,8 @@
-{{>header}} <!-- Incluimos el header -->
-
-<!--  Incluimos el navbar -->
+{{>header}}
+{{>navbar}}
 
 <div class="d-flex flex-column min-vh-100">
-  <!--Inicio ERROR-->
+  <!--start ERROR-->
   <div
     class="modal fade"
     id="errorModal"
@@ -37,10 +36,10 @@
       </div>
     </div>
   </div>
-  <!--Fin ERROR-->
+  <!--end ERROR-->
 
   <main class="flex-grow-1"> 
-    <!-- Contenedor del Spinner y Card de Error -->
+    <!-- Card Error -->
     <div
       id="errorContent"
       class="text-center mt-5"
@@ -66,9 +65,7 @@
         </div>
       </div>
     </div>
-    <!-- Fin Contenedor del Spinner y Card de Error -->
   </main>
   
   {{>footer}}
-  <!-- Incluimos el footer -->
 </div>
