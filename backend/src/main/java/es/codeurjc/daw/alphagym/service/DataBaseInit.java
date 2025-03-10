@@ -88,12 +88,12 @@ public class DataBaseInit {
                 "                Pájaros (elevaciones posteriores): 3x12\n" +
                 "                Encogimientos con barra (trapecios): 4x12");
 
-        chestPlan.setImage("/images/plan_pecho.jpg");
-        armsPlan.setImage("/images/plan_brazo.jpeg");
-        legsPlan.setImage("/images/plan_pierna.jpeg");
-        absPlan.setImage("/images/plan_abs.jpg");
-        backPlan.setImage("/images/plan_espalda.jpeg");
-        shoulderPlan.setImage("/images/plan_hombros.jpeg");
+        chestPlan.setImageDefault("/images/plan_pecho.jpg");
+        armsPlan.setImageDefault("/images/plan_brazo.jpeg");
+        legsPlan.setImageDefault("/images/plan_pierna.jpeg");
+        absPlan.setImageDefault("/images/plan_abs.jpg");
+        backPlan.setImageDefault("/images/plan_espalda.jpeg");
+        shoulderPlan.setImageDefault("/images/plan_hombros.jpeg");
 
         chestPlan = trainingService.createTraining(chestPlan, null); 
         armsPlan = trainingService.createTraining(armsPlan, null);
@@ -152,23 +152,23 @@ public class DataBaseInit {
         entidad5.setIsNotified(true);
         entidad11.setIsNotified(true);
 
-        trainingCommentService.createTrainingComment(descansos, chestPlan);
-        trainingCommentService.createTrainingComment(hidratación, chestPlan);
-        trainingCommentService.createTrainingComment(entidad1, chestPlan);
-        trainingCommentService.createTrainingComment(entidad2, armsPlan);
-        trainingCommentService.createTrainingComment(entidad3, chestPlan);
-        trainingCommentService.createTrainingComment(entidad4, chestPlan);
-        trainingCommentService.createTrainingComment(entidad5, legsPlan);
-        trainingCommentService.createTrainingComment(entidad6, chestPlan);
-        trainingCommentService.createTrainingComment(entidad7, absPlan);
-        trainingCommentService.createTrainingComment(entidad8, chestPlan);
-        trainingCommentService.createTrainingComment(entidad9, chestPlan);
-        trainingCommentService.createTrainingComment(entidad10, backPlan);
-        trainingCommentService.createTrainingComment(entidad11, chestPlan);
-        trainingCommentService.createTrainingComment(entidad12, chestPlan);
-        trainingCommentService.createTrainingComment(entidad13, shoulderPlan);
-        trainingCommentService.createTrainingComment(entidad14, chestPlan);
-        trainingCommentService.createTrainingComment(entidad15, chestPlan);
+        trainingCommentService.createTrainingComment(descansos, chestPlan,null);
+        trainingCommentService.createTrainingComment(hidratación, chestPlan, null);
+        trainingCommentService.createTrainingComment(entidad1, chestPlan,null);
+        trainingCommentService.createTrainingComment(entidad2, armsPlan,null);
+        trainingCommentService.createTrainingComment(entidad3, chestPlan,null);
+        trainingCommentService.createTrainingComment(entidad4, chestPlan,null);
+        trainingCommentService.createTrainingComment(entidad5, legsPlan,null);
+        trainingCommentService.createTrainingComment(entidad6, chestPlan,null);
+        trainingCommentService.createTrainingComment(entidad7, absPlan,null);
+        trainingCommentService.createTrainingComment(entidad8, chestPlan,null);
+        trainingCommentService.createTrainingComment(entidad9, chestPlan,null);
+        trainingCommentService.createTrainingComment(entidad10, backPlan,null);
+        trainingCommentService.createTrainingComment(entidad11, chestPlan,null);
+        trainingCommentService.createTrainingComment(entidad12, chestPlan,null);
+        trainingCommentService.createTrainingComment(entidad13, shoulderPlan,null);
+        trainingCommentService.createTrainingComment(entidad14, chestPlan,null);
+        trainingCommentService.createTrainingComment(entidad15, chestPlan,null);
 
         //nutrition comment examples
         NutritionComment variedad = new NutritionComment("Es importante comer variado", "Variedad");

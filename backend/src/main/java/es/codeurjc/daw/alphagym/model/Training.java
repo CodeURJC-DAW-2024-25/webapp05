@@ -1,9 +1,10 @@
 package es.codeurjc.daw.alphagym.model;
 
-import es.codeurjc.daw.alphagym.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +18,23 @@ public class Training {
     private int duration;
     private String intensity;
     private String description;
-    @Column(length = 1500000)
-    private String image;
+
+    @Lob
+    @JsonIgnore
+    private Blob imgTraining;
+
+    private String imageDefault;
+
+    public boolean isImage() {
+        return image;
+    }
+
+    public void setImage(boolean image) {
+        this.image = image;
+    }
+
+    public boolean image;
+
     private String goal;
 
     @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
@@ -36,8 +52,6 @@ public class Training {
         this.duration = duration;
         this.goal = goal;
         this.description = description;
-        this.image = "/images/emptyImage.png";
-
     }
 
     public Training() {
@@ -52,6 +66,9 @@ public class Training {
         return comments;
     }
 
+    public Blob getImgTraining() {
+        return imgTraining;
+    }
     public long getId() { return id;}
 
     public int getDuration() { return duration;}
@@ -61,9 +78,10 @@ public class Training {
     public String getDescription() { return description;}
 
     public String getGoal() { return goal;}
-    public String getImage() { return image;}
 
     public User getUser() { return user; }
+
+    public String getImageDefault() {return imageDefault;}
 
     // Setters
 
@@ -78,8 +96,9 @@ public class Training {
         this.description = description;
     }
     public void setGoal(String goal) { this.goal = goal;}
-    public void setImage(String image) {
-        this.image = image;
-    }
     public void setUser(User user) {this.user = user;}
+
+    public void setImgTraining(Blob image) {this.imgTraining = image;}
+
+    public void setImageDefault(String imageDefault) {this.imageDefault = imageDefault;}
 }

@@ -62,9 +62,15 @@ public class NutritionCommentController {
     }
 
     @GetMapping("/nutritionComments/{nutritionId}")
-    public String showAllNutritionComments(Model model, @PathVariable Long nutritionId) {
+    public String showAllNutritionComments(Model model, @PathVariable Long nutritionId, Principal principal) {
         model.addAttribute("nutrition", nutritionService.getNutrition(nutritionId));
         model.addAttribute("comment", nutritionCommentService.getNutritionComments(nutritionId));
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                model.addAttribute("logged", true);
+            }
+        }
         return "commentNutrition";
     }
 

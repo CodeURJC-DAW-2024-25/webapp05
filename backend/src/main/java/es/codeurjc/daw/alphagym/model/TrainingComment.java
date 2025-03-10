@@ -23,6 +23,9 @@ public class TrainingComment{
     @ManyToOne
     private Training training;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
     protected TrainingComment() {
     } 
 
@@ -56,6 +59,9 @@ public class TrainingComment{
         return training;
     }
 
+    public User getUser() {return user;}
+
+
 
     // Setters
     public void setId(Long id) {
@@ -81,4 +87,6 @@ public class TrainingComment{
     public void setTraining(Training training) {
         this.training = training;
     }
+
+    public void setUser(User user) {this.user = user;}
 }

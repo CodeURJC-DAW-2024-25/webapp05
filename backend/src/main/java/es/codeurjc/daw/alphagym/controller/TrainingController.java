@@ -1,6 +1,7 @@
 package es.codeurjc.daw.alphagym.controller;
 
 import java.security.Principal;
+import java.sql.SQLException;
 import java.util.Optional;
 
 import es.codeurjc.daw.alphagym.dtosEdit.Goal;
@@ -12,12 +13,18 @@ import es.codeurjc.daw.alphagym.service.TrainingCommentService;
 import es.codeurjc.daw.alphagym.service.TrainingService;
 import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +67,14 @@ public class TrainingController {
     }
 
     @GetMapping("/trainings")
-    public String showAllRoutines(Model model) {
+    public String showAllRoutines(Model model, Principal principal) {
         model.addAttribute("trainings", trainingService.getAllTrainings());
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                model.addAttribute("logged", true);
+            }
+        }
         return "training";
     }
 
@@ -173,11 +186,16 @@ public class TrainingController {
     }
 
     @PostMapping("/trainings/editTraining/{trainingId}")
-    public String editRoutinePost(@ModelAttribute Training training, @PathVariable Long trainingId, Model model, Principal principal) {
+    public String editRoutinePost(@ModelAttribute Training training, @PathVariable Long trainingId, @RequestParam MultipartFile imageFile, Model model, Principal principal) {
         try {
             if (principal != null) {
                 Optional<User> user = userService.findByEmail(principal.getName());
+                if (imageFile != null && !imageFile.isEmpty()) {
+                    training.setImgTraining(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+                    training.setImage(true);
+                }
                 trainingService.updateRoutine(trainingId, training, user.get());
+
                 return "redirect:/trainings/" + trainingId;
             }
 
@@ -208,6 +226,26 @@ public class TrainingController {
             }
         }
         return null;
+    }
+
+    @GetMapping("/editTraining/image/{trainingId}")
+    public ResponseEntity<Object> downloadImage(@PathVariable Long trainingId, Principal principal) throws SQLException {
+        if (principal != null) {
+
+            Optional<User> user = userService.findByEmail(principal.getName());
+            Training training = trainingService.getById(trainingId);
+
+            if (user.isPresent() && training.getImgTraining() != null) {
+
+                Resource file = new InputStreamResource(training.getImgTraining().getBinaryStream());
+
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                        .contentLength(user.get().getImg_user().length())
+                        .body(file);
+            }
+        }
+        return ResponseEntity.notFound().build();
     }
 
 

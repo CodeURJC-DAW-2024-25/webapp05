@@ -5,18 +5,26 @@
 
 <div class="container mt-5">
     <h2 class="text-center">Edit the routine {{training.id}} </h2>
+    {{#training.imgTraining}}
     <div class="mb-3">
-        <img src="{{training.image}}" class="card-img-top" id="uTrainingImage"/>
+        <input type="hidden" name="id" value="{{training.id}}">
+        <img src="/editTraining/image/{{training.id}}" class="card-img-top" id="uTrainingImage"/>
     </div>
+    {{/training.imgTraining}}
+    {{^training.imgTraining}}
+        <div class="mb-3">
+            <img src="/images/emptyImage.png" class="card-img-top" id="uTrainingImage"/>
+        </div>
+    {{/training.imgTraining}}
     <div class="editImageInputContainer">
         <label for="editTrainingImageInput" class="editImageButton">
-            <input type="file" id="editTrainingImageInput" accept="image/*" class="editImageInput" onchange="editImage()">
+            <input type="file" name="imageFile"  accept=".jpg, .jpeg, .png" class="editImageInput" placeholder="foto" onclick="editImage()">
             <span class="editImageButtonText">Editar imagen</span>
         </label>
     </div>
-    <form name="editForm" method="post" onsubmit="return validateRoutineForm()" action="/trainings/editTraining/{{training.id}}">
+    <form name="editForm" method="post" onsubmit="return validateRoutineForm()" action="/trainings/editTraining/{{training.id}}" enctype="multipart/form-data">
         <input type="hidden" name="_csrf" value="{{token}}"/>
-        <input type="hidden" name="image" id="trainingImage" value="{{training.image}}" data-training-image="{{training.image}}">
+        <input type="hidden" name="imageFile" id="trainingImage" value="{{training.image}}" data-training-image="{{training.image}}">
         <div class="mb-3">
             <label class="form-label fw-bold">Routine Name </label>
             <input id="routineName" name="name" type="text" class="form-control" value="{{training.name}}" placeholder="{{training.name}}">

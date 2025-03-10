@@ -9,11 +9,14 @@
           {{#trainings}}
               <div class="col-12 col-md-4 mb-4">
                   <div class="card shadow-sm">
-                      <img src="{{image}}" class="card-img-top" alt="{{name}}" />
+                      {{#imageDefault}}
+                      <img src="{{imageDefault}}" class="card-img-top" alt="{{name}}" />
+                      {{/imageDefault}}
                       <div class="card-body">
                           <h5 class="card-title">{{name}}</h5>
                           <p class="description">{{description}}</p>
                       </div>
+
                       <button class="btn btn-service goToShowRoutine" data-training-id="{{id}}">Go to {{name}}!</button>
                   </div>
               </div>
@@ -24,7 +27,9 @@
       <!-- Botones en la misma línea -->
       <div class="d-flex justify-content-center gap-3">
         <button id="loadMore" class="btn-load">More Results</button> <!-- AJAX -->
-        <a id="newRoutine" class="btn-load"  href="/trainings/createRoutine">New Routine</a>
+          {{#logged}}
+            <a id="newRoutine" class="btn-load"  href="/trainings/createRoutine">New Routine</a>
+          {{/logged}}
       </div>
     </section>
     <!-- Fin Training Plans Section -->

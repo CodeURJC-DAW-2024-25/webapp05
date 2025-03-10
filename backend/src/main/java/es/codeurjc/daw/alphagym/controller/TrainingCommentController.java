@@ -1,8 +1,8 @@
 package es.codeurjc.daw.alphagym.controller;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -25,8 +25,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 
 @Controller
-public class TrainingCommentController { 
-      
+public class TrainingCommentController {
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -38,7 +38,7 @@ public class TrainingCommentController {
     //@Autowired
     //private TrainingComment trainingComment;
 
-    
+
     @ModelAttribute("user")
     public void addAttributes(Model model, HttpServletRequest request){
 
@@ -63,13 +63,45 @@ public class TrainingCommentController {
         CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
         model.addAttribute("token", token.getToken());
     }
-    
 
-    
+
+
     @GetMapping("/trainingComments/{trainingId}")
-    public String showAllTrainingComments(Model model, @PathVariable Long trainingId){
-        model.addAttribute("comment", trainingCommentService.getTrainingComments(trainingId));
+    public String showAllTrainingComments(Model model, @PathVariable Long trainingId, Principal principal){
+        // model.addAttribute("comment", trainingCommentService.getTrainingComments(trainingId));
         model.addAttribute("training", trainingService.getTraining(trainingId));
+
+        boolean isAdmin = false;
+        Long userId = null;
+
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                model.addAttribute("logged", true);
+                isAdmin = user.get().isRole("ADMIN"); // Suponiendo que el usuario tiene un método isAdmin()
+                userId = user.get().getId();
+            }
+        }
+        List<TrainingComment> trainingComments = trainingCommentService.getTrainingComments(trainingId);
+        List<Map<String, Object>> commentList = new ArrayList<>();
+
+        for (TrainingComment trainingComment : trainingComments) {
+            Map<String, Object> commentMap = new HashMap<>();
+            commentMap.put("id", trainingComment.getId());
+            commentMap.put("name", trainingComment.getName());
+            commentMap.put("description", trainingComment.getDescription());
+
+            // Avoid NullPointerException if the comment doesn`t have author
+            User commentUser = trainingComment.getUser();
+            boolean canEdit = isAdmin || (commentUser != null && userId != null && commentUser.getId().equals(userId));
+
+            commentMap.put("canEdit", canEdit);
+            commentMap.put("isAdmin", isAdmin);
+            commentList.add(commentMap);
+        }
+
+        model.addAttribute("comment", commentList);
+
         return "commentTraining";
     }
 
@@ -80,12 +112,21 @@ public class TrainingCommentController {
 
 
     @PostMapping("/trainingComments/{trainingId}")
-    public String createComment(Model model,@PathVariable Long trainingId, @RequestParam String commentTitle,@RequestParam String commentText){
+    public String createComment(Model model,@PathVariable Long trainingId, @RequestParam String commentTitle,@RequestParam String commentText, Principal principal){
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            TrainingComment trainingComment = new TrainingComment(commentText, commentTitle);
+            Training training = trainingService.getTraining(trainingId);
 
-        TrainingComment trainingComment = new TrainingComment(commentText,commentTitle);
-        Training training = trainingService.getTraining(trainingId);
-        trainingCommentService.createTrainingComment(trainingComment,training);
+            if (user.isPresent()) {
+                if (user.get().isRole("ADMIN")) {
+                    trainingCommentService.createTrainingComment(trainingComment, training, null);
+                }else{
+                    trainingCommentService.createTrainingComment(trainingComment, training, user.get());
+                }
+            }
 
+        }
         return "redirect:/trainingComments/" + trainingId;
     }
 
@@ -103,22 +144,22 @@ public class TrainingCommentController {
     }
 
     @GetMapping("/trainingComments/{trainingId}/{commentId}/editcomment")
-     public String editComment(Model model, @PathVariable Long trainingId, @PathVariable Long commentId) {
-         model.addAttribute("comment", trainingCommentService.getCommentById(commentId));
-         return "editComment";
-     }
- 
-     @PostMapping("/trainingComments/{trainingId}/{commentId}")
-     public String updateComment(Model model, @PathVariable Long trainingId, @PathVariable Long commentId,
-             @RequestParam String commentTitle, @RequestParam String commentText) {
-         TrainingComment trainingComment = trainingCommentService.getCommentById(commentId);
-         if (trainingComment != null) {
-             trainingComment.setDescription(commentText);
-             trainingComment.setName(commentTitle);
-             trainingCommentService.updateComment(trainingComment);
-         }
-         return "redirect:/trainingComments/" + trainingId;
-     }
+    public String editComment(Model model, @PathVariable Long trainingId, @PathVariable Long commentId) {
+        model.addAttribute("comment", trainingCommentService.getCommentById(commentId));
+        return "editComment";
+    }
+
+    @PostMapping("/trainingComments/{trainingId}/{commentId}")
+    public String updateComment(Model model, @PathVariable Long trainingId, @PathVariable Long commentId,
+                                @RequestParam String commentTitle, @RequestParam String commentText) {
+        TrainingComment trainingComment = trainingCommentService.getCommentById(commentId);
+        if (trainingComment != null) {
+            trainingComment.setDescription(commentText);
+            trainingComment.setName(commentTitle);
+            trainingCommentService.updateComment(trainingComment);
+        }
+        return "redirect:/trainingComments/" + trainingId;
+    }
 
     @GetMapping("/trainingComments/{commentId}/unreport")
     public String unreportComment(Model model, @PathVariable Long commentId) {

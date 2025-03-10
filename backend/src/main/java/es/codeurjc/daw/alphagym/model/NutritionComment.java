@@ -1,10 +1,6 @@
 package es.codeurjc.daw.alphagym.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class NutritionComment {
@@ -20,6 +16,9 @@ public class NutritionComment {
     @ManyToOne
     private Nutrition nutrition;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
     protected NutritionComment() {
     }
 
@@ -53,6 +52,8 @@ public class NutritionComment {
         return nutrition;
     }
 
+    public User getUser() {return user;}
+
     // Setters
     public void setId(Long id) {
         this.id = id;
@@ -77,4 +78,6 @@ public class NutritionComment {
     public void setNutrition(Nutrition nutrition) {
         this.nutrition = nutrition;
     }
+
+    public void setUser(User user) {this.user = user;}
 }

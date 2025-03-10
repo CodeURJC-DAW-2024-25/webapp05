@@ -3,6 +3,7 @@ package es.codeurjc.daw.alphagym.service;
 
 import java.util.List;
 
+import es.codeurjc.daw.alphagym.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +24,7 @@ public class TrainingCommentService {
     @Autowired
     private TrainingCommentRepository trainingCommentRepository;
     @Autowired
-    private TrainingRepository traingRepository;
+    private TrainingRepository trainingRepository;
 
         
     public List<TrainingComment> getAllTrainingComments() {
@@ -36,11 +37,12 @@ public class TrainingCommentService {
         return listTrainingComments.isEmpty() ? null : listTrainingComments;
     }
 
-    public void createTrainingComment(TrainingComment trainingComment,Training training) {
+    public void createTrainingComment(TrainingComment trainingComment,Training training, User user) {
+        trainingComment.setUser(user);
         trainingComment.setTraining(training);
-        trainingComment = trainingCommentRepository.save(trainingComment);
+        trainingCommentRepository.save(trainingComment);
         training.getComments().add(trainingComment);
-        
+
     }
 
     public void deleteCommentbyId(Training training, Long commentId) {

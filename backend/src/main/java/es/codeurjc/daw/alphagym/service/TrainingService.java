@@ -7,12 +7,8 @@ import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
-import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,9 +34,7 @@ public class TrainingService {
     public Training createTraining(Training training, User user) {
         Training newTraining = new Training(training.getName(),training.getIntensity(),training.getDuration(),training.getGoal(),training.getDescription());
         newTraining.setUser(user);
-        if (training.getImage() != null && !training.getImage().equals("/images/emptyImage.png")) {
-            newTraining.setImage(training.getImage());
-        }
+        newTraining.setImageDefault(training.getImageDefault());
         trainingRepository.save(newTraining);
         return newTraining;
     }
@@ -64,7 +58,7 @@ public class TrainingService {
         Optional<Training> theRoutine = trainingRepository.findById(routineId);
         if(theRoutine.isPresent()) {
             training.setId(routineId);
-            training.setImage(theRoutine.get().getImage());
+            //training.setImageDefault(theRoutine.get().getImgTraining());
             if (theRoutine.get().getUser()!=null){
                 training.setUser(user);
             }
@@ -73,6 +67,11 @@ public class TrainingService {
         }
 
         return null;
+    }
+    public Training getById(Long id){
+        Training training = trainingRepository.getById(id);
+        return training;
+
     }
 
     public Training deleteRoutine(Long id){
