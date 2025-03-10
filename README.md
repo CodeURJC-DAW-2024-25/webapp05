@@ -63,11 +63,6 @@ En esta pantalla los usuarios deben poner el correo electrónico y la contraseñ
 
 ![image](https://github.com/user-attachments/assets/cf555160-6061-4a81-8612-3a77a37c7018)
 
-## Pantalla de Restauracion de Perfil:
-Esta pantalla sirve para que el usuario pueda cambiar su contraseña, para esto tan solo tiene que introducir el correo electrónico de su cuenta.
-
-![image](https://github.com/user-attachments/assets/ddf6daee-e60c-4541-ae4d-ea9266b574a3)
-
 ## Pantalla de Registro:
 Nuestra pantalla de registro se basa en una interfaz muy intuitiva ya que el usuario debe rellenar el formulario que se puede ver a la derecha de la pantalla. El usuario tiene que rellenar el formulario con su nombre completo, un correo electrónico y una contraseña que se le pide que repita para verificar que es la contraseña puesta es correcta. Finalmente hace click en el botón de "Submit" para dar de alta su cuenta.
 
