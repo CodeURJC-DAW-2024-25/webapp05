@@ -61,6 +61,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/nutritions/**").permitAll()                     
 						.requestMatchers("/trainingComments/*").permitAll()
 						.requestMatchers("/nutritionComments/*").permitAll()
+						.requestMatchers("/trainingComments/*/moreComments").permitAll()
+						.requestMatchers("/nutritionComments/*/moreComments").permitAll()
 
 						// PRIVATE PAGES
                         .requestMatchers("/account/**").hasAnyRole("USER")
