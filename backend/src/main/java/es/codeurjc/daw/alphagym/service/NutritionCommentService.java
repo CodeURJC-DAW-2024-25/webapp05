@@ -56,6 +56,14 @@ public class NutritionCommentService {
         }
     }
 
+    public void unreportCommentbyId(Long commentId) {
+        NutritionComment comment = nutritionCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            comment.setIsNotified(false);
+            nutritionCommentRepository.save(comment);
+        }
+    }
+
     public NutritionComment getCommentById(Long commentId) {
         return nutritionCommentRepository.findById(commentId).orElse(null);
     }
@@ -74,5 +82,10 @@ public class NutritionCommentService {
         Pageable pageable = PageRequest.of(page, limit);
         Page<NutritionComment> commentsPage = nutritionCommentRepository.findByNutritionId(nutritionId, pageable);
         return commentsPage.getContent();
+    }
+
+    public List<NutritionComment> getReportedComments() {
+        List<NutritionComment> listNutritionComments = nutritionCommentRepository.findByIsNotified(true);
+        return listNutritionComments.isEmpty() ? null : listNutritionComments;        
     }
 }

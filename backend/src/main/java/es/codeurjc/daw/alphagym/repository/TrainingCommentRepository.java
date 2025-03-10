@@ -12,5 +12,6 @@ public interface TrainingCommentRepository extends JpaRepository<TrainingComment
     List<TrainingComment> findByisNotified(boolean isNotified);
     List<TrainingComment> findByTrainingId(Long trainingId);
     long countByIsNotified(boolean isNotified);
+    List<TrainingComment> findByIsNotified(boolean b);
     
 }

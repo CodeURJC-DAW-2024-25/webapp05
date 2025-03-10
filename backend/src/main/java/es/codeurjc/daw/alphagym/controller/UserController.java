@@ -247,6 +247,8 @@ public class UserController {
             model.addAttribute("admin", admin.get());
             model.addAttribute("reportedCount", reportsArray1[0] + reportsArray2[0]);
             model.addAttribute("notReportedCount", reportsArray1[1] + reportsArray2[1]);
+            model.addAttribute("trainingComments", trainingCommentService.getReportedComments());
+            model.addAttribute("nutritionComments", nutritionCommentService.getReportedComments());
             //aqui añadir 
             return "admin";
 

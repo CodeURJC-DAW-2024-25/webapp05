@@ -129,5 +129,31 @@ public class NutritionCommentController {
         return "fragments/commentList";
     }
     
+    @GetMapping("/nutritionComments/{commentId}/unreport")
+    public String unreportComment(Model model, @PathVariable Long commentId) {
+        nutritionCommentService.unreportCommentbyId(commentId);
+        return "redirect:/admin";
+    }
+
+    @GetMapping("/nutritionComments/{commentId}/editcommentAdmin")
+    public String editCommentAdmin(Model model, @PathVariable Long commentId) {
+        NutritionComment comment = nutritionCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            Nutrition nutrition = comment.getNutrition();
+            return "redirect:/nutritionComments/" + nutrition.getId() + "/" + commentId + "/editcomment";
+        } else {
+            return "redirect:/admin";
+        }
+    }
+
+    @GetMapping("/nutritionComments/{commentId}/deleteAdmin")
+    public String deleteCommentAdmin(Model model, @PathVariable Long commentId) {
+        NutritionComment comment = nutritionCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            Nutrition nutrition = comment.getNutrition();
+            nutritionCommentService.deleteCommentbyId(nutrition, commentId);
+        }
+        return "redirect:/admin";
+    }
 
 }

@@ -13,7 +13,7 @@ public interface NutritionCommentRepository extends JpaRepository<NutritionComme
     List<NutritionComment> findById(long id);
     long countByIsNotified(boolean isNotified);
     Page<NutritionComment> findByNutritionId(Long nutritionId, Pageable pageable);
-
     List<NutritionComment> findByNutritionId(Long nutritionId);
+    List<NutritionComment> findByIsNotified(boolean b);
     
 }

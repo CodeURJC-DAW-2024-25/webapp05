@@ -62,6 +62,14 @@ public class TrainingCommentService {
         }
     }
 
+    public void unreportCommentbyId(Long commentId) {
+        TrainingComment comment = trainingCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            comment.setIsNotified(false);
+            trainingCommentRepository.save(comment);
+        }
+    }
+
     public TrainingComment getCommentById(Long commentId) {
          return trainingCommentRepository.findById(commentId).orElse(null);
      }
@@ -75,5 +83,10 @@ public class TrainingCommentService {
         Long notReported = trainingCommentRepository.countByIsNotified(false);
         return new Long[] {reported, notReported};
     }      
+
+    public List<TrainingComment> getReportedComments() {
+        List<TrainingComment> listTrainingComments = trainingCommentRepository.findByIsNotified(true);
+        return listTrainingComments.isEmpty() ? null : listTrainingComments;
+    }
 }
 

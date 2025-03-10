@@ -166,6 +166,24 @@ h2 {
   color: white;
 }
 
+.btn-load-3 {
+  background-color: rgb(33, 7, 9);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.btn-load-3:hover {
+  background-color: #2ADC80E5;
+  color: white;
+}
+
 .btn-div-extra {
   display: flex;
   gap: 10px;

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
@@ -33,8 +34,8 @@ public class TrainingCommentController {
     private TrainingCommentService trainingCommentService;
     @Autowired
     private TrainingService trainingService;
-    //@Autowired
-    //private TrainingCommentRepository trainingCommentRepository;
+    @Autowired
+    private TrainingCommentRepository trainingCommentRepository;
     //@Autowired
     //private TrainingComment trainingComment;
 
@@ -119,5 +120,32 @@ public class TrainingCommentController {
          }
          return "redirect:/trainingComments/" + trainingId;
      }
+
+    @GetMapping("/trainingComments/{commentId}/unreport")
+    public String unreportComment(Model model, @PathVariable Long commentId) {
+        trainingCommentService.unreportCommentbyId(commentId);
+        return "redirect:/admin";
+    }
+
+    @GetMapping("/trainingComments/{commentId}/editcommentAdmin")
+    public String editCommentAdmin(Model model, @PathVariable Long commentId) {
+        TrainingComment comment = trainingCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            Training training = comment.getTraining();
+            return "redirect:/trainingComments/" + training.getId() + "/" + commentId + "/editcomment";
+        } else {
+            return "redirect:/admin";
+        }
+    }
+
+    @GetMapping("/trainingComments/{commentId}/deleteAdmin")
+    public String deleteCommentAdmin(Model model, @PathVariable Long commentId) {
+        TrainingComment comment = trainingCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            Training training = comment.getTraining();
+            trainingCommentService.deleteCommentbyId(training, commentId);
+        }
+        return "redirect:/admin";
+    }
 
 }
