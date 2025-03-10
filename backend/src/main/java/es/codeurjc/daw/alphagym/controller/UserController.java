@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -175,7 +176,8 @@ public class UserController {
     
     @PostMapping("/editAccount")
     public String editAccount(Model model, @RequestParam String name, 
-                          @RequestParam String email, @RequestParam MultipartFile imageField, Principal principal) 
+                          @RequestParam String email, @RequestParam MultipartFile imageField, 
+                          Principal principal, HttpServletRequest request) 
                           throws IOException {
 
         try {
@@ -184,6 +186,10 @@ public class UserController {
 
             if (userOptional.isPresent()) {
                 User updateUser = userOptional.get();
+
+                //comprueba si el email ha cambiado
+                boolean emailChanged = !updateUser.getEmail().equals(email);
+				updateUser.setEmail(email);
 
                 // Actualizar nombre si no está vacío
                 if (name != null && !name.trim().isEmpty()) {
@@ -204,6 +210,12 @@ public class UserController {
 
                 // Guardar usuario con los cambios realizados
                 userService.save(updateUser);
+
+                if (emailChanged) {
+					request.getSession().invalidate();
+					SecurityContextHolder.clearContext();
+					return "redirect:/login";
+				}
 
                 return "redirect:/account"; 
 
