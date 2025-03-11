@@ -225,6 +225,12 @@ Este diagrama proporciona información general sobre la estructura de la aplicac
 
 ![image](https://github.com/user-attachments/assets/6664eea7-6ffe-4a6d-87b7-a2bddd2af63e)
 
+Rosa: Templates
+Verde: @Controller
+Rojo: @Service
+Azul: @Repository
+Amarillo: Entidades
+
 ## Participacion de los miembros
 
 ### Adrián Dueñas Minguez
