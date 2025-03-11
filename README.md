@@ -334,3 +334,29 @@ Mis tareas han sido crear, gestionar la base de datos MySQL, toda la parte de Se
 | #3             | [SearchController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/SearchController.java)        |
 | #4             | [User.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/model/User.java)                                     |
 | #5             | [UserService.js](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/UserService.java)                       |
+
+### Víctor Candel Casado
+
+#### Descripcion general:
+Mis tareas han sido gestionar la entidad "Training" y las entidades de las que esta dependia, asi como el manejo de imagenes tanto de "Training" como de "Nutrition". Por último, gestionar las posibilidades de la aplicación dependiendo del tipo de usuario tanto en la entidad ya mencionada, como en los comentarios de ambas.
+
+#### Mis 5 commits mas relevantes
+
+| Commit | Descripción                          | Link                                                                                                                                                                                                 |
+| ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1     | Image Nutrition and Training         | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ef7568ae746eb4e127634e31cc629804c45740f8](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ef7568ae746eb4e127634e31cc629804c45740f8) |
+| #2     | Difference between type of user      | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/03f2c69a538238e9c01acd3587d9ea5ae6b0cdf8](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/03f2c69a538238e9c01acd3587d9ea5ae6b0cdf8) |
+| #3     | Suscribe funcionality                | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/5a9b3543427c77ae6ca1707ca1757a0fad62187c](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/5a9b3543427c77ae6ca1707ca1757a0fad62187c) |
+| #4     | account training suscribed funcionality| [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/6c6e813ac5c3344fa396f8b01c32c55088029ae7](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/6c6e813ac5c3344fa396f8b01c32c55088029ae7) |
+| #5     | CRED training                        | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/808be3f2b4a2ac254f15a8b2c97c406327e9c4b1](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/808be3f2b4a2ac254f15a8b2c97c406327e9c4b1) |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero                                                                                                                                                                                    |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| #1             | [editRoutine.html](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/resources/templates/editRoutine.html)   |
+| #2             | [trainingController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/trainingController.java)                            |
+| #3             | [trainingService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/trainingService.java)                        |
+| #4             | [Training.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/model/Training.java)                                                     |
+| #5             | [file.js](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/resources/static/js/file.js)                                       |
+
