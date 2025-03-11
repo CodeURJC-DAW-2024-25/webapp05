@@ -34,7 +34,9 @@ public class TrainingService {
     public Training createTraining(Training training, User user) {
         Training newTraining = new Training(training.getName(),training.getIntensity(),training.getDuration(),training.getGoal(),training.getDescription());
         newTraining.setUser(user);
-        newTraining.setImageDefault(training.getImageDefault());
+        if (training.getImgTraining()!=null){
+            newTraining.setImgTraining(training.getImgTraining());
+        }
         trainingRepository.save(newTraining);
         return newTraining;
     }
@@ -54,24 +56,34 @@ public class TrainingService {
         }
     }
 
-    public Training updateRoutine(Long routineId, Training training, User user){
-        Optional<Training> theRoutine = trainingRepository.findById(routineId);
-        if(theRoutine.isPresent()) {
-            training.setId(routineId);
-            //training.setImageDefault(theRoutine.get().getImgTraining());
-            if (theRoutine.get().getUser()!=null){
-                training.setUser(user);
+    public Training updateRoutine(Long routineId, Training newTrainingData, User user) {
+        Optional<Training> existingTrainingOpt = trainingRepository.findById(routineId);
+
+        if (existingTrainingOpt.isPresent()) {
+            Training existingTraining = existingTrainingOpt.get();
+
+            existingTraining.setName(newTrainingData.getName());
+            existingTraining.setIntensity(newTrainingData.getIntensity());
+            existingTraining.setDuration(newTrainingData.getDuration());
+            existingTraining.setGoal(newTrainingData.getGoal());
+            existingTraining.setDescription(newTrainingData.getDescription());
+
+            if (newTrainingData.getImgTraining() != null) {
+                existingTraining.setImgTraining(newTrainingData.getImgTraining());
+                existingTraining.setImage(true);
             }
-            trainingRepository.save(training);
-            return training;
+
+            if (existingTraining.getUser() != null) {
+                existingTraining.setUser(user);
+            }
+
+            return trainingRepository.save(existingTraining);
         }
 
         return null;
     }
-    public Training getById(Long id){
-        Training training = trainingRepository.getById(id);
-        return training;
-
+    public Optional<Training> findById(Long id) {
+        return trainingRepository.findById(id);
     }
 
     public Training deleteRoutine(Long id){

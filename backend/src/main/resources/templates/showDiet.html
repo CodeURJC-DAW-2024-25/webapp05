@@ -4,10 +4,11 @@
 
     <div class="container mt-5">
       <h2 class="text-center">Diet Details of diet {{nutrition.id}}</h2>
-
+    {{#nutrition.imgNutrition}}
         <div class="mb-3">
-            <img src="{{nutrition.image}}" class="card-img-top" alt="{{nutrition.name}}" />
+            <img src="/nutrition/image/{{nutrition.id}}" class="card-img-top" id="uNutritionImage" />
         </div>
+    {{/nutrition.imgNutrition}}
 
       <div class="mb-3">
         <label class="form-label fw-bold">Diet Name:</label>

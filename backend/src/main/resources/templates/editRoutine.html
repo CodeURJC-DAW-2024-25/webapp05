@@ -3,26 +3,15 @@
 
 <div class="container mt-5">
     <h2 class="text-center">Edit the routine {{training.id}} </h2>
-    {{#training.imgTraining}}
-    <div class="mb-3">
-        <input type="hidden" name="id" value="{{training.id}}">
-        <img src="/editTraining/image/{{training.id}}" class="card-img-top" id="uTrainingImage"/>
-    </div>
-    {{/training.imgTraining}}
-    {{^training.imgTraining}}
-        <div class="mb-3">
-            <img src="/images/emptyImage.png" class="card-img-top" id="uTrainingImage"/>
-        </div>
-    {{/training.imgTraining}}
-    <div class="editImageInputContainer">
-        <label for="editTrainingImageInput" class="editImageButton">
-            <input type="file" name="imageFile"  accept=".jpg, .jpeg, .png" class="editImageInput" placeholder="foto" onclick="editImage()">
-            <span class="editImageButtonText">Edit image</span>
-        </label>
-    </div>
     <form name="editForm" method="post" onsubmit="return validateRoutineForm()" action="/trainings/editTraining/{{training.id}}" enctype="multipart/form-data">
         <input type="hidden" name="_csrf" value="{{token}}"/>
-        <input type="hidden" name="imageFile" id="trainingImage" value="{{training.image}}" data-training-image="{{training.image}}">
+        <div class="mb-3 text-center">
+            <img id="previewImage" src="{{#training.imgTraining}}/training/image/{{training.id}}{{/training.imgTraining}}{{^training.imgTraining}}/images/emptyImage.png{{/training.imgTraining}}" class="card-img-top" style="max-width: 300px; border-radius: 10px;"/>
+        </div>
+
+
+        <input type="file" name="imageFile" placeholder="Foto" accept=".jpg, .jpeg, .png" onchange="previewSelectedImage(event)">
+
         <div class="mb-3">
             <label class="form-label fw-bold">Routine Name </label>
             <input id="routineName" name="name" type="text" class="form-control" value="{{training.name}}" placeholder="{{training.name}}">
@@ -32,7 +21,7 @@
             <label class="form-label fw-bold">Routine Intensity:</label>
             <select class="form-select" id="intensity" name="intensity" >
                 {{#intensities}}
-                 <option value="{{intensity}}" {{#selected}}selected{{/selected}}> {{#intensity}}{{.}}{{/intensity}}</option>
+                    <option value="{{intensity}}" {{#selected}}selected{{/selected}}> {{#intensity}}{{.}}{{/intensity}}</option>
                 {{/intensities}}
             </select>
         </div>

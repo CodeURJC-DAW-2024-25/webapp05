@@ -31,8 +31,8 @@ public class NutritionService {
     public Nutrition createNutrition(Nutrition nutrition, User user) { 
         Nutrition newNutrition = new Nutrition(nutrition.getName(),nutrition.getCalories(), nutrition.getGoal(), nutrition.getDescription());
         newNutrition.setUser(user);
-        if (nutrition.getImage() != null && !nutrition.getImage().equals("/images/emptyImage.png")) {
-            newNutrition.setImage(nutrition.getImage());
+        if (nutrition.getImage() != null) {
+            newNutrition.setImgNutrition(nutrition.getImgNutrition());
         }
         nutritionRepository.save(newNutrition);
         return newNutrition;
@@ -58,13 +58,20 @@ public class NutritionService {
     public Nutrition editDiet(Long id, Nutrition nutrition , User user){
         Optional<Nutrition> theDiet = nutritionRepository.findById(id);
         if(theDiet.isPresent()) {
-
-            nutrition.setId(id);
-            nutrition.setImage(theDiet.get().getImage());
+            Nutrition opNutrition = theDiet.get();
+            //nutrition.setId(id);
+            opNutrition.setCalories(nutrition.getCalories());
+            opNutrition.setGoal(nutrition.getGoal());
+            opNutrition.setName(nutrition.getName());
+            opNutrition.setDescription(nutrition.getDescription());
+            if (nutrition.getImgNutrition() != null) {
+                theDiet.get().setImgNutrition(nutrition.getImgNutrition());
+                theDiet.get().setImage(true);
+            }
             if (theDiet.get().getUser()!=null){
                 nutrition.setUser(user);
             }
-            nutritionRepository.save(nutrition);
+            nutritionRepository.save(opNutrition);
             return nutrition;
         }
         return null;

@@ -1,7 +1,10 @@
 package es.codeurjc.daw.alphagym.model;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import es.codeurjc.daw.alphagym.model.User;
 
 import jakarta.persistence.*;
@@ -14,9 +17,15 @@ public class Nutrition {
 
     private String name;
     private String description;
-    private String image;
+    private boolean image;
     private String goal;
     private int calories;
+
+
+
+    @Lob
+    @JsonIgnore
+    private Blob imgNutrition;
 
     @OneToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     private List<NutritionComment> comments;
@@ -32,7 +41,6 @@ public class Nutrition {
         this.calories = calories;
         this.goal = goal;
         this.description = description;
-        this.image = "/images/emptyImage.png";
     }
 
     public Nutrition() {
@@ -67,7 +75,7 @@ public class Nutrition {
         return description;
     }
 
-    public String getImage() {
+    public Boolean getImage() {
         return image;
     }
 
@@ -98,12 +106,21 @@ public class Nutrition {
         this.description = description;
     }
 
-    public void setImage(String image) {
+    public void setImage(Boolean image) {
         this.image = image;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    //image
+    public Blob getImgNutrition() {
+        return imgNutrition;
+    }
+
+    public void setImgNutrition(Blob imgTraining) {
+        this.imgNutrition= imgTraining;
     }
     
 }

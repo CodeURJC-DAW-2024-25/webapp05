@@ -4,14 +4,9 @@
 
     <div class="container mt-5">
       <h2 class="text-center">Routine Details of routine {{training.id}} </h2>
-    {{#training.imageDefault}}
-        <div class="mb-3">
-         <img src="{{training.imageDefault}}" class="card-img-top" alt="{{training.name}}" />
-        </div>
-    {{/training.imageDefault}}
     {{#training.imgTraining}}
         <div class="mb-3">
-            <img src="{{training.imgTraining}}" class="card-img-top" id="uTrainingImage"/>
+            <img src="/training/image/{{training.id}}" class="card-img-top" id="uTrainingImage"/>
         </div>
     {{/training.imgTraining}}
       <div class="mb-3">

@@ -23,7 +23,6 @@ public class Training {
     @JsonIgnore
     private Blob imgTraining;
 
-    private String imageDefault;
 
     public boolean isImage() {
         return image;
@@ -81,7 +80,6 @@ public class Training {
 
     public User getUser() { return user; }
 
-    public String getImageDefault() {return imageDefault;}
 
     // Setters
 
@@ -100,5 +98,5 @@ public class Training {
 
     public void setImgTraining(Blob image) {this.imgTraining = image;}
 
-    public void setImageDefault(String imageDefault) {this.imageDefault = imageDefault;}
+
 }

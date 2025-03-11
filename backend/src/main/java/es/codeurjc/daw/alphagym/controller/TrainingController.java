@@ -1,6 +1,8 @@
 package es.codeurjc.daw.alphagym.controller;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -18,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
@@ -186,17 +190,26 @@ public class TrainingController {
     }
 
     @PostMapping("/trainings/editTraining/{trainingId}")
-    public String editRoutinePost(@ModelAttribute Training training, @PathVariable Long trainingId, @RequestParam MultipartFile imageFile, Model model, Principal principal) {
+    public String editRoutinePost(@ModelAttribute Training training, @PathVariable Long trainingId, @RequestParam(value = "imageFile", required = false) MultipartFile imageFile, Model model, Principal principal, HttpServletRequest request) {
         try {
             if (principal != null) {
                 Optional<User> user = userService.findByEmail(principal.getName());
-                if (imageFile != null && !imageFile.isEmpty()) {
-                    training.setImgTraining(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
-                    training.setImage(true);
-                }
-                trainingService.updateRoutine(trainingId, training, user.get());
+                Optional<Training> optionalTraining = trainingService.findById(trainingId);
 
-                return "redirect:/trainings/" + trainingId;
+                if (optionalTraining.isPresent()) {
+                    Training existingTraining = optionalTraining.get();
+
+                    if (imageFile != null && !imageFile.isEmpty()) {
+                        training.setImgTraining(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+                        training.setImage(true);
+                    } else {
+                        training.setImgTraining(existingTraining.getImgTraining()); // keep previous image
+                    }
+
+                    trainingService.updateRoutine(trainingId, training, user.get());
+
+                    return "redirect:/trainings/" + trainingId;
+                }
             }
 
         } catch (Exception e) {
@@ -228,23 +241,19 @@ public class TrainingController {
         return null;
     }
 
-    @GetMapping("/editTraining/image/{trainingId}")
-    public ResponseEntity<Object> downloadImage(@PathVariable Long trainingId, Principal principal) throws SQLException {
-        if (principal != null) {
+    @GetMapping("/training/image/{trainingId}")
+    public ResponseEntity<byte[]> downloadImage(@PathVariable Long trainingId) throws SQLException, IOException {
+        Optional<Training> training = trainingService.findById(trainingId);
 
-            Optional<User> user = userService.findByEmail(principal.getName());
-            Training training = trainingService.getById(trainingId);
+        if (training.isPresent() && training.get().getImgTraining() != null) {
+            Blob imageBlob = training.get().getImgTraining();
+            byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
 
-            if (user.isPresent() && training.getImgTraining() != null) {
-
-                Resource file = new InputStreamResource(training.getImgTraining().getBinaryStream());
-
-                return ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                        .contentLength(user.get().getImg_user().length())
-                        .body(file);
-            }
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG) // Cambia a IMAGE_PNG si es necesario
+                    .body(imageBytes);
         }
+
         return ResponseEntity.notFound().build();
     }
 

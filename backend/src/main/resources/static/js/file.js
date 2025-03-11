@@ -293,21 +293,15 @@ function validateNutritionForm(){
   }
   return true;
 }
-
-function editImage(){
-  let trainingImage = document.getElementById("uTrainingImage");
-  let input = document.getElementById("editTrainingImageInput");
-  let trainingImageInput = document.getElementById("trainingImage");
-
-  if(input.files && input.files[0]){
-    let reader = new FileReader();
-    reader.onload = function(e){
-      trainingImage.src = e.target.result;
-      trainingImageInput.value = e.target.result;
+//edit image
+function previewSelectedImage(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById("previewImage").src = e.target.result;
     };
-    reader.readAsDataURL(input.files[0]);
-  }else{
-    trainingImageInput.value = trainingImageInput.getAttribute("data-training-image");
+    reader.readAsDataURL(file);
   }
 }
 

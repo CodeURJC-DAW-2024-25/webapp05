@@ -8,6 +8,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import es.codeurjc.daw.alphagym.dtosEdit.Goal;
 import es.codeurjc.daw.alphagym.model.Nutrition;
+import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.service.NutritionCommentService;
@@ -16,23 +17,27 @@ import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class NutritionController {
@@ -169,12 +174,23 @@ public class NutritionController {
     }
 
     @PostMapping("/nutritions/editNutrition/{id}")
-    public String editDietPost(@ModelAttribute Nutrition nutrition, @PathVariable Long id, Model model, Principal principal) {
+    public String editDietPost(@ModelAttribute Nutrition nutrition, @PathVariable Long id, @RequestParam(value = "imageFile", required = false) MultipartFile imageFile, Model model, Principal principal) {
         try {
             if (principal != null) {
                 Optional<User> user = userService.findByEmail(principal.getName());
-                nutritionService.editDiet(id, nutrition, user.get());
-                return "redirect:/nutritions/" + id;
+                Optional<Nutrition> optionalNutrition = nutritionService.findById(id);
+                if (optionalNutrition.isPresent()) {
+                    Nutrition existingNutrition = optionalNutrition.get();
+                    if (imageFile != null && !imageFile.isEmpty()) {
+                        nutrition.setImgNutrition(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+                        nutrition.setImage(true);
+                    } else {
+                        nutrition.setImgNutrition(optionalNutrition.get().getImgNutrition()); // keep previous image
+                    }
+                    nutritionService.editDiet(id, nutrition, user.get());
+                    return "redirect:/nutritions/" + id;
+                }
+
             }
         } catch (Exception e) {
             // Manejar la excepción, por ejemplo, registrar el error y mostrar un mensaje al usuario
@@ -244,6 +260,22 @@ public class NutritionController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+
+    @GetMapping("/nutrition/image/{nutritionId}")
+    public ResponseEntity<byte[]> downloadImage(@PathVariable Long nutritionId) throws SQLException, IOException {
+        Optional<Nutrition> nutrition = nutritionService.findById(nutritionId);
+
+        if (nutrition.isPresent() && nutrition.get().getImgNutrition() != null) {
+            Blob imageBlob = nutrition.get().getImgNutrition();
+            byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG) // Cambia a IMAGE_PNG si es necesario
+                    .body(imageBytes);
+        }
+
+        return ResponseEntity.notFound().build();
     }
     
 }

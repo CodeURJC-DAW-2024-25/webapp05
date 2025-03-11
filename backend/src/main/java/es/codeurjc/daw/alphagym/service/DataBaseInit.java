@@ -1,8 +1,15 @@
 package es.codeurjc.daw.alphagym.service;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +22,8 @@ import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
+
+import javax.sql.rowset.serial.SerialBlob;
 
 @Service
 public class DataBaseInit {
@@ -46,7 +55,7 @@ public class DataBaseInit {
     private NutritionCommentService nutritionCommentService;
 
     @PostConstruct
-    public void init() throws IOException {
+    public void init() throws IOException, SQLException {
 
         //Users Examples
         User admin = new User("admin", "admin@admin.com", passwordEncoder.encode("adminpass"), "ADMIN", "USER");
@@ -88,12 +97,44 @@ public class DataBaseInit {
                 "                Pájaros (elevaciones posteriores): 3x12\n" +
                 "                Encogimientos con barra (trapecios): 4x12");
 
-        chestPlan.setImageDefault("/images/plan_pecho.jpg");
+
+        ClassPathResource imgFile1 = new ClassPathResource("static/images/plan_pecho.jpg");
+        byte[] imageBytes1 = Files.readAllBytes(imgFile1.getFile().toPath());
+        Blob imageBlob1 = new SerialBlob(imageBytes1);
+        chestPlan.setImgTraining(imageBlob1);
+
+        ClassPathResource imgFile2 = new ClassPathResource("static/images/plan_brazo.jpeg");
+        byte[] imageBytes2 = Files.readAllBytes(imgFile2.getFile().toPath());
+        Blob imageBlob2 = new SerialBlob(imageBytes2);
+        armsPlan.setImgTraining(imageBlob2);
+
+        ClassPathResource imgFile3 = new ClassPathResource("static/images/plan_pierna.jpeg");
+        byte[] imageBytes3 = Files.readAllBytes(imgFile3.getFile().toPath());
+        Blob imageBlob3 = new SerialBlob(imageBytes3);
+        legsPlan.setImgTraining(imageBlob3);
+
+        ClassPathResource imgFile4 = new ClassPathResource("static/images/plan_abs.jpg");
+        byte[] imageBytes4 = Files.readAllBytes(imgFile4.getFile().toPath());
+        Blob imageBlob4 = new SerialBlob(imageBytes4);
+        absPlan.setImgTraining(imageBlob4);
+
+        ClassPathResource imgFile5 = new ClassPathResource("static/images/plan_espalda.jpeg");
+        byte[] imageBytes5 = Files.readAllBytes(imgFile5.getFile().toPath());
+        Blob imageBlob5 = new SerialBlob(imageBytes5);
+        backPlan.setImgTraining(imageBlob5);
+
+        ClassPathResource imgFile6 = new ClassPathResource("static/images/plan_hombros.jpeg");
+        byte[] imageBytes6 = Files.readAllBytes(imgFile6.getFile().toPath());
+        Blob imageBlob6 = new SerialBlob(imageBytes6);
+        shoulderPlan.setImgTraining(imageBlob6);
+
+
+        /*chestPlan.setImageDefault("/images/plan_pecho.jpg");
         armsPlan.setImageDefault("/images/plan_brazo.jpeg");
         legsPlan.setImageDefault("/images/plan_pierna.jpeg");
         absPlan.setImageDefault("/images/plan_abs.jpg");
         backPlan.setImageDefault("/images/plan_espalda.jpeg");
-        shoulderPlan.setImageDefault("/images/plan_hombros.jpeg");
+        shoulderPlan.setImageDefault("/images/plan_hombros.jpeg");*/
 
         chestPlan = trainingService.createTraining(chestPlan, null); 
         armsPlan = trainingService.createTraining(armsPlan, null);
@@ -121,9 +162,20 @@ public class DataBaseInit {
                         "Merienda: Yogur griego natural con almendras\n" +
                         "Cena: 120 g de salmón + verduras salteadas");
 
-        caloricDeficit.setImage("/images/deficitcalorico.jpeg");
-        caloricSurplus.setImage("/images/volumen.jpeg");
-        maintenanceDiet.setImage("/images/mantenimiento.jpg");
+        ClassPathResource imgFile7 = new ClassPathResource("static/images/deficitcalorico.jpeg");
+        byte[] imageBytes7 = Files.readAllBytes(imgFile7.getFile().toPath());
+        Blob imageBlob7 = new SerialBlob(imageBytes7);
+        caloricDeficit.setImgNutrition(imageBlob7);
+
+        ClassPathResource imgFile8 = new ClassPathResource("static/images/volumen.jpeg");
+        byte[] imageBytes8 = Files.readAllBytes(imgFile8.getFile().toPath());
+        Blob imageBlob8 = new SerialBlob(imageBytes8);
+        caloricSurplus.setImgNutrition(imageBlob8);
+
+        ClassPathResource imgFile9 = new ClassPathResource("static/images/mantenimiento.jpg");
+        byte[] imageBytes9 = Files.readAllBytes(imgFile9.getFile().toPath());
+        Blob imageBlob9 = new SerialBlob(imageBytes9);
+        maintenanceDiet.setImgNutrition(imageBlob9);
 
         caloricDeficit = nutritionService.createNutrition(caloricDeficit, null);
         caloricSurplus = nutritionService.createNutrition(caloricSurplus, null);

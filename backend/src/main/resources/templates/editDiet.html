@@ -6,6 +6,12 @@
 
     <form name="editForm" method="post" onsubmit="return validateNutritionForm()" method="post" action="/nutritions/editNutrition/{{nutrition.id}}">
         <input type="hidden" name="_csrf" value="{{token}}"/>
+
+        <div class="mb-3 text-center">
+            <img id="previewImage" src="{{#nutrition.imgNutrition}}/nutrition/image/{{nutrition.id}}{{/nutrition.imgNutrition}}{{^nutrition.imgNutrition}}/images/emptyImage.png{{/nutrition.imgNutrition}}" class="card-img-top" style="max-width: 300px; border-radius: 10px;"/>
+        </div>
+
+        <input type="file" name="imageFile" placeholder="Foto" accept=".jpg, .jpeg, .png" onchange="previewSelectedImage(event)">
     <div class="mb-3">
         <label class="form-label fw-bold">Nutrition Name </label>
         <input id="nutritionName" name="name" type="text" class="form-control" value="{{nutrition.name}}" placeholder="{{nutrition.name}}" >

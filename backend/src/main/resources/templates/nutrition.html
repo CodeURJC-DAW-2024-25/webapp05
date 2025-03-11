@@ -9,9 +9,10 @@
           <div class="col-12 col-md-4 mb-4">
             <div class="card shadow-sm">
               <div class="card-body">
-                <div id="training/nutrition-picture-container">
-                  <img src="{{image}}" alt= {{name}} class="nutrition" id="nutritionImage">
-                </div>
+
+            {{#imgNutrition}}
+                  <img src="/nutrition/image/{{id}}" alt= {{name}} class="nutrition" id="nutritionImage">
+            {{/imgNutrition}}
                 <h5 class="card-title">{{name}}</h5>
                   <p>Meals:</p>
                   <p>{{description}}</p>
@@ -23,7 +24,6 @@
       </div>
 
         <div class="text-center">
-            <button id="loadMore" class="btn-load">More Results</button>
             {{#logged}}
             <a id ="newNutrition" href="/nutritions/newNutrition" class="btn-load">Add Diet</a>
             {{/logged}}

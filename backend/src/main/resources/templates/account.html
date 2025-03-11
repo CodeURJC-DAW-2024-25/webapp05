@@ -43,11 +43,11 @@
           {{#trainings}}            
                 <div class="card shadow-sm">
                   <div class="card-body">
-                {{#imageDefault}}
+                {{#imgTraining}}
                     <div id="training/nutrition-picture-container">
-                      <img src="{{imageDefault}}" alt="training" class="training" id="trainingImage">
+                      <img src="/training/image/{{id}}" alt="training" class="training" id="trainingImage">
                     </div>
-                {{/imageDefault}}
+                {{/imgTraining}}
                     <h5 class="card-title">{{name}}</h5>
                     <button class="btn-load-2 goToDeleteRoutineFromList" data-training-id="{{id}}">Delete</button>
                     <button class="btn-load-2 goToShowRoutine" data-training-id="{{id}}">Show more details</button>
@@ -69,7 +69,7 @@
               <div class="card shadow-sm">
                 <div class="card-body">
                     <div id="training/nutrition-picture-container">
-                      <img src="{{image}}" alt="nutrition" class="nutrition-image" id="nutritionImage">
+                      <img src="/nutrition/image/{{id}}" alt="nutrition" class="nutrition-image" id="nutritionImage">
                     </div>
                   <h5 class="card-title">{{name}}</h5>
                   <button class="btn-load-2 goToDeleteDietFromList" data-nutrition-id="{{id}}">Delete</button>
