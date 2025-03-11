@@ -17,7 +17,7 @@
     <div class="editImageInputContainer">
         <label for="editTrainingImageInput" class="editImageButton">
             <input type="file" name="imageFile"  accept=".jpg, .jpeg, .png" class="editImageInput" placeholder="foto" onclick="editImage()">
-            <span class="editImageButtonText">Editar imagen</span>
+            <span class="editImageButtonText">Edit image</span>
         </label>
     </div>
     <form name="editForm" method="post" onsubmit="return validateRoutineForm()" action="/trainings/editTraining/{{training.id}}" enctype="multipart/form-data">

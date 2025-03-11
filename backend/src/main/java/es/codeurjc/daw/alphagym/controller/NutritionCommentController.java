@@ -68,7 +68,7 @@ public class NutritionCommentController {
             Optional<User> user = userService.findByEmail(principal.getName());
             if (user.isPresent()) {
                 model.addAttribute("logged", true);
-                isAdmin = user.get().isRole("ADMIN"); // Asegúrate de que este método devuelve un booleano
+                isAdmin = user.get().isRole("ADMIN"); 
                 loggedUserId = user.get().getId();
             }
         }
