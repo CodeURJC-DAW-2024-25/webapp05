@@ -4,7 +4,7 @@
 <div class="container mt-5">
     <h2 class="text-center">Edit nutrition {{nutrition.id}} </h2>
 
-    <form name="editForm" method="post" onsubmit="return validateNutritionForm()" method="post" action="/nutritions/editNutrition/{{nutrition.id}}">
+    <form name="editForm" method="post" onsubmit="return validateNutritionForm()" method="post" action="/nutritions/editNutrition/{{nutrition.id}}" enctype="multipart/form-data">
         <input type="hidden" name="_csrf" value="{{token}}"/>
 
         <div class="mb-3 text-center">
