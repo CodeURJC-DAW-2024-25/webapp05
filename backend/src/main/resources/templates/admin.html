@@ -1,28 +1,34 @@
 {{>header}} 
 {{>navbar}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<div class="container d-flex justify-content-center align-items-start flex-wrap mt-4">
-  <div class="form-container-plans3">
-    <p class="title text-center">Admin Profile</p>
-    <div class="form">
-      <input type="text" class="input" value="{{admin.name}}" readonly />
-      <input type="email" class="input" value="{{admin.email}}" readonly />
+<div class="container d-flex flex-column align-items-center mt-4">
+  
+  <div class="w-100 d-flex justify-content-center">
+    <div class="form-container-plans3">
+      <p class="title text-center">Admin Profile</p>
+      <div class="form">
+        <input type="text" class="input" value="{{admin.name}}" readonly />
+        <input type="email" class="input" value="{{admin.email}}" readonly />
+      </div>
     </div>
   </div>
 
-  <div class="container-chart mt-4">
-    <h5 class="text-center">Reported vs. Non-Reported Comments</h5>
-    <canvas id="reportGraphicChart"
-        data-reported="{{reportedCount}}"
-        data-not-reported="{{notReportedCount}}">
-    </canvas>
+  <!-- Nueva fila separada -->
+  <div class="w-100 d-flex justify-content-center mt-4">
+    <div class="container-chart">
+      <h5 class="text-center">Reported vs. Non-Reported Comments</h5>
+      <canvas id="reportGraphicChart"
+          data-reported="{{reportedCount}}"
+          data-not-reported="{{notReportedCount}}">
+      </canvas>
+    </div>
   </div>
 
-  <section>
-    <div class="container-account2">
+  <!-- Nueva sección que estará en otra "fila" -->
+  <section class="w-100 mt-4">
+    <div class="container-account2 d-flex flex-wrap justify-content-center">
       <div class="form-container-plans2">
         <h1 class="title">Reported Training Comments</h1>
-
         <ul>
         {{#trainingComments}}            
         <div class="card shadow-sm">
@@ -36,7 +42,6 @@
         </div>
         {{/trainingComments}}
         </ul>
-
         {{^trainingComments}}
         <p>No hay comentarios sobre entrenamiento reportados</p>
         {{/trainingComments}}
@@ -44,7 +49,6 @@
 
       <div class="form-container-plans2">
         <h1 class="title">Reported Nutrition Comments</h1>
-
         <ul>
         {{#nutritionComments}}
             <div class="card shadow-sm">
@@ -58,7 +62,6 @@
             </div>
         {{/nutritionComments}}
         </ul>
-        
         {{^nutritionComments}}
         <p>No hay comentarios sobre dietas reportados</p>
         {{/nutritionComments}}
