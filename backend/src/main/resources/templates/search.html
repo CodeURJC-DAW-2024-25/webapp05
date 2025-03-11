@@ -34,7 +34,7 @@
                         <img src="{{imageDefault}}" alt="training" class="training" id="trainingImage">
                     </div>
                 {{/imageDefault}}
-                {{imgTraining}}
+                {{#imgTraining}}
                     <div id="training/nutrition-picture-container">
                         <img src="{{imgTraining}}" alt="training" class="training" id="trainingImage">
                     </div>
@@ -51,34 +51,6 @@
         {{/trainings}}
       </div>
 
-      <!--<div class="form-container-plans2">
-        <h1 class="title">Nutrition</h1>
-
-        <ul>
-        {{#nutritions}}
-            <div class="card shadow-sm">
-              <div class="card-body">
-                {{#imageDefault}}
-                    <div id="training/nutrition-picture-container">
-                        <img src="{{imageDefault}}" alt="nutrition" class="nutrition" id="nutritionImage">
-                    </div>
-                {{/imageDefault}}
-                {{imgNutrition}}
-                    <div id="training/nutrition-picture-container">
-                        <img src="{{imgNutrition}}" alt="nutrition" class="nutrition" id="nutritionImage">
-                    </div>
-                {{/imgNutrition}}
-                <h5 class="card-title">{{name}}</h5>
-                <button class="btn-load-2 goToShowDiet" data-nutrition-id="{{id}}">Show more details</button>
-              </div>
-            </div>
-        {{/nutritions}}
-        </ul>
-        
-        {{^nutritions}}
-        <p>No hay planes de nutrición añadidos al perfil</p>
-        {{/nutritions}}
-      </div>-->
     </div>
 </section>
 

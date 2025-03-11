@@ -59,7 +59,7 @@ public class SearchController {
 
     @GetMapping("/search")     
     public String searchProducts(@RequestParam(required = false)String search, Model model, HttpServletRequest request) {
-
+        
         String principal = request.getUserPrincipal().getName();
         Optional<User> admin = userService.findByEmail(principal);
 
