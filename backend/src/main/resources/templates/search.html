@@ -1,0 +1,39 @@
+{{>header}} <!-- Incluimos el header -->
+{{>navbar}} <!-- Incluimos el navbar -->
+
+<div class="container-account2">
+  <div class="form-container2">
+    <h1 class="title">Search</h1>
+  </div>
+  <div class="container-account2">
+    <form class="form" action='/search' method="GET">
+      <input type="hidden" name="_csrf" value="{{token}}"/>
+      <div class="profile-container">
+          <div class="form-container">
+            <h2 class="title">Search:</h2>
+            <input type="text" class="input" name="search" placeholder="Search Training or Nutrition" value="{{searchQuery}}"/>
+          </div> 
+          <div>
+              <button class="btn-load" type="submit">Search</button>
+          </div>    
+      </div> 
+      </form>   
+  </div>
+
+<h1>Search Results</h1>
+
+<h2>Trainings</h2>
+<ul>
+    {{#trainings}}
+        <li>{{name}} - {{description}}</li>
+    {{/trainings}}
+</ul>
+<h2>Nutrition Plans</h2>
+<ul>
+    {{#nutritions}}
+        <li>{{name}} - {{description}}</li>
+    {{/nutritions}}
+</ul>
+
+{{^trainings}}{{^nutritions}}
+<p>The search is empty</p>

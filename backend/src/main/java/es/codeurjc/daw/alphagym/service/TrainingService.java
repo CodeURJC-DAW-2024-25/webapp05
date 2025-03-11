@@ -113,6 +113,13 @@ public class TrainingService {
         }
     }
 
+    public List<Training> findByName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return trainingRepository.findAll(); // if there is no search, return all
+        }
+        return trainingRepository.findByName(name);
+    }
+
 
 /*
     public Collection<Training> getUserTrainings(Long id){

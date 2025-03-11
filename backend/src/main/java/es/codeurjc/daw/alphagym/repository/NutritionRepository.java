@@ -8,6 +8,7 @@ import es.codeurjc.daw.alphagym.model.Nutrition;
 
 
 public interface NutritionRepository extends JpaRepository<Nutrition, Long> {
-    //List<Nutrition> findById(long id);
+    List<Nutrition> findById(long id);
+    List<Nutrition> findByName(String name);
 
 }

@@ -77,6 +77,7 @@ public class WebSecurityConfig {
 						.requestMatchers(("/nutritionComments/**")).hasAnyRole("ADMIN", "USER")
 						.requestMatchers("/admin").hasRole("ADMIN") 
 						.requestMatchers("/user/new").hasRole("USER")
+						.requestMatchers("/search").hasRole("ADMIN")
                         )
 
 				.formLogin(formLogin -> formLogin

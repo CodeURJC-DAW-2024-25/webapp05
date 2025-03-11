@@ -10,9 +10,6 @@ import org.springframework.stereotype.Repository;
 
 
 public interface TrainingRepository extends JpaRepository<Training, Long> {
-
-    /*
+    List<Training> findByName(String name);
     List<Training> findById(long id);
-     */
-
 }

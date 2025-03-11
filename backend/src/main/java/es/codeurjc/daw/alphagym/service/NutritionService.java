@@ -111,13 +111,13 @@ public class NutritionService {
         return nutritionRepository.findById(id);
     }
 
-    /*public List<Nutrition> getUser(User user){
-        Optional<List<Nutrition>> nutritions = nutritionRepository.findByUser(user);
-        if(nutritions.isPresent()){
-            return nutritions.get();
+    public List<Nutrition> findByName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return nutritionRepository.findAll(); // If there is no search, return all
         }
-        return null;
-    }*/
+        return nutritionRepository.findByName(name);
+    }
+    
     
 }
 
