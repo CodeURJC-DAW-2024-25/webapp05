@@ -313,7 +313,7 @@ Mi tarea principal ha sido la entidad "Nutrition", su creación, su edición, de
 ### Jonathan Xavier Medina Salas 
 
 #### Descripcion general:
-Mis tareas han sido crear, gestionar la base de datos MySQL, toda la parte de Security, el model User, el UserContoller, el UserRepository, la subida de imagenes y la busqueda avanzada
+Mis tareas han sido crear, gestionar la base de datos MySQL, toda la parte de Security, el model User, el UserContoller, el UserRepository, el UserService, la subida de imágenes y la búsqueda avanzada.
 
 #### Mis 5 commits mas relevantes
 
