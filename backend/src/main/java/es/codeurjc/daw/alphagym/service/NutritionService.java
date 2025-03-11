@@ -55,25 +55,32 @@ public class NutritionService {
         }
     }
 
-    public Nutrition editDiet(Long id, Nutrition nutrition , User user){
-        Optional<Nutrition> theDiet = nutritionRepository.findById(id);
-        if(theDiet.isPresent()) {
-            Nutrition opNutrition = theDiet.get();
-            //nutrition.setId(id);
-            opNutrition.setCalories(nutrition.getCalories());
-            opNutrition.setGoal(nutrition.getGoal());
-            opNutrition.setName(nutrition.getName());
-            opNutrition.setDescription(nutrition.getDescription());
+    public Nutrition editDiet(Long nutritionId, Nutrition nutrition , User user){
+        Optional<Nutrition> existingNutritionOpt = nutritionRepository.findById(nutritionId);
+
+        if (existingNutritionOpt.isPresent()) {
+            Nutrition existingNutrition = existingNutritionOpt.get();
+
+            existingNutrition.setName(nutrition.getName());
+            existingNutrition.setCalories(nutrition.getCalories());
+            existingNutrition.setGoal(nutrition.getGoal());
+            existingNutrition.setDescription(nutrition.getDescription());
+
+
+
+
             if (nutrition.getImgNutrition() != null) {
-                theDiet.get().setImgNutrition(nutrition.getImgNutrition());
-                theDiet.get().setImage(true);
+                existingNutrition.setImgNutrition(nutrition.getImgNutrition());
+                existingNutrition.setImage(true);
             }
-            if (theDiet.get().getUser()!=null){
-                nutrition.setUser(user);
+
+            if (existingNutrition.getUser() != null) {
+                existingNutrition.setUser(user);
             }
-            nutritionRepository.save(opNutrition);
-            return nutrition;
+
+            return nutritionRepository.save(existingNutrition);
         }
+
         return null;
     }
 

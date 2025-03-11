@@ -173,22 +173,22 @@ public class NutritionController {
         return "editDiet";
     }
 
-    @PostMapping("/nutritions/editNutrition/{id}")
-    public String editDietPost(@ModelAttribute Nutrition nutrition, @PathVariable Long id, @RequestParam(value = "imageFile", required = false) MultipartFile imageFile, Model model, Principal principal) {
+    @PostMapping("/nutritions/editNutrition/{nutritionId}")
+    public String editDietPost(@ModelAttribute Nutrition nutrition, @PathVariable Long nutritionId, @RequestParam(value = "imageFile", required = false) MultipartFile imageFile, Model model, Principal principal) {
         try {
             if (principal != null) {
                 Optional<User> user = userService.findByEmail(principal.getName());
-                Optional<Nutrition> optionalNutrition = nutritionService.findById(id);
+                Optional<Nutrition> optionalNutrition = nutritionService.findById(nutritionId);
                 if (optionalNutrition.isPresent()) {
                     Nutrition existingNutrition = optionalNutrition.get();
                     if (imageFile != null && !imageFile.isEmpty()) {
                         nutrition.setImgNutrition(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
                         nutrition.setImage(true);
                     } else {
-                        nutrition.setImgNutrition(optionalNutrition.get().getImgNutrition()); // keep previous image
+                        nutrition.setImgNutrition(existingNutrition.getImgNutrition()); // keep previous image
                     }
-                    nutritionService.editDiet(id, nutrition, user.get());
-                    return "redirect:/nutritions/" + id;
+                    nutritionService.editDiet(nutritionId, nutrition, user.get());
+                    return "redirect:/nutritions/" + nutritionId;
                 }
 
             }
@@ -196,7 +196,7 @@ public class NutritionController {
             // Manejar la excepción, por ejemplo, registrar el error y mostrar un mensaje al usuario
             e.printStackTrace(); // Para depuración, considera usar un logger
             model.addAttribute("error", "Ha ocurrido un error.");
-            return "redirect:/nutritions/editDiet/" + id + "?error=true"; // Redirigir con un parámetro de error
+            return "redirect:/nutritions/editDiet/" + nutritionId + "?error=true"; // Redirigir con un parámetro de error
         }
 
         return null;
