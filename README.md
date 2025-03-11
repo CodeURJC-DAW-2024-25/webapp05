@@ -310,4 +310,27 @@ Mi tarea principal ha sido la entidad "Nutrition", su creación, su edición, de
 | #4             | [NutritionRepository.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/repository/NutritionRepository.java)               |
 | #5             | [file.js](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/resources/static/js/file.js)   
 
+### Jonathan Xavier Medina Salas 
 
+#### Descripcion general:
+Mis tareas han sido crear, gestionar la base de datos MySQL, toda la parte de Security, el model User, el UserContoller, el UserRepository, la subida de imagenes y la busqueda avanzada
+
+#### Mis 5 commits mas relevantes
+
+| Commit | Descripción                          | Link                                                                                                                                                                                                 |
+| ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1     | Create Search                        | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/16f2bcd9c6332e5b8123d78eee8a4d9073b0dc2e](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/16f2bcd9c6332e5b8123d78eee8a4d9073b0dc2e) |
+| #2     | Register                             | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/cb9a694851e37bd38dd32fb9962a0853d7d9236b](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/cb9a694851e37bd38dd32fb9962a0853d7d9236b) |
+| #3     | Security                             | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/482796ce86833c2175ba172c9e07269d38157c91](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/482796ce86833c2175ba172c9e07269d38157c91) |
+| #4     | GymDB MySQL                          | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/e580c3c881d300be38425bfa8b16a7daa0eb2a0c](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/e580c3c881d300be38425bfa8b16a7daa0eb2a0c) |
+| #5     | Update Image                         | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ddcc58e02f5a5d6aa52d89117623b746eaa44607](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ddcc58e02f5a5d6aa52d89117623b746eaa44607) |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero                                                                                                                                                                                    |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| #1             |    |
+| #2             | [UserController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/UserController.java)                            |
+| #3             | [SearchController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/SearchController.java)                        |
+| #4             | [User.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/model/User.java)                                                     |
+| #5             | [UserService.js](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/UserService.java)                                       |
