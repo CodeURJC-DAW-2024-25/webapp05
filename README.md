@@ -327,10 +327,10 @@ Mis tareas han sido crear, gestionar la base de datos MySQL, toda la parte de Se
 
 #### Los 5 ficheros que más he modificado
 
-| Número fichero | Fichero                                                                                                                                                                                    |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| #1             |    |
-| #2             | [UserController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/UserController.java)                            |
-| #3             | [SearchController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/SearchController.java)                        |
-| #4             | [User.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/model/User.java)                                                     |
-| #5             | [UserService.js](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/UserService.java)                                       |
+| Número fichero | Descripción   |  Fichero                                                                                                                                                                    |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  |
+| #1             |    Security    | [WebSecurityConfig.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/security/WebSecurityConfig.java)        |
+| #2             | UserController | [UserController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/UserController.java)            |
+| #3             |     Search     | [SearchController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/SearchController.java)        |
+| #4             |      User      | [User.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/model/User.java)                                     |
+| #5             |  UserService   | [UserService.js](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/UserService.java)                       |
