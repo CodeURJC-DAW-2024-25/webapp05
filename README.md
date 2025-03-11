@@ -139,11 +139,91 @@ En el caso de que el usuario intente acceder a una pantalla para la que no tenga
 
 ![image](https://github.com/user-attachments/assets/17edecec-d86c-4738-a6df-55e3969d6ebd)
 
+## Instrucciones de ejecución: 
+### 🛠️ Prerequisites  
+| Technology    | Version  | Description  |
+|--------------|----------|-------------|
+| *Java*      | 21.0.5   | Programming language used for backend development. |
+| *Spring Boot* | 3.4.3  | Framework for building Java-based enterprise applications. |
+| *MySQL*     | 8.0.33   | Relational database management system for data storage. |
+| *Maven*     | 3.8.3+   | Build automation tool used for managing project dependencies. |
+
+## 🏋️‍♂️ AlphaGym - Installation and Setup  
+
+### 📥 Clone the Repository  
+To get the source code, clone the repository using the following command:  
+
+sh
+git clone https://github.com/CodeURJC-DAW-2024-25/webapp05.git AlphaGym --branch main --depth 1
+cd ./AlphaGym/backend
+
+
+🗄️ Install MySQL
+Download and install MySQL from the official site: [MySQL Downloads](https://dev.mysql.com/downloads/).
+Create a new database named gymdb:
+
+sql
+CREATE DATABASE gymdb;
+
+
+⚙️ Configure Database Connection
+Edit the src/main/resources/application.properties file and make sure to set the following parameters according to your MySQL configuration:
+
+properties
+spring.datasource.url=jdbc:mysql://localhost/gymdb
+spring.datasource.username=root
+spring.datasource.password=pass
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.jpa.properties.hibernate.format_sql=true
+logging.level.org.hibernate.SQL=DEBUG
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+
+
+🏗️ Build the Project with Maven
+Run the following command based on your operating system:
+
+🔹 Linux / macOS:
+### 🔹 Linux / macOS:
+sh
+./mvnw clean install
+
+
+### 🔹 Windows:
+sh
+.\mvnw.cmd clean install
+
+
+🚀 Run the Application
+To start the server, execute:
+
+### 🔹 Linux / macOS:
+sh
+./mvnw spring-boot:run
+
+
+### 🔹 Windows:
+sh
+.\mvnw.cmd spring-boot:run
+
+
+🌐 Access the Application
+Open your browser and go to:
+➡️ https://localhost:8443
+
+---
+
 ## Diagrama de las entidades de la base de datos: 
 Este es el diagrama generado por MySQL Workbench con las entidades que tenemos configuradas en la base de datos y la relacion entre ellas:
 
 ![image](https://github.com/user-attachments/assets/7681880b-314a-408d-a5eb-6a743a78afd0)
 
+## Diagrama de clases y templates: 
+Este diagrama proporciona información general sobre la estructura de la aplicación y de cómo interactuan entre ellas:
+
+![image](https://github.com/user-attachments/assets/6664eea7-6ffe-4a6d-87b7-a2bddd2af63e)
 
 ## Participacion de los miembros
 
@@ -157,7 +237,7 @@ Principalmente he participado en los comentarios, en su gestión, creación, edi
 | Commit | Descripción                          | Link                                                                                                                                                                                                 |
 | ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | #1     | Create comments                      | [https://github.com/CodeURJC-DAW-2023-24/webapp06/commit/1079ce988111789ac53597399cd1cc77affc1b58](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/6c4ff4eb3b8c1fab6a0a94c2f46d5bddf79527ad) |
-| #2     | Gestión de reports por los admin     | [https://github.com/CodeURJC-DAW-2023-24/webapp06/commit/30dc1d5295eaf569c70949df9d4022b0c87b9b4a](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ece055ffa4fa6694f6ea7f4777ad4ec4a8d3b648) |
+| #2     | Reported comments management by admin| [https://github.com/CodeURJC-DAW-2023-24/webapp06/commit/30dc1d5295eaf569c70949df9d4022b0c87b9b4a](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ece055ffa4fa6694f6ea7f4777ad4ec4a8d3b648) |
 | #3     | Ajax development                     | [https://github.com/CodeURJC-DAW-2023-24/webapp06/commit/0acc1f72e4650b2b1999ea068373f52b02d2425b](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/7b0adc21272d4aad93f67e09bdeda9f4770757c5) |
 | #4     | Report and delete comments           | [https://github.com/CodeURJC-DAW-2023-24/webapp06/commit/329d4733cb21f99717ba764d50bceb7457a65f13](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/c127cd78daff735e6894d2504fce7f5b41e704de) |
 | #5     | Edit comments                        | [https://github.com/CodeURJC-DAW-2023-24/webapp06/commit/728a361bad3b80b9e13621c33d415272a9fec7ac](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/48b416a8149d41227c63d2b5ec3c116146f1125e) |
