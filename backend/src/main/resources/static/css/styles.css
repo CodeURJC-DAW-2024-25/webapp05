@@ -319,6 +319,10 @@ h2 {
   text-align: center;
 }
 
+.button-save {
+  margin-left: 13vw; /* 25% del ancho de la pantalla */
+}
+
 .usuario{
   display: flex;
   justify-content: center;
