@@ -2,7 +2,6 @@ package es.codeurjc.daw.alphagym.controller;
 
 import java.security.Principal;
 import java.util.*;
-
 import es.codeurjc.daw.alphagym.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;

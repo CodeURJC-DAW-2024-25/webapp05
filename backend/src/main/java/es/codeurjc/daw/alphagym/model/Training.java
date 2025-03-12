@@ -16,23 +16,12 @@ public class Training {
     private int duration;
     private String intensity;
     private String description;
+    private boolean image;
+    private String goal;
 
     @Lob
     @JsonIgnore
     private Blob imgTraining;
-
-
-    public boolean isImage() {
-        return image;
-    }
-
-    public void setImage(boolean image) {
-        this.image = image;
-    }
-
-    public boolean image;
-
-    private String goal;
 
     @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TrainingComment> comments;
@@ -53,6 +42,10 @@ public class Training {
     }
 
     // Getters
+
+    public boolean isImage() {
+        return image;
+    }
 
     public List<TrainingComment> getComments() {
         if (comments == null) {
@@ -81,5 +74,6 @@ public class Training {
     public void setGoal(String goal) { this.goal = goal;}
     public void setUser(User user) {this.user = user;}
     public void setImgTraining(Blob image) {this.imgTraining = image;}
+    public void setImage(boolean image) {this.image = image;}
     
 }

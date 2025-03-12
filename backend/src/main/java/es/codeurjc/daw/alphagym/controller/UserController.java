@@ -154,13 +154,13 @@ public class UserController {
 
             Optional<User> user = userService.findByEmail(principal.getName());
 
-            if (user.isPresent() && user.get().getImg_user() != null) {
+            if (user.isPresent() && user.get().getImgUser() != null) {
 
-                Resource file = new InputStreamResource(user.get().getImg_user().getBinaryStream());
+                Resource file = new InputStreamResource(user.get().getImgUser().getBinaryStream());
 
                 return ResponseEntity.ok()
                         .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                        .contentLength(user.get().getImg_user().length())
+                        .contentLength(user.get().getImgUser().length())
                         .body(file);
                 } 
         }
@@ -194,7 +194,7 @@ public class UserController {
                 }
 
                 if (imageField != null && !imageField.isEmpty()) {
-					updateUser.setImg_user(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
+					updateUser.setImgUser(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
                     updateUser.setImage(true);  
 				}
 

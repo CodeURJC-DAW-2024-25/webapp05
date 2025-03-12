@@ -5,7 +5,6 @@ import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Optional;
-
 import es.codeurjc.daw.alphagym.dtosedit.Goal;
 import es.codeurjc.daw.alphagym.dtosedit.Intensity;
 import es.codeurjc.daw.alphagym.model.Training;

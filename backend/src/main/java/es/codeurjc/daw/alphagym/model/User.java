@@ -34,7 +34,7 @@ public class User {
 
     @Lob
 	@JsonIgnore
-	private Blob img_user;
+	private Blob imgUser;
 
     @JsonIgnore
 	private boolean image;
@@ -113,9 +113,9 @@ public class User {
 		return roles;
 	}
 
-    public Blob getImg_user() {
-		return img_user;
-	}
+    public Blob getImgUser() {
+        return imgUser;
+    }
       
     // Setters
 
@@ -155,12 +155,12 @@ public class User {
 		this.roles = roles;
 	}
 
-    public void setImg_user(Blob img_user) {
-		this.img_user = img_user;
-	}
+    public void setImgUser(Blob imgUser) {
+        this.imgUser = imgUser;
+    }
     
     public void setImage(boolean image) {
 		this.image = image;
 	}
-    
+
 } 

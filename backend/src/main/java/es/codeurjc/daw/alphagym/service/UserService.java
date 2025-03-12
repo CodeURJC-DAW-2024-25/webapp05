@@ -49,7 +49,7 @@ public class UserService {
         user.setRoles(List.of(roles));
     
         if (!image.isEmpty()) {
-            user.setImg_user(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
+            user.setImgUser(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
             user.setImage(true);
         }
     
