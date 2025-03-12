@@ -2,8 +2,6 @@ package es.codeurjc.daw.alphagym.controller;
 
 import java.security.Principal;
 import java.util.*;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -35,9 +33,6 @@ public class TrainingCommentController {
     private TrainingService trainingService;
     @Autowired
     private TrainingCommentRepository trainingCommentRepository;
-    //@Autowired
-    //private TrainingComment trainingComment;
-
 
     @ModelAttribute("user")
     public void addAttributes(Model model, HttpServletRequest request){
@@ -45,7 +40,8 @@ public class TrainingCommentController {
         Principal principal = request.getUserPrincipal();
 
         if (principal != null) {
-            Optional <User> user = userService.findByEmail(principal.getName()); //se usa getName porque asi se hace desde security
+            Optional <User> user = userService.findByEmail(principal.getName()); 
+
             if (user.isPresent()){
                 if (user.get().isRole("USER")){
                     model.addAttribute("user", true);
@@ -64,8 +60,6 @@ public class TrainingCommentController {
         model.addAttribute("token", token.getToken());
     }
 
-
-
     @GetMapping("/trainingComments/{trainingId}")
     public String showAllTrainingComments(Model model, @PathVariable Long trainingId, Principal principal) {
         model.addAttribute("training", trainingService.getTraining(trainingId));
@@ -77,7 +71,7 @@ public class TrainingCommentController {
             Optional<User> user = userService.findByEmail(principal.getName());
             if (user.isPresent()) {
                 model.addAttribute("logged", true);
-                isAdmin = user.get().isRole("ADMIN"); // Asegúrate de que este método devuelve un booleano
+                isAdmin = user.get().isRole("ADMIN");  // Validate if the user is an admin
                 loggedUserId = user.get().getId();
             }
         }
@@ -107,7 +101,6 @@ public class TrainingCommentController {
     public String newComment(Model model, @PathVariable Long trainingId){
         return "newComment";
     }
-
 
     @PostMapping("/trainingComments/{trainingId}")
     public String createComment(Model model,@PathVariable Long trainingId, @RequestParam String commentTitle,@RequestParam String commentText, Principal principal){
@@ -215,7 +208,6 @@ public class TrainingCommentController {
         }else {
             model.addAttribute("comment", comments);
         }
-
 
         return "fragments/commentsTrainingList";
     }

@@ -6,8 +6,8 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import es.codeurjc.daw.alphagym.dtosEdit.Goal;
-import es.codeurjc.daw.alphagym.dtosEdit.Intensity;
+import es.codeurjc.daw.alphagym.dtosedit.Goal;
+import es.codeurjc.daw.alphagym.dtosedit.Intensity;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
@@ -17,19 +17,13 @@ import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +45,8 @@ public class TrainingController {
         Principal principal = request.getUserPrincipal();
 
         if (principal != null) {
-            Optional<User> user = userService.findByEmail(principal.getName()); //se usa getName porque asi se hace desde security
+            Optional<User> user = userService.findByEmail(principal.getName()); 
+
             if (user.isPresent()) {
                 if (user.get().isRole("USER")) {
                     model.addAttribute("user", true);
@@ -158,7 +153,6 @@ public class TrainingController {
         return "redirect:/trainings";
     }
 
-
     @GetMapping("/trainings/editTraining/{trainingId}")
     public String editRoutine(Model model, @PathVariable Long trainingId) {
         Training training = trainingService.getTraining(trainingId);
@@ -215,7 +209,7 @@ public class TrainingController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Ha ocurrido un error.");
-            return "redirect:/trainings/editRoutine/" + trainingId + "?error=true"; // Redirigir con un parámetro de error
+            return "redirect:/trainings/editRoutine/" + trainingId + "?error=true"; // redirect to edit page with error
         }
 
         return null;
@@ -225,7 +219,7 @@ public class TrainingController {
     @GetMapping("/trainings/delete/{trainingId}")
     public  String deleteRoutinePost(@PathVariable Long trainingId){
         trainingService.deleteRoutine(trainingId);
-        //User user = userService.getGymUser(userId);
+
         return "redirect:/trainings";
     }
 
@@ -250,15 +244,12 @@ public class TrainingController {
             byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
 
             return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG) // Cambia a IMAGE_PNG si es necesario
+                    .contentType(MediaType.IMAGE_JPEG) 
                     .body(imageBytes);
         }
 
         return ResponseEntity.notFound().build();
     }
-
-
-
 
 }
 

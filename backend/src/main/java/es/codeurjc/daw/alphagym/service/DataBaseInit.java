@@ -1,18 +1,13 @@
 package es.codeurjc.daw.alphagym.service;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.model.Training;
@@ -22,7 +17,6 @@ import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
-
 import javax.sql.rowset.serial.SerialBlob;
 
 @Service
@@ -59,11 +53,9 @@ public class DataBaseInit {
 
         //Users Examples
         User admin = new User("admin", "admin@admin.com", passwordEncoder.encode("adminpass"), "ADMIN", "USER");
-        //userRepository.save(admin);
         userService.save(admin);
 
         User user = new User("user", "user@user.com", passwordEncoder.encode("pass"), "USER");
-        //userRepository.save(user);
         userService.save(user);
 
         //Trainings Examples
@@ -127,14 +119,6 @@ public class DataBaseInit {
         byte[] imageBytes6 = Files.readAllBytes(imgFile6.getFile().toPath());
         Blob imageBlob6 = new SerialBlob(imageBytes6);
         shoulderPlan.setImgTraining(imageBlob6);
-
-
-        /*chestPlan.setImageDefault("/images/plan_pecho.jpg");
-        armsPlan.setImageDefault("/images/plan_brazo.jpeg");
-        legsPlan.setImageDefault("/images/plan_pierna.jpeg");
-        absPlan.setImageDefault("/images/plan_abs.jpg");
-        backPlan.setImageDefault("/images/plan_espalda.jpeg");
-        shoulderPlan.setImageDefault("/images/plan_hombros.jpeg");*/
 
         chestPlan = trainingService.createTraining(chestPlan, null); 
         armsPlan = trainingService.createTraining(armsPlan, null);
@@ -322,8 +306,6 @@ public class DataBaseInit {
         nutritionCommentService.createNutritionComment(comentario28,caloricDeficit,null);
         nutritionCommentService.createNutritionComment(comentario29,caloricDeficit,null);
         nutritionCommentService.createNutritionComment(comentario30,caloricDeficit,null);
-
-
     }
     
 }

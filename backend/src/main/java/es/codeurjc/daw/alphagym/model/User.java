@@ -1,9 +1,7 @@
 package es.codeurjc.daw.alphagym.model;
 
 import java.util.List;
-
 import org.springframework.web.context.annotation.SessionScope;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Blob;
 import jakarta.persistence.CascadeType;
@@ -64,7 +62,6 @@ public class User {
         this.roles = List.of(roles);
     }
 
-    // Constructor necesario para la carga desde BBDD
     public User() {}
 
     public Boolean isRole(String rol) {
@@ -97,7 +94,8 @@ public class User {
         return nutritionComments;
     }
 
-    public Long getId() { return id;}
+    public Long getId() {
+        return id;}
 
     public String getName() {
         return name;
@@ -164,4 +162,5 @@ public class User {
     public void setImage(boolean image) {
 		this.image = image;
 	}
+    
 } 

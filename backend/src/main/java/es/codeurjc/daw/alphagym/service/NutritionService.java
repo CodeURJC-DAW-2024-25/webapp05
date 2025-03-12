@@ -5,14 +5,10 @@ import es.codeurjc.daw.alphagym.model.*;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
-import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Collection;
 import java.util.Optional;
-
 
 @Service
 public class NutritionService {
@@ -42,8 +38,6 @@ public class NutritionService {
         List<Nutrition> listNutrition = nutritionRepository.findAll();
         return listNutrition.isEmpty() ? null : listNutrition;
     }
-
-
     
     public Nutrition getNutrition (Long id){
         Optional<Nutrition> theNutrition = nutritionRepository.findById(id);
@@ -65,9 +59,6 @@ public class NutritionService {
             existingNutrition.setCalories(nutrition.getCalories());
             existingNutrition.setGoal(nutrition.getGoal());
             existingNutrition.setDescription(nutrition.getDescription());
-
-
-
 
             if (nutrition.getImgNutrition() != null) {
                 existingNutrition.setImgNutrition(nutrition.getImgNutrition());
@@ -91,7 +82,7 @@ public class NutritionService {
             List<User> usersWithNutrition = userRepository.findByNutritionsContaining(nutrition);
              for (User user : usersWithNutrition) {
                  user.getNutritions().remove(nutrition);
-                 userRepository.save(user); // Guardar los cambios en el usuario ya que no hay mapped by cascade
+                 userRepository.save(user); 
              }
             List<NutritionComment> nutritionComments = nutritionCommentRepository.findByNutritionId(id);
 
@@ -131,7 +122,6 @@ public class NutritionService {
         }
         return nutritionRepository.findByName(name);
     }
-    
     
 }
 

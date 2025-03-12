@@ -1,4 +1,4 @@
-package es.codeurjc.daw.alphagym.dtosEdit;
+package es.codeurjc.daw.alphagym.dtosedit;
 
 public class Intensity {
     

@@ -17,7 +17,6 @@ import java.util.Optional;
 @Service
 public class TrainingService {
 
-
     @Autowired
     private TrainingRepository trainingRepository;
     @Autowired
@@ -28,8 +27,6 @@ public class TrainingService {
     private UserRepository userRepository;
     @Autowired
     private TrainingCommentService trainingCommentService;
-
-
 
     public Training createTraining(Training training, User user) {
         Training newTraining = new Training(training.getName(),training.getIntensity(),training.getDuration(),training.getGoal(),training.getDescription());
@@ -94,7 +91,7 @@ public class TrainingService {
             List<User> usersWithTraining = userRepository.findByTrainingsContaining(training);
             for (User user : usersWithTraining) {
                 user.getTrainings().remove(training);
-                userRepository.save(user); // Guardar los cambios en el usuario ya que no hay mapped by cascade
+                userRepository.save(user); 
             }
 
             List<TrainingComment> trainingComments = trainingCommentRepository.findByTrainingId(id);
@@ -131,16 +128,5 @@ public class TrainingService {
         }
         return trainingRepository.findByName(name);
     }
-
-
-/*
-    public Collection<Training> getUserTrainings(Long id){
-        Optional<List<Training>> listTrainingUser = trainingRepository.findByUser(userService.getUser(id));
-        if(listTrainingUser.isPresent()){
-            return listTrainingUser.get();
-        }
-        return null;
-    }
-    */
 
 }

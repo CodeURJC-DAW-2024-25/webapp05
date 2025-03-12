@@ -9,15 +9,11 @@ import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +27,6 @@ import es.codeurjc.daw.alphagym.service.NutritionCommentService;
 import es.codeurjc.daw.alphagym.service.TrainingCommentService;
 import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class UserController {
@@ -141,13 +136,11 @@ public class UserController {
         Optional<User> user = userService.findByEmail(principal);
 
         if (user.isPresent()) {
-
-            //aqui hay que preguntar al servicio si tiene nutricion y rutina y luego añadirle abajo con addAttribute
             
             model.addAttribute("user", user.get());
             model.addAttribute("trainings", user.get().getTrainings());
             model.addAttribute("nutritions", user.get().getNutritions());
-            //aqui añadir 
+            
             return "account";
 
         } else {
@@ -181,23 +174,20 @@ public class UserController {
                           throws IOException {
 
         try {
-            // Buscar usuario autenticado por su email en lugar de recibirlo como parámetro
+        
             Optional<User> userOptional = userService.findByEmail(principal.getName());
 
             if (userOptional.isPresent()) {
                 User updateUser = userOptional.get();
 
-                //comprueba si el email ha cambiado
                 boolean emailChanged = !updateUser.getEmail().equals(email);
 				updateUser.setEmail(email);
 
-                // Actualizar nombre si no está vacío
                 if (name != null && !name.trim().isEmpty()) {
                     updateUser.setName(name);
                     userService.updateUserName(updateUser.getId(), name);
                 }
 
-                // Actualizar email si no está vacío
                 if (email != null && !email.trim().isEmpty()) {
                     updateUser.setEmail(email);
                     userService.updateUserEmail(updateUser.getId(), email);
@@ -208,7 +198,6 @@ public class UserController {
                     updateUser.setImage(true);  
 				}
 
-                // Guardar usuario con los cambios realizados
                 userService.save(updateUser);
 
                 if (emailChanged) {
@@ -239,8 +228,6 @@ public class UserController {
 
         if (admin.isPresent()) {
 
-            //aqui hay meterle los comentarios reportados
-            //model.addAtribute(isNotified);
             Long[] reportsArray1 = trainingCommentService.getReportAmmmounts(); 
             Long[] reportsArray2 = nutritionCommentService.getReportAmmmounts();
 
@@ -249,13 +236,12 @@ public class UserController {
             model.addAttribute("notReportedCount", reportsArray1[1] + reportsArray2[1]);
             model.addAttribute("trainingComments", trainingCommentService.getReportedComments());
             model.addAttribute("nutritionComments", nutritionCommentService.getReportedComments());
-            //aqui añadir 
+        
             return "admin";
 
         } else {
             return "redirect:/login";
         }
     }
-    
     
 }

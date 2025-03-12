@@ -3,10 +3,7 @@ package es.codeurjc.daw.alphagym.model;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import es.codeurjc.daw.alphagym.model.User;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -21,8 +18,6 @@ public class Nutrition {
     private String goal;
     private int calories;
 
-
-
     @Lob
     @JsonIgnore
     private Blob imgNutrition;
@@ -34,7 +29,6 @@ public class Nutrition {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
 
     public Nutrition(String name, int calories, String goal, String description) {
         this.name = name;

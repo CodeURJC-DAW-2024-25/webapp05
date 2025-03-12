@@ -6,9 +6,9 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import es.codeurjc.daw.alphagym.dtosEdit.Goal;
+
+import es.codeurjc.daw.alphagym.dtosedit.Goal;
 import es.codeurjc.daw.alphagym.model.Nutrition;
-import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.service.NutritionCommentService;
@@ -57,7 +57,7 @@ public class NutritionController {
         Principal principal = request.getUserPrincipal();
 
         if (principal != null) {
-            Optional <User> user = userService.findByEmail(principal.getName()); //se usa getName porque asi se hace desde security
+            Optional <User> user = userService.findByEmail(principal.getName()); 
             if (user.isPresent()){
                 if (user.get().isRole("USER")){
                     model.addAttribute("user", true);
@@ -93,9 +93,9 @@ public class NutritionController {
             Optional<User> user = userService.findByEmail(principal.getName());
             if (user.isPresent()) {
                 Boolean isAdmin = user.get().isRole("ADMIN");
-                 // Evitar NullPointerException si la rutina no tiene usuario asignado
-                 Boolean canEdit = isAdmin || (nutrition.getUser() != null && nutrition.getUser().getId().equals(user.get().getId()));
-                 boolean isSubscribed = user.get().getNutritions().contains(nutrition);
+                 
+                Boolean canEdit = isAdmin || (nutrition.getUser() != null && nutrition.getUser().getId().equals(user.get().getId()));
+                Boolean isSubscribed = user.get().getNutritions().contains(nutrition);
  
                 model.addAttribute("subscribed", isSubscribed);
                 model.addAttribute("logged", true);
@@ -193,8 +193,7 @@ public class NutritionController {
 
             }
         } catch (Exception e) {
-            // Manejar la excepción, por ejemplo, registrar el error y mostrar un mensaje al usuario
-            e.printStackTrace(); // Para depuración, considera usar un logger
+            e.printStackTrace(); 
             model.addAttribute("error", "Ha ocurrido un error.");
             return "redirect:/nutritions/editDiet/" + nutritionId + "?error=true"; // Redirigir con un parámetro de error
         }
@@ -205,7 +204,6 @@ public class NutritionController {
     @GetMapping("/nutritions/delete/{id}")
     public  String deleteDietPost(@PathVariable Long id){
         nutritionService.deleteDiet(id);
-        //User user = userService.getUser(userId);
         return "redirect:/nutritions";
     }
 
@@ -231,7 +229,6 @@ public class NutritionController {
             PdfWriter.getInstance(document, outputStream);
             document.open();
 
-            // Agregar título
             Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
             Paragraph title = new Paragraph(nutrition.getName(), titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
@@ -245,11 +242,9 @@ public class NutritionController {
 
             document.close();
 
-            // Convertir a InputStreamResource
             InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
             InputStreamResource resource = new InputStreamResource(inputStream);
 
-            // Configurar la respuesta con el PDF
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Disposition", "inline; filename=nutrition.pdf");
             return ResponseEntity.ok()
@@ -271,7 +266,7 @@ public class NutritionController {
             byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
 
             return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG) // Cambia a IMAGE_PNG si es necesario
+                    .contentType(MediaType.IMAGE_JPEG) // or what ever type is the image
                     .body(imageBytes);
         }
 

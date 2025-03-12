@@ -38,8 +38,8 @@ public class NutritionCommentController {
         Principal principal = request.getUserPrincipal();
 
         if (principal != null) {
-            Optional<User> user = userService.findByEmail(principal.getName()); // se usa getName porque asi se hace
-                                                                                // desde security
+            Optional<User> user = userService.findByEmail(principal.getName());
+                                                                                
             if (user.isPresent()) {
                 if (user.get().isRole("USER")) {
                     model.addAttribute("user", true);
@@ -147,13 +147,7 @@ public class NutritionCommentController {
         }
         return "redirect:/nutritionComments/" + nutritionId;
     }
-    /* 
-    @GetMapping("nutritionComments/{nutritionId}/moreComments")
-    public ResponseEntity<List<NutritionComment>> loadMoreComments(Model model, @PathVariable Long nutritionId, @RequestParam(required=false) int page) {
-        List<NutritionComment> comments = nutritionCommentService.getPaginatedComments(nutritionId, page, 10);
-        return ResponseEntity.ok(comments);
-    }
-        */
+
     
     @GetMapping("/nutritionComments/{nutritionId}/moreComments")
     public String loadMoreComments2(Model model, @PathVariable Long nutritionId, @RequestParam(defaultValue = "1") int page, Principal principal) {

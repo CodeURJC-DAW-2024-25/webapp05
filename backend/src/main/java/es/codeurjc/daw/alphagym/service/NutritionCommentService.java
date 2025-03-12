@@ -8,9 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import es.codeurjc.daw.alphagym.model.NutritionComment;
-import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.model.Nutrition;

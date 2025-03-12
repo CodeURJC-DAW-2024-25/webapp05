@@ -18,7 +18,6 @@ public class TrainingComment{
 
     private String name;
     private boolean isNotified = false;
-    ///////////////////////private Long trainingId;
     
     @ManyToOne
     private Training training;
@@ -26,6 +25,7 @@ public class TrainingComment{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
     protected TrainingComment() {
     } 
 
@@ -57,8 +57,6 @@ public class TrainingComment{
     }
 
     public User getUser() {return user;}
-
-
 
     // Setters
     public void setId(Long id) {

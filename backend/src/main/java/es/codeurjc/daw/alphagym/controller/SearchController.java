@@ -1,7 +1,6 @@
 package es.codeurjc.daw.alphagym.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class SearchController {
         Principal principal = request.getUserPrincipal();
 
         if (principal != null) {
-            Optional <User> user = userService.findByEmail(principal.getName()); //se usa getName porque asi se hace desde security
+            Optional <User> user = userService.findByEmail(principal.getName()); 
             if (user.isPresent()){
                 if (user.get().isRole("USER")){
                     model.addAttribute("user", true);
