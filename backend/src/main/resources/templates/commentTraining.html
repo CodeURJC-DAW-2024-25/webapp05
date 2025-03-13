@@ -24,7 +24,7 @@
                 <a href="{{training.id}}/{{id}}/editcomment" class="btn-load">Edit</a>
             {{/canEdit}}
             {{#admin}}
-                <a href="{{training.id}}/{{id}}/delete" class="btn-load-2-delete">Delete</a>
+                <button class="btn-load-2-delete goToDeleteCommentRoutine" data-training-id="{{training.id}}" data-comment-id="{{id}}">Delete</button>
             {{/admin}}
            {{#logged}}
                {{^admin}}
@@ -35,7 +35,10 @@
         </div>
       </div>
     </div>
-    {{/comment}}  
+    {{/comment}}
+        {{^comment}}
+            <p>No hay comentarios todavia para esta rutina</p>
+        {{/comment}}
   </div>
 
   <!-- Load more button and add comments button -->

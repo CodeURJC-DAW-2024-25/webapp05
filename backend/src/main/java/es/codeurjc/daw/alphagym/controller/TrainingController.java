@@ -9,8 +9,6 @@ import es.codeurjc.daw.alphagym.dtosedit.Goal;
 import es.codeurjc.daw.alphagym.dtosedit.Intensity;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
-import es.codeurjc.daw.alphagym.repository.TrainingRepository;
-import es.codeurjc.daw.alphagym.service.TrainingCommentService;
 import es.codeurjc.daw.alphagym.service.TrainingService;
 import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,10 +31,6 @@ public class TrainingController {
     private TrainingService trainingService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private TrainingCommentService trainingCommentService;
-    @Autowired
-    private TrainingRepository trainingRepository;
 
     @ModelAttribute("user")
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -137,7 +131,7 @@ public class TrainingController {
     }
 
     @PostMapping("/trainings/createRoutine")
-    public String createRoutinePost(@ModelAttribute Training training, Principal principal) {
+    public String createRoutinePost(@ModelAttribute Training training, Principal principal) throws SQLException, IOException {
         if (principal != null) {
             Optional<User> user = userService.findByEmail(principal.getName());
             if (user.isPresent()) {

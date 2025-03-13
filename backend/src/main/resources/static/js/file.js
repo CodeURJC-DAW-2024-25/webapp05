@@ -86,6 +86,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  var buttonDeleteCommentRoutine = document.querySelectorAll(".goToDeleteCommentRoutine");
+  buttonDeleteCommentRoutine.forEach(function (button) {
+    button.addEventListener("click", function () {
+      var trainingId = button.dataset.trainingId; // We get de training id from data-attribute
+      var commentId = button.dataset.commentId; // We get de training comment id from data-attribute
+
+      if (trainingId) {
+        let confirmation = confirm('¿Estas seguro de querer eliminar este comentario de esta rutina?');
+        if(confirmation) {
+          window.location.href = "/" + trainingId + "/" + commentId +  "/delete"  ; // Send the url to the controller to delete comment training
+        }
+      } else {
+        console.warn("ID del entrenamiento no encontrado.");
+      }
+    });
+  });
+
   var buttonSuscribeRoutine = document.querySelectorAll(".goToSubscribeRoutine");
   buttonSuscribeRoutine.forEach(function (button) {
     button.addEventListener("click", function () {

@@ -7,9 +7,17 @@ import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
 import es.codeurjc.daw.alphagym.repository.TrainingRepository;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,17 +30,18 @@ public class TrainingService {
     @Autowired
     private TrainingCommentRepository trainingCommentRepository;
     @Autowired
-    private UserService userService;
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private TrainingCommentService trainingCommentService;
 
-    public Training createTraining(Training training, User user) {
+    public Training createTraining(Training training, User user) throws SQLException, IOException {
         Training newTraining = new Training(training.getName(),training.getIntensity(),training.getDuration(),training.getGoal(),training.getDescription());
         newTraining.setUser(user);
         if (training.getImgTraining()!=null){
             newTraining.setImgTraining(training.getImgTraining());
+        } else {
+            ClassPathResource imgFileDefault = new ClassPathResource("static/images/emptyImage.png");
+            byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
+            Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
+            newTraining.setImgTraining(imageBlobDefault);
         }
         trainingRepository.save(newTraining);
         return newTraining;
@@ -128,5 +137,20 @@ public class TrainingService {
         }
         return trainingRepository.findByName(name);
     }
+
+    public boolean isOwner(Long trainingId, Authentication authentication) {
+        Optional<Training> trainingOpt = trainingRepository.findById(trainingId);
+
+        if (trainingOpt.isEmpty()) {
+            return false;
+        }
+
+        Training training = trainingOpt.get();
+        String username = authentication.getName();
+
+        return training.getUser().getName().equals(username);
+    }
+
+
 
 }

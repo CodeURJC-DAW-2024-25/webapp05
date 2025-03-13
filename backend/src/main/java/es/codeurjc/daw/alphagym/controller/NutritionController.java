@@ -9,8 +9,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import es.codeurjc.daw.alphagym.dtosedit.Goal;
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.User;
-import es.codeurjc.daw.alphagym.repository.NutritionRepository;
-import es.codeurjc.daw.alphagym.service.NutritionCommentService;
 import es.codeurjc.daw.alphagym.service.NutritionService;
 import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,10 +43,7 @@ public class NutritionController {
     private NutritionService nutritionService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private NutritionCommentService nutritionCommentService;
-    @Autowired
-    private NutritionRepository nutritionRepository;
+
 
     @ModelAttribute("user")
     public void addAttributes(Model model, HttpServletRequest request){
@@ -138,7 +133,7 @@ public class NutritionController {
     }
 
     @PostMapping("/nutritions/newNutrition")
-    public String createNutritionPost(@ModelAttribute Nutrition nutrition, Principal principal){
+    public String createNutritionPost(@ModelAttribute Nutrition nutrition, Principal principal) throws SQLException, IOException {
         if (principal != null) {
             Optional<User> user = userService.findByEmail(principal.getName());
             if (user.isPresent()) {

@@ -13,9 +13,6 @@ import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;
-import es.codeurjc.daw.alphagym.repository.NutritionRepository;
-import es.codeurjc.daw.alphagym.repository.TrainingRepository;
-import es.codeurjc.daw.alphagym.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -23,16 +20,7 @@ import javax.sql.rowset.serial.SerialBlob;
 public class DataBaseInit {
 
     @Autowired  
-        private UserService userService;    
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TrainingRepository  trainingRepository;
-
-    @Autowired
-    private NutritionRepository nutritionRepository;
+        private UserService userService;
 
     @Autowired
     private TrainingService  trainingService;

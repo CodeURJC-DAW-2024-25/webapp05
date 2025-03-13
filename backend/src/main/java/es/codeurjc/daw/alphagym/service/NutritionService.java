@@ -5,8 +5,15 @@ import es.codeurjc.daw.alphagym.model.*;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,17 +25,19 @@ public class NutritionService {
     @Autowired
     private NutritionCommentRepository nutritionCommentRepository;
     @Autowired
-    private UserService userService;
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private NutritionCommentService nutritionCommentService;
 
-    public Nutrition createNutrition(Nutrition nutrition, User user) { 
+
+    public Nutrition createNutrition(Nutrition nutrition, User user) throws SQLException, IOException {
         Nutrition newNutrition = new Nutrition(nutrition.getName(),nutrition.getCalories(), nutrition.getGoal(), nutrition.getDescription());
         newNutrition.setUser(user);
-        if (nutrition.getImage() != null) {
+        if (nutrition.getImgNutrition() != null) {
             newNutrition.setImgNutrition(nutrition.getImgNutrition());
+        } else {
+            ClassPathResource imgFileDefault = new ClassPathResource("static/images/emptyImage.png");
+            byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
+            Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
+            newNutrition.setImgNutrition(imageBlobDefault);
         }
         nutritionRepository.save(newNutrition);
         return newNutrition;

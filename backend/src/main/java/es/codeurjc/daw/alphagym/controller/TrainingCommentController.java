@@ -76,23 +76,27 @@ public class TrainingCommentController {
         }
 
         List<TrainingComment> trainingComments = trainingCommentService.getTrainingComments(trainingId);
-        List<Map<String, Object>> commentList = new ArrayList<>();
+        if (!(trainingComments == null)){
+            List<Map<String, Object>> commentList = new ArrayList<>();
 
-        for (TrainingComment trainingComment : trainingComments) {
-            Map<String, Object> commentMap = new HashMap<>();
-            commentMap.put("id", trainingComment.getId());
-            commentMap.put("name", trainingComment.getName());
-            commentMap.put("description", trainingComment.getDescription());
+            for (TrainingComment trainingComment : trainingComments) {
+                Map<String, Object> commentMap = new HashMap<>();
+                commentMap.put("id", trainingComment.getId());
+                commentMap.put("name", trainingComment.getName());
+                commentMap.put("description", trainingComment.getDescription());
 
-            //Validate for only admin and author can edit the comment
-            boolean canEdit = isAdmin || (trainingComment.getUser() != null && trainingComment.getUser().getId().equals(loggedUserId));
+                //Validate for only admin and author can edit the comment
+                boolean canEdit = isAdmin || (trainingComment.getUser() != null && trainingComment.getUser().getId().equals(loggedUserId));
 
-            commentMap.put("canEdit", canEdit);
-            commentMap.put("isAdmin", isAdmin);
-            commentList.add(commentMap);
+                commentMap.put("canEdit", canEdit);
+                commentMap.put("isAdmin", isAdmin);
+                commentList.add(commentMap);
+            }
+            model.addAttribute("comment", commentList);
+        } else {
+            model.addAttribute("comment", trainingComments);
         }
 
-        model.addAttribute("comment", commentList);
         return "commentTraining";
     }
 

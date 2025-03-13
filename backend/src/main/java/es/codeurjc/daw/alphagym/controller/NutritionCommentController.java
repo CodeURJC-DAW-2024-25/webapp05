@@ -73,23 +73,26 @@ public class NutritionCommentController {
         }
 
         List<NutritionComment> nutritionComments = nutritionCommentService.getNutritionComments(nutritionId);
-        List<Map<String, Object>> commentList = new ArrayList<>();
+        if (!(nutritionComments==null)){
+            List<Map<String, Object>> commentList = new ArrayList<>();
+            for (NutritionComment nutritionComment : nutritionComments) {
+                Map<String, Object> commentMap = new HashMap<>();
+                commentMap.put("id", nutritionComment.getId());
+                commentMap.put("name", nutritionComment.getName());
+                commentMap.put("description", nutritionComment.getDescription());
 
-        for (NutritionComment nutritionComment : nutritionComments) {
-            Map<String, Object> commentMap = new HashMap<>();
-            commentMap.put("id", nutritionComment.getId());
-            commentMap.put("name", nutritionComment.getName());
-            commentMap.put("description", nutritionComment.getDescription());
+                //Validate for only admin and author can edit the comment
+                boolean canEdit = isAdmin || (nutritionComment.getUser() != null && nutritionComment.getUser().getId().equals(loggedUserId));
 
-            //Validate for only admin and author can edit the comment
-            boolean canEdit = isAdmin || (nutritionComment.getUser() != null && nutritionComment.getUser().getId().equals(loggedUserId));
+                commentMap.put("canEdit", canEdit);
+                commentMap.put("isAdmin", isAdmin);
+                commentList.add(commentMap);
+            }
 
-            commentMap.put("canEdit", canEdit);
-            commentMap.put("isAdmin", isAdmin);
-            commentList.add(commentMap);
+            model.addAttribute("comment", commentList);
+        }else{
+            model.addAttribute("comment", nutritionComments);
         }
-
-        model.addAttribute("comment", commentList);
         return "commentNutrition";
     }
 
