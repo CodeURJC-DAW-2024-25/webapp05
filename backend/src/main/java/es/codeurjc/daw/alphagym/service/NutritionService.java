@@ -18,11 +18,7 @@ public class NutritionService {
     @Autowired
     private NutritionCommentRepository nutritionCommentRepository;
     @Autowired
-    private UserService userService;
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private NutritionCommentService nutritionCommentService;
 
     public Nutrition createNutrition(Nutrition nutrition, User user) { 
         Nutrition newNutrition = new Nutrition(nutrition.getName(),nutrition.getCalories(), nutrition.getGoal(), nutrition.getDescription());
@@ -42,8 +38,7 @@ public class NutritionService {
     public Nutrition getNutrition (Long id){
         Optional<Nutrition> theNutrition = nutritionRepository.findById(id);
         if (theNutrition.isPresent()){
-            Nutrition nutrition = theNutrition.get();
-            return nutrition;
+            return theNutrition.get();
         } else {
             return null;
         }

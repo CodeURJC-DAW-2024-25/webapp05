@@ -7,23 +7,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
-import es.codeurjc.daw.alphagym.repository.TrainingRepository;
-
 
 @Service
 public class TrainingCommentService {
 
     @Autowired
-    private UserService userService;
-    @Autowired
     private TrainingCommentRepository trainingCommentRepository;
-    @Autowired
-    private TrainingRepository trainingRepository;
-
         
     public List<TrainingComment> getAllTrainingComments() {
         List<TrainingComment> listTrainingComments = trainingCommentRepository.findAll();

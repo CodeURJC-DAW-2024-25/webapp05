@@ -1,6 +1,5 @@
 package es.codeurjc.daw.alphagym.service;
 
-
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;
@@ -9,10 +8,8 @@ import es.codeurjc.daw.alphagym.repository.TrainingRepository;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 public class TrainingService {
@@ -22,11 +19,7 @@ public class TrainingService {
     @Autowired
     private TrainingCommentRepository trainingCommentRepository;
     @Autowired
-    private UserService userService;
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private TrainingCommentService trainingCommentService;
 
     public Training createTraining(Training training, User user) {
         Training newTraining = new Training(training.getName(),training.getIntensity(),training.getDuration(),training.getGoal(),training.getDescription());
@@ -46,8 +39,7 @@ public class TrainingService {
     public Training getTraining(Long id){
         Optional<Training> theRoutine = trainingRepository.findById(id);
         if (theRoutine.isPresent()) {
-            Training training = theRoutine.get();
-            return training;
+            return theRoutine.get();
         } else {
             return null;
         }
