@@ -193,7 +193,9 @@ public class TrainingController {
                         training.setImgTraining(existingTraining.getImgTraining()); // keep previous image
                     }
 
-                    trainingService.updateRoutine(trainingId, training, user.get());
+                    if (user.isPresent()) {
+                        trainingService.updateRoutine(trainingId, training, user.get());
+                    }
 
                     return "redirect:/trainings/" + trainingId;
                 }
@@ -229,7 +231,7 @@ public class TrainingController {
     }
 
     @GetMapping("/training/image/{trainingId}")
-    public ResponseEntity<byte[]> downloadImage(@PathVariable Long trainingId) throws SQLException, IOException {
+    public ResponseEntity<byte[]> downloadImage(@PathVariable Long trainingId) throws SQLException {
         Optional<Training> training = trainingService.findById(trainingId);
 
         if (training.isPresent() && training.get().getImgTraining() != null) {

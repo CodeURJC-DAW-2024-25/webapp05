@@ -1,6 +1,5 @@
 package es.codeurjc.daw.alphagym.controller;
 
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
@@ -22,7 +21,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -43,7 +41,6 @@ public class NutritionController {
     private NutritionService nutritionService;
     @Autowired
     private UserService userService;
-
 
     @ModelAttribute("user")
     public void addAttributes(Model model, HttpServletRequest request){
@@ -181,7 +178,9 @@ public class NutritionController {
                     } else {
                         nutrition.setImgNutrition(existingNutrition.getImgNutrition()); // keep previous image
                     }
-                    nutritionService.editDiet(nutritionId, nutrition, user.get());
+                    if (user.isPresent()) {
+                        nutritionService.editDiet(nutritionId, nutrition, user.get());
+                    }
                     return "redirect:/nutritions/" + nutritionId;
                 }
 
@@ -252,7 +251,7 @@ public class NutritionController {
     }
 
     @GetMapping("/nutrition/image/{nutritionId}")
-    public ResponseEntity<byte[]> downloadImage(@PathVariable Long nutritionId) throws SQLException, IOException {
+    public ResponseEntity<byte[]> downloadImage(@PathVariable Long nutritionId) throws SQLException {
         Optional<Nutrition> nutrition = nutritionService.findById(nutritionId);
 
         if (nutrition.isPresent() && nutrition.get().getImgNutrition() != null) {

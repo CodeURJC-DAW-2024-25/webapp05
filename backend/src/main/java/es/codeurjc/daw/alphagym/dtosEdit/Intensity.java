@@ -2,23 +2,23 @@ package es.codeurjc.daw.alphagym.dtosedit;
 
 public class Intensity {
     
-    private String intensity;
+    private String level;
     private boolean selected;
 
     public Intensity() {
     }
 
-    public Intensity(String intensity, boolean selected) {
-        this.intensity = intensity;
+    public Intensity(String level, boolean selected) {
+        this.level = level;
         this.selected = selected;
     }
 
-    public String getIntensity() {
-        return intensity;
+    public String getLevel() {
+        return level;
     }
 
-    public void setIntensity(String intensity) {
-        this.intensity = intensity;
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public boolean isSelected() {

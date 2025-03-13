@@ -9,16 +9,12 @@ import es.codeurjc.daw.alphagym.repository.UserRepository;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
-
 import java.util.List;
 import java.util.Optional;
 
