@@ -20,6 +20,7 @@ import javax.sql.rowset.serial.SerialBlob;
 public class DataBaseInit {
 
     @Autowired  
+
         private UserService userService;
 
     @Autowired

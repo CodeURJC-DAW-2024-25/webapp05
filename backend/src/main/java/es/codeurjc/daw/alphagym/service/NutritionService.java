@@ -51,8 +51,7 @@ public class NutritionService {
     public Nutrition getNutrition (Long id){
         Optional<Nutrition> theNutrition = nutritionRepository.findById(id);
         if (theNutrition.isPresent()){
-            Nutrition nutrition = theNutrition.get();
-            return nutrition;
+            return theNutrition.get();
         } else {
             return null;
         }

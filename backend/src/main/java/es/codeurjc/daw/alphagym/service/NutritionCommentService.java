@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
-import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.model.Nutrition;
 
 @Service
@@ -18,10 +17,6 @@ public class NutritionCommentService {
 
     @Autowired
     private NutritionCommentRepository nutritionCommentRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private NutritionRepository nutritionRepository;
 
     public List<NutritionComment> getAllNutritionComments() {
         List<NutritionComment> listNutritionComment = nutritionCommentRepository.findAll();

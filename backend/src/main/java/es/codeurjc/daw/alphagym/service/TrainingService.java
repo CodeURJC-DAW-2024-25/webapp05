@@ -1,6 +1,5 @@
 package es.codeurjc.daw.alphagym.service;
 
-
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;
@@ -11,6 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import javax.sql.rowset.serial.SerialBlob;
@@ -18,9 +18,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
+
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 public class TrainingService {
@@ -55,8 +55,7 @@ public class TrainingService {
     public Training getTraining(Long id){
         Optional<Training> theRoutine = trainingRepository.findById(id);
         if (theRoutine.isPresent()) {
-            Training training = theRoutine.get();
-            return training;
+            return theRoutine.get();
         } else {
             return null;
         }
