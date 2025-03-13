@@ -1,23 +1,23 @@
 package es.codeurjc.daw.alphagym.dtosedit;
 
 public class Goal {
-    private String goal;
+    private String objective;
     private boolean selected;
 
     public Goal() {
     }
 
-    public Goal(String goal, boolean selected) {
-        this.goal = goal;
+    public Goal(String objective, boolean selected) {
+        this.objective = objective;
         this.selected = selected;
     }
 
-    public String getGoal() {
-        return goal;
+    public String getObjective() {
+        return objective;
     }
 
-    public void setGoal(String intensity) {
-        this.goal = goal;
+    public void setObjective(String objective) {
+        this.objective = objective;
     }
 
     public boolean isSelected() {
