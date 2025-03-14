@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (nutritionId) {
         let confirmation = confirm('¿Estas seguro de querer eliminar este comentario de esta dieta?');
         if(confirmation) {
-          window.location.href = "/nutritionComments/" + nutritionId + "/" + commentId +  "/delete"  ; // Send the url to the controller to delete comment training
+          window.location.href = "/nutritionComments/" + nutritionId + "/" + commentId +  "/delete"  ; // Send the url to the controller to delete comment diet
         }
       } else {
         console.warn("ID de la dieta no encontrado.");
