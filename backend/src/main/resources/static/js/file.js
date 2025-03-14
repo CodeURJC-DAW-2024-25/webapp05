@@ -95,10 +95,27 @@ document.addEventListener("DOMContentLoaded", function () {
       if (trainingId) {
         let confirmation = confirm('¿Estas seguro de querer eliminar este comentario de esta rutina?');
         if(confirmation) {
-          window.location.href = "/" + trainingId + "/" + commentId +  "/delete"  ; // Send the url to the controller to delete comment training
+          window.location.href = "/trainingComments/" + trainingId + "/" + commentId +  "/delete"  ; // Send the url to the controller to delete comment training
         }
       } else {
         console.warn("ID del entrenamiento no encontrado.");
+      }
+    });
+  });
+
+  var buttonDeleteCommentDiet = document.querySelectorAll(".goToDeleteCommentDiet");
+  buttonDeleteCommentDiet.forEach(function (button) {
+    button.addEventListener("click", function () {
+      var nutritionId = button.dataset.nutritionId; // We get de nutrition id from data-attribute
+      var commentId = button.dataset.commentId; // We get de nutrition comment id from data-attribute
+
+      if (nutritionId) {
+        let confirmation = confirm('¿Estas seguro de querer eliminar este comentario de esta dieta?');
+        if(confirmation) {
+          window.location.href = "/nutritionComments/" + nutritionId + "/" + commentId +  "/delete"  ; // Send the url to the controller to delete comment training
+        }
+      } else {
+        console.warn("ID de la dieta no encontrado.");
       }
     });
   });

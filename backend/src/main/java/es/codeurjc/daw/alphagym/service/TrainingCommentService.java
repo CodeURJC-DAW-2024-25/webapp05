@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TrainingCommentService {
@@ -83,6 +85,16 @@ public class TrainingCommentService {
         Pageable pageable = PageRequest.of(page, limit);
         Page<TrainingComment> commentsPage = trainingCommentRepository.findByTrainingId(trainingId, pageable);
         return commentsPage.getContent();
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isOwnerComment(Long commentId, Authentication authentication) {
+        return trainingCommentRepository.findById(commentId)
+                .map(comment -> {
+                    User user = comment.getUser();
+                    return user != null && authentication.getName().equals(user.getEmail());
+                })
+                .orElse(false);
     }
     
 }

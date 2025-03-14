@@ -10,6 +10,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -133,17 +135,14 @@ public class TrainingService {
         return trainingRepository.findByName(name);
     }
 
+    @Transactional(readOnly = true)
     public boolean isOwner(Long trainingId, Authentication authentication) {
-        Optional<Training> trainingOpt = trainingRepository.findById(trainingId);
-
-        if (trainingOpt.isEmpty()) {
-            return false;
-        }
-
-        Training training = trainingOpt.get();
-        String username = authentication.getName();
-
-        return training.getUser().getName().equals(username);
+        return trainingRepository.findWithUserById(trainingId)
+                .map(training -> {
+                    User user = training.getUser();
+                    return user != null && authentication.getName().equals(user.getEmail());
+                })
+                .orElse(false);
     }
 
 

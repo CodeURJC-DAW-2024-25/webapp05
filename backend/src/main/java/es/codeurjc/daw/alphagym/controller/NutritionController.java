@@ -5,7 +5,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import es.codeurjc.daw.alphagym.dtosedit.Goal;
+import es.codeurjc.daw.alphagym.dtosEdit.Goal;
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.service.NutritionService;
@@ -28,8 +28,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -145,9 +147,9 @@ public class NutritionController {
         return "redirect:/nutritions";
     }
 
-    @GetMapping("/nutritions/editNutrition/{id}")
-    public String editDiet(Model model, @PathVariable Long id) {
-        Nutrition nutrition = nutritionService.getNutrition(id);
+    @GetMapping("/nutritions/editNutrition/{nutritionId}")
+    public String editDiet(Model model, @PathVariable Long nutritionId) {
+        Nutrition nutrition = nutritionService.getNutrition(nutritionId);
         String originalGoal = nutrition.getGoal();
 
         List<Goal> goals = new ArrayList<>();

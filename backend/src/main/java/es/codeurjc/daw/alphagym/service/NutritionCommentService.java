@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.model.Nutrition;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class NutritionCommentService {
@@ -82,5 +84,15 @@ public class NutritionCommentService {
     public List<NutritionComment> getReportedComments() {
         List<NutritionComment> listNutritionComments = nutritionCommentRepository.findByIsNotified(true);
         return listNutritionComments.isEmpty() ? null : listNutritionComments;        
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isOwnerComment(Long commentId, Authentication authentication) {
+        return nutritionCommentRepository.findById(commentId)
+                .map(comment -> {
+                    User user = comment.getUser();
+                    return user != null && authentication.getName().equals(user.getEmail());
+                })
+                .orElse(false);
     }
 }

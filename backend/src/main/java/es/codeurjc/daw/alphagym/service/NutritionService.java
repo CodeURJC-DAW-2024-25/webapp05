@@ -6,8 +6,10 @@ import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
@@ -129,6 +131,16 @@ public class NutritionService {
             return nutritionRepository.findAll(); // If there is no search, return all
         }
         return nutritionRepository.findByName(name);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isOwner(Long nutritionId, Authentication authentication) {
+        return nutritionRepository.findWithUserById(nutritionId)
+                .map(nutrition -> {
+                    User user = nutrition.getUser();
+                    return user != null && authentication.getName().equals(user.getEmail());
+                })
+                .orElse(false);
     }
     
 }
