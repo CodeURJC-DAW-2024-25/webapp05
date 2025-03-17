@@ -3,9 +3,8 @@ package es.codeurjc.daw.alphagym.service;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import es.codeurjc.daw.alphagym.security.LoginRequest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +14,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,31 +43,19 @@ public class UserService {
         return ResponseEntity.ok().build();
     }
 
-    public User createUser(String name, String email, String pass, MultipartFile image, String... roles) throws IOException {
-        User user = new User();
-
-        user.setName(name);
-        user.setEmail(email);
-        user.setEncodedPassword(passwordEncoder.encode(pass));
-        user.setRoles(List.of(roles));
-    
-        if (!image.isEmpty()) {
-            user.setImgUser(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
-            user.setImage(true);
-        }
-    
-        userRepository.save(user); 
-    
-        return user; 
-    }
-
-    public User createUser(String name, String email, String pass, String... roles) {
+    public User createUser(String name, String email, String pass, String... roles) throws SQLException, IOException {
         User user = new User();
     
         user.setName(name);
         user.setEmail(email);
         user.setEncodedPassword(passwordEncoder.encode(pass));
         user.setRoles(List.of(roles));
+
+        ClassPathResource imgFileDefault = new ClassPathResource("static/images/emptyImage.png");
+        byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
+        Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
+        user.setImgUser(imageBlobDefault);
+        user.setImage(true);
     
         return user; 
     }

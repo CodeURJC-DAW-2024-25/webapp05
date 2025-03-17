@@ -44,6 +44,12 @@ public class DataBaseInit {
         userService.save(admin);
 
         User user = new User("user", "user@user.com", passwordEncoder.encode("pass"), "USER");
+
+        ClassPathResource imgFileDefault = new ClassPathResource("static/images/emptyImage.png");
+        byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
+        Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
+        user.setImgUser(imageBlobDefault);
+
         userService.save(user);
 
         //Trainings Examples

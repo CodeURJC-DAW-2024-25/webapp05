@@ -260,6 +260,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("error")) {
+    alert("Incorrect email or password. Please, try again.");
+
+    // Remueve el parámetro `error` de la URL sin recargar
+    window.history.replaceState({}, document.title, window.location.pathname);
+
+    // Forzar una recarga para que el login se renderice bien
+    setTimeout(() => {
+      window.location.reload();
+    } );
+  }
+});
+
 
 
 function validateRoutineForm(){

@@ -181,7 +181,7 @@ public class WebSecurityConfig {
 
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
-						.failureUrl("/error")
+						.failureUrl("/login?error=true")
 						.defaultSuccessUrl("/index")
 						.permitAll())
 
