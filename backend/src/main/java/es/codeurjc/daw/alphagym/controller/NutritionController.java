@@ -28,10 +28,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -92,12 +90,12 @@ public class NutritionController {
  
                 model.addAttribute("subscribed", isSubscribed);
                 model.addAttribute("logged", true);
-                model.addAttribute("admin", user.get().isRole("ADMIN")); // Agrega la variable "admin"
+                model.addAttribute("admin", user.get().isRole("ADMIN")); // Add the variable "admin"
                 model.addAttribute("canEdit", canEdit);
             }
         } else {
             model.addAttribute("logged", false);
-            model.addAttribute("admin", false); // Si no está autenticado, no es admin
+            model.addAttribute("admin", false); // If not authenticated, the user is not an admin
         }
 
         return "showDiet";
@@ -190,7 +188,7 @@ public class NutritionController {
         } catch (Exception e) {
             e.printStackTrace(); 
             model.addAttribute("error", "Ha ocurrido un error.");
-            return "redirect:/nutritions/editDiet/" + nutritionId + "?error=true"; // Redirigir con un parámetro de error
+            return "redirect:/nutritions/editDiet/" + nutritionId + "?error=true"; 
         }
 
         return null;
