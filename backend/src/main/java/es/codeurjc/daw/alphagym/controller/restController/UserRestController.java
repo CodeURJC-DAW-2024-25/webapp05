@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import es.codeurjc.daw.alphagym.Application;
 import es.codeurjc.daw.alphagym.dto.UserDTO;
+import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,15 +39,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/users")
 public class UserRestController {
 
-    private final Application application;
-
     @Autowired
     private UserService userService;
 
-    UserRestController(Application application) {
-        this.application = application;
-    }
-
+    @Operation (summary = "Gets the logged user")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Found the user",
+            content = {@Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation=User.class)
+                )}
+        ),
+        @ApiResponse(
+            responseCode = "401",
+            description = "User not authorized",
+            content = @Content
+        ),
+    })
     @GetMapping("/me")
     public UserDTO me(HttpServletRequest request) {
 		
@@ -61,6 +71,32 @@ public class UserRestController {
 		}
 	}
 
+    @Operation(summary = "Get a user by its id") 
+    @ApiResponses(value = { 
+        @ApiResponse( 
+            responseCode = "200", 
+            description = "Found the user", 
+            content = {@Content( 
+                mediaType = "application/json", 
+                schema = @Schema(implementation=User.class) 
+                )} 
+        ), 
+        @ApiResponse( 
+            responseCode = "400", 
+            description = "Invalid id supplied", 
+            content = @Content 
+            ), 
+        @ApiResponse(
+            responseCode = "401",
+            description = "User not authorized",
+            content = @Content
+        ),
+        @ApiResponse( 
+            responseCode = "404", 
+            description = "User not found", 
+            content = @Content 
+        ) 
+    })
     @GetMapping("/{id}")
     public UserDTO getUser(@Parameter(description = "User id", required = true) @PathVariable Long id) {
 
@@ -68,6 +104,29 @@ public class UserRestController {
 
     }
 
+    @Operation (summary = "Gets the image of a user by its id")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Found the user image",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid id supplied",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "401",
+            description = "User not authorized",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "User not found, user image not found or doesn't have permission to access it",
+            content = @Content
+        ),
+    })
     @GetMapping("/{id}/image")
     public ResponseEntity<Object> getUserImage(@PathVariable long id) throws IOException, SQLException{
 
@@ -78,7 +137,25 @@ public class UserRestController {
             .body(userImage);
             
     }
-    
+
+    @Operation (summary = "Registers a new user")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "201",
+            description = "User registered correctly",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Bad request, maybe one of the user attributes is missing or the type is not valid",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "409",
+            description = "User already exists",
+            content = @Content
+        )
+    })
     @PostMapping("/")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
 
@@ -92,6 +169,34 @@ public class UserRestController {
         
     }
 
+    @Operation (summary = "Registers the image of a user")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "201",
+            description = "Image created correctly",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Bad request",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "401",
+            description = "User not authorized",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "403",
+            description = "User not authorized",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "User not found",
+            content = @Content
+        )
+    })
     @PostMapping("{id}/image")
     public ResponseEntity<Object> createUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException {
 
@@ -102,6 +207,27 @@ public class UserRestController {
         return ResponseEntity.created(location).build();
     }
     
+    @Operation(summary = "Update a user by its id")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "User updated correctly",
+            content = {@Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation=User.class)
+        )}
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "User not updated",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "403",
+            description = "User not authorized",
+            content = @Content
+        )
+    })
     @PutMapping("/{id}")
     public UserDTO replaceUser(@RequestBody UserDTO updatedUserDTO, @PathVariable Long id) throws SQLException {
 
@@ -109,6 +235,39 @@ public class UserRestController {
 
     } 
 
+    @Operation (summary = "Updates the image of a user")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "201",
+            description = "Image created correctly",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "204",
+            description = "Image updated correctly",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Bad request",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "401",
+            description = "User not authorized",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "403",
+            description = "User not authorized",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "User not found",
+            content = @Content
+        )
+    })
     @PutMapping("/{id}/image")
     public ResponseEntity<Object> replaceUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException {
 
