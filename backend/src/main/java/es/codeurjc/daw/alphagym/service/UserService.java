@@ -1,5 +1,6 @@
 package es.codeurjc.daw.alphagym.service;
 
+import es.codeurjc.daw.alphagym.dto.UserDTO;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import es.codeurjc.daw.alphagym.security.LoginRequest;
@@ -21,6 +22,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import es.codeurjc.daw.alphagym.dto.UserMapper;
 
 @Service
 public class UserService {
@@ -33,6 +35,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+	private UserMapper mapper;
     
     public ResponseEntity<Object> login(LoginRequest loginRequest) {
         
@@ -98,6 +103,10 @@ public class UserService {
     public boolean existEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         return user.isPresent();
+    }
+
+    public UserDTO getUser(String name) {
+        return mapper.toDTO(userRepository.findByName(name).orElseThrow());
     }
 
 }

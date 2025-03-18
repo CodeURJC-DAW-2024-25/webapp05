@@ -39,7 +39,6 @@ public class User {
     @JsonIgnore
 	private boolean image;
 
-    //los roles
     @ElementCollection(fetch = FetchType.EAGER)
 	private List<String> roles;
 

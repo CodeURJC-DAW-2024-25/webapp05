@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @SuppressWarnings("null")
     Optional<User> findById(Long id);
     Optional<User> findByEmail(String email);
-    List<User> findByName(String name);
+    Optional<User> findByName(String name);
     boolean existsByEmail(String email);
     List<User> findByTrainingsContaining(Training training);
     List<User> findByNutritionsContaining(Nutrition nutrition);
