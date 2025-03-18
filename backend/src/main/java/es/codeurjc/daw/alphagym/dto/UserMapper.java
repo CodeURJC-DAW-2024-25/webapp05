@@ -6,14 +6,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "User")
-public class UserMapper {
+public interface UserMapper {
 
-    public UserDTO toDTO(User user) {
-        return new UserDTO(
-            user.getId(),
-            user.getName(),
-            user.getRoles(),
-            user.getEmail()
-        );
-    }
+    UserDTO toUserDTO(User user);
+
+    User toUser(UserDTO userDTO);
+
 }

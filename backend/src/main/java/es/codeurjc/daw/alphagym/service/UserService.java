@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import es.codeurjc.daw.alphagym.dto.UserMapper;
 
@@ -38,6 +39,14 @@ public class UserService {
 
     @Autowired
 	private UserMapper mapper;
+
+    private UserDTO toUserDTO(User user) {
+        return mapper.toUserDTO(user);
+    }
+
+    private User toUser(UserDTO userDTO) {
+        return mapper.toUser(userDTO);
+    }
     
     public ResponseEntity<Object> login(LoginRequest loginRequest) {
         
@@ -106,7 +115,32 @@ public class UserService {
     }
 
     public UserDTO getUser(String name) {
-        return mapper.toDTO(userRepository.findByName(name).orElseThrow());
+        return mapper.toUserDTO(userRepository.findByName(name).orElseThrow());
+    }
+    
+    public UserDTO updateUser(User User) {
+        return mapper.toUserDTO(userRepository.save(User));
+    }
+
+    public UserDTO createUser(UserDTO userDTO) {
+        User user = toUser(userDTO);
+        userRepository.save(user);
+        return toUserDTO(user);
+    }
+
+    public UserDTO replaceUser(Long id, UserDTO updateUserDTO) {
+
+        if (userRepository.existsById(id)) {
+
+            User updateUser = toUser(updateUserDTO);
+            updateUser.setId(id);
+
+            userRepository.save(updateUser);
+
+            return toUserDTO(updateUser);
+        } else {
+            throw new NoSuchElementException(); 
+        }
     }
 
 }
