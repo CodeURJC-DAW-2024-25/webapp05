@@ -482,3 +482,62 @@ function loadMoreComments() {
   xhr.send();
 
 }
+
+//AJAX METHOD TO LOAD MORE CARDS
+//Within nutrition.html, inside of section i write an id called ajaxCards
+let currentPageDiets = 0;
+const dietsPerPage = 10; 
+
+document.addEventListener("DOMContentLoaded", function () {
+  const ajaxContainer = document.getElementById("ajaxCards");
+  if (ajaxContainer) {
+    let allDiets = document.querySelectorAll("#resultsContainer .col-12.col-md-4.mb-4");
+    allDiets.forEach((diet, index) => {
+      if (index >= dietsPerPage) {
+        diet.style.display = "none"; // Hide diets if there are more than 10
+      }
+    });
+  }
+});
+
+function loadMoreCards() {
+  let loadMoreButton = document.getElementById("loadMore");
+  let resultsContainer = document.getElementById("resultsContainer");
+
+  let spinner = document.createElement("div");
+  spinner.className = "spinner-border text-primary d-block mx-auto my-3";
+  spinner.role = "status";
+  spinner.innerHTML = '<span class="visually-hidden">Loading...</span>';
+  resultsContainer.appendChild(spinner);
+
+  loadMoreButton.disabled = true;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("GET", `/nutritions/moreDiets?page=${currentPageDiets + 1}`, true);
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        let responseHTML = xhr.responseText;
+
+        if (responseHTML.trim().length > 0) {
+          resultsContainer.insertAdjacentHTML("beforeend", responseHTML);
+          currentPageDiets++;
+        } else {
+          loadMoreButton.disabled = true;
+          loadMoreButton.innerText = "No more diets available";
+          loadMoreButton.classList.add("disabled"); 
+          //loadMoreButton.style.display = "none"; 
+        }
+      } else {
+        console.error("Error al cargar más dietas");
+      }
+
+      spinner.remove();
+      loadMoreButton.disabled = false;
+    }
+  };
+
+  xhr.send();
+}
+

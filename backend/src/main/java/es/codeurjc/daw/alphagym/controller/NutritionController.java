@@ -1,16 +1,5 @@
 package es.codeurjc.daw.alphagym.controller;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-import es.codeurjc.daw.alphagym.dtosEdit.Goal;
-import es.codeurjc.daw.alphagym.model.Nutrition;
-import es.codeurjc.daw.alphagym.model.User;
-import es.codeurjc.daw.alphagym.service.NutritionService;
-import es.codeurjc.daw.alphagym.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -31,8 +21,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import es.codeurjc.daw.alphagym.dtosEdit.Goal;
+import es.codeurjc.daw.alphagym.model.Nutrition;
+import es.codeurjc.daw.alphagym.model.User;
+import es.codeurjc.daw.alphagym.service.NutritionService;
+import es.codeurjc.daw.alphagym.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class NutritionController {
@@ -43,17 +50,17 @@ public class NutritionController {
     private UserService userService;
 
     @ModelAttribute("user")
-    public void addAttributes(Model model, HttpServletRequest request){
+    public void addAttributes(Model model, HttpServletRequest request) {
 
         Principal principal = request.getUserPrincipal();
 
         if (principal != null) {
-            Optional <User> user = userService.findByEmail(principal.getName()); 
-            if (user.isPresent()){
-                if (user.get().isRole("USER")){
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                if (user.get().isRole("USER")) {
                     model.addAttribute("user", true);
                 }
-                if (user.get().isRole("ADMIN")){
+                if (user.get().isRole("ADMIN")) {
                     model.addAttribute("admin", true);
                 }
             }
@@ -65,29 +72,30 @@ public class NutritionController {
         CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
         model.addAttribute("token", token.getToken());
     }
-    
+
     @GetMapping("/nutritions")
-    public String showAllDiets(Model model){
+    public String showAllDiets(Model model) {
         model.addAttribute("nutritions", nutritionService.getAllNutritions());
         return "nutrition";
     }
 
     @GetMapping("/nutritions/{id}")
-    public String detailsNutrition(Model model, @PathVariable Long id, Principal principal){
+    public String detailsNutrition(Model model, @PathVariable Long id, Principal principal) {
         Nutrition nutrition = nutritionService.getNutrition(id);
         if (nutrition == null) {
             return "redirect:/nutritions";
         }
         model.addAttribute("nutrition", nutrition);
-        
+
         if (principal != null) {
             Optional<User> user = userService.findByEmail(principal.getName());
             if (user.isPresent()) {
                 Boolean isAdmin = user.get().isRole("ADMIN");
-                 
-                Boolean canEdit = isAdmin || (nutrition.getUser() != null && nutrition.getUser().getId().equals(user.get().getId()));
+
+                Boolean canEdit = isAdmin
+                        || (nutrition.getUser() != null && nutrition.getUser().getId().equals(user.get().getId()));
                 Boolean isSubscribed = user.get().getNutritions().contains(nutrition);
- 
+
                 model.addAttribute("subscribed", isSubscribed);
                 model.addAttribute("logged", true);
                 model.addAttribute("admin", user.get().isRole("ADMIN")); // Add the variable "admin"
@@ -102,35 +110,36 @@ public class NutritionController {
     }
 
     @GetMapping("/nutritions/subscribe/{id}")
-     public String subscribeToDiet(@PathVariable Long id, Principal principal) {
-         if (principal != null) {
-             Optional<User> user = userService.findByEmail(principal.getName());
-             if (user.isPresent()) {
-                 nutritionService.subscribeNutrition(id, user.get());
-             }
-         }
-         return "redirect:/nutritions/" + id;
-     }
- 
-     @GetMapping("/nutritions/unsubscribe/{id}")
-     public String unsubscribeFromDiet(@PathVariable Long id, Principal principal) {
-         if (principal != null) {
-             Optional<User> user = userService.findByEmail(principal.getName());
-             if (user.isPresent()) {
-                 nutritionService.unsubscribeNutrition(id, user.get());
-             }
-         }
-         return "redirect:/nutritions/" + id;
-     }
+    public String subscribeToDiet(@PathVariable Long id, Principal principal) {
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                nutritionService.subscribeNutrition(id, user.get());
+            }
+        }
+        return "redirect:/nutritions/" + id;
+    }
+
+    @GetMapping("/nutritions/unsubscribe/{id}")
+    public String unsubscribeFromDiet(@PathVariable Long id, Principal principal) {
+        if (principal != null) {
+            Optional<User> user = userService.findByEmail(principal.getName());
+            if (user.isPresent()) {
+                nutritionService.unsubscribeNutrition(id, user.get());
+            }
+        }
+        return "redirect:/nutritions/" + id;
+    }
 
     @GetMapping("/nutritions/newNutrition")
-    public String createNutrition(Model model ) {
-        model.addAttribute("nutrition",new Nutrition());
+    public String createNutrition(Model model) {
+        model.addAttribute("nutrition", new Nutrition());
         return "newDiet";
     }
 
     @PostMapping("/nutritions/newNutrition")
-    public String createNutritionPost(@ModelAttribute Nutrition nutrition, Principal principal) throws SQLException, IOException {
+    public String createNutritionPost(@ModelAttribute Nutrition nutrition, Principal principal)
+            throws SQLException, IOException {
         if (principal != null) {
             Optional<User> user = userService.findByEmail(principal.getName());
             if (user.isPresent()) {
@@ -156,16 +165,18 @@ public class NutritionController {
         goals.add(new Goal("Lose weight", "Lose weight".equals(originalGoal)));
         model.addAttribute("goals", goals);
 
-        if (nutrition == null){
+        if (nutrition == null) {
             return "redirect:/nutritions";
         }
 
-        model.addAttribute("nutrition",nutrition);
+        model.addAttribute("nutrition", nutrition);
         return "editDiet";
     }
 
     @PostMapping("/nutritions/editNutrition/{nutritionId}")
-    public String editDietPost(@ModelAttribute Nutrition nutrition, @PathVariable Long nutritionId, @RequestParam(value = "imageFile", required = false) MultipartFile imageFile, Model model, Principal principal) {
+    public String editDietPost(@ModelAttribute Nutrition nutrition, @PathVariable Long nutritionId,
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile, Model model,
+            Principal principal) {
         try {
             if (principal != null) {
                 Optional<User> user = userService.findByEmail(principal.getName());
@@ -173,7 +184,8 @@ public class NutritionController {
                 if (optionalNutrition.isPresent()) {
                     Nutrition existingNutrition = optionalNutrition.get();
                     if (imageFile != null && !imageFile.isEmpty()) {
-                        nutrition.setImgNutrition(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+                        nutrition.setImgNutrition(
+                                BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
                         nutrition.setImage(true);
                     } else {
                         nutrition.setImgNutrition(existingNutrition.getImgNutrition()); // keep previous image
@@ -186,22 +198,22 @@ public class NutritionController {
 
             }
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
             model.addAttribute("error", "Ha ocurrido un error.");
-            return "redirect:/nutritions/editDiet/" + nutritionId + "?error=true"; 
+            return "redirect:/nutritions/editDiet/" + nutritionId + "?error=true";
         }
 
         return null;
     }
 
     @GetMapping("/nutritions/delete/{id}")
-    public  String deleteDietPost(@PathVariable Long id){
+    public String deleteDietPost(@PathVariable Long id) {
         nutritionService.deleteDiet(id);
         return "redirect:/nutritions";
     }
 
     @GetMapping("/nutritions/deleteFromList/{id}")
-    public  String deleteDietFromListPost(@PathVariable Long id, Principal principal){
+    public String deleteDietFromListPost(@PathVariable Long id, Principal principal) {
         if (principal != null) {
             Optional<User> user = userService.findByEmail(principal.getName());
             if (user.isPresent()) {
@@ -214,7 +226,8 @@ public class NutritionController {
 
     @GetMapping("/nutritions/{id}/pdf")
     public ResponseEntity<InputStreamResource> generatePdf(@PathVariable Long id) {
-        Nutrition nutrition = nutritionService.findById(id).orElseThrow(() -> new RuntimeException("Nutrition not found"));
+        Nutrition nutrition = nutritionService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Nutrition not found"));
 
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -241,9 +254,9 @@ public class NutritionController {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Disposition", "inline; filename=nutrition.pdf");
             return ResponseEntity.ok()
-                .headers(headers)
-                .contentType(org.springframework.http.MediaType.APPLICATION_PDF)
-                .body(resource);
+                    .headers(headers)
+                    .contentType(org.springframework.http.MediaType.APPLICATION_PDF)
+                    .body(resource);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -265,5 +278,12 @@ public class NutritionController {
 
         return ResponseEntity.notFound().build();
     }
-    
+
+    @GetMapping("/nutritions/moreDiets")
+    public String loadMoreDiets(Model model, @RequestParam(defaultValue = "1") int page) {
+        List<Nutrition> diets = nutritionService.getPaginatedDiets(page, 10);
+        model.addAttribute("nutritions", diets);
+        return "fragments/dietsList";
+    }
+
 }

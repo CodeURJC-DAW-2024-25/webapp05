@@ -486,3 +486,10 @@ h2 {
   z-index: 1;
 
 }
+
+/*More diets button*/
+.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color : #dc3545;
+}

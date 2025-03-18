@@ -2,7 +2,7 @@
 {{>navbar}}
 
 
-    <section class="container py-5">
+    <section class="container py-5" id="ajaxCards">
       <h2 class="text-center mb-4">Nutrition Plans</h2>
       <div id="resultsContainer" class="row">
           {{#nutritions}}
@@ -24,6 +24,7 @@
       </div>
 
         <div class="text-center">
+          <button id="loadMore" class="btn-load" onclick="loadMoreCards()">More Diets</button><!--ADD JS FUNCTION NAME FOR AJAX-->
             {{#logged}}
             <a id ="newNutrition" href="/nutritions/newNutrition" class="btn-load">Add Diet</a>
             {{/logged}}
