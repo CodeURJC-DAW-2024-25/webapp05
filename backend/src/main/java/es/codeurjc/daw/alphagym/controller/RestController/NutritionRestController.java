@@ -1,3 +1,4 @@
+package es.codeurjc.daw.alphagym.controller.restController;
 /*package es.codeurjc.daw.alphagym.controller.RestController;
 
 import java.net.URI;
