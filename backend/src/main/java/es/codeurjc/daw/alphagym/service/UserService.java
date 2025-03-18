@@ -4,8 +4,12 @@ import es.codeurjc.daw.alphagym.dto.UserDTO;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import es.codeurjc.daw.alphagym.security.LoginRequest;
+import jakarta.annotation.Resource;
+
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -118,8 +124,8 @@ public class UserService {
         return mapper.toUserDTO(userRepository.findByName(name).orElseThrow());
     }
     
-    public UserDTO updateUser(User User) {
-        return mapper.toUserDTO(userRepository.save(User));
+    public UserDTO updateUser(User user) {
+        return mapper.toUserDTO(userRepository.save(user));
     }
 
     public UserDTO createUser(UserDTO userDTO) {
@@ -128,19 +134,60 @@ public class UserService {
         return toUserDTO(user);
     }
 
-    public UserDTO replaceUser(Long id, UserDTO updateUserDTO) {
+    public UserDTO replaceUser(Long id, UserDTO updatedUserDTO) throws SQLException {
 
-        if (userRepository.existsById(id)) {
+        User oldUser = userRepository.findById(id).orElseThrow();
+        User updatedUser = toUser(updatedUserDTO);
+        updatedUser.setId(id);
 
-            User updateUser = toUser(updateUserDTO);
-            updateUser.setId(id);
+        if (oldUser.getImgUser() != null) {
 
-            userRepository.save(updateUser);
-
-            return toUserDTO(updateUser);
-        } else {
-            throw new NoSuchElementException(); 
+            //Set the image in the updated post 
+            updatedUser.setImgUser(BlobProxy.generateProxy( 
+                oldUser.getImgUser().getBinaryStream(), 
+                oldUser.getImgUser().length())); 
+            
+                updatedUser.setImgUser(oldUser.getImgUser());  
         }
+
+        userRepository.save(updatedUser);
+        return toUserDTO(updatedUser);
+
+    }
+
+    public void createUserImage(long id, URI location, InputStream inputStream, long size) {
+        
+        User user = userRepository.findById(id).orElseThrow();
+        
+        user.setImgUserPath(location.toString()); //convert URI to String
+        user.setImgUser(BlobProxy.generateProxy(inputStream, size)); //convert InputStream to Blob
+
+        userRepository.save(user);
+
+   }
+
+    public InputStreamResource getUserImage(long id) throws SQLException{
+
+        User user = userRepository.findById(id).orElseThrow();
+
+        if(user.getImgUser() != null) {
+            return new InputStreamResource(user.getImgUser().getBinaryStream());
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public void replaceUserImage(long id, InputStream inputStream, long size) {
+            
+            User user = userRepository.findById(id).orElseThrow();
+
+            if(user.getImgUser() == null){    
+                throw new NoSuchElementException();  
+            }
+            
+            user.setImgUser(BlobProxy.generateProxy(inputStream, size)); //convert InputStream to Blob
+    
+            userRepository.save(user);
     }
 
 }

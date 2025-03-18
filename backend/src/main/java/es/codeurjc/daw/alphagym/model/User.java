@@ -39,6 +39,9 @@ public class User {
     @JsonIgnore
 	private boolean image;
 
+    @JsonIgnore
+    private String imgUserPath;
+
     @ElementCollection(fetch = FetchType.EAGER)
 	private List<String> roles;
 
@@ -116,6 +119,10 @@ public class User {
         return imgUser;
     }
       
+    public String getImgUserPath() {
+        return imgUserPath;
+    }
+
     // Setters
 
     public void setTrainings(List<Training> trainings) {
@@ -162,4 +169,8 @@ public class User {
 		this.image = image;
 	}
 
+    public void setImgUserPath(String imgUserPath) {
+        this.imgUserPath = imgUserPath;
+    }
+    
 } 
