@@ -2,23 +2,28 @@ package es.codeurjc.daw.alphagym.service;
 
 import java.util.List;
 
-import es.codeurjc.daw.alphagym.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import es.codeurjc.daw.alphagym.model.NutritionComment;
-import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
-import es.codeurjc.daw.alphagym.model.Nutrition;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import es.codeurjc.daw.alphagym.model.Nutrition;
+import es.codeurjc.daw.alphagym.model.NutritionComment;
+import es.codeurjc.daw.alphagym.model.User;
+import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 
 @Service
 public class NutritionCommentService {
 
     @Autowired
     private NutritionCommentRepository nutritionCommentRepository;
+
+    private NutritionCommentService nutritionCommentService;
 
     public List<NutritionComment> getAllNutritionComments() {
         List<NutritionComment> listNutritionComment = nutritionCommentRepository.findAll();
@@ -94,5 +99,27 @@ public class NutritionCommentService {
                     return user != null && authentication.getName().equals(user.getEmail());
                 })
                 .orElse(false);
+    }
+
+    
+    //@GetMapping("/nutritionComments/{commentId}/editcommentAdmin")
+    public String editCommentAdmin(Model model, @PathVariable Long commentId) {
+        NutritionComment comment = nutritionCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            Nutrition nutrition = comment.getNutrition();
+            return "redirect:/nutritionComments/" + nutrition.getId() + "/" + commentId + "/editcomment";
+        } else {
+            return "redirect:/admin";
+        }
+    }
+
+    //@GetMapping("/nutritionComments/{commentId}/deleteAdmin")
+    public String deleteCommentAdmin(Model model, @PathVariable Long commentId) {
+        NutritionComment comment = nutritionCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            Nutrition nutrition = comment.getNutrition();
+            nutritionCommentService.deleteCommentbyId(nutrition, commentId);
+        }
+        return "redirect:/admin";
     }
 }

@@ -1,8 +1,12 @@
 package es.codeurjc.daw.alphagym.controller;
 
 import java.security.Principal;
-import java.util.*;
-import es.codeurjc.daw.alphagym.model.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -13,7 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
+import es.codeurjc.daw.alphagym.model.Nutrition;
+import es.codeurjc.daw.alphagym.model.NutritionComment;
+import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.service.NutritionCommentService;
 import es.codeurjc.daw.alphagym.service.NutritionService;
 import es.codeurjc.daw.alphagym.service.UserService;
@@ -28,8 +34,6 @@ public class NutritionCommentController {
     private UserService userService;
     @Autowired
     private NutritionService nutritionService;
-    @Autowired
-    private NutritionCommentRepository nutritionCommentRepository;
 
     @ModelAttribute("user")
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -190,25 +194,8 @@ public class NutritionCommentController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/nutritionComments/{commentId}/editcommentAdmin")
-    public String editCommentAdmin(Model model, @PathVariable Long commentId) {
-        NutritionComment comment = nutritionCommentRepository.findById(commentId).orElse(null);
-        if (comment != null) {
-            Nutrition nutrition = comment.getNutrition();
-            return "redirect:/nutritionComments/" + nutrition.getId() + "/" + commentId + "/editcomment";
-        } else {
-            return "redirect:/admin";
-        }
-    }
 
-    @GetMapping("/nutritionComments/{commentId}/deleteAdmin")
-    public String deleteCommentAdmin(Model model, @PathVariable Long commentId) {
-        NutritionComment comment = nutritionCommentRepository.findById(commentId).orElse(null);
-        if (comment != null) {
-            Nutrition nutrition = comment.getNutrition();
-            nutritionCommentService.deleteCommentbyId(nutrition, commentId);
-        }
-        return "redirect:/admin";
-    }
+
+
 
 }
