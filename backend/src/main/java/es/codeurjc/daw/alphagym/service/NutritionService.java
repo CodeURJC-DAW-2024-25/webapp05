@@ -1,17 +1,24 @@
 package es.codeurjc.daw.alphagym.service;
 
-
+import java.io.InputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import es.codeurjc.daw.alphagym.dto.NutritionDTO;
+import es.codeurjc.daw.alphagym.dto.NutritionMapper;
 
 import javax.sql.rowset.serial.SerialBlob;
 
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -34,6 +41,8 @@ public class NutritionService {
     private NutritionCommentRepository nutritionCommentRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private NutritionMapper mapper;
 
 
     public Nutrition createNutrition(Nutrition nutrition, User user) throws SQLException, IOException {
@@ -154,7 +163,124 @@ public class NutritionService {
         Pageable pageable = PageRequest.of(page - 1, size);
         return nutritionRepository.findAll(pageable).getContent();
     }
-    
-    
+
+    public Collection<NutritionDTO> getAllNutritionsDTO() {
+        return toDTOs(nutritionRepository.findAll());
+    }   
+
+    public NutritionDTO getNutritionDTO(Long id) {
+        return toDTO(nutritionRepository.findById(id).orElseThrow());
+    }
+
+    public NutritionDTO createNutritionDTO(NutritionDTO nutritionDTO) {
+        if (nutritionDTO.id() != null) {
+            throw new IllegalArgumentException();
+        }
+
+        Nutrition nutrition = toDomain(nutritionDTO);
+
+        nutritionRepository.save(nutrition);
+
+        //book.getShops().replaceAll(shop -> shopRepository.findById(shop.getId()).orElseThrow());
+
+        return toDTO(nutrition);
+    }
+
+    public NutritionDTO editDietDTO(Long id, NutritionDTO updatedNutritionDTO) throws SQLException {
+        
+        Nutrition oldNutrition = nutritionRepository.findById(id).orElseThrow();
+        Nutrition updatedNutrition = toDomain(updatedNutritionDTO);
+        updatedNutrition.setId(id);
+
+        if (oldNutrition.getImage() && updatedNutrition.getImage()){
+
+            /*updatedNutrition.setImageFile(BlobProxy.generateProxy(oldNutrition.getImage().getBinaryStream(), 
+            oldNutrition.getImage().length()));*/
+        }
+
+        nutritionRepository.save(updatedNutrition);
+
+        return toDTO(updatedNutrition);
+    }
+
+    public NutritionDTO createOrReplaceNutrition(Long id, NutritionDTO nutritionDTO) throws SQLException {
+        
+        NutritionDTO nutrition;
+        if(id == null){
+                nutrition = createNutritionDTO(nutritionDTO);
+        } else {
+                nutrition = editDietDTO(id, nutritionDTO);
+        }
+        return nutrition;
+    }
+
+    public NutritionDTO deleteDietDTO(Long id) {
+
+        Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
+
+        NutritionDTO nutritionDTO = toDTO(nutrition);
+        nutritionRepository.deleteById(id);
+        return nutritionDTO;
+    }
+
+    /*public Resource getNutritionImage(Long id) throws SQLException {
+
+        Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
+        
+        if (nutrition.getImage() != null) {
+                return new InputStreamResource(nutrition.getImage().getBinaryStream());
+        } else {
+                throw new NoSuchElementException();
+        }
+    }*/
+
+    public void createNutritionImage(Long id, InputStream inputStream, long size){
+
+        Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
+        
+        nutrition.setImage(true);
+        //nutrition.setImageFile(BlobProxy.generateProxy(inputStream, size));
+
+        nutritionRepository.save(nutrition);
+    }
+
+    /*public void replaceNutritionImage(long id, InputStream inputStream, long size) {
+
+		Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
+
+		if (!nutrition.getImage()) {
+			throw new NoSuchElementException();
+		}
+
+		//nutrition.setImageFile(BlobProxy.generateProxy(inputStream, size));
+
+		nutritionRepository.save(nutrition);
+	}
+
+	public void deleteNutritionImage(long id) {
+
+		Nutrition nutrition = nutritionRepository.findById(id)/*.orElseThrow();
+
+		if (!nutrition.getImage()) {
+			throw new NoSuchElementException();
+		}
+
+		nutrition.setImageFile(null);
+		nutrition.setImage(false);
+
+		nutritionRepository.save(nutrition);
+	}*/
+
+    private NutritionDTO toDTO(Nutrition nutrition) {
+		return mapper.toDTO(nutrition);
+	}
+
+    private Nutrition toDomain(NutritionDTO nutritionDTO) {
+		return mapper.toDomain(nutritionDTO);
+	}
+
+	private Collection<NutritionDTO> toDTOs(Collection<Nutrition> nutritions) {
+		return mapper.toDTOs(nutritions);
+	}
 }
 
