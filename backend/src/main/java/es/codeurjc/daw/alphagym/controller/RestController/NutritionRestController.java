@@ -1,5 +1,4 @@
-package es.codeurjc.daw.alphagym.controller.restController;
-
+package es.codeurjc.daw.alphagym.controller.restcontroller;
 
 import java.net.URI;
 import java.sql.SQLException;

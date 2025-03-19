@@ -3,7 +3,9 @@ package es.codeurjc.backend;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+import es.codeurjc.daw.alphagym.Application;
+
+@SpringBootTest(classes = Application.class)
 class BackendApplicationTests {
 
 	@Test
