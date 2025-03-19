@@ -1,13 +1,18 @@
-package es.codeurjc.daw.alphagym.controller.restcontroller;
-/*package es.codeurjc.daw.alphagym.controller.RestController;
+package es.codeurjc.daw.alphagym.controller.restController;
+
 
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.Collection;
+
+import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import es.codeurjc.daw.alphagym.dto.NutritionDTO;
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.service.NutritionService;
@@ -22,7 +27,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 
 @RestController
 @RequestMapping("/api/nutrition")
-public class NutritionRESTController {
+public class NutritionRestController {
 
     @Autowired
     private NutritionService nutritionService;
@@ -30,21 +35,21 @@ public class NutritionRESTController {
     @GetMapping("/")
     public Collection <NutritionDTO> getNutritions () {
         
-        return nutritionService.getAllNutritions(); 
+        return nutritionService.getAllNutritionsDTO(); 
     }
     
     @GetMapping("/{id}")
     public NutritionDTO getNutrition(@PathVariable Long id) {
 
-        return nutritionService.getNutrition(id);
+        return nutritionService.getNutritionDTO(id);
     }
 
-    @PostMapping("/")
+   @PostMapping("/")
     public ResponseEntity<NutritionDTO> createNutrition (@RequestBody NutritionDTO nutritionDTO){
 
-            nutritionDTO = nutritionService.createNutrition(nutritionDTO);
+            nutritionDTO = nutritionService.createNutritionDTO(nutritionDTO);
 
-            URI location = fromCurrentRequest().path("/{id}").buildAndExpand(nutritionDTO.getId()).toUri();
+            URI location = fromCurrentRequest().path("/{id}").buildAndExpand(nutritionDTO.id()).toUri();
 
             return ResponseEntity.created(location).body(nutritionDTO);
     }
@@ -52,12 +57,48 @@ public class NutritionRESTController {
     @PutMapping("/{id}")
     public NutritionDTO editDiet (@PathVariable Long id, @RequestBody NutritionDTO updateNutritionDTO) throws SQLException{
 
-            return nutritionService.editDiet(id, updateNutritionDTO);
+            return nutritionService.editDietDTO(id, updateNutritionDTO);
     }
 
     @DeleteMapping("/{id}")
     public NutritionDTO deleteNutrition(@PathVariable Long id){
 
-            return nutritionService.deleteDiet(id);
+            return nutritionService.deleteDietDTO(id);
     }
-}*/
+
+    @PostMapping("/{id}/image")
+    public ResponseEntity<Object> createNutritionImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws SQLException {
+
+        //nutritionService.createNutritionImage(id, imageFile.getInputStream(), imageFile.getSize());
+
+        URI location = fromCurrentRequest().build().toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    /*@GetMapping("/{id}/image")
+    public ResponseEntity<Object> getNutritionImage(@PathVariable long id) throws SQLException {
+
+        Resource postImage = nutritionService.getNutritionImage(id);
+
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(postImage);
+    }*/
+
+    @PutMapping("/{id}/image")
+    public ResponseEntity<Object> replaceNutritionImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws SQLException {
+
+        //nutritionService.replaceNutritionImage(id, imageFile.getInputStream(), imageFile.getSize());
+
+        return ResponseEntity.noContent().build();
+    }
+
+    /*@DeleteMapping("/{id}/image")
+    public ResponseEntity<Object> deleteNutritionImage(@PathVariable long id) throws SQLException {
+
+        nutritionService.deleteNutritionImage(id);
+
+        return ResponseEntity.noContent().build();
+    }*/
+
+
+}
