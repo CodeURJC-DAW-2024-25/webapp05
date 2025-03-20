@@ -483,18 +483,17 @@ function loadMoreComments() {
 
 }
 
-//AJAX METHOD TO LOAD MORE CARDS
-//Within nutrition.html, inside of section i write an id called ajaxCards
-let currentPageDiets = 0;
-const dietsPerPage = 10; 
+// LOAD MORE CARDS
+let currentPageCards = 0;
+const cardsPerPage = 10;
 
 document.addEventListener("DOMContentLoaded", function () {
-  const ajaxContainer = document.getElementById("ajaxCards");
+  const ajaxContainer = document.getElementById("ajaxCards"); // ID of the container where the cards are
   if (ajaxContainer) {
-    let allDiets = document.querySelectorAll("#resultsContainer .col-12.col-md-4.mb-4");
-    allDiets.forEach((diet, index) => {
-      if (index >= dietsPerPage) {
-        diet.style.display = "none"; // Hide diets if there are more than 10
+    let allCards = document.querySelectorAll("#resultsContainer .col-12.col-md-4.mb-4");
+    allCards.forEach((card, index) => {
+      if (index >= cardsPerPage) {
+        card.style.display = "none"; // Hide extra cards at start
       }
     });
   }
@@ -513,7 +512,24 @@ function loadMoreCards() {
   loadMoreButton.disabled = true;
 
   let xhr = new XMLHttpRequest();
-  xhr.open("GET", `/nutritions/moreDiets?page=${currentPageDiets + 1}`, true);
+
+  // Find out if we are in the diets or trainings page
+  let isDietsPage = window.location.pathname.includes("nutrition");
+  let isTrainingsPage = window.location.pathname.includes("training");
+
+  let url = "";
+  if (isDietsPage) {
+    url = `/nutritions/moreDiets?page=${currentPageCards + 1}`;
+  } else if (isTrainingsPage) {
+    url = `/trainings/moreRoutines?page=${currentPageCards + 1}`;
+  } else {
+    console.error("No se pudo determinar la URL de carga.");
+    spinner.remove();
+    loadMoreButton.disabled = false;
+    return;
+  }
+
+  xhr.open("GET", url, true);
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
@@ -522,15 +538,14 @@ function loadMoreCards() {
 
         if (responseHTML.trim().length > 0) {
           resultsContainer.insertAdjacentHTML("beforeend", responseHTML);
-          currentPageDiets++;
+          currentPageCards++;
         } else {
           loadMoreButton.disabled = true;
-          loadMoreButton.innerText = "No more diets available";
-          loadMoreButton.classList.add("disabled"); 
-          //loadMoreButton.style.display = "none"; 
+          loadMoreButton.innerText = "No more items available";
+          loadMoreButton.classList.add("disabled");
         }
       } else {
-        console.error("Error al cargar más dietas");
+        console.error("Error al cargar más elementos");
       }
 
       spinner.remove();
@@ -540,4 +555,5 @@ function loadMoreCards() {
 
   xhr.send();
 }
+
 

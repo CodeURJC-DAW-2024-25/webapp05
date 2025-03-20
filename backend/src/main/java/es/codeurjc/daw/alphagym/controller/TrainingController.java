@@ -4,7 +4,24 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
+import org.hibernate.engine.jdbc.BlobProxy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 import es.codeurjc.daw.alphagym.dtosedit.Goal;
 import es.codeurjc.daw.alphagym.dtosedit.Intensity;
 import es.codeurjc.daw.alphagym.model.Training;
@@ -12,17 +29,6 @@ import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.service.TrainingService;
 import es.codeurjc.daw.alphagym.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.hibernate.engine.jdbc.BlobProxy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.web.multipart.MultipartFile;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class TrainingController {
@@ -244,6 +250,14 @@ public class TrainingController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    //Show more routines
+    @GetMapping("/trainings/moreRoutines")
+    public String loadMoreRoutines(Model model, @RequestParam(defaultValue = "1") int page) {
+        List<Training> routines = trainingService.getPaginatedRoutines(page, 10);
+        model.addAttribute("trainings", routines);
+        return "fragments/routinesList";
     }
 
 }

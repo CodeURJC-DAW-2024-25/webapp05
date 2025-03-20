@@ -1,24 +1,28 @@
 package es.codeurjc.daw.alphagym.service;
 
-import es.codeurjc.daw.alphagym.model.Training;
-import es.codeurjc.daw.alphagym.model.TrainingComment;
-import es.codeurjc.daw.alphagym.model.User;
-import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
-import es.codeurjc.daw.alphagym.repository.TrainingRepository;
-import es.codeurjc.daw.alphagym.repository.UserRepository;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+
+import javax.sql.rowset.serial.SerialBlob;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import es.codeurjc.daw.alphagym.model.Training;
+import es.codeurjc.daw.alphagym.model.TrainingComment;
+import es.codeurjc.daw.alphagym.model.User;
+import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
+import es.codeurjc.daw.alphagym.repository.TrainingRepository;
+import es.codeurjc.daw.alphagym.repository.UserRepository;
 
 @Service
 public class TrainingService {
@@ -143,6 +147,12 @@ public class TrainingService {
                     return user != null && authentication.getName().equals(user.getEmail());
                 })
                 .orElse(false);
+    }
+
+    //Get paginated routines
+    public List<Training> getPaginatedRoutines(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return trainingRepository.findAll(pageable).getContent();
     }
 
 
