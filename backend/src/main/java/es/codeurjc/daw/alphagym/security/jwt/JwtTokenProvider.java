@@ -1,10 +1,12 @@
 package es.codeurjc.daw.alphagym.security.jwt;
 
-import java.util.Date;
-import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Base64;
+import java.util.Date;
 
+import javax.crypto.spec.SecretKeySpec;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -12,15 +14,28 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 public class JwtTokenProvider {
+    private Key key;
 
+    @Value("${jwt.secret}") // We get the key from the application.properties file
+    private String secretKey;
+
+    @PostConstruct
+    public void init() {
+        // Decoding the key from Base64 and converting it to a signing key
+        this.key = new SecretKeySpec(Base64.getDecoder().decode(secretKey), SignatureAlgorithm.HS256.getJcaName());
+    }
+
+    /* 
     private static final String SECRET_KEY = "miClaveSecretaSeguraParaJWT123456"; // Debe ser segura y larga
     private final Key key = new SecretKeySpec(Base64.getDecoder().decode(SECRET_KEY),
             SignatureAlgorithm.HS256.getJcaName());
+    */
 
     public String tokenStringFromHeaders(HttpServletRequest req) {
         String bearerToken = req.getHeader(HttpHeaders.AUTHORIZATION);
