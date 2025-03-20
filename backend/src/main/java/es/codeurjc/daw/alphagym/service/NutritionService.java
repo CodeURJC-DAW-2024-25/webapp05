@@ -7,18 +7,14 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import es.codeurjc.daw.alphagym.dto.NutritionDTO;
 import es.codeurjc.daw.alphagym.dto.NutritionMapper;
 
 import javax.sql.rowset.serial.SerialBlob;
 
-import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;

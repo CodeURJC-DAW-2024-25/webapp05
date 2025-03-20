@@ -4,7 +4,6 @@ import es.codeurjc.daw.alphagym.dto.UserDTO;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import es.codeurjc.daw.alphagym.security.LoginRequest;
-import jakarta.annotation.Resource;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
