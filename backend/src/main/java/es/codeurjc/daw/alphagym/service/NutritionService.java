@@ -8,13 +8,17 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.NoSuchElementException;
 import es.codeurjc.daw.alphagym.dto.NutritionDTO;
 import es.codeurjc.daw.alphagym.dto.NutritionMapper;
 
 import javax.sql.rowset.serial.SerialBlob;
 
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -27,6 +31,7 @@ import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
+
 
 @Service
 public class NutritionService {
@@ -190,8 +195,8 @@ public class NutritionService {
 
         if (oldNutrition.getImage() && updatedNutrition.getImage()){
 
-            /*updatedNutrition.setImageFile(BlobProxy.generateProxy(oldNutrition.getImage().getBinaryStream(), 
-            oldNutrition.getImage().length()));*/
+            updatedNutrition.setImgNutrition(BlobProxy.generateProxy(oldNutrition.getImgNutrition().getBinaryStream(), 
+            oldNutrition.getImgNutrition().length()));
         }
 
         nutritionRepository.save(updatedNutrition);
@@ -219,23 +224,23 @@ public class NutritionService {
         return nutritionDTO;
     }
 
-    /*public Resource getNutritionImage(Long id) throws SQLException {
+    public Resource getNutritionImage(Long id) throws SQLException {
 
         Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
         
-        if (nutrition.getImage() != null) {
-                return new InputStreamResource(nutrition.getImage().getBinaryStream());
+        if (nutrition.getImgNutrition() != null) {
+                return  new InputStreamResource(nutrition.getImgNutrition().getBinaryStream());
         } else {
                 throw new NoSuchElementException();
         }
-    }*/
+    }
 
     public void createNutritionImage(Long id, InputStream inputStream, long size){
 
         Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
         
         nutrition.setImage(true);
-        //nutrition.setImageFile(BlobProxy.generateProxy(inputStream, size));
+        nutrition.setImgNutrition(BlobProxy.generateProxy(inputStream, size));
 
         nutritionRepository.save(nutrition);
     }
@@ -244,24 +249,24 @@ public class NutritionService {
 
 		Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
 
-		if (!nutrition.getImage()) {
+		if (nutrition.getImage() == null) {
 			throw new NoSuchElementException();
 		}
 
-		//nutrition.setImageFile(BlobProxy.generateProxy(inputStream, size));
+		nutrition.setImgNutrition(BlobProxy.generateProxy(inputStream, size));
 
 		nutritionRepository.save(nutrition);
 	}
 
 	public void deleteNutritionImage(long id) {
 
-		Nutrition nutrition = nutritionRepository.findById(id)/*.orElseThrow();
+		Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
 
 		if (!nutrition.getImage()) {
 			throw new NoSuchElementException();
 		}
 
-		nutrition.setImageFile(null);
+		nutrition.setImgNutrition(null);
 		nutrition.setImage(false);
 
 		nutritionRepository.save(nutrition);

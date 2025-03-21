@@ -3,6 +3,7 @@ package es.codeurjc.daw.alphagym.controller.restcontroller;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.io.IOException;
 
 import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import es.codeurjc.daw.alphagym.dto.NutritionDTO;
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.service.NutritionService;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,38 +68,38 @@ public class NutritionRestController {
     }
 
     @PostMapping("/{id}/image")
-    public ResponseEntity<Object> createNutritionImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws SQLException {
+    public ResponseEntity<Object> createNutritionImage(@PathVariable long id, @RequestParam MultipartFile imgNutrition) throws IOException {
 
-        //nutritionService.createNutritionImage(id, imageFile.getInputStream(), imageFile.getSize());
+        nutritionService.createNutritionImage(id, imgNutrition.getInputStream(), imgNutrition.getSize());
 
         URI location = fromCurrentRequest().build().toUri();
 
         return ResponseEntity.created(location).build();
     }
 
-    /*@GetMapping("/{id}/image")
-    public ResponseEntity<Object> getNutritionImage(@PathVariable long id) throws SQLException {
+    @GetMapping("/{id}/image")
+    public ResponseEntity<Object> getNutritionImage(@PathVariable long id) throws SQLException, IOException {
 
         Resource postImage = nutritionService.getNutritionImage(id);
 
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(postImage);
-    }*/
+    }
 
     @PutMapping("/{id}/image")
-    public ResponseEntity<Object> replaceNutritionImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws SQLException {
+    public ResponseEntity<Object> replaceNutritionImage(@PathVariable long id, @RequestParam MultipartFile imgNutrition) throws IOException {
 
-        //nutritionService.replaceNutritionImage(id, imageFile.getInputStream(), imageFile.getSize());
+        nutritionService.replaceNutritionImage(id, imgNutrition.getInputStream(), imgNutrition.getSize());
 
         return ResponseEntity.noContent().build();
     }
 
-    /*@DeleteMapping("/{id}/image")
-    public ResponseEntity<Object> deleteNutritionImage(@PathVariable long id) throws SQLException {
+    @DeleteMapping("/{id}/image")
+    public ResponseEntity<Object> deleteNutritionImage(@PathVariable long id) throws IOException {
 
         nutritionService.deleteNutritionImage(id);
 
         return ResponseEntity.noContent().build();
-    }*/
+    }
 
 
 }

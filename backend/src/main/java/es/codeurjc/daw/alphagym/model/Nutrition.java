@@ -77,6 +77,12 @@ public class Nutrition {
         return this.user;
     }
 
+    //image
+    public Blob getImgNutrition() {
+        return imgNutrition;
+    }
+
+
     // Setters
     public void setNutritionComments(List<NutritionComment> comments) {
         this.comments = comments;
@@ -94,7 +100,9 @@ public class Nutrition {
         this.calories = calories;
     }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) { 
+        this.name = name; 
+    }
 
     public void setDescription(String description) {
         this.description = description;
@@ -109,12 +117,8 @@ public class Nutrition {
     }
 
     //image
-    public Blob getImgNutrition() {
-        return imgNutrition;
-    }
-
-    public void setImgNutrition(Blob imgTraining) {
-        this.imgNutrition= imgTraining;
+    public void setImgNutrition(Blob image) {
+        this.imgNutrition = image;
     }
     
 }
