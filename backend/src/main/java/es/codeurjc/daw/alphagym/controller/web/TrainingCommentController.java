@@ -1,4 +1,4 @@
-package es.codeurjc.daw.alphagym.controller;
+package es.codeurjc.daw.alphagym.controller.web;
 
 import java.security.Principal;
 import java.util.*;

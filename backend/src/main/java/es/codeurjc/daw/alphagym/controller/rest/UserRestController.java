@@ -1,4 +1,4 @@
-package es.codeurjc.daw.alphagym.controller.restController;
+package es.codeurjc.daw.alphagym.controller.rest;
 
 import java.io.IOException;
 import java.net.URI;
