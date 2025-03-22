@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import es.codeurjc.daw.alphagym.model.Nutrition;
 
 public interface NutritionRepository extends JpaRepository<Nutrition, Long> {
-    List<Nutrition> findById(long id);
+    Optional<Nutrition> findById(long id);
     List<Nutrition> findByName(String name);
 
     @EntityGraph(attributePaths = "user")

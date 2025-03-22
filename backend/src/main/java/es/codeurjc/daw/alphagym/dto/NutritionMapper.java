@@ -16,7 +16,7 @@ public interface NutritionMapper {
 
     List<NutritionDTO> toDTOs(Collection<Nutrition> nutritions);
 
-    @Mapping(target = "image", ignore = true)
+    @Mapping(target = "imgNutrition", ignore = true)
     Nutrition toDomain(NutritionDTO nutritionDTO);
 
     //@Mapping(target = "books", ignore = true)

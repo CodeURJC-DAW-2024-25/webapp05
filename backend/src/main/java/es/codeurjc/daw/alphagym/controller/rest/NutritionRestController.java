@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 @RestController
-@RequestMapping("/api/nutrition")
+@RequestMapping("/api/nutritions")
 public class NutritionRestController {
 
     @Autowired
@@ -84,7 +84,7 @@ public class NutritionRestController {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(postImage);
     }
 
-    /*@PutMapping("/{id}/image")
+    @PutMapping("/{id}/image")
     public ResponseEntity<Object> replaceNutritionImage(@PathVariable long id, @RequestParam MultipartFile imgNutrition) throws IOException {
 
         nutritionService.replaceNutritionImage(id, imgNutrition.getInputStream(), imgNutrition.getSize());
@@ -98,7 +98,7 @@ public class NutritionRestController {
         nutritionService.deleteNutritionImage(id);
 
         return ResponseEntity.noContent().build();
-    }*/
+    }
 
 
     

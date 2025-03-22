@@ -43,7 +43,7 @@ public class NutritionService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private NutritionMapper mapper;
+    private NutritionMapper nutritionMapper;
 
 
     public Nutrition createNutrition(Nutrition nutrition, User user) throws SQLException, IOException {
@@ -245,7 +245,7 @@ public class NutritionService {
         nutritionRepository.save(nutrition);
     }
 
-    /*public void replaceNutritionImage(long id, InputStream inputStream, long size) {
+    public void replaceNutritionImage(long id, InputStream inputStream, long size) {
 
 		Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
 
@@ -270,18 +270,18 @@ public class NutritionService {
 		nutrition.setImage(false);
 
 		nutritionRepository.save(nutrition);
-	}*/
+	}
 
     private NutritionDTO toDTO(Nutrition nutrition) {
-		return mapper.toDTO(nutrition);
+		return nutritionMapper.toDTO(nutrition);
 	}
 
     private Nutrition toDomain(NutritionDTO nutritionDTO) {
-		return mapper.toDomain(nutritionDTO);
+		return nutritionMapper.toDomain(nutritionDTO);
 	}
 
 	private Collection<NutritionDTO> toDTOs(Collection<Nutrition> nutritions) {
-		return mapper.toDTOs(nutritions);
+		return nutritionMapper.toDTOs(nutritions);
 	}
 }
 
