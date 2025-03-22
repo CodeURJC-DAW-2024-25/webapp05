@@ -189,4 +189,8 @@ public class UserService {
             userRepository.save(user);
     }
 
+    public Iterable<UserDTO> getUsers() {
+        return mapper.toUserDTOs(userRepository.findAll());
+    }
+
 }

@@ -72,6 +72,34 @@ public class UserRestController {
 		}
 	}
 
+    @Operation(summary = "Get all users")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Found all users",
+            content = {@Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation=User.class)
+            )}
+        ),
+        @ApiResponse(
+            responseCode = "401",
+            description = "User not authorized",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Users not found",
+            content = @Content
+        )
+    })
+    @GetMapping("/all")
+    public Iterable<UserDTO> getUsers() {
+
+        return userService.getUsers();
+
+    }
+
     @Operation(summary = "Get a user by its id") 
     @ApiResponses(value = { 
         @ApiResponse( 
