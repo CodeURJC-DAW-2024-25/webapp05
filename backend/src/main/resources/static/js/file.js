@@ -484,7 +484,7 @@ function loadMoreComments() {
 }
 
 // LOAD MORE CARDS
-let currentPageCards = 0;
+let currentPageCards = 1;
 const cardsPerPage = 10;
 
 document.addEventListener("DOMContentLoaded", function () {

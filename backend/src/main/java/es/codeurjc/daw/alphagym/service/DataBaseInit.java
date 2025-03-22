@@ -83,6 +83,36 @@ public class DataBaseInit {
                 "                Pájaros (elevaciones posteriores): 3x12\n" +
                 "                Encogimientos con barra (trapecios): 4x12");
 
+        Training nuevo1 = new Training("Chest Plan","80%",60,"Increase volume", "Press de banca : 4x8-10\n" +
+                "                Press inclinado con mancuernas: 4x10\n" +
+                "                Fondos en paralelas: 3x10\n" +
+                "                Cruces en polea: 4x12");
+
+        Training nuevo2 = new Training("Arms Plan","70%",45,"Increase volume", "Curl con barra: 4x10\n" +
+                "                Curl martillo con mancuernas: 3x12\n" +
+                "                Press francés: 4x10\n" +
+                "                Fondos en paralelas: 3x10");
+
+        Training nuevo3 = new Training("Legs Plan","100%",90,"Increase volume", "Sentadillas: 4x8-10\n" +
+                "               Peso muerto rumano: 3x12\n" +
+                "               Extensiones de cuádriceps: 3x15\n" +
+                "               Elevaciones de pantorrilla: 4x15");
+
+        Training nuevo4 = new Training("Abs Plan", "50%", 30, "Lose weight", "Crunch en máquina: 4x15\n" +
+                "                Toques de talón (oblicuos): 3x20\n" +
+                "                Rodillo abdominal (ab wheel): 3x10\n" +
+                "                Plancha (estática): 3x45s");
+
+        Training nuevo5 = new Training ("Back Plan", "90%", 90, "Increase volume", "Dominadas: 4x8-10\n" +
+                "                Remo con barra: 4x10\n" +
+                "                Jalón al pecho en polea: 3x12\n" +
+                "                Remo con mancuerna: 3x12" );
+
+        Training nuevo6 = new Training ("Shoulder Plan", "70%", 60, "Increase volume", "Press militar con barra: 4x10\n" +
+                "                Elevaciones laterales: 3x12\n" +
+                "                Pájaros (elevaciones posteriores): 3x12\n" +
+                "                Encogimientos con barra (trapecios): 4x12");
+
 
         ClassPathResource imgFile1 = new ClassPathResource("static/images/plan_pecho.jpg");
         byte[] imageBytes1 = Files.readAllBytes(imgFile1.getFile().toPath());
@@ -120,6 +150,16 @@ public class DataBaseInit {
         absPlan = trainingService.createTraining(absPlan, null);
         backPlan = trainingService.createTraining(backPlan, null);
         shoulderPlan = trainingService.createTraining(shoulderPlan, null);
+        nuevo1 = trainingService.createTraining(nuevo1, null);
+        nuevo2 = trainingService.createTraining(nuevo2, null);
+        nuevo3 = trainingService.createTraining(nuevo3, null);
+        nuevo4 = trainingService.createTraining(nuevo4, null);
+        nuevo5 = trainingService.createTraining(nuevo5, null);
+        nuevo6 = trainingService.createTraining(nuevo6, null);
+
+
+
+
 
         //Nutritions Examples
         Nutrition caloricDeficit = new Nutrition ("Caloric Deficit", 100, "Lose weight",
