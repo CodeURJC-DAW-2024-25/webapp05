@@ -8,6 +8,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.security.Principal;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -100,7 +101,13 @@ public class UserRestController {
     @GetMapping("/{id}")
     public UserDTO getUser(@Parameter(description = "User id", required = true) @PathVariable Long id) {
 
-        return getUser(id);
+        Optional<User> user = userService.findById(id);
+
+        if(user.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+
+        return userService.getUser(user.get().getName());
 
     }
 
