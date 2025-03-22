@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import es.codeurjc.daw.alphagym.dtosedit.Goal;
-import es.codeurjc.daw.alphagym.dtosedit.Intensity;
+import es.codeurjc.daw.alphagym.dtosEdit.Goal;
+import es.codeurjc.daw.alphagym.dtosEdit.Intensity;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.service.TrainingService;

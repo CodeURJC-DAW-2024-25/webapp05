@@ -31,7 +31,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import es.codeurjc.daw.alphagym.dtosedit.Goal;
+import es.codeurjc.daw.alphagym.dtosEdit.Goal;
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.service.NutritionService;

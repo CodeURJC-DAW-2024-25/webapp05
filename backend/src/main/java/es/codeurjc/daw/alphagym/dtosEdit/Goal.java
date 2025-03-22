@@ -1,4 +1,4 @@
-package es.codeurjc.daw.alphagym.dtosedit;
+package es.codeurjc.daw.alphagym.dtosEdit;
 
 public class Goal {
     private String objective;

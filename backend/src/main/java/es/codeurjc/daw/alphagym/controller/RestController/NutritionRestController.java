@@ -1,4 +1,4 @@
-package es.codeurjc.daw.alphagym.controller.restcontroller;
+package es.codeurjc.daw.alphagym.controller.restController;
 
 import java.net.URI;
 import java.sql.SQLException;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.daw.alphagym.dto.NutritionDTO;
-import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.service.NutritionService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -85,7 +84,7 @@ public class NutritionRestController {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(postImage);
     }
 
-    @PutMapping("/{id}/image")
+    /*@PutMapping("/{id}/image")
     public ResponseEntity<Object> replaceNutritionImage(@PathVariable long id, @RequestParam MultipartFile imgNutrition) throws IOException {
 
         nutritionService.replaceNutritionImage(id, imgNutrition.getInputStream(), imgNutrition.getSize());
@@ -99,7 +98,7 @@ public class NutritionRestController {
         nutritionService.deleteNutritionImage(id);
 
         return ResponseEntity.noContent().build();
-    }
+    }*/
 
 
 }

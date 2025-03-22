@@ -1,4 +1,4 @@
-package es.codeurjc.daw.alphagym.controller.restcontroller.auth;
+package es.codeurjc.daw.alphagym.controller.restController.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
