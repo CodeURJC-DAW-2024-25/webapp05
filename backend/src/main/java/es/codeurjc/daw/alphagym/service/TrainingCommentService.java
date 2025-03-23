@@ -2,6 +2,8 @@ package es.codeurjc.daw.alphagym.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+
 import es.codeurjc.daw.alphagym.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -119,6 +121,18 @@ public class TrainingCommentService {
             .findByTrainingId(trainingId, PageRequest.of(page, limit))
             .map(trainingCommentMapper::toDTO)
             .toList();
+    }
+
+    public TrainingCommentDTO createTrainingCommentDTO(TrainingCommentDTO trainingCommentDTO) {
+        TrainingComment trainingComment = toDomain(trainingCommentDTO);
+        trainingComment = trainingCommentRepository.save(trainingComment);
+        return toDTO(trainingComment);
+    }
+
+    public TrainingCommentDTO deleteCommentbyIdDTO(Long commentId) {
+        Optional<TrainingComment> trainingComment = trainingCommentRepository.findById(commentId);
+        trainingCommentRepository.deleteById(commentId);
+        return toDTO(trainingComment.orElse(null));
     }
 
 

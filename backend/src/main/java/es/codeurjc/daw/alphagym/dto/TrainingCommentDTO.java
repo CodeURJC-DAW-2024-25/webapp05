@@ -5,7 +5,6 @@ public record TrainingCommentDTO(
     String name, 
     String description, 
     boolean isNotified,
-    boolean canEdit, 
     TrainingDTO training,
     UserDTO user) {
 }
