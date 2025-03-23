@@ -52,14 +52,32 @@ public class UserService {
     private User toUser(UserDTO userDTO) {
         return mapper.toUser(userDTO);
     }
-    
+    /* 
     public ResponseEntity<Object> login(LoginRequest loginRequest) {
         
         Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return ResponseEntity.ok().build();
+    }
+    */
+    public ResponseEntity<Object> login(LoginRequest loginRequest) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    loginRequest.getEmail(),
+                    loginRequest.getPassword()
+                )
+            );
+
+            //Save authentication details in security context
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            return ResponseEntity.ok("Login successful");
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Invalid credentials");
+        }
     }
 
     public User createUser(String name, String email, String pass, String... roles) throws SQLException, IOException {

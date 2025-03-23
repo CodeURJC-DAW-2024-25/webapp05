@@ -39,6 +39,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import es.codeurjc.daw.alphagym.security.LoginRequest;
 
 
 @RestController
@@ -54,55 +55,31 @@ public class UserRestController {
     @Autowired
     private TrainingCommentService trainingCommentService;
 
-    @Operation (summary = "Gets the logged user")
+    @Operation(summary = "Gets the logged user")
     @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Found the user",
-            content = {@Content(
-                mediaType = "application/json",
-                schema = @Schema(implementation=User.class)
-                )}
-        ),
-        @ApiResponse(
-            responseCode = "401",
-            description = "User not authorized",
-            content = @Content
-        ),
+            @ApiResponse(responseCode = "200", description = "Found the user", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
+            @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
     })
     @GetMapping("/me")
     public UserDTO me(HttpServletRequest request) {
-		
-		Principal principal = request.getUserPrincipal();
-		
-		if(principal != null) {
-			return userService.getUser(principal.getName());
 
-		} else {
-			throw new NoSuchElementException();
-		}
-	}
+        Principal principal = request.getUserPrincipal();
+
+        if (principal != null) {
+            return userService.getUser(principal.getName());
+
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
 
     @Operation(summary = "Get all users")
     @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Found all users",
-            content = {@Content(
-                mediaType = "application/json",
-                schema = @Schema(implementation=User.class)
-            )}
-        ),
-        @ApiResponse(
-            responseCode = "401",
-            description = "User not authorized",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "404",
-            description = "Users not found",
-            content = @Content
-        )
+            @ApiResponse(responseCode = "200", description = "Found all users", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
+            @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Users not found", content = @Content)
     })
     @GetMapping("/all")
     public Iterable<UserDTO> getUsers() {
@@ -111,38 +88,20 @@ public class UserRestController {
 
     }
 
-    @Operation(summary = "Get a user by its id") 
-    @ApiResponses(value = { 
-        @ApiResponse( 
-            responseCode = "200", 
-            description = "Found the user", 
-            content = {@Content( 
-                mediaType = "application/json", 
-                schema = @Schema(implementation=User.class) 
-                )} 
-        ), 
-        @ApiResponse( 
-            responseCode = "400", 
-            description = "Invalid id supplied", 
-            content = @Content 
-            ), 
-        @ApiResponse(
-            responseCode = "401",
-            description = "User not authorized",
-            content = @Content
-        ),
-        @ApiResponse( 
-            responseCode = "404", 
-            description = "User not found", 
-            content = @Content 
-        ) 
+    @Operation(summary = "Get a user by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the user", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
+            @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
     @GetMapping("/{id}")
     public UserDTO getUser(@Parameter(description = "User id", required = true) @PathVariable Long id) {
 
         Optional<User> user = userService.findById(id);
 
-        if(user.isEmpty()) {
+        if (user.isEmpty()) {
             throw new NoSuchElementException();
         }
 
@@ -150,57 +109,40 @@ public class UserRestController {
 
     }
 
-    @Operation (summary = "Gets the image of a user by its id")
+    @Operation(summary = "Gets the image of a user by its id")
     @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Found the user image",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "400",
-            description = "Invalid id supplied",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "401",
-            description = "User not authorized",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "404",
-            description = "User not found, user image not found or doesn't have permission to access it",
-            content = @Content
-        ),
+            @ApiResponse(responseCode = "200", description = "Found the user image", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
+            @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found, user image not found or doesn't have permission to access it", content = @Content),
     })
     @GetMapping("/{id}/image")
-    public ResponseEntity<Object> getUserImage(@PathVariable long id) throws IOException, SQLException{
+    public ResponseEntity<Object> getUserImage(@PathVariable long id) throws IOException, SQLException {
 
         InputStreamResource userImage = userService.getUserImage(id);
 
         return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-            .body(userImage);
-            
+                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                .body(userImage);
+
     }
 
-    @Operation (summary = "Registers a new user")
+    // Log in as a user
+    @Operation(summary = "Authenticate user")
     @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "201",
-            description = "User registered correctly",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "400",
-            description = "Bad request, maybe one of the user attributes is missing or the type is not valid",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "409",
-            description = "User already exists",
-            content = @Content
-        )
+            @ApiResponse(responseCode = "200", description = "Login successful"),
+            @ApiResponse(responseCode = "401", description = "Invalid credentials")
+    })
+    @PostMapping("/access")
+    public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
+        return userService.login(loginRequest);
+    }
+
+    @Operation(summary = "Registers a new user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "User registered correctly", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request, maybe one of the user attributes is missing or the type is not valid", content = @Content),
+            @ApiResponse(responseCode = "409", description = "User already exists", content = @Content)
     })
     @PostMapping("/")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
@@ -208,43 +150,24 @@ public class UserRestController {
         userDTO = userService.createUser(userDTO);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-            .path("/{id}")
-            .buildAndExpand(userDTO.id()).toUri();
+                .path("/{id}")
+                .buildAndExpand(userDTO.id()).toUri();
 
-        return ResponseEntity.created(location).body(userDTO); 
-        
+        return ResponseEntity.created(location).body(userDTO);
+
     }
 
-    @Operation (summary = "Registers the image of a user")
+    @Operation(summary = "Registers the image of a user")
     @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "201",
-            description = "Image created correctly",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "400",
-            description = "Bad request",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "401",
-            description = "User not authorized",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "403",
-            description = "User not authorized",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "404",
-            description = "User not found",
-            content = @Content
-        )
+            @ApiResponse(responseCode = "201", description = "Image created correctly", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
+            @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+            @ApiResponse(responseCode = "403", description = "User not authorized", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
     @PostMapping("{id}/image")
-    public ResponseEntity<Object> createUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException {
+    public ResponseEntity<Object> createUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
+            throws IOException {
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
 
@@ -252,88 +175,52 @@ public class UserRestController {
 
         return ResponseEntity.created(location).build();
     }
-    
+
     @Operation(summary = "Update a user by its id")
     @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "User updated correctly",
-            content = {@Content(
-            mediaType = "application/json",
-            schema = @Schema(implementation=User.class)
-        )}
-        ),
-        @ApiResponse(
-            responseCode = "400",
-            description = "User not updated",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "403",
-            description = "User not authorized",
-            content = @Content
-        )
+            @ApiResponse(responseCode = "200", description = "User updated correctly", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
+            @ApiResponse(responseCode = "400", description = "User not updated", content = @Content),
+            @ApiResponse(responseCode = "403", description = "User not authorized", content = @Content)
     })
     @PutMapping("/{id}")
     public UserDTO replaceUser(@RequestBody UserDTO updatedUserDTO, @PathVariable Long id) throws SQLException {
 
         return userService.replaceUser(id, updatedUserDTO);
 
-    } 
+    }
 
-    @Operation (summary = "Updates the image of a user")
+    @Operation(summary = "Updates the image of a user")
     @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "201",
-            description = "Image created correctly",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "204",
-            description = "Image updated correctly",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "400",
-            description = "Bad request",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "401",
-            description = "User not authorized",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "403",
-            description = "User not authorized",
-            content = @Content
-        ),
-        @ApiResponse(
-            responseCode = "404",
-            description = "User not found",
-            content = @Content
-        )
+            @ApiResponse(responseCode = "201", description = "Image created correctly", content = @Content),
+            @ApiResponse(responseCode = "204", description = "Image updated correctly", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
+            @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+            @ApiResponse(responseCode = "403", description = "User not authorized", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
     @PutMapping("/{id}/image")
-    public ResponseEntity<Object> replaceUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException {
+    public ResponseEntity<Object> replaceUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
+            throws IOException {
 
         userService.replaceUserImage(id, imageFile.getInputStream(), imageFile.getSize());
 
         return ResponseEntity.noContent().build();
-    
+
     }
 
     @GetMapping("/reportedComments")
     public ResponseEntity<List<String>> getReportedComments() {
         List<String> reportedComments = new ArrayList<>();
 
-        Long[] reportsArray1 = trainingCommentService.getReportAmmmounts(); 
+        Long[] reportsArray1 = trainingCommentService.getReportAmmmounts();
         Long[] reportsArray2 = nutritionCommentService.getReportAmmmounts();
 
         if (reportsArray1.length == 0 && reportsArray2.length == 0) {
-            return ResponseEntity.noContent().build(); //Return 204 No Content if there are no reported comments
-        } else{
-            reportedComments.add("Total comments: " + (reportsArray1[0] + reportsArray2[0] + reportsArray1[1] + reportsArray2[1])); 
+            return ResponseEntity.noContent().build(); // Return 204 No Content if there are no reported comments
+        } else {
+            reportedComments.add(
+                    "Total comments: " + (reportsArray1[0] + reportsArray2[0] + reportsArray1[1] + reportsArray2[1]));
             reportedComments.add("Total reported comments: " + (reportsArray1[0] + reportsArray2[0]));
             reportedComments.add("Reported training comments: " + reportsArray1[0]);
             reportedComments.add("Reported nutrition comments: " + reportsArray2[0]);
@@ -342,8 +229,7 @@ public class UserRestController {
             reportedComments.add("Valid nutrition comments: " + reportsArray2[1]);
         }
 
-        return ResponseEntity.ok(reportedComments); //Return 200 OK with the list of comments
+        return ResponseEntity.ok(reportedComments); // Return 200 OK with the list of comments
     }
 
-    
 }
