@@ -7,6 +7,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.security.Principal;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -20,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.codeurjc.daw.alphagym.dto.NutritionCommentDTO;
 import es.codeurjc.daw.alphagym.dto.UserDTO;
 import es.codeurjc.daw.alphagym.model.User;
+import es.codeurjc.daw.alphagym.service.NutritionCommentService;
+import es.codeurjc.daw.alphagym.service.TrainingCommentService;
 import es.codeurjc.daw.alphagym.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,6 +47,12 @@ public class UserRestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NutritionCommentService nutritionCommentService;
+
+    @Autowired
+    private TrainingCommentService trainingCommentService;
 
     @Operation (summary = "Gets the logged user")
     @ApiResponses(value = {
@@ -310,6 +321,28 @@ public class UserRestController {
 
         return ResponseEntity.noContent().build();
     
+    }
+
+    @GetMapping("/reportedComments")
+    public ResponseEntity<List<String>> getReportedComments() {
+        List<String> reportedComments = new ArrayList<>();
+
+        Long[] reportsArray1 = trainingCommentService.getReportAmmmounts(); 
+        Long[] reportsArray2 = nutritionCommentService.getReportAmmmounts();
+
+        if (reportsArray1.length == 0 && reportsArray2.length == 0) {
+            return ResponseEntity.noContent().build(); //Return 204 No Content if there are no reported comments
+        } else{
+            reportedComments.add("Total comments: " + (reportsArray1[0] + reportsArray2[0] + reportsArray1[1] + reportsArray2[1])); 
+            reportedComments.add("Total reported comments: " + (reportsArray1[0] + reportsArray2[0]));
+            reportedComments.add("Reported training comments: " + reportsArray1[0]);
+            reportedComments.add("Reported nutrition comments: " + reportsArray2[0]);
+            reportedComments.add("Total valid comments: " + (reportsArray1[1] + reportsArray2[1]));
+            reportedComments.add("Valid training comments: " + reportsArray1[1]);
+            reportedComments.add("Valid nutrition comments: " + reportsArray2[1]);
+        }
+
+        return ResponseEntity.ok(reportedComments); //Return 200 OK with the list of comments
     }
 
     
