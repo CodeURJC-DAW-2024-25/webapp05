@@ -194,7 +194,15 @@ public class NutritionCommentController {
         return "redirect:/admin";
     }
 
+    @GetMapping("/nutritionComments/{commentId}/editcommentAdmin")
+    public String editCommentAdmin(Model model, @PathVariable Long commentId) {
+        return nutritionCommentService.editCommentAdminService(model, commentId);
+    }
 
+    @GetMapping("/nutritionComments/{commentId}/deleteAdmin")
+    public String deleteCommentAdmin(Model model, @PathVariable Long commentId) {
+        return nutritionCommentService.deleteCommentAdminService(model, commentId);
+    }
 
 
 

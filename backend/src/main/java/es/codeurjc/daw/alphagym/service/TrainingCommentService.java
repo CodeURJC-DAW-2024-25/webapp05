@@ -19,6 +19,9 @@ import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class TrainingCommentService {
@@ -105,6 +108,25 @@ public class TrainingCommentService {
                     return user != null && authentication.getName().equals(user.getEmail());
                 })
                 .orElse(false);
+    }
+
+    public String editCommentAdminService(Model model, @PathVariable Long commentId) {
+        TrainingComment comment = trainingCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            Training training = comment.getTraining();
+            return "redirect:/trainingComments/" + training.getId() + "/" + commentId + "/editcomment";
+        } else {
+            return "redirect:/admin";
+        }
+    }
+
+    public String deleteCommentAdminService(Model model, @PathVariable Long commentId) {
+        TrainingComment comment = trainingCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            Training training = comment.getTraining();
+            deleteCommentbyId(training, commentId);
+        }
+        return "redirect:/admin";
     }
 
     //REST METHODS

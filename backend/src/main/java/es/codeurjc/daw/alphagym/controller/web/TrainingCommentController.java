@@ -163,23 +163,12 @@ public class TrainingCommentController {
 
     @GetMapping("/trainingComments/{commentId}/editcommentAdmin")
     public String editCommentAdmin(Model model, @PathVariable Long commentId) {
-        TrainingComment comment = trainingCommentRepository.findById(commentId).orElse(null);
-        if (comment != null) {
-            Training training = comment.getTraining();
-            return "redirect:/trainingComments/" + training.getId() + "/" + commentId + "/editcomment";
-        } else {
-            return "redirect:/admin";
-        }
+        return trainingCommentService.editCommentAdminService(model, commentId);
     }
 
     @GetMapping("/trainingComments/{commentId}/deleteAdmin")
     public String deleteCommentAdmin(Model model, @PathVariable Long commentId) {
-        TrainingComment comment = trainingCommentRepository.findById(commentId).orElse(null);
-        if (comment != null) {
-            Training training = comment.getTraining();
-            trainingCommentService.deleteCommentbyId(training, commentId);
-        }
-        return "redirect:/admin";
+        return trainingCommentService.deleteCommentAdminService(model, commentId);
     }
 
     @GetMapping("/trainingComments/{trainingId}/moreComments")

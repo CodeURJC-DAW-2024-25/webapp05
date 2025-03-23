@@ -106,8 +106,7 @@ public class NutritionCommentService {
                 .orElse(false);
     }
 
-    // @GetMapping("/nutritionComments/{commentId}/editcommentAdmin")
-    public String editCommentAdmin(Model model, @PathVariable Long commentId) {
+    public String editCommentAdminService(Model model, @PathVariable Long commentId) {
         NutritionComment comment = nutritionCommentRepository.findById(commentId).orElse(null);
         if (comment != null) {
             Nutrition nutrition = comment.getNutrition();
@@ -117,8 +116,7 @@ public class NutritionCommentService {
         }
     }
 
-    // @GetMapping("/nutritionComments/{commentId}/deleteAdmin")
-    public String deleteCommentAdmin(Model model, @PathVariable Long commentId) {
+    public String deleteCommentAdminService(Model model, @PathVariable Long commentId) {
         NutritionComment comment = nutritionCommentRepository.findById(commentId).orElse(null);
         if (comment != null) {
             Nutrition nutrition = comment.getNutrition();
