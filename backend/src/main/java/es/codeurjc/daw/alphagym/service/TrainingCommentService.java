@@ -20,8 +20,6 @@ import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class TrainingCommentService {
@@ -110,7 +108,7 @@ public class TrainingCommentService {
                 .orElse(false);
     }
 
-    public String editCommentAdminService(Model model, @PathVariable Long commentId) {
+    public String editCommentAdminService(Model model, Long commentId) {
         TrainingComment comment = trainingCommentRepository.findById(commentId).orElse(null);
         if (comment != null) {
             Training training = comment.getTraining();
@@ -120,7 +118,7 @@ public class TrainingCommentService {
         }
     }
 
-    public String deleteCommentAdminService(Model model, @PathVariable Long commentId) {
+    public String deleteCommentAdminService(Model model, Long commentId) {
         TrainingComment comment = trainingCommentRepository.findById(commentId).orElse(null);
         if (comment != null) {
             Training training = comment.getTraining();
@@ -170,6 +168,35 @@ public class TrainingCommentService {
         }
     }
 
+   public TrainingCommentDTO reportTrainingComment(Long commentId) {
+        //Search a comment in the database
+        Optional<TrainingComment> optionalComment = trainingCommentRepository.findById(commentId);
+
+        if (optionalComment.isPresent()) {
+            TrainingComment comment = optionalComment.get();
+            comment.setIsNotified(true); // Mark it down as reported
+            trainingCommentRepository.save(comment); // Save changes
+
+            return toDTO(comment); // Return the DTO of the updated comment
+        } else {
+            throw new NoSuchElementException("No se encontró el comentario con id: " + commentId);
+        }
+    }
+
+    public TrainingCommentDTO unreportTrainingComment(Long commentId) {
+        // Search a comment in the database
+        Optional<TrainingComment> optionalComment = trainingCommentRepository.findById(commentId);
+
+        if (optionalComment.isPresent()) {
+            TrainingComment comment = optionalComment.get();
+            comment.setIsNotified(false); // Mark it down as reported
+            trainingCommentRepository.save(comment); // Save changes
+
+            return toDTO(comment); // Return the DTO of the updated comment
+        } else {
+            throw new NoSuchElementException("No se encontró el comentario con id: " + commentId);
+        }
+    }
 
 
     //Send to API

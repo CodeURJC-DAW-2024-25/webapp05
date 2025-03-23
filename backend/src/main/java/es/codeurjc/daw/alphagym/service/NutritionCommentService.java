@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import es.codeurjc.daw.alphagym.dto.NutritionCommentDTO;
 import es.codeurjc.daw.alphagym.dto.NutritionCommentMapper;
@@ -107,7 +105,7 @@ public class NutritionCommentService {
                 .orElse(false);
     }
 
-    public String editCommentAdminService(Model model, @PathVariable Long commentId) {
+    public String editCommentAdminService(Model model, Long commentId) {
         NutritionComment comment = nutritionCommentRepository.findById(commentId).orElse(null);
         if (comment != null) {
             Nutrition nutrition = comment.getNutrition();
@@ -117,7 +115,7 @@ public class NutritionCommentService {
         }
     }
 
-    public String deleteCommentAdminService(Model model, @PathVariable Long commentId) {
+    public String deleteCommentAdminService(Model model, Long commentId) {
         NutritionComment comment = nutritionCommentRepository.findById(commentId).orElse(null);
         if (comment != null) {
             Nutrition nutrition = comment.getNutrition();

@@ -13,11 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.codeurjc.daw.alphagym.dto.TrainingCommentDTO;
-import es.codeurjc.daw.alphagym.dto.TrainingDTO;
-import es.codeurjc.daw.alphagym.model.Training;
-import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.service.TrainingCommentService;
-import es.codeurjc.daw.alphagym.service.TrainingService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +30,6 @@ public class TrainingCommentRestcontroller {
 
     @Autowired
     TrainingCommentService trainingCommentService;
-
-    @Autowired
-    TrainingService trainingService;
 
     @GetMapping("/all")
     public Collection<TrainingCommentDTO> getAllTrainingComments() {
@@ -84,6 +77,18 @@ public class TrainingCommentRestcontroller {
     @DeleteMapping("/")
     public TrainingCommentDTO deleteTrainingComment(@RequestParam Long id) {
         return trainingCommentService.deleteCommentbyIdDTO(id);
+    }
+
+    @PutMapping("/report")
+    public ResponseEntity<TrainingCommentDTO> reportComment(@RequestParam Long commentId) {
+        TrainingCommentDTO updatedComment = trainingCommentService.reportTrainingComment(commentId);
+        return ResponseEntity.ok(updatedComment);
+    }
+
+    @PutMapping("/valid")
+    public ResponseEntity<TrainingCommentDTO> unreportComment(@RequestParam Long commentId) {
+        TrainingCommentDTO updatedComment = trainingCommentService.unreportTrainingComment(commentId);
+        return ResponseEntity.ok(updatedComment);
     }
 
 }

@@ -17,14 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.codeurjc.daw.alphagym.dto.NutritionCommentDTO;
-import es.codeurjc.daw.alphagym.dto.NutritionDTO;
-import es.codeurjc.daw.alphagym.dto.TrainingCommentDTO;
-import es.codeurjc.daw.alphagym.model.Nutrition;
-import es.codeurjc.daw.alphagym.model.NutritionComment;
-import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.service.NutritionCommentService;
-import es.codeurjc.daw.alphagym.service.NutritionService;
-import es.codeurjc.daw.alphagym.service.UserService;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
@@ -32,12 +25,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class NutritionCommentRestController {
     @Autowired
     private NutritionCommentService nutritionCommentService;
-
-    @Autowired
-    private NutritionService nutritionService;
-
-    @Autowired
-    private UserService userService;
 
     @GetMapping("/all")
     public Collection<NutritionCommentDTO> getNutritionComments() {

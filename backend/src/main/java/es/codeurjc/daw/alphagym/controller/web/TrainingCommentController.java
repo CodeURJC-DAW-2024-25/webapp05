@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;
-import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
 import es.codeurjc.daw.alphagym.service.TrainingCommentService;
 import es.codeurjc.daw.alphagym.service.TrainingService;
 import es.codeurjc.daw.alphagym.service.UserService;
@@ -30,8 +29,6 @@ public class TrainingCommentController {
     private TrainingCommentService trainingCommentService;
     @Autowired
     private TrainingService trainingService;
-    @Autowired
-    private TrainingCommentRepository trainingCommentRepository;
 
     @ModelAttribute("user")
     public void addAttributes(Model model, HttpServletRequest request){
