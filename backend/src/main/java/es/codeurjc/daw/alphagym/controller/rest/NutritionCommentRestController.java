@@ -89,4 +89,17 @@ public class NutritionCommentRestController {
     public NutritionCommentDTO deleteNutritionComment(@RequestParam Long id) {
         return nutritionCommentService.deleteCommentbyIdDTO(id);
     }
+
+    @PutMapping("/report")
+    public ResponseEntity<NutritionCommentDTO> reportComment(@RequestParam Long commentId) {
+        NutritionCommentDTO updatedComment = nutritionCommentService.reportNutritionComment(commentId);
+        return ResponseEntity.ok(updatedComment);
+    }
+
+    @PutMapping("/valid")
+    public ResponseEntity<NutritionCommentDTO> unreportComment(@RequestParam Long commentId) {
+        NutritionCommentDTO updatedComment = nutritionCommentService.unreportNutritionComment(commentId);
+        return ResponseEntity.ok(updatedComment);
+    }
+
 }

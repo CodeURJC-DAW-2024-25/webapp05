@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -178,6 +179,36 @@ public class NutritionCommentService {
         return toDTO(nutritionComment.orElse(null));
     }
 
+    public NutritionCommentDTO reportNutritionComment(Long commentId) {
+        //Search a comment in the database
+        Optional<NutritionComment> optionalComment = nutritionCommentRepository.findById(commentId);
+
+        if (optionalComment.isPresent()) {
+            NutritionComment comment = optionalComment.get();
+            comment.setIsNotified(true); // Mark it down as reported
+            nutritionCommentRepository.save(comment); // Save changes
+
+            return toDTO(comment); // Return the DTO of the updated comment
+        } else {
+            throw new NoSuchElementException("No se encontró el comentario con id: " + commentId);
+        }
+    }
+
+    public NutritionCommentDTO unreportNutritionComment(Long commentId) {
+        // Search a comment in the database
+        Optional<NutritionComment> optionalComment = nutritionCommentRepository.findById(commentId);
+
+        if (optionalComment.isPresent()) {
+            NutritionComment comment = optionalComment.get();
+            comment.setIsNotified(false); // Mark it down as reported
+            nutritionCommentRepository.save(comment); // Save changes
+
+            return toDTO(comment); // Return the DTO of the updated comment
+        } else {
+            throw new NoSuchElementException("No se encontró el comentario con id: " + commentId);
+        }
+    }
+
     // Send to API
     public NutritionCommentDTO toDTO(NutritionComment nutritionComment) {
         return nutritionCommentMapper.toDTO(nutritionComment);
@@ -188,7 +219,8 @@ public class NutritionCommentService {
         return nutritionCommentMapper.toDTOs(nutritionComments);
     }
 
-    // Data which comes from API result converted to the expected structure in the backend
+    // Data which comes from API result converted to the expected structure in the
+    // backend
     public NutritionComment toDomain(NutritionCommentDTO nutritionCommentDTO) {
         return nutritionCommentMapper.toDomain(nutritionCommentDTO);
     }
