@@ -1,5 +1,6 @@
 package es.codeurjc.daw.alphagym.service;
 
+import java.util.Collection;
 import java.util.List;
 import es.codeurjc.daw.alphagym.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+
+import es.codeurjc.daw.alphagym.dto.TrainingCommentDTO;
+import es.codeurjc.daw.alphagym.dto.TrainingCommentMapper;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
@@ -18,6 +22,9 @@ public class TrainingCommentService {
 
     @Autowired
     private TrainingCommentRepository trainingCommentRepository;
+
+    @Autowired
+    private TrainingCommentMapper trainingCommentMapper;
         
     public List<TrainingComment> getAllTrainingComments() {
         List<TrainingComment> listTrainingComments = trainingCommentRepository.findAll();
@@ -96,6 +103,40 @@ public class TrainingCommentService {
                 })
                 .orElse(false);
     }
+
+    //REST METHODS
+
+    public Collection<TrainingCommentDTO> getAllTrainingCommentsDTO() {
+        return trainingCommentMapper.toDTOs(trainingCommentRepository.findAll());
+    }
+
+    public Collection<TrainingCommentDTO> getTrainingCommentsByIdDTO(Long trainingId) {
+        return trainingCommentMapper.toDTOs(trainingCommentRepository.findByTrainingId(trainingId));
+    }
     
+    public List<TrainingCommentDTO> getPaginatedCommentsDTO(Long trainingId, int page, int limit) {
+        return trainingCommentRepository
+            .findByTrainingId(trainingId, PageRequest.of(page, limit))
+            .map(trainingCommentMapper::toDTO)
+            .toList();
+    }
+
+
+
+
+
+    //Send to API
+    public TrainingCommentDTO toDTO(TrainingComment trainingComment) {
+        return trainingCommentMapper.toDTO(trainingComment);
+    }
+    //Return a comment List to API
+    public Collection<TrainingCommentDTO> toDTOs(Collection<TrainingComment> trainingComments) {
+        return trainingCommentMapper.toDTOs(trainingComments);
+    }
+    //Data which comes from API result converted to the expected structure in the backend
+    public TrainingComment toDomain(TrainingCommentDTO trainingCommentDTO) {
+        return trainingCommentMapper.toDomain(trainingCommentDTO);
+    }
+
 }
 
