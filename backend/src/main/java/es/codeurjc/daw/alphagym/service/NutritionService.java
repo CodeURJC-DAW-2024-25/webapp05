@@ -272,15 +272,15 @@ public class NutritionService {
 		nutritionRepository.save(nutrition);
 	}
 
-    private NutritionDTO toDTO(Nutrition nutrition) {
+    public NutritionDTO toDTO(Nutrition nutrition) {
 		return nutritionMapper.toDTO(nutrition);
 	}
 
-    private Nutrition toDomain(NutritionDTO nutritionDTO) {
+    public Nutrition toDomain(NutritionDTO nutritionDTO) {
 		return nutritionMapper.toDomain(nutritionDTO);
 	}
 
-	private Collection<NutritionDTO> toDTOs(Collection<Nutrition> nutritions) {
+	public Collection<NutritionDTO> toDTOs(Collection<Nutrition> nutritions) {
 		return nutritionMapper.toDTOs(nutritions);
 	}
 }
