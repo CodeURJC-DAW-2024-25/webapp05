@@ -2,6 +2,7 @@ package es.codeurjc.daw.alphagym.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import es.codeurjc.daw.alphagym.model.User;
@@ -135,7 +136,17 @@ public class TrainingCommentService {
         return toDTO(trainingComment.orElse(null));
     }
 
+    public TrainingCommentDTO replaceTrainingCommentDTO(Long trainingId, TrainingCommentDTO updatedCommentDTO) {
 
+        if (trainingCommentRepository.existsById(trainingId)) {
+            TrainingComment updatedComment = toDomain(updatedCommentDTO);
+            updatedComment.setId(trainingId);
+            trainingCommentRepository.save(updatedComment);
+            return toDTO(updatedComment);
+        } else {
+            throw new NoSuchElementException("No se encontró el comentario con id: " + trainingId);
+        }
+    }
 
 
 
