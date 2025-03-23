@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.codeurjc.daw.alphagym.dto.NutritionCommentDTO;
 import es.codeurjc.daw.alphagym.dto.NutritionDTO;
+import es.codeurjc.daw.alphagym.dto.TrainingCommentDTO;
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.model.User;
@@ -61,77 +63,30 @@ public class NutritionCommentRestController {
     public ResponseEntity<NutritionCommentDTO> createNutritionComment(
             @RequestBody NutritionCommentDTO nutritionCommentDTO) {
 
-        // Guardar el comentario y obtener el DTO resultante
-        nutritionCommentDTO = nutritionCommentService.createNutritionComment(nutritionCommentDTO);
+        // Save the comment and get DTO
+        nutritionCommentDTO = nutritionCommentService.createNutritionCommentDTO(nutritionCommentDTO);
 
-        // Construir la URI para el recurso creado
+        // Build the URI for the created resource
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(nutritionCommentDTO.id()) // Suponiendo que NutritionCommentDTO tiene un método id()
+                .buildAndExpand(nutritionCommentDTO.id())
                 .toUri();
 
-        // Retornar la respuesta con código 201 Created y el DTO en el cuerpo
+        // Return the response with 201 Created code and the DTO in the body
         return ResponseEntity.created(location).body(nutritionCommentDTO);
     }
 
-    /* 
-    @PutMapping("/{id}")
+    @PutMapping("/")
     public ResponseEntity<NutritionCommentDTO> updateNutritionComment(
-            @PathVariable long id,
+            @RequestParam Long id,
             @RequestBody NutritionCommentDTO updatedCommentDTO) {
 
-        NutritionCommentDTO updatedComment = nutritionCommentService.replaceNutritionComment(id, updatedCommentDTO);
+        NutritionCommentDTO updatedComment = nutritionCommentService.replaceNutritionCommentDTO(id, updatedCommentDTO);
         return ResponseEntity.ok(updatedComment);
     }
-    */
 
-    /*
-     * @PostMapping("/")
-     * public ResponseEntity<NutritionCommentDTO> createNutritionComment(
-     * 
-     * @RequestBody NutritionCommentDTO nutritionCommentDTO,
-     * 
-     * @RequestParam Long nutritionId) {
-     * 
-     * NutritionComment nutritionComment =
-     * nutritionCommentService.toDomain(nutritionCommentDTO);
-     * Nutrition nutrition = nutritionService.getNutrition(nutritionId);
-     * NutritionDTO nutritionDTO = nutritionService.toDTO(nutrition);
-     * nutritionComment.setNutrition(nutrition);
-     * // nutritionCommentService.createNutritionComment(nutritionComment,null);
-     * URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-     * .path("/{id}")
-     * .buildAndExpand(nutritionComment.getId()).toUri();
-     * return ResponseEntity.created(location).body(nutritionCommentService.toDTO(
-     * nutritionComment));
-     * }
-     */
-
-    /*
-     * @PostMapping("/")
-     * public ResponseEntity<NutritionCommentDTO> createNutritionComment(
-     * 
-     * @RequestBody NutritionCommentDTO nutritionCommentDTO,
-     * 
-     * @RequestParam Long nutritionId) {
-     * // Obtener los datos relacionados (esto depende de cómo gestiones los
-     * objetos)
-     * Nutrition nutrition = nutritionCommentService.toDomain(nutritionCommentDTO);
-     * User user = userService.getUserById(nutritionCommentDTO.getId());
-     * 
-     * // Crear el comentario con DTO
-     * NutritionCommentDTO createdComment =
-     * nutritionCommentService.createNutritionCommentDTO(nutritionCommentDTO,
-     * nutrition, user);
-     * 
-     * // Construir la URI del nuevo recurso
-     * URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-     * .path("/{id}")
-     * .buildAndExpand(createdComment.getId())
-     * .toUri();
-     * 
-     * return ResponseEntity.created(location).body(createdComment);
-     * }
-     */
-
+    @DeleteMapping("/")
+    public NutritionCommentDTO deleteNutritionComment(@RequestParam Long id) {
+        return nutritionCommentService.deleteCommentbyIdDTO(id);
+    }
 }

@@ -2,6 +2,8 @@ package es.codeurjc.daw.alphagym.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -126,7 +128,7 @@ public class NutritionCommentService {
     }
 
     /*
-     * ADD DTOs METHODS
+     * Add the following DTOs methods
      */
     public Collection<NutritionCommentDTO> getAllNutritionCommentsDTO() {
         return nutritionCommentMapper.toDTOs(nutritionCommentRepository.findAll());
@@ -143,109 +145,41 @@ public class NutritionCommentService {
                 .toList();
     }
 
-    public NutritionCommentDTO createNutritionComment(NutritionCommentDTO nutritionCommentDTO) {
+    public NutritionCommentDTO createNutritionCommentDTO(NutritionCommentDTO nutritionCommentDTO) {
         NutritionComment nutritionComment = toDomain(nutritionCommentDTO);
         nutritionComment = nutritionCommentRepository.save(nutritionComment);
         return toDTO(nutritionComment);
     }
 
-    public void replaceNutritionComment(NutritionCommentDTO nutritionCommentDTO) {
-        nutritionCommentRepository.save(toDomain(nutritionCommentDTO));
+    public NutritionCommentDTO replaceNutritionCommentDTO(Long nutritionId, NutritionCommentDTO updatedCommentDTO) {
+
+        // Verify if the comment exists in the database
+        if (nutritionCommentRepository.existsById(nutritionId)) {
+
+            // Convert the updated DTO to the domain entity
+            NutritionComment updatedComment = toDomain(updatedCommentDTO);
+
+            // Assign the same ID to the updated comment
+            updatedComment.setId(nutritionId);
+
+            // Save the updated comment in the database
+            nutritionCommentRepository.save(updatedComment);
+
+            // Return the updated comment DTO
+            return toDTO(updatedComment);
+
+        } else {
+            // Throw an exception if the comment is not found
+            throw new NoSuchElementException("No se encontró el comentario con id: " + nutritionId);
+        }
     }
 
-    /*
-     * public NutritionCommentDTO createNutritionCommentDTO(NutritionCommentDTO
-     * nutritionCommentDTO, Nutrition nutrition, User user) {
-     * // Convertir DTO a entidad
-     * NutritionComment nutritionComment = toDomain(nutritionCommentDTO);
-     * 
-     * // Llamar al método original para asignar user y nutrition
-     * createNutritionComment(nutritionComment, nutrition, user);
-     * 
-     * // Retornar el DTO del comentario guardado
-     * return toDTO(nutritionComment);
-     * }
-     */
+    public NutritionCommentDTO deleteCommentbyIdDTO(Long commentId) {
+        Optional<NutritionComment> nutritionComment = nutritionCommentRepository.findById(commentId);
+        nutritionCommentRepository.deleteById(commentId);
+        return toDTO(nutritionComment.orElse(null));
+    }
 
-    /*
-     * public NutritionCommentDTO createNutritionCommentDTO(NutritionCommentDTO
-     * nutritionCommentDTO) {
-     * NutritionComment nutritionComment = toDomain(nutritionCommentDTO);
-     * nutritionComment = nutritionCommentRepository.save(nutritionComment);
-     * return toDTO(nutritionComment);
-     * }
-     * public NutritionCommentDTO getCommentByIdDTO(Long commentId) {
-     * return toDTO(nutritionCommentRepository.findById(commentId).orElse(null));
-     * }
-     * public void updateCommentDTO(NutritionCommentDTO nutritionCommentDTO) {
-     * nutritionCommentRepository.save(toDomain(nutritionCommentDTO));
-     * }
-     * public void deleteCommentbyIdDTO(Long commentId) {
-     * nutritionCommentRepository.deleteById(commentId);
-     * }
-     * public void reportCommentbyIdDTO(Long commentId) {
-     * NutritionComment comment =
-     * nutritionCommentRepository.findById(commentId).orElse(null);
-     * if (comment != null) {
-     * comment.setIsNotified(true);
-     * nutritionCommentRepository.save(comment);
-     * }
-     * }
-     * public void unreportCommentbyIdDTO(Long commentId) {
-     * NutritionComment comment =
-     * nutritionCommentRepository.findById(commentId).orElse(null);
-     * if (comment != null) {
-     * comment.setIsNotified(false);
-     * nutritionCommentRepository.save(comment);
-     * }
-     * }
-     * public Long[] getReportAmmmountsDTO() {
-     * Long reported = nutritionCommentRepository.countByIsNotified(true);
-     * Long notReported = nutritionCommentRepository.countByIsNotified(false);
-     * return new Long[] {reported, notReported};
-     * }
-     * public Collection<NutritionCommentDTO> getReportedCommentsDTO() {
-     * return
-     * nutritionCommentMapper.toDTOs(nutritionCommentRepository.findByIsNotified(
-     * true));
-     * }
-     * public Collection<NutritionCommentDTO> getPaginatedCommentsDTO(Long
-     * nutritionId, int page, int limit){
-     * return nutritionCommentMapper.toDTOs(getPaginatedComments(nutritionId, page,
-     * limit));
-     * }
-     * public boolean isOwnerCommentDTO(Long commentId, Authentication
-     * authentication) {
-     * return nutritionCommentRepository.findById(commentId)
-     * .map(comment -> {
-     * User user = comment.getUser();
-     * return user != null && authentication.getName().equals(user.getEmail());
-     * })
-     * .orElse(false);
-     * }
-     * public void createNutritionCommentDTO(NutritionCommentDTO
-     * nutritionCommentDTO, Nutrition nutrition, User user) {
-     * NutritionComment nutritionComment = toDomain(nutritionCommentDTO);
-     * nutritionComment.setUser(user);
-     * nutritionComment.setNutrition(nutrition);
-     * nutritionComment = nutritionCommentRepository.save(nutritionComment);
-     * nutrition.getComments().add(nutritionComment);
-     * }
-     * public void deleteCommentbyIdDTO(Nutrition nutrition, Long commentId) {
-     * NutritionComment comment =
-     * nutritionCommentRepository.findById(commentId).orElse(null);
-     * if (comment != null) {
-     * nutrition.getComments().remove(comment);
-     * }
-     * nutritionCommentRepository.deleteById(commentId);
-     * }
-     * public void updateCommentDTO(NutritionCommentDTO nutritionCommentDTO,
-     * Nutrition nutrition) {
-     * NutritionComment comment = toDomain(nutritionCommentDTO);
-     * comment.setNutrition(nutrition);
-     * nutritionCommentRepository.save(comment);
-     * }
-     */
     // Send to API
     public NutritionCommentDTO toDTO(NutritionComment nutritionComment) {
         return nutritionCommentMapper.toDTO(nutritionComment);
@@ -256,8 +190,7 @@ public class NutritionCommentService {
         return nutritionCommentMapper.toDTOs(nutritionComments);
     }
 
-    // Data which comes from API result converted to the expected structure in the
-    // backend
+    // Data which comes from API result converted to the expected structure in the backend
     public NutritionComment toDomain(NutritionCommentDTO nutritionCommentDTO) {
         return nutritionCommentMapper.toDomain(nutritionCommentDTO);
     }

@@ -9,7 +9,6 @@ public class NutritionComment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String description;
-    private String author;
     private String name;
     private boolean isNotified = false;
 
@@ -40,10 +39,6 @@ public class NutritionComment {
         return description;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
     public boolean getIsNotified() {
         return isNotified;
     }
@@ -61,10 +56,6 @@ public class NutritionComment {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public void setName(String name){
