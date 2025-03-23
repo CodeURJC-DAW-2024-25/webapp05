@@ -3,6 +3,7 @@ package es.codeurjc.daw.alphagym.controller.rest;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
@@ -94,4 +95,14 @@ public class TrainingRestController {
         trainingService.deleteTrainingImage(trainingId);
         return ResponseEntity.noContent().build();
     }
+
+    /*@GetMapping("/")
+    public ResponseEntity<List<TrainingDTO>> getPaginatedTrainings(
+            @RequestParam Long trainingId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit) {
+
+        List<TrainingDTO> trainingDTOs = trainingService.getPaginatedTrainingsDTO(trainingId, page, limit);
+        return ResponseEntity.ok(trainingDTOs);
+    }*/
 }

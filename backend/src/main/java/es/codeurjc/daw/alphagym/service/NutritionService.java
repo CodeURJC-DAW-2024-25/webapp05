@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.NoSuchElementException;
+
 import es.codeurjc.daw.alphagym.dto.NutritionDTO;
 import es.codeurjc.daw.alphagym.dto.NutritionMapper;
 
@@ -283,5 +284,12 @@ public class NutritionService {
 	public Collection<NutritionDTO> toDTOs(Collection<Nutrition> nutritions) {
 		return nutritionMapper.toDTOs(nutritions);
 	}
+
+    /*public List<NutritionDTO> getPaginatedNutritionsDTO(Long id, int page, int limit) {
+        return nutritionRepository
+                .findById(id, PageRequest.of(page, limit))
+                .map(nutritionMapper::toDTO)
+                .toList();
+    }*/
 }
 

@@ -3,6 +3,7 @@ package es.codeurjc.daw.alphagym.controller.rest;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 import java.io.IOException;
 
 import org.springframework.core.io.Resource;
@@ -98,6 +99,16 @@ public class NutritionRestController {
 
         return ResponseEntity.noContent().build();
     }
+
+    /*@GetMapping("/")
+    public ResponseEntity<List<NutritionDTO>> getPaginatedNutritions(
+            @RequestParam Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit) {
+
+        List<NutritionDTO> nutritionDTOs = nutritionService.getPaginatedNutritionsDTO(id, page, limit);
+        return ResponseEntity.ok(nutritionDTOs);
+    }*/
 
 
     
