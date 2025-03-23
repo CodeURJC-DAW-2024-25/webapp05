@@ -18,6 +18,7 @@ public class Training {
     private String description;
     private boolean image;
     private String goal;
+    private String Img; //for rest
 
     @Lob
     @JsonIgnore
@@ -54,6 +55,8 @@ public class Training {
         return comments;
     }
 
+    public String getImg() {return Img;}
+
     public Blob getImgTraining() { return imgTraining;}
     public long getId() { return id;}
     public int getDuration() { return duration;}
@@ -75,5 +78,7 @@ public class Training {
     public void setUser(User user) {this.user = user;}
     public void setImgTraining(Blob image) {this.imgTraining = image;}
     public void setImage(boolean image) {this.image = image;}
+
+    public void setImg(String img) {Img = img;}
     
 }

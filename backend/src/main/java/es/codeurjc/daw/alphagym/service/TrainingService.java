@@ -1,21 +1,30 @@
 package es.codeurjc.daw.alphagym.service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.sql.rowset.serial.SerialBlob;
 
+import es.codeurjc.daw.alphagym.dto.TrainingDTO;
+import es.codeurjc.daw.alphagym.dto.TrainingMapper;
+import es.codeurjc.daw.alphagym.dto.UniqueTrainingDTO;
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.net.URI;
 
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
@@ -33,6 +42,8 @@ public class TrainingService {
     private TrainingCommentRepository trainingCommentRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TrainingMapper trainingMapper;
 
     public Training createTraining(Training training, User user) throws SQLException, IOException {
         Training newTraining = new Training(training.getName(),training.getIntensity(),training.getDuration(),training.getGoal(),training.getDescription());
@@ -155,6 +166,104 @@ public class TrainingService {
         return trainingRepository.findAll(pageable).getContent();
     }
 
+    //Part of Rest with DTOs
 
+    public Collection<TrainingDTO> getAllDtoTrainings(){
+        return trainingMapper.toDTOs(trainingRepository.findAll());
+    }
+
+    public UniqueTrainingDTO getDtoTraining(Long trainingId){
+        return trainingMapper.toUniqueDTO(trainingRepository.findById(trainingId).get());
+    }
+    public TrainingDTO toDTO(Training training) {
+        return trainingMapper.toDTO(training);
+    }
+
+    public Training toDomain(TrainingDTO trainingDTO) {
+        return trainingMapper.toDomain(trainingDTO);
+    }
+
+    private Collection<TrainingDTO> toDTOs(Collection<Training> trainings) {
+        return trainingMapper.toDTOs(trainings);
+    }
+
+    public void save (Training training){
+        trainingRepository.save(training);
+    }
+
+    public TrainingDTO replaceTraining(Long trainingId, TrainingDTO trainingDTO) throws SQLException {
+        Training oldTraining = trainingRepository.findById(trainingId).orElseThrow();
+        if (trainingRepository.findById(trainingId)!=null) {
+            Training training = toDomain(trainingDTO);
+            training.setId(trainingId);
+            training.setTrainingComments(trainingRepository.findById(trainingId).get().getComments());
+            training.setImgTraining(BlobProxy.generateProxy(oldTraining.getImgTraining().getBinaryStream(),oldTraining.getImgTraining().length()));
+            trainingRepository.save(training);
+            return toDTO(training);
+        } else {
+            throw new NoSuchElementException();
+        }
+
+    }
+
+    public TrainingDTO deleteTraining(Long id){
+        Optional<Training> theRoutine = trainingRepository.findById(id);
+        if (theRoutine.isPresent()) {
+            Training training = theRoutine.get();
+
+            List<User> usersWithTraining = userRepository.findByTrainingsContaining(training);
+            for (User user : usersWithTraining) {
+                user.getTrainings().remove(training);
+                userRepository.save(user);
+            }
+
+            List<TrainingComment> trainingComments = trainingCommentRepository.findByTrainingId(id);
+
+            for (TrainingComment trainingComment : trainingComments) {
+                trainingCommentRepository.delete(trainingComment);
+
+            }
+            trainingRepository.deleteById(id);
+            return toDTO(training);
+        }
+        return null;
+    }
+
+    public InputStreamResource getTrainingImage(long trainingId) throws SQLException {
+        Training training = trainingRepository.findById(trainingId).orElseThrow();
+        if (training.getImgTraining() != null) {
+            return new InputStreamResource(training.getImgTraining().getBinaryStream());
+        } else {
+            throw new NoSuchElementException();  }
+    }
+
+    public void createTrainingImage(long trainingId, URI location, InputStream inputStream, long size) {
+        Training training = trainingRepository.findById(trainingId).orElseThrow();
+        training.setImg(location.toString());
+        training.setImgTraining(BlobProxy.generateProxy(inputStream, size));
+        trainingRepository.save(training);
+    }
+
+    public void replaceTrainingImage(long trainingId, InputStream inputStream, long size) {
+        Training training = trainingRepository.findById(trainingId).orElseThrow();
+        if(training.getImg() == null){
+            throw new NoSuchElementException();
+        }
+        training.setImgTraining(BlobProxy.generateProxy(inputStream, size));
+        trainingRepository.save(training);
+    }
+
+    public void deleteTrainingImage(long trainingId) throws IOException, SQLException {
+        Training training = trainingRepository.findById(trainingId).orElseThrow();
+        if(training.getImgTraining() == null){
+            throw new NoSuchElementException();
+        }
+        ClassPathResource imgFileDefault = new ClassPathResource("static/images/emptyImage.png");
+        byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
+        Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
+        training.setImgTraining(imageBlobDefault);
+        training.setImg(null);
+        trainingRepository.save(training);
+    }
 
 }

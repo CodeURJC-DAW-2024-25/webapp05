@@ -69,9 +69,8 @@ public class NutritionRestController {
     @PostMapping("/{id}/image")
     public ResponseEntity<Object> createNutritionImage(@PathVariable long id, @RequestParam MultipartFile imgNutrition) throws IOException {
 
-        nutritionService.createNutritionImage(id, imgNutrition.getInputStream(), imgNutrition.getSize());
-
         URI location = fromCurrentRequest().build().toUri();
+        nutritionService.createNutritionImage(id, imgNutrition.getInputStream(), imgNutrition.getSize());
 
         return ResponseEntity.created(location).build();
     }

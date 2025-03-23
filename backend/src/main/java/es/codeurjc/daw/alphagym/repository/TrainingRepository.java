@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TrainingRepository extends JpaRepository<Training, Long> {
     List<Training> findByName(String name);
-    List<Training> findById(long id);
+    Optional<Training> findById(Long id);
 
     @EntityGraph(attributePaths = "user")
     Optional<Training> findWithUserById(Long id);
