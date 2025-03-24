@@ -8,6 +8,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.security.Principal;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import es.codeurjc.daw.alphagym.dto.NutritionCommentDTO;
 import es.codeurjc.daw.alphagym.dto.UserDTO;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.service.NutritionCommentService;
@@ -39,7 +39,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import es.codeurjc.daw.alphagym.security.LoginRequest;
 
 
 @RestController
@@ -82,7 +81,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "404", description = "Users not found", content = @Content)
     })
     @GetMapping("/all")
-    public Iterable<UserDTO> getUsers() {
+    public Collection<UserDTO> getUsers() {
 
         return userService.getUsers();
 
@@ -127,16 +126,17 @@ public class UserRestController {
 
     }
 
-    // Log in as a user
+    /* Log in as a user
     @Operation(summary = "Authenticate user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Login successful"),
             @ApiResponse(responseCode = "401", description = "Invalid credentials")
     })
+
     @PostMapping("/access")
     public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
         return userService.login(loginRequest);
-    }
+    }*/
 
     @Operation(summary = "Registers a new user")
     @ApiResponses(value = {

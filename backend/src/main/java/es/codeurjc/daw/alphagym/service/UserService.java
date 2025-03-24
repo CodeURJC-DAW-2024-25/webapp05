@@ -25,6 +25,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -52,16 +53,7 @@ public class UserService {
     private User toUser(UserDTO userDTO) {
         return mapper.toUser(userDTO);
     }
-    /* 
-    public ResponseEntity<Object> login(LoginRequest loginRequest) {
-        
-        Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return ResponseEntity.ok().build();
-    }
-    */
+   
     public ResponseEntity<Object> login(LoginRequest loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -207,7 +199,7 @@ public class UserService {
             userRepository.save(user);
     }
 
-    public Iterable<UserDTO> getUsers() {
+    public Collection<UserDTO> getUsers() {
         return mapper.toUserDTOs(userRepository.findAll());
     }
 
