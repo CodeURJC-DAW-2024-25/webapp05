@@ -82,10 +82,31 @@ public class WebSecurityConfig {
 		http
 			.authorizeHttpRequests(authorize -> authorize     
 
-				// PRIVATE ENDPOINTS                
+				// PRIVATE ENDPOINTS
+				//For user
 				.requestMatchers(HttpMethod.POST,"/api/users/").hasAnyRole("USER")                
 				.requestMatchers(HttpMethod.PUT,"/api/users/**").hasAnyRole("USER", "ADMIN")                
-				.requestMatchers(HttpMethod.DELETE,"/api/users/**").hasRole("ADMIN")    
+				.requestMatchers(HttpMethod.DELETE,"/api/users/**").hasRole("ADMIN")
+
+				//For Training
+				.requestMatchers(HttpMethod.POST,"/api/trainings/").hasAnyRole("USER")
+				.requestMatchers(HttpMethod.PUT,"/api/trainings/*").hasAnyRole("USER")
+				.requestMatchers(HttpMethod.DELETE,"/api/trainings/**").hasRole("ADMIN")
+
+				//For Nutrition
+				.requestMatchers(HttpMethod.POST,"/api/nutritions/").hasAnyRole("USER")
+				.requestMatchers(HttpMethod.PUT,"/api/nutritions/").hasAnyRole("USER")
+				.requestMatchers(HttpMethod.DELETE,"/api/nutritions/**").hasRole("ADMIN")
+
+				//For TrainingComments
+				.requestMatchers(HttpMethod.POST,"/api/trainingComments/").hasAnyRole("USER")
+				.requestMatchers(HttpMethod.PUT,"/api/trainingComments/*").hasAnyRole("USER")
+				.requestMatchers(HttpMethod.DELETE,"/api/trainingComments/**").hasRole("ADMIN")
+
+				//For NutritionComments
+				.requestMatchers(HttpMethod.POST,"/api/nutritionComments/").hasAnyRole("USER")
+				.requestMatchers(HttpMethod.PUT,"/api/nutritionComments/").hasAnyRole("USER")
+				.requestMatchers(HttpMethod.DELETE,"/api/nutritionComments/**").hasRole("ADMIN")
 				
 				// PUBLIC ENDPOINTS    
 				.anyRequest().permitAll() 

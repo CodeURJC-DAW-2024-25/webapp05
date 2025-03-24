@@ -5,7 +5,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.codeurjc.daw.alphagym.dto.NutritionCommentDTO;
@@ -63,13 +67,19 @@ public class NutritionCommentRestController {
         return ResponseEntity.created(location).body(nutritionCommentDTO);
     }
 
-    @PutMapping("/")
-    public ResponseEntity<NutritionCommentDTO> updateNutritionComment(
+    @PutMapping("/{id}")
+    public NutritionCommentDTO updateNutritionComment(
             @RequestParam Long id,
             @RequestBody NutritionCommentDTO updatedCommentDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        NutritionCommentDTO updatedComment = nutritionCommentService.replaceNutritionCommentDTO(id, updatedCommentDTO);
-        return ResponseEntity.ok(updatedComment);
+        if (nutritionCommentService.isOwnerComment(id, authentication) || authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+            return nutritionCommentService.replaceNutritionCommentDTO(id, updatedCommentDTO);
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para editar este entrenamiento");
+        }
+
     }
 
     @DeleteMapping("/")

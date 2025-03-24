@@ -15,7 +15,10 @@ import es.codeurjc.daw.alphagym.service.TrainingService;
 import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
@@ -63,7 +67,15 @@ public class TrainingRestController {
 
     @PutMapping("/{trainingId}")
     public TrainingDTO replacePost(@PathVariable long trainingId, @RequestBody TrainingDTO trainingDTO) throws SQLException {
-        return trainingService.replaceTraining(trainingId, trainingDTO);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (trainingService.isOwner(trainingId, authentication) || authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+
+            return trainingService.replaceTraining(trainingId,trainingDTO );
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para editar este entrenamiento");
+        }
     }
 
     @DeleteMapping("/{trainingId}")

@@ -9,7 +9,10 @@ import java.io.IOException;
 import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
+
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 @RestController
@@ -57,8 +62,15 @@ public class NutritionRestController {
 
     @PutMapping("/{id}")
     public NutritionDTO editDiet (@PathVariable Long id, @RequestBody NutritionDTO updateNutritionDTO) throws SQLException{
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (nutritionService.isOwner(id, authentication) || authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
 
             return nutritionService.editDietDTO(id, updateNutritionDTO);
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para editar este entrenamiento");
+        }
     }
 
     @DeleteMapping("/{id}")

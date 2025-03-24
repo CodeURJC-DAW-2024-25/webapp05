@@ -91,7 +91,7 @@ public class TrainingController {
             Optional<User> user = userService.findByEmail(principal.getName());
             if (user.isPresent()) {
                 Boolean isAdmin = user.get().isRole("ADMIN");
-                // Evitar NullPointerException si la rutina no tiene usuario asignado
+                // Avoid NullPointerException if it hasn`t author
                 Boolean canEdit = isAdmin || (training.getUser() != null && training.getUser().getId().equals(user.get().getId()));
                 boolean isSubscribed = user.get().getTrainings().contains(training);
 

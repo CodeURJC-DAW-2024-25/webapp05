@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
+
+import es.codeurjc.daw.alphagym.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,22 +37,30 @@ public class DataBaseInit {
     private TrainingCommentService trainingCommentService;
     @Autowired
     private NutritionCommentService nutritionCommentService;
+    @Autowired
+    private UserRepository userRepository;
 
     @PostConstruct
     public void init() throws IOException, SQLException {
 
         //Users Examples
         User admin = new User("admin", "admin@admin.com", passwordEncoder.encode("adminpass"), "ADMIN", "USER");
-        userService.save(admin);
+        if (!userRepository.existsByEmail("admin@admin.com")) {
+            userService.save(admin);
+        }
 
-        User user = new User("user", "user@user.com", passwordEncoder.encode("pass"), "USER");
-
+        User user = new User("user", "user@user.com", passwordEncoder.encode("pass"),"USER");
         ClassPathResource imgFileDefault = new ClassPathResource("static/images/emptyImage.png");
         byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
         Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
         user.setImgUser(imageBlobDefault);
 
-        userService.save(user);
+        if (!userRepository.existsByEmail("user@user.com")) {
+            userService.save(user);
+        }
+
+
+
 
         //Trainings Examples
         Training chestPlan = new Training("Chest Plan","80%",60,"Increase volume", "Press de banca : 4x8-10\n" +
@@ -238,16 +248,16 @@ public class DataBaseInit {
         entidad5.setIsNotified(true);
         entidad11.setIsNotified(true);
 
-        trainingCommentService.createTrainingComment(descansos, chestPlan,user);
+        trainingCommentService.createTrainingComment(descansos, chestPlan,null);
         trainingCommentService.createTrainingComment(hidratación, chestPlan, null);
         trainingCommentService.createTrainingComment(entidad1, chestPlan,null);
         trainingCommentService.createTrainingComment(entidad2, armsPlan,null);
-        trainingCommentService.createTrainingComment(entidad3, chestPlan,user);
+        trainingCommentService.createTrainingComment(entidad3, chestPlan,null);
         trainingCommentService.createTrainingComment(entidad4, chestPlan,null);
         trainingCommentService.createTrainingComment(entidad5, legsPlan,null);
         trainingCommentService.createTrainingComment(entidad6, chestPlan,null);
         trainingCommentService.createTrainingComment(entidad7, absPlan,null);
-        trainingCommentService.createTrainingComment(entidad8, chestPlan,user);
+        trainingCommentService.createTrainingComment(entidad8, chestPlan,null);
         trainingCommentService.createTrainingComment(entidad9, chestPlan,null);
         trainingCommentService.createTrainingComment(entidad10, backPlan,null);
         trainingCommentService.createTrainingComment(entidad11, chestPlan,null);
@@ -308,19 +318,19 @@ public class DataBaseInit {
         comentario5.setIsNotified(true);
         comentario7.setIsNotified(true);
 
-        nutritionCommentService.createNutritionComment(variedad,caloricDeficit,user);
+        nutritionCommentService.createNutritionComment(variedad,caloricDeficit,null);
         nutritionCommentService.createNutritionComment(frutas,caloricDeficit,null);
         nutritionCommentService.createNutritionComment(comentario1,caloricDeficit,null);
-        nutritionCommentService.createNutritionComment(comentario2,caloricSurplus,user);
+        nutritionCommentService.createNutritionComment(comentario2,caloricSurplus,null);
         nutritionCommentService.createNutritionComment(comentario3,caloricDeficit,null);
         nutritionCommentService.createNutritionComment(comentario4,caloricDeficit,null);
         nutritionCommentService.createNutritionComment(comentario5,caloricSurplus,null);
-        nutritionCommentService.createNutritionComment(comentario6,caloricDeficit,user);
+        nutritionCommentService.createNutritionComment(comentario6,caloricDeficit,null);
         nutritionCommentService.createNutritionComment(comentario7,caloricSurplus,null);
-        nutritionCommentService.createNutritionComment(comentario8,caloricDeficit,user);
+        nutritionCommentService.createNutritionComment(comentario8,caloricDeficit,null);
         nutritionCommentService.createNutritionComment(comentario9,caloricDeficit,null);
         nutritionCommentService.createNutritionComment(comentario10,maintenanceDiet,null);
-        nutritionCommentService.createNutritionComment(comentario11,caloricDeficit,user);
+        nutritionCommentService.createNutritionComment(comentario11,caloricDeficit,null);
         nutritionCommentService.createNutritionComment(comentario12,caloricDeficit,null);
         nutritionCommentService.createNutritionComment(comentario13,maintenanceDiet,null);
         nutritionCommentService.createNutritionComment(comentario14,caloricDeficit,null);
