@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TrainingRepository extends JpaRepository<Training, Long> {
     List<Training> findByName(String name);
     Optional<Training> findById(Long id);
-    //Page<Training> findById(Long id, Pageable pageable);
+    Page<Training> findById(Long id, Pageable pageable);
 
     @EntityGraph(attributePaths = "user")
     Optional<Training> findWithUserById(Long id);

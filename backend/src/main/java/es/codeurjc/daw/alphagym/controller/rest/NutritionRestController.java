@@ -112,7 +112,7 @@ public class NutritionRestController {
         return ResponseEntity.noContent().build();
     }
 
-    /*@GetMapping("/")
+    @GetMapping("/paginated")
     public ResponseEntity<List<NutritionDTO>> getPaginatedNutritions(
             @RequestParam Long id,
             @RequestParam(defaultValue = "0") int page,
@@ -120,7 +120,7 @@ public class NutritionRestController {
 
         List<NutritionDTO> nutritionDTOs = nutritionService.getPaginatedNutritionsDTO(id, page, limit);
         return ResponseEntity.ok(nutritionDTOs);
-    }*/
+    }
 
 
     

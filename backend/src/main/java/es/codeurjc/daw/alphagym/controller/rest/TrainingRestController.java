@@ -108,7 +108,7 @@ public class TrainingRestController {
         return ResponseEntity.noContent().build();
     }
 
-    /*@GetMapping("/")
+    @GetMapping("/paginated")
     public ResponseEntity<List<TrainingDTO>> getPaginatedTrainings(
             @RequestParam Long trainingId,
             @RequestParam(defaultValue = "0") int page,
@@ -116,5 +116,5 @@ public class TrainingRestController {
 
         List<TrainingDTO> trainingDTOs = trainingService.getPaginatedTrainingsDTO(trainingId, page, limit);
         return ResponseEntity.ok(trainingDTOs);
-    }*/
+    }
 }

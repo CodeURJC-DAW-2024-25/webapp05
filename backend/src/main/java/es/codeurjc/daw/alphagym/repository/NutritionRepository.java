@@ -12,7 +12,7 @@ import es.codeurjc.daw.alphagym.model.Nutrition;
 public interface NutritionRepository extends JpaRepository<Nutrition, Long> {
     Optional<Nutrition> findById(long id);
     List<Nutrition> findByName(String name);
-    //Page<Nutrition> findById(Long id, Pageable pageable);
+    Page<Nutrition> findById(Long id, Pageable pageable);
 
     @EntityGraph(attributePaths = "user")
     Optional<Nutrition> findWithUserById(Long id);
