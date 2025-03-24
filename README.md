@@ -430,4 +430,106 @@ Principalmente he participado en la gestion de las API Rest de los comentarios. 
 | #4             | [NutritionCommentService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/NutritionCommentService.java)                                  |
 | #5             | [UserRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/UserRestController.java)                                    |
 
+### Catalin Mazarache
+
+#### Descripcion general:
+Me he encargado de la parte Rest y Service de Nutrition Comments. He corregido errores que se han dado a lo largo de la fase 2 en otras clases.
+
+#### Mis 5 commits mas relevantes
+
+| Commit | Descripción                          | Link                                                                                                                                                                                                 |
+| ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1     | Initialize Rest Controller Nutrition Comment | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/dce6d4ac0c5ef820ebdda8e0fb6f242b1ef49cf6](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/dce6d4ac0c5ef820ebdda8e0fb6f242b1ef49cf6) |
+| #2     | Added methods for handling NutritionComment in both NutritionCommentRestController and NutritionCommentService     | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/4875a2b35abfb4fa8be4147e0518f11b26a2aec8](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/4875a2b35abfb4fa8be4147e0518f11b26a2aec8) |
+| #3     | Implemented report and unreport comments in service and REST controller of NutritionComment  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/36ba22e941a8ce56f36f56826f375fbc68f931b9](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/36ba22e941a8ce56f36f56826f375fbc68f931b9) |
+| #4     | Updated login method with email authentication and response codes  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/a94c482a2ac06985cb336da1a348b176867788a1](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/a94c482a2ac06985cb336da1a348b176867788a1) |
+| #5     | Added @operation and @ApiResponses annotations  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/3daf71f1adc6e96bf737eb6eb7a2dd9089489d4f](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/3daf71f1adc6e96bf737eb6eb7a2dd9089489d4f) |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero                                                                                                                                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1             | [NutritionCommentRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/NutritionCommentRestController.java)              |
+| #2             | [NutritionCommentService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/NutritionCommentService.java)                                    |
+| #3             | [UserService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/UserService.java)            |
+| #4             | [UserRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/UserRestController.java)                                  |
+| #5             | [TrainingRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/TrainingRestController.java)                                    |
+
+### Víctor Candel Casado
+
+#### Descripcion general: Pendiente de rellenar
+
+
+#### Mis 5 commits mas relevantes
+
+| Commit | Descripción                          | Link                                                                                                                                                                                                 |
+| ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1     | Nombre commit | []() |
+| #2     | Nombre commit     | []() |
+| #3     | Nombre commit  | []() |
+| #4     | Nombre commit  | []() |
+| #5     | Nombre commit  | []() |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero                                                                                                                                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1             | []()              |
+| #2             | []()                                    |
+| #3             | []()            |
+| #4             | []()                                  |
+| #5             | []()                                    |
+
+### Jonathan Xavier Medina Salas
+
+#### Descripcion general: Pendiente de rellenar
+
+
+#### Mis 5 commits mas relevantes
+
+| Commit | Descripción                          | Link                                                                                                                                                                                                 |
+| ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1     | Nombre commit | []() |
+| #2     | Nombre commit     | []() |
+| #3     | Nombre commit  | []() |
+| #4     | Nombre commit  | []() |
+| #5     | Nombre commit  | []() |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero                                                                                                                                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1             | []()              |
+| #2             | []()                                    |
+| #3             | []()            |
+| #4             | []()                                  |
+| #5             | []()                                    |
+
+### Adrián Esteban Martín
+
+#### Descripcion general: Pendiente de rellenar
+
+
+#### Mis 5 commits mas relevantes
+
+| Commit | Descripción                          | Link                                                                                                                                                                                                 |
+| ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1     | Nombre commit | []() |
+| #2     | Nombre commit     | []() |
+| #3     | Nombre commit  | []() |
+| #4     | Nombre commit  | []() |
+| #5     | Nombre commit  | []() |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero                                                                                                                                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1             | []()              |
+| #2             | []()                                    |
+| #3             | []()            |
+| #4             | []()                                  |
+| #5             | []()                                    |
+
+
+
 
