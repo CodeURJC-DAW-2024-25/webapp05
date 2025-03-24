@@ -365,18 +365,11 @@ Mis tareas han sido gestionar la entidad "Training" y las entidades de las que e
 
 ## Documentación de la API REST
 
+Se puede acceder a la documentación de la API de 2 formas, a traves de consultar directamente el .yaml o través del .html.
 
+[Fichero .yaml](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/api-docs/api-docs.yaml)
 
-
-
-
-
-
-
-
-
-
-
+[Fichero .html](https://raw.githack.com/CodeURJC-DAW-2024-25/webapp05/main/api-docs/api-docs.html)
 
 
 ## Documentación para desplegar la aplicación en el servidor
