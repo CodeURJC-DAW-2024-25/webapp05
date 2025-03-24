@@ -18,6 +18,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.codeurjc.daw.alphagym.dto.TrainingCommentDTO;
 import es.codeurjc.daw.alphagym.service.TrainingCommentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,16 +38,34 @@ public class TrainingCommentRestcontroller {
     @Autowired
     TrainingCommentService trainingCommentService;
 
+    @Operation(summary = "Get all training comments",description="Get all training comments")
+    @ApiResponses(value={
+        @ApiResponse(responseCode="200",description="Training comments found"),
+        @ApiResponse(responseCode="400",description="Bad request"),
+        @ApiResponse(responseCode="404",description="Training comments not found")
+    })
     @GetMapping("/all")
     public Collection<TrainingCommentDTO> getAllTrainingComments() {
         return trainingCommentService.getAllTrainingCommentsDTO();
     }
-    
+
+    @Operation(summary = "Get training comments by training id",description="Get training comments by training id")
+    @ApiResponses(value={
+        @ApiResponse(responseCode="200",description="Training comments found"),
+        @ApiResponse(responseCode="400",description="Bad request"),
+        @ApiResponse(responseCode="404",description="Training comments not found")
+    })
     @GetMapping("/{trainingId}/")
     public Collection<TrainingCommentDTO> getTrainingCommentsByTrainingId(@PathVariable Long trainingId) {
         return trainingCommentService.getTrainingCommentsByIdDTO(trainingId);
     }
     
+    @Operation(summary = "Get paginated training comments",description="Get paginated training comments")
+    @ApiResponses(value={
+        @ApiResponse(responseCode="200",description="Training comments found"),
+        @ApiResponse(responseCode="400",description="Bad request"),
+        @ApiResponse(responseCode="404",description="Training comments not found")
+    })
     @GetMapping("/")
     public ResponseEntity<List<TrainingCommentDTO>> getPaginatedTrainingComments(
             @RequestParam Long trainingId,
@@ -55,6 +76,13 @@ public class TrainingCommentRestcontroller {
         return ResponseEntity.ok(comments);
     }
 
+    @Operation(summary = "Create a new training comment",description="Create a new training comment")
+    @ApiResponses(value={
+        @ApiResponse(responseCode="201",description="Training comment created"),
+        @ApiResponse(responseCode="400",description="Bad request"),
+        @ApiResponse(responseCode="403",description="Forbidden-Access denied"),
+        @ApiResponse(responseCode="404",description="Training comment not created")
+    })
     @PostMapping("/")
     public ResponseEntity<TrainingCommentDTO> createTrainingComment(
             @RequestBody TrainingCommentDTO trainingCommentDTO) throws SQLException, IOException {
@@ -69,6 +97,13 @@ public class TrainingCommentRestcontroller {
 
     }
 
+    @Operation(summary = "Update a training comment",description="Update a training comment")
+    @ApiResponses(value={
+        @ApiResponse(responseCode="200",description="Training comment updated"),
+        @ApiResponse(responseCode="400",description="Bad request"),
+        @ApiResponse(responseCode="403",description="Forbidden-Access denied"),
+        @ApiResponse(responseCode="404",description="Training comment not updated")
+    })
     @PutMapping("/")
     public TrainingCommentDTO updateTrainingComment(
             @RequestParam Long id,
@@ -85,17 +120,38 @@ public class TrainingCommentRestcontroller {
 
     }
 
+    @Operation(summary = "Delete a training comment",description="Delete a training comment")
+    @ApiResponses(value={
+        @ApiResponse(responseCode="200",description="Training comment deleted"),
+        @ApiResponse(responseCode="400",description="Bad request"),
+        @ApiResponse(responseCode="403",description="Forbidden-Access denied"),
+        @ApiResponse(responseCode="404",description="Training comment not deleted")
+    })
     @DeleteMapping("/")
     public TrainingCommentDTO deleteTrainingComment(@RequestParam Long id) {
         return trainingCommentService.deleteCommentbyIdDTO(id);
     }
 
+    @Operation(summary = "Report training comment",description="Report training comment")
+    @ApiResponses(value={
+        @ApiResponse(responseCode="200",description="Training comment reported"),
+        @ApiResponse(responseCode="400",description="Bad request"),
+        @ApiResponse(responseCode="403",description="Forbidden-Access denied"),
+        @ApiResponse(responseCode="404",description="Training comment not reported")
+    })
     @PutMapping("/report")
     public ResponseEntity<TrainingCommentDTO> reportComment(@RequestParam Long commentId) {
         TrainingCommentDTO updatedComment = trainingCommentService.reportTrainingComment(commentId);
         return ResponseEntity.ok(updatedComment);
     }
 
+    @Operation(summary = "Unreport training comment",description="Unreport training comment")
+    @ApiResponses(value={
+        @ApiResponse(responseCode="200",description="Training comment unreported"),
+        @ApiResponse(responseCode="400",description="Bad request"),
+        @ApiResponse(responseCode="403",description="Forbidden-Access denied"),
+        @ApiResponse(responseCode="404",description="Training comment not unreported")
+    })
     @PutMapping("/valid")
     public ResponseEntity<TrainingCommentDTO> unreportComment(@RequestParam Long commentId) {
         TrainingCommentDTO updatedComment = trainingCommentService.unreportTrainingComment(commentId);
