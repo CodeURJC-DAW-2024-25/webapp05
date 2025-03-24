@@ -155,6 +155,9 @@ public class WebSecurityConfig {
 						.requestMatchers("/nutritionComments/*/moreComments").permitAll()
 						.requestMatchers("/training/image/**").permitAll()
 						.requestMatchers("/nutrition/image/**").permitAll()
+						.requestMatchers("/v3/api-docs*/**").permitAll()
+						.requestMatchers("/swagger-ui.html").permitAll()
+						.requestMatchers("/swagger-ui/**").permitAll()
 
 						// PRIVATE PAGES
                         .requestMatchers("/account/**").hasAnyRole("USER")
