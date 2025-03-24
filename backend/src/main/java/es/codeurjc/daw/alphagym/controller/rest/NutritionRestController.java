@@ -18,7 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.daw.alphagym.dto.NutritionDTO;
+import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.service.NutritionService;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,17 +44,50 @@ public class NutritionRestController {
     @Autowired
     private NutritionService nutritionService;
 
+    @Operation(summary = "Get all nutritions")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found all nutritions", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Nutrition.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad request - Invalid parametes", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access - Authentication is required", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Forbidden - You don't have permission to access", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Nutritions not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+
     @GetMapping("/")
     public Collection <NutritionDTO> getNutritions () {
         
         return nutritionService.getAllNutritionsDTO(); 
     }
     
+    @Operation(summary = "Get a nutrition by ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Nutrition found", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = NutritionDTO.class))}),
+        @ApiResponse(responseCode = "400", description = "Bad request - Invalid parameters", content = @Content),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access - Authentication is required", content = @Content),
+        @ApiResponse(responseCode = "403", description = "Forbidden - You don't have permission to access", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Nutrition not found", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+
     @GetMapping("/{id}")
     public NutritionDTO getNutrition(@PathVariable Long id) {
 
         return nutritionService.getNutritionDTO(id);
     }
+
+    @Operation(summary = "Create a new nutrition")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Nutrition created successfully", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = NutritionDTO.class))}),
+        @ApiResponse(responseCode = "400", description = "Bad request - Invalid input data", content = @Content),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access - Authentication is required", content = @Content),
+        @ApiResponse(responseCode = "403", description = "Forbidden - You don't have permission to access", content = @Content),
+        @ApiResponse(responseCode = "409", description = "Conflict - Nutrition already exists", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
 
    @PostMapping("/")
     public ResponseEntity<NutritionDTO> createNutrition (@RequestBody NutritionDTO nutritionDTO){
@@ -59,6 +98,17 @@ public class NutritionRestController {
 
             return ResponseEntity.created(location).body(nutritionDTO);
     }
+
+    @Operation(summary = "Edit a nutrition by ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Nutrition updated successfully", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = NutritionDTO.class))}),
+        @ApiResponse(responseCode = "400", description = "Bad request - Invalid input data", content = @Content),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access", content = @Content),
+        @ApiResponse(responseCode = "403", description = "Forbidden - You don't have permission to edit", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Nutrition not found", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
 
     @PutMapping("/{id}")
     public NutritionDTO editDiet (@PathVariable Long id, @RequestBody NutritionDTO updateNutritionDTO) throws SQLException{
@@ -73,11 +123,29 @@ public class NutritionRestController {
         }
     }
 
+    @Operation(summary = "Delete a nutrition by ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Nutrition deleted successfully", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = NutritionDTO.class))}),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access", content = @Content),
+        @ApiResponse(responseCode = "403", description = "Forbidden - You don't have permission to delete", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Nutrition not found", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+
     @DeleteMapping("/{id}")
     public NutritionDTO deleteNutrition(@PathVariable Long id){
 
             return nutritionService.deleteDietDTO(id);
     }
+
+    @Operation(summary = "Upload an image for a nutrition")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Image uploaded successfully", content = @Content),
+        @ApiResponse(responseCode = "400", description = "Bad request - Invalid file format", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Nutrition not found", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
 
     @PostMapping("/{id}/image")
     public ResponseEntity<Object> createNutritionImage(@PathVariable long id, @RequestParam MultipartFile imgNutrition) throws IOException {
@@ -88,6 +156,13 @@ public class NutritionRestController {
         return ResponseEntity.created(location).build();
     }
 
+    @Operation(summary = "Retrieve the image of a nutrition")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Image retrieved successfully", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Nutrition or image not found", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+
     @GetMapping("/{id}/image")
     public ResponseEntity<Object> getNutritionImage(@PathVariable long id) throws SQLException, IOException {
 
@@ -95,6 +170,14 @@ public class NutritionRestController {
 
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(postImage);
     }
+
+    @Operation(summary = "Replace the image of a nutrition")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Image replaced successfully", content = @Content),
+        @ApiResponse(responseCode = "400", description = "Bad request - Invalid file format", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Nutrition not found", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
 
     @PutMapping("/{id}/image")
     public ResponseEntity<Object> replaceNutritionImage(@PathVariable long id, @RequestParam MultipartFile imgNutrition) throws IOException {
@@ -104,6 +187,13 @@ public class NutritionRestController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Delete the image of a nutrition")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Image deleted successfully", content = @Content),
+        @ApiResponse(responseCode = "404", description = "Nutrition not found", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+
     @DeleteMapping("/{id}/image")
     public ResponseEntity<Object> deleteNutritionImage(@PathVariable long id) throws IOException {
 
@@ -111,6 +201,14 @@ public class NutritionRestController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(summary = "Get paginated nutritions")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Nutritions retrieved successfully", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = NutritionDTO.class))}),
+        @ApiResponse(responseCode = "400", description = "Bad request - Invalid pagination parameters", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
 
     @GetMapping("/paginated")
     public ResponseEntity<List<NutritionDTO>> getPaginatedNutritions(
