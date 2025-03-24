@@ -285,9 +285,9 @@ public class NutritionService {
 		return nutritionMapper.toDTOs(nutritions);
 	}
 
-    public List<NutritionDTO> getPaginatedNutritionsDTO(Long id, int page, int limit) {
+    public List<NutritionDTO> getPaginatedNutritionsDTO(int page, int limit) {
         return nutritionRepository
-                .findById(id, PageRequest.of(page, limit))
+                .findAll(PageRequest.of(page, limit))
                 .map(nutritionMapper::toDTO)
                 .toList();
     }

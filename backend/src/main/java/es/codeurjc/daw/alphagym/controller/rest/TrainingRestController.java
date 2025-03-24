@@ -53,7 +53,7 @@ public class TrainingRestController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<TrainingDTO> createUser(@RequestBody TrainingDTO trainingDTO) throws SQLException, IOException {
+    public ResponseEntity<TrainingDTO> createTraing(@RequestBody TrainingDTO trainingDTO) throws SQLException, IOException {
 
         Training training = trainingService.toDomain(trainingDTO);
         trainingService.createTraining(training, null);
@@ -110,11 +110,10 @@ public class TrainingRestController {
 
     @GetMapping("/paginated")
     public ResponseEntity<List<TrainingDTO>> getPaginatedTrainings(
-            @RequestParam Long trainingId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int limit) {
 
-        List<TrainingDTO> trainingDTOs = trainingService.getPaginatedTrainingsDTO(trainingId, page, limit);
+        List<TrainingDTO> trainingDTOs = trainingService.getPaginatedTrainingsDTO(page, limit);
         return ResponseEntity.ok(trainingDTOs);
     }
 }

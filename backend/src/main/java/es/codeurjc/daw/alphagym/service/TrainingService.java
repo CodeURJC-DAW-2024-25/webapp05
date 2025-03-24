@@ -266,9 +266,9 @@ public class TrainingService {
         trainingRepository.save(training);
     }
 
-    public List<TrainingDTO> getPaginatedTrainingsDTO(Long trainingId, int page, int limit) {
+    public List<TrainingDTO> getPaginatedTrainingsDTO(int page, int limit) {
         return trainingRepository
-                .findById(trainingId, PageRequest.of(page, limit))
+                .findAll(PageRequest.of(page, limit))
                 .map(trainingMapper::toDTO)
                 .toList();
     }
