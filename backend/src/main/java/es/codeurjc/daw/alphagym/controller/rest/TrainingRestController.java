@@ -5,11 +5,9 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.io.IOException;
-import java.util.NoSuchElementException;
 
 import es.codeurjc.daw.alphagym.dto.TrainingDTO;
 import es.codeurjc.daw.alphagym.dto.UniqueTrainingDTO;
-import es.codeurjc.daw.alphagym.dto.UserDTO;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.service.TrainingService;
 import org.springframework.core.io.Resource;
@@ -53,7 +51,7 @@ public class TrainingRestController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<TrainingDTO> createTraing(@RequestBody TrainingDTO trainingDTO) throws SQLException, IOException {
+    public ResponseEntity<TrainingDTO> createTraining(@RequestBody TrainingDTO trainingDTO) throws SQLException, IOException {
 
         Training training = trainingService.toDomain(trainingDTO);
         trainingService.createTraining(training, null);
