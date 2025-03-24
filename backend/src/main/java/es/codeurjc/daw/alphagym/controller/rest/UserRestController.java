@@ -59,6 +59,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "200", description = "Found the user", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
             @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
     @GetMapping("/me")
     public UserDTO me(HttpServletRequest request) {
