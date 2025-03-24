@@ -360,3 +360,81 @@ Mis tareas han sido gestionar la entidad "Training" y las entidades de las que e
 | #4             | [Training.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/model/Training.java)                                                     |
 | #5             | [file.js](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/resources/static/js/file.js)                                       |
 
+
+# Fase 2
+
+## Documentación de la API REST
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Documentación para desplegar la aplicación en el servidor
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Diagrama de clases y templates: 
+Este diagrama proporciona información general sobre la estructura de la aplicación y de cómo interactuan entre ellas. Tambien incorpora los nuevos REST Controller:
+
+![Diagrama](https://github.com/user-attachments/assets/96c20d5a-7767-44b1-bf2a-ed6fb0435a1c)
+
+
+Rosa: Templates
+Verde: @Controller y @RestController
+Rojo: @Service
+Azul: @Repository
+Amarillo: Entidades
+
+
+## Participacion de los miembros
+
+### Adrián Dueñas Minguez
+
+#### Descripcion general:
+Principalmente he participado en la gestion de las API Rest de los comentarios. También me he asegurado de arreglar los bugs que fueran surgiendo con el desarrollo.
+
+#### Mis 5 commits mas relevantes
+
+| Commit | Descripción                          | Link                                                                                                                                                                                                 |
+| ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1     | Create TrainingCommentRestController | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/2557b04163befa30e756f7c37c9c57323ac70bc1](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/2557b04163befa30e756f7c37c9c57323ac70bc1) |
+| #2     | Post & delete training comments      | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/c66162e9e2bbc31baaa5ef6d2c65ee196e79b663](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/c66162e9e2bbc31baaa5ef6d2c65ee196e79b663) |
+| #3     | Info for graphic visualization       | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/42eaf125e9f0a72b30921bc1bb384329b1dede12](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/42eaf125e9f0a72b30921bc1bb384329b1dede12) |
+| #4     | Admin web functions fixed            | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/a03c983ef29ed7622d75a0787b0d6e041cbe9606](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/a03c983ef29ed7622d75a0787b0d6e041cbe9606) |
+| #5     | Report & unreport training comments  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/9f3b7a7bb752f045b4bdc95623bbc7446952ffef](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/9f3b7a7bb752f045b4bdc95623bbc7446952ffef) |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero                                                                                                                                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1             | [TrainingCommentRestcontroller.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/TrainingCommentRestcontroller.java)              |
+| #2             | [TrainingCommentService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/TrainingCommentService.java)                                    |
+| #3             | [NutritionCommentRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/NutritionCommentRestController.java)            |
+| #4             | [NutritionCommentService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/NutritionCommentService.java)                                  |
+| #5             | [UserRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/UserRestController.java)                                    |
+
+
