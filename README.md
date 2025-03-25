@@ -479,28 +479,28 @@ En esta segunda fase me he encargado de solucionar lagun error de la entrega ant
 
 ### Jonathan Xavier Medina Salas
 
-#### Descripcion general: Pendiente de rellenar
+Durante esta fase me he encargado de hacer la API Rest de la entidad User, de integrar a la aplicacion la seguridad de API Rest y dar solución a problemas generales.
 
 
 #### Mis 5 commits mas relevantes
 
 | Commit | Descripción                          | Link                                                                                                                                                                                                 |
 | ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| #1     | Nombre commit | []() |
-| #2     | Nombre commit     | []() |
-| #3     | Nombre commit  | []() |
-| #4     | Nombre commit  | []() |
-| #5     | Nombre commit  | []() |
+| #1     | add UserRestController with UserDTO        | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/170badab13c752c858116ee45a38e87776e202ce] (https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/170badab13c752c858116ee45a38e87776e202ce) |
+| #2     | add ApiResponses in UserRestController     | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/4de61b35ee19fd81b0f4ee3b39d7d6fee913e8a6] (https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/4de61b35ee19fd81b0f4ee3b39d7d6fee913e8a6) |
+| #3     | add RestSecurity                           | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/b6d09a1ed52cf9f2aeadae63447042e5c54fad0d] (https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/b6d09a1ed52cf9f2aeadae63447042e5c54fad0d) |
+| #4     | update pom and fix usermapper              | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/a93296335b4fccea2c15e85b9578b4449fb23aae] (https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/a93296335b4fccea2c15e85b9578b4449fb23aae) |
+| #5     | fix userRestController                     | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ccef8b971ae6502289bb34f9442de662b5734e88] (https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ccef8b971ae6502289bb34f9442de662b5734e88) |
 
 #### Los 5 ficheros que más he modificado
 
 | Número fichero | Fichero                                                                                                                                                                                                         |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| #1             | []()              |
-| #2             | []()                                    |
-| #3             | []()            |
-| #4             | []()                                  |
-| #5             | []()                                    |
+| #1             | [UserRestController.java]      | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/UserRestController.java)
+| #2             | [WebSecurityConfig.java] ()    | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/security/WebSecurityConfig.java)
+| #3             | [UserMapper.java]()            | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/dto/UserMapper.java)
+| #4             | [LoginController.java]         | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/auth/LoginController.java)                                  
+| #5             | [UserDTO.java]                 | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/dto/UserDTO.java)
 
 ### Adrián Esteban Martín
 
