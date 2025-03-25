@@ -496,11 +496,11 @@ Durante esta fase me he encargado de hacer la API Rest de la entidad User, de in
 
 | Número fichero | Fichero                                                                                                                                                                                                         |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| #1             | [UserRestController.java]      | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/UserRestController.java)
-| #2             | [WebSecurityConfig.java] ()    | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/security/WebSecurityConfig.java)
-| #3             | [UserMapper.java]()            | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/dto/UserMapper.java)
-| #4             | [LoginController.java]         | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/auth/LoginController.java)                                  
-| #5             | [UserDTO.java]                 | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/dto/UserDTO.java)
+| #1             | [UserRestController.java]()     | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/UserRestController.java)
+| #2             | [WebSecurityConfig.java]()      | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/security/WebSecurityConfig.java)
+| #3             | [UserMapper.java]()             | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/dto/UserMapper.java)
+| #4             | [LoginController.java]()        | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/auth/LoginController.java)                                  
+| #5             | [UserDTO.java]()                | (https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/dto/UserDTO.java)
 
 ### Adrián Esteban Martín
 
