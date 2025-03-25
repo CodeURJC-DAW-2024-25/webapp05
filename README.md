@@ -231,6 +231,7 @@ Rojo: @Service
 Azul: @Repository
 Amarillo: Entidades
 
+
 ## Participacion de los miembros
 
 ### Adrián Dueñas Minguez
@@ -372,22 +373,18 @@ Se puede acceder a la documentación de la API de 2 formas, a traves de consulta
 [Fichero .html](https://raw.githack.com/CodeURJC-DAW-2024-25/webapp05/main/api-docs/api-docs.html)
 
 
-## Documentación para desplegar la aplicación en el servidor
+## Creacion de la imagen y contenedores docker
+Se necesita tener instalado docker. Para empezar debemos acceder al proyecto en el cmd 
 
+Posteriormente acceder a la carpeta docker y ejecutar ->  ./create_Image.ps1 
 
+Previamente se ha debido realizar "mvn package" para generar la carpeta tarjet, que contendra el archivo .jar
 
+Cabe destacar que se necesitara el nombre del usuario de la cuenta de docker para lanzar la imagen, dicho nombre se introducira en el create_Image.ps1 sustituyendo vcandel:
 
+![image](https://github.com/user-attachments/assets/5291a1b3-a952-4cfe-8c16-2eec34ed020f)
 
-
-
-
-
-
-
-
-
-
-
+Para crear los contenedores correspondientes en la misma ruta del cmd introduciremos -> docker compose up 
 
 
 ## Diagrama de clases y templates: 
@@ -457,28 +454,28 @@ Me he encargado de la parte Rest y Service de Nutrition Comments. He corregido e
 
 ### Víctor Candel Casado
 
-#### Descripcion general: Pendiente de rellenar
-
+#### Descripcion general:
+En esta segunda fase me he encargado de solucionar lagun error de la entrega anterior asi como ha manejar la entidad "Training" en la Api Rest, también he protegido rutas de la parte Rest y he creado tanto la imagen como los contenedores docker.
 
 #### Mis 5 commits mas relevantes
 
 | Commit | Descripción                          | Link                                                                                                                                                                                                 |
 | ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| #1     | Nombre commit | []() |
-| #2     | Nombre commit     | []() |
-| #3     | Nombre commit  | []() |
-| #4     | Nombre commit  | []() |
-| #5     | Nombre commit  | []() |
+| #1     | Push docker image and docker compose   | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/57ef7e94c8590029b8e89e321b2d328fd12a5e21](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/57ef7e94c8590029b8e89e321b2d328fd12a5e21) |
+| #2     | Security for api and verification of canEdit any item and implemente persistence to the db   | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/b63b4ea8e6ee316bc6c2c1f3a69c866867cbbdda](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/b63b4ea8e6ee316bc6c2c1f3a69c866867cbbdda) |
+| #3     | Initialize Rest for Training (CRED)  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/a3481161c39f6ca3904d9f01ce690006f8ff83c4](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/a3481161c39f6ca3904d9f01ce690006f8ff83c4) |
+| #4     | Fix error| [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/e2ce91014b511292c7b4f9298afa9fa536f5006b](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/e2ce91014b511292c7b4f9298afa9fa536f5006b) |
+| #5     | Add @operation and @ApiResponses in NutritionRestController  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/03fc324c7ee03ad8d04364c4344cda282744f36e](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/03fc324c7ee03ad8d04364c4344cda282744f36e) |
 
 #### Los 5 ficheros que más he modificado
 
 | Número fichero | Fichero                                                                                                                                                                                                         |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| #1             | []()              |
-| #2             | []()                                    |
-| #3             | []()            |
-| #4             | []()                                  |
-| #5             | []()                                    |
+| #1             | [docker](https://github.com/CodeURJC-DAW-2024-25/webapp05/tree/main/docker)              |
+| #2             | [TrainingRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/TrainingRestController.java)                                    |
+| #3             | [TrainingService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/TrainingService.java)            |
+| #4             | [WebSecurityConfig.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/security/WebSecurityConfig.java)                                  |
+| #5             | [TrainingMapper.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/dto/TrainingMapper.java)                                    |
 
 ### Jonathan Xavier Medina Salas
 
