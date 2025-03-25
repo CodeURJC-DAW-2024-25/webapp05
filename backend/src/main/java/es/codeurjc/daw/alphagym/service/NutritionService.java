@@ -54,9 +54,12 @@ public class NutritionService {
             newNutrition.setImgNutrition(nutrition.getImgNutrition());
         } else {
             ClassPathResource imgFileDefault = new ClassPathResource("static/images/emptyImage.png");
-            byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
-            Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
-            newNutrition.setImgNutrition(imageBlobDefault);
+            byte[] imageBytes;
+            try (InputStream inputStream = imgFileDefault.getInputStream()) {
+                imageBytes = inputStream.readAllBytes();
+            }
+            Blob imageBlob = new SerialBlob(imageBytes);
+            newNutrition.setImgNutrition(imageBlob);
         }
         nutritionRepository.save(newNutrition);
         return newNutrition;

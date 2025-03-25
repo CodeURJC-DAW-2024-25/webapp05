@@ -5,8 +5,11 @@ import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import es.codeurjc.daw.alphagym.security.LoginRequest;
 
+import es.codeurjc.daw.alphagym.security.jwt.JwtTokenProvider;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,9 @@ public class UserService {
     @Autowired
 	private UserMapper mapper;
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
     private UserDTO toUserDTO(User user) {
         return mapper.toUserDTO(user);
     }
@@ -81,9 +87,12 @@ public class UserService {
         user.setRoles(List.of(roles));
 
         ClassPathResource imgFileDefault = new ClassPathResource("static/images/emptyImage.png");
-        byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
-        Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
-        user.setImgUser(imageBlobDefault);
+        byte[] imageBytes;
+        try (InputStream inputStream = imgFileDefault.getInputStream()) {
+            imageBytes = inputStream.readAllBytes();
+        }
+        Blob imageBlob = new SerialBlob(imageBytes);
+        user.setImgUser(imageBlob);
         user.setImage(true);
     
         return user; 
@@ -202,5 +211,6 @@ public class UserService {
     public Collection<UserDTO> getUsers() {
         return mapper.toUserDTOs(userRepository.findAll());
     }
+
 
 }

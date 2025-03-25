@@ -84,7 +84,6 @@ public class WebSecurityConfig {
 
 				// PRIVATE ENDPOINTS
 				//For user
-				.requestMatchers(HttpMethod.POST,"/api/users/").hasAnyRole("USER")                
 				.requestMatchers(HttpMethod.PUT,"/api/users/**").hasAnyRole("USER", "ADMIN")                
 				.requestMatchers(HttpMethod.DELETE,"/api/users/**").hasRole("ADMIN")
 
@@ -255,10 +254,15 @@ public class WebSecurityConfig {
 									new AuthorizationDecision(true) : new AuthorizationDecision(false);
 						})
 
-                        )
+                        );
 
+				http.formLogin(formLogin -> formLogin.disable());
+				http.logout(logout -> logout.disable())
+				.csrf(csrf -> csrf.disable())
 
-				.formLogin(formLogin -> formLogin
+				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+				/*.formLogin(formLogin -> formLogin
 						.loginPage("/login")
 						.failureUrl("/login?error=true")
 						.defaultSuccessUrl("/index")
@@ -267,7 +271,7 @@ public class WebSecurityConfig {
 				.logout(logout -> logout
 						.logoutUrl("/logout")
 						.logoutSuccessUrl("/")
-						.permitAll());
+						.permitAll());*/
 
 		return http.build();
 	}

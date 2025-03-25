@@ -1,6 +1,7 @@
 package es.codeurjc.daw.alphagym.service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -50,10 +51,13 @@ public class DataBaseInit {
         }
 
         User user = new User("user", "user@user.com", passwordEncoder.encode("pass"),"USER");
-        ClassPathResource imgFileDefault = new ClassPathResource("static/images/emptyImage.png");
-        byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
-        Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
-        user.setImgUser(imageBlobDefault);
+        ClassPathResource imgFile0 = new ClassPathResource("static/images/emptyImage.png");
+        byte[] imageBytes0;
+        try (InputStream inputStream = imgFile0.getInputStream()) {
+            imageBytes0 = inputStream.readAllBytes();
+        }
+        Blob imageBlob0 = new SerialBlob(imageBytes0);
+        user.setImgUser(imageBlob0);
 
         if (!userRepository.existsByEmail("user@user.com")) {
             userService.save(user);
@@ -125,32 +129,50 @@ public class DataBaseInit {
 
 
         ClassPathResource imgFile1 = new ClassPathResource("static/images/plan_pecho.jpg");
-        byte[] imageBytes1 = Files.readAllBytes(imgFile1.getFile().toPath());
+        byte[] imageBytes1;
+        try (InputStream inputStream = imgFile1.getInputStream()) {
+            imageBytes1 = inputStream.readAllBytes();
+        }
         Blob imageBlob1 = new SerialBlob(imageBytes1);
         chestPlan.setImgTraining(imageBlob1);
 
         ClassPathResource imgFile2 = new ClassPathResource("static/images/plan_brazo.jpeg");
-        byte[] imageBytes2 = Files.readAllBytes(imgFile2.getFile().toPath());
+        byte[] imageBytes2;
+        try (InputStream inputStream = imgFile2.getInputStream()) {
+            imageBytes2 = inputStream.readAllBytes();
+        }
         Blob imageBlob2 = new SerialBlob(imageBytes2);
         armsPlan.setImgTraining(imageBlob2);
 
         ClassPathResource imgFile3 = new ClassPathResource("static/images/plan_pierna.jpeg");
-        byte[] imageBytes3 = Files.readAllBytes(imgFile3.getFile().toPath());
+        byte[] imageBytes3;
+        try (InputStream inputStream = imgFile3.getInputStream()) {
+            imageBytes3 = inputStream.readAllBytes();
+        }
         Blob imageBlob3 = new SerialBlob(imageBytes3);
         legsPlan.setImgTraining(imageBlob3);
 
         ClassPathResource imgFile4 = new ClassPathResource("static/images/plan_abs.jpg");
-        byte[] imageBytes4 = Files.readAllBytes(imgFile4.getFile().toPath());
+        byte[] imageBytes4;
+        try (InputStream inputStream = imgFile4.getInputStream()) {
+            imageBytes4 = inputStream.readAllBytes();
+        }
         Blob imageBlob4 = new SerialBlob(imageBytes4);
         absPlan.setImgTraining(imageBlob4);
 
         ClassPathResource imgFile5 = new ClassPathResource("static/images/plan_espalda.jpeg");
-        byte[] imageBytes5 = Files.readAllBytes(imgFile5.getFile().toPath());
+        byte[] imageBytes5;
+        try (InputStream inputStream = imgFile5.getInputStream()) {
+            imageBytes5 = inputStream.readAllBytes();
+        }
         Blob imageBlob5 = new SerialBlob(imageBytes5);
         backPlan.setImgTraining(imageBlob5);
 
         ClassPathResource imgFile6 = new ClassPathResource("static/images/plan_hombros.jpeg");
-        byte[] imageBytes6 = Files.readAllBytes(imgFile6.getFile().toPath());
+        byte[] imageBytes6;
+        try (InputStream inputStream = imgFile6.getInputStream()) {
+            imageBytes6 = inputStream.readAllBytes();
+        }
         Blob imageBlob6 = new SerialBlob(imageBytes6);
         shoulderPlan.setImgTraining(imageBlob6);
 
@@ -191,17 +213,26 @@ public class DataBaseInit {
                         "Cena: 120 g de salmón + verduras salteadas");
 
         ClassPathResource imgFile7 = new ClassPathResource("static/images/deficitcalorico.jpeg");
-        byte[] imageBytes7 = Files.readAllBytes(imgFile7.getFile().toPath());
+        byte[] imageBytes7;
+        try (InputStream inputStream = imgFile7.getInputStream()) {
+            imageBytes7 = inputStream.readAllBytes();
+        }
         Blob imageBlob7 = new SerialBlob(imageBytes7);
         caloricDeficit.setImgNutrition(imageBlob7);
 
         ClassPathResource imgFile8 = new ClassPathResource("static/images/volumen.jpeg");
-        byte[] imageBytes8 = Files.readAllBytes(imgFile8.getFile().toPath());
+        byte[] imageBytes8;
+        try (InputStream inputStream = imgFile8.getInputStream()) {
+            imageBytes8 = inputStream.readAllBytes();
+        }
         Blob imageBlob8 = new SerialBlob(imageBytes8);
         caloricSurplus.setImgNutrition(imageBlob8);
 
         ClassPathResource imgFile9 = new ClassPathResource("static/images/mantenimiento.jpg");
-        byte[] imageBytes9 = Files.readAllBytes(imgFile9.getFile().toPath());
+        byte[] imageBytes9;
+        try (InputStream inputStream = imgFile9.getInputStream()) {
+            imageBytes9 = inputStream.readAllBytes();
+        }
         Blob imageBlob9 = new SerialBlob(imageBytes9);
         maintenanceDiet.setImgNutrition(imageBlob9);
 

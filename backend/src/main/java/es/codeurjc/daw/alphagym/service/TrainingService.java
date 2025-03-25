@@ -52,9 +52,12 @@ public class TrainingService {
             newTraining.setImgTraining(training.getImgTraining());
         } else {
             ClassPathResource imgFileDefault = new ClassPathResource("static/images/emptyImage.png");
-            byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
-            Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
-            newTraining.setImgTraining(imageBlobDefault);
+            byte[] imageBytes;
+            try (InputStream inputStream = imgFileDefault.getInputStream()) {
+                imageBytes = inputStream.readAllBytes();
+            }
+            Blob imageBlob = new SerialBlob(imageBytes);
+            newTraining.setImgTraining(imageBlob);
         }
         trainingRepository.save(newTraining);
         return newTraining;
@@ -172,7 +175,7 @@ public class TrainingService {
         return trainingMapper.toDTOs(trainingRepository.findAll());
     }
 
-    public UniqueTrainingDTO getDtoTraining(Long trainingId){
+    public UniqueTrainingDTO getDtoTraining(long trainingId){
         return trainingMapper.toUniqueDTO(trainingRepository.findById(trainingId).get());
     }
     public TrainingDTO toDTO(Training training) {

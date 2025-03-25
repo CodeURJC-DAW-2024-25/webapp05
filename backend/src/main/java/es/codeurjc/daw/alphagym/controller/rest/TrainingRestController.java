@@ -72,7 +72,7 @@ public class TrainingRestController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
     @GetMapping("/{trainingId}")
-    public UniqueTrainingDTO getTrainingByIdd(@PathVariable Long trainingId) {
+    public UniqueTrainingDTO getTrainingByIdd(@PathVariable long trainingId) {
         return trainingService.getDtoTraining(trainingId);
     }
 
