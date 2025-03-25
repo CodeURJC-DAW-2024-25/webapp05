@@ -507,28 +507,29 @@ Me he encargado de la parte Rest y Service de Nutrition Comments. He corregido e
 
 ### Adrián Esteban Martín
 
-#### Descripcion general: Pendiente de rellenar
+#### Descripcion general: 
+Sobretodo he trabajado en la API Rest de la entidad de "Nutrition" aunque también he realizado cambios para otras funciones
 
 
 #### Mis 5 commits mas relevantes
 
 | Commit | Descripción                          | Link                                                                                                                                                                                                 |
 | ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| #1     | Nombre commit | []() |
-| #2     | Nombre commit     | []() |
-| #3     | Nombre commit  | []() |
-| #4     | Nombre commit  | []() |
-| #5     | Nombre commit  | []() |
+| #1     | Start of the REST of nutrition | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ad4b7a6ce5d85b0a0f3ab596f735ab0e27f8ea61](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ad4b7a6ce5d85b0a0f3ab596f735ab0e27f8ea61) |
+| #2     | Add REST to nutrition image     | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/878ef1c6b01a2113d2c7c650225341c82adc640e](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/878ef1c6b01a2113d2c7c650225341c82adc640e) |
+| #3     | Add Mapper and DTO functions | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/d5596c8857705a293bb2e6f5e2058be28befedd2](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/d5596c8857705a293bb2e6f5e2058be28befedd2) |
+| #4     | Paginable Nutrition and Training  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/3e5840b70ae4d444bd7779ed166398dfc8c62cc0](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/3e5840b70ae4d444bd7779ed166398dfc8c62cc0) |
+| #5     | Add @operation and @ApiResponses in NutritionRestController  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/03fc324c7ee03ad8d04364c4344cda282744f36e](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/03fc324c7ee03ad8d04364c4344cda282744f36e) |
 
 #### Los 5 ficheros que más he modificado
 
 | Número fichero | Fichero                                                                                                                                                                                                         |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| #1             | []()              |
-| #2             | []()                                    |
-| #3             | []()            |
-| #4             | []()                                  |
-| #5             | []()                                    |
+| #1             | [NutritionRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/controller/rest/NutritionRestController.java)              |
+| #2             | [NutritionService.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/service/NutritionService.java)                                    |
+| #3             | [NutritionRepository.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/repository/NutritionRepository.java)            |
+| #4             | [NutritionMapper.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/dto/NutritionMapper.java)                                  |
+| #5             | [NutritionDTO.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/dto/NutritionDTO.java)                                    |
 
 
 
