@@ -5,7 +5,6 @@ import java.net.URI;
 import org.springframework.http.HttpHeaders;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import java.security.Principal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +34,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,26 +52,6 @@ public class UserRestController {
     @Autowired
     private TrainingCommentService trainingCommentService;
 
-    @Operation(summary = "Gets the logged user")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found the user", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
-            @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
-            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
-    })
-    @GetMapping("/me")
-    public UserDTO me(HttpServletRequest request) {
-
-        Principal principal = request.getUserPrincipal();
-
-        if (principal != null) {
-            return userService.getUser(principal.getName());
-
-        } else {
-            throw new NoSuchElementException();
-        }
-    }
-
     @Operation(summary = "Get all users")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found all users", content = {
@@ -86,6 +64,18 @@ public class UserRestController {
 
         return userService.getUsers();
 
+    }
+
+    @Operation(summary = "Get authenticated user", description = "Retrieve the currently authenticated user.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Authenticated user found"),
+            @ApiResponse(responseCode = "401", description = "User not authenticated")
+    })
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getAuthenticatedUser() {
+        return userService.getAuthenticatedUserDto()
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(401).build());
     }
 
     @Operation(summary = "Get a user by its id")
@@ -127,32 +117,20 @@ public class UserRestController {
 
     }
 
-    /* Log in as a user
-    @Operation(summary = "Authenticate user")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Login successful"),
-            @ApiResponse(responseCode = "401", description = "Invalid credentials")
-    })
-
-    @PostMapping("/access")
-    public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
-        return userService.login(loginRequest);
-    }*/
-
     @Operation(summary = "Registers a new user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User registered correctly", content = @Content),
             @ApiResponse(responseCode = "400", description = "Bad request, maybe one of the user attributes is missing or the type is not valid", content = @Content),
             @ApiResponse(responseCode = "409", description = "User already exists", content = @Content)
     })
-    @PostMapping("/")
+    @PostMapping("/new")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
 
         userDTO = userService.createUser(userDTO);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(userDTO.id()).toUri();
+        long id = userDTO.id();
+
+        URI location = URI.create("/api/v1/users/" + id);
 
         return ResponseEntity.created(location).body(userDTO);
 

@@ -81,9 +81,15 @@ public class WebSecurityConfig {
 		
 		http
 			.authorizeHttpRequests(authorize -> authorize     
+			
+				// AUTH ENDPOINTS
+				.requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout").permitAll()
 
 				// PRIVATE ENDPOINTS
-				//For user
+				
+				//For User
+				.requestMatchers(HttpMethod.GET,"/api/users/all").hasAnyRole("ADMIN")
+				.requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
 				.requestMatchers(HttpMethod.PUT,"/api/users/**").hasAnyRole("USER", "ADMIN")                
 				.requestMatchers(HttpMethod.DELETE,"/api/users/**").hasRole("ADMIN")
 

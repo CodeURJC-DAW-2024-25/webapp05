@@ -8,8 +8,7 @@ import es.codeurjc.daw.alphagym.security.LoginRequest;
 import es.codeurjc.daw.alphagym.security.jwt.JwtTokenProvider;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,6 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -50,11 +48,11 @@ public class UserService {
 	private UserMapper mapper;
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private UserMapper userMapper;
 
     private UserDTO toUserDTO(User user) {
         return mapper.toUserDTO(user);
-    }
+        }
 
     private User toUser(UserDTO userDTO) {
         return mapper.toUser(userDTO);
@@ -147,9 +145,16 @@ public class UserService {
     }
 
     public UserDTO createUser(UserDTO userDTO) {
+        if (userRepository.existsByEmail(userDTO.email())) {
+            throw new IllegalArgumentException("Email is already in use.");
+        }
         User user = toUser(userDTO);
+        try {
         userRepository.save(user);
         return toUserDTO(user);
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving user: " + e.getMessage());
+        }
     }
 
     public UserDTO replaceUser(Long id, UserDTO updatedUserDTO) throws SQLException {
@@ -197,20 +202,32 @@ public class UserService {
 
     public void replaceUserImage(long id, InputStream inputStream, long size) {
             
-            User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository.findById(id).orElseThrow();
 
-            if(user.getImgUser() == null){    
-                throw new NoSuchElementException();  
-            }
-            
-            user.setImgUser(BlobProxy.generateProxy(inputStream, size)); //convert InputStream to Blob
-    
-            userRepository.save(user);
+        if(user.getImgUser() == null){    
+            throw new NoSuchElementException();  
+        }
     }
 
     public Collection<UserDTO> getUsers() {
         return mapper.toUserDTOs(userRepository.findAll());
     }
 
+    public Optional<UserDTO> getAuthenticatedUserDto() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+            return userRepository.findByEmail(userDetails.getUsername())
+                    .map(userMapper::toUserDTO);
+        }
+
+        return Optional.empty();
+    }
+
+    public Long getAuthenticatedUserId() {
+        return getAuthenticatedUserDto()
+                .map(UserDTO::id)
+                .orElseThrow(() -> new RuntimeException("User not authenticated"));
+    }
 
 }
