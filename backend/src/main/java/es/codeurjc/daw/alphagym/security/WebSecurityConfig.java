@@ -90,6 +90,7 @@ public class WebSecurityConfig {
 				//For User
 				.requestMatchers(HttpMethod.GET,"/api/users/all").hasAnyRole("ADMIN")
 				.requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
+				.requestMatchers(HttpMethod.POST,"/api/users/new").permitAll()
 				.requestMatchers(HttpMethod.PUT,"/api/users/**").hasAnyRole("USER", "ADMIN")                
 				.requestMatchers(HttpMethod.DELETE,"/api/users/**").hasRole("ADMIN")
 

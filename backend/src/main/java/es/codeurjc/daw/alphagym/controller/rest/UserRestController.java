@@ -128,9 +128,9 @@ public class UserRestController {
 
         userDTO = userService.createUser(userDTO);
 
-        long id = userDTO.id();
-
-        URI location = URI.create("/api/v1/users/" + id);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                 .path("/{id}")
+                 .buildAndExpand(userDTO.id()).toUri();
 
         return ResponseEntity.created(location).body(userDTO);
 

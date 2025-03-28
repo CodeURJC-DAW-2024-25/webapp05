@@ -149,12 +149,8 @@ public class UserService {
             throw new IllegalArgumentException("Email is already in use.");
         }
         User user = toUser(userDTO);
-        try {
         userRepository.save(user);
-        return toUserDTO(user);
-        } catch (Exception e) {
-            throw new RuntimeException("Error saving user: " + e.getMessage());
-        }
+        return toUserDTO(user);  
     }
 
     public UserDTO replaceUser(Long id, UserDTO updatedUserDTO) throws SQLException {
