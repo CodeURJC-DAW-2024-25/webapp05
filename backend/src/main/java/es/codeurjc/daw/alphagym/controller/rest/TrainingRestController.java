@@ -88,9 +88,15 @@ public class TrainingRestController {
     @PostMapping("/")
     public ResponseEntity<TrainingDTO> createTraining(@RequestBody TrainingDTO trainingDTO)
             throws SQLException, IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Training training = trainingService.toDomain(trainingDTO);
-        trainingService.createTraining(training, null);
+        if(authentication!=null){
+            training = trainingService.createTraining(training, trainingService.getAuthenticationUser());
+        }else{
+            training = trainingService.createTraining(training, null);
+        }
+
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(training.getId()).toUri();
@@ -136,7 +142,15 @@ public class TrainingRestController {
     })
     @DeleteMapping("/{trainingId}")
     public TrainingDTO deleteTraining(@PathVariable long trainingId) {
-        return trainingService.deleteTraining(trainingId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication!=null || authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+            return trainingService.deleteTraining(trainingId);
+        }else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "No tienes permisos para eliminar este entrenamiento");
+        }
     }
 
     @Operation(summary = "Retrieve training image")
@@ -177,8 +191,18 @@ public class TrainingRestController {
     @PutMapping("/{trainingId}/image")
     public ResponseEntity<Object> replaceTrainingImage(@PathVariable long trainingId,
             @RequestParam MultipartFile imageFile) throws IOException {
-        trainingService.replaceTrainingImage(trainingId, imageFile.getInputStream(), imageFile.getSize());
-        return ResponseEntity.noContent().build();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (trainingService.isOwner(trainingId, authentication) || authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+
+            trainingService.replaceTrainingImage(trainingId, imageFile.getInputStream(), imageFile.getSize());
+            return ResponseEntity.noContent().build();
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "No tienes permisos para editar este entrenamiento");
+        }
+
     }
 
     @Operation(summary = "Delete training image")
@@ -189,8 +213,18 @@ public class TrainingRestController {
     })
     @DeleteMapping("/{trainingId}/image")
     public ResponseEntity<Object> deletePostImage(@PathVariable long trainingId) throws IOException, SQLException {
-        trainingService.deleteTrainingImage(trainingId);
-        return ResponseEntity.noContent().build();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication!=null || authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+             trainingService.deleteTrainingImage(trainingId);
+             return ResponseEntity.noContent().build();
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "No tienes permisos para editar este entrenamiento");
+        }
+
     }
 
     @Operation(summary = "Get paginated trainings")

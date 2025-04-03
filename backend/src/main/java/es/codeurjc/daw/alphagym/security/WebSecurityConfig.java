@@ -97,6 +97,7 @@ public class WebSecurityConfig {
 				//For Training
 				.requestMatchers(HttpMethod.POST,"/api/trainings/").hasAnyRole("USER")
 				.requestMatchers(HttpMethod.PUT,"/api/trainings/*").hasAnyRole("USER")
+				.requestMatchers(HttpMethod.PUT,"/api/trainings/*/image").hasAnyRole("USER")
 				.requestMatchers(HttpMethod.DELETE,"/api/trainings/**").hasRole("ADMIN")
 
 				//For Nutrition
@@ -263,13 +264,8 @@ public class WebSecurityConfig {
 
                         );
 
-				http.formLogin(formLogin -> formLogin.disable());
-				http.logout(logout -> logout.disable())
-				.csrf(csrf -> csrf.disable())
-
-				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
-				/*.formLogin(formLogin -> formLogin
+				//.csrf(csrf -> csrf.disable())
+				http.formLogin(formLogin -> formLogin
 						.loginPage("/login")
 						.failureUrl("/login?error=true")
 						.defaultSuccessUrl("/index")
@@ -278,7 +274,7 @@ public class WebSecurityConfig {
 				.logout(logout -> logout
 						.logoutUrl("/logout")
 						.logoutSuccessUrl("/")
-						.permitAll());*/
+						.permitAll());
 
 		return http.build();
 	}

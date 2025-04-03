@@ -22,6 +22,8 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.net.URI;
@@ -199,6 +201,7 @@ public class TrainingService {
         if (trainingRepository.findById(trainingId)!=null) {
             Training training = toDomain(trainingDTO);
             training.setId(trainingId);
+            training.setUser(oldTraining.getUser());
             training.setTrainingComments(trainingRepository.findById(trainingId).get().getComments());
             training.setImgTraining(BlobProxy.generateProxy(oldTraining.getImgTraining().getBinaryStream(),oldTraining.getImgTraining().length()));
             trainingRepository.save(training);
@@ -249,9 +252,6 @@ public class TrainingService {
 
     public void replaceTrainingImage(long trainingId, InputStream inputStream, long size) {
         Training training = trainingRepository.findById(trainingId).orElseThrow();
-        if(training.getImg() == null){
-            throw new NoSuchElementException();
-        }
         training.setImgTraining(BlobProxy.generateProxy(inputStream, size));
         trainingRepository.save(training);
     }
@@ -265,7 +265,6 @@ public class TrainingService {
         byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
         Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
         training.setImgTraining(imageBlobDefault);
-        training.setImg(null);
         trainingRepository.save(training);
     }
 
@@ -275,5 +274,18 @@ public class TrainingService {
                 .map(trainingMapper::toDTO)
                 .toList();
     }
+    public  User getAuthenticationUser (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        if (authentication != null ) {
+           Optional<User> user = userRepository.findByEmail(authentication.getName());
+           if (user.isPresent()){
+              return user.get();
+           }
+        }
+        return null;
+    }
 }
+
+
+
