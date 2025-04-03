@@ -23,6 +23,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -220,12 +221,31 @@ public class NutritionService {
     }
 
     public NutritionDTO deleteDietDTO(Long id) {
+        Optional<Nutrition> theDiet = nutritionRepository.findById(id);
+        if (theDiet.isPresent()) {
+            Nutrition nutrition = theDiet.get();
 
-        Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
+            List<User> usersWithNutrition = userRepository.findByNutritionsContaining(nutrition);
+            for (User user : usersWithNutrition) {
+                user.getNutritions().remove(nutrition);
+                userRepository.save(user);
+            }
+
+            List<NutritionComment> nutritionComments = nutritionCommentRepository.findByNutritionId(id);
+
+            for (NutritionComment nutritionComment : nutritionComments) {
+                nutritionCommentRepository.delete(nutritionComment);
+
+            }
+            nutritionRepository.deleteById(id);
+            return toDTO(nutrition);
+        }
+        return null;
+        /*Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
 
         NutritionDTO nutritionDTO = toDTO(nutrition);
         nutritionRepository.deleteById(id);
-        return nutritionDTO;
+        return nutritionDTO;*/
     }
 
     public Resource getNutritionImage(Long id) throws SQLException {
@@ -293,6 +313,18 @@ public class NutritionService {
                 .findAll(PageRequest.of(page, limit))
                 .map(nutritionMapper::toDTO)
                 .toList();
+    }
+
+    public  User getAuthenticationUser (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null ) {
+           Optional<User> user = userRepository.findByEmail(authentication.getName());
+           if (user.isPresent()){
+              return user.get();
+           }
+        }
+        return null;
     }
 }
 

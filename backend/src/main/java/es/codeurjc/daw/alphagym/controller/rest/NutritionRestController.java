@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
@@ -90,14 +91,32 @@ public class NutritionRestController {
     })
 
    @PostMapping("/")
-    public ResponseEntity<NutritionDTO> createNutrition (@RequestBody NutritionDTO nutritionDTO){
+   public ResponseEntity<NutritionDTO> createNutrition (@RequestBody NutritionDTO nutritionDTO)
+            throws SQLException, IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Nutrition nutrition = nutritionService.toDomain(nutritionDTO);
+        if(authentication!=null){
+            nutrition = nutritionService.createNutrition(nutrition, nutritionService.getAuthenticationUser());
+        }else{
+            nutrition = nutritionService.createNutrition(nutrition, null);
+        }
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(nutrition.getId()).toUri();
+
+        return ResponseEntity.created(location).body(nutritionService.toDTO(nutrition));
+
+    }
+    /*public ResponseEntity<NutritionDTO> createNutrition (@RequestBody NutritionDTO nutritionDTO){
 
             nutritionDTO = nutritionService.createNutritionDTO(nutritionDTO);
 
             URI location = fromCurrentRequest().path("/{id}").buildAndExpand(nutritionDTO.id()).toUri();
 
             return ResponseEntity.created(location).body(nutritionDTO);
-    }
+    }*/
 
     @Operation(summary = "Edit a nutrition by ID")
     @ApiResponses(value = {
@@ -119,7 +138,7 @@ public class NutritionRestController {
 
             return nutritionService.editDietDTO(id, updateNutritionDTO);
         } else {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para editar este entrenamiento");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para editar esta dieta");
         }
     }
 
@@ -135,8 +154,15 @@ public class NutritionRestController {
 
     @DeleteMapping("/{id}")
     public NutritionDTO deleteNutrition(@PathVariable Long id){
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+ 
+        if (authentication!=null || authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
             return nutritionService.deleteDietDTO(id);
+        }else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "No tienes permisos para eliminar esta dieta");
+        }
     }
 
     @Operation(summary = "Upload an image for a nutrition")
