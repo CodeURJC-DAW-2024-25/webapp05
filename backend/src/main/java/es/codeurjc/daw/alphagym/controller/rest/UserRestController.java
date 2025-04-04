@@ -182,10 +182,9 @@ public class UserRestController {
                         @ApiResponse(responseCode = "403", description = "User not authorized", content = @Content)
         })
         @PutMapping("/{id}")
-        public UserDTO replaceUser(@RequestBody UserDTO updatedUserDTO, @PathVariable Long id) throws SQLException {
-
-                return userService.replaceUser(id, updatedUserDTO);
-
+        public UserDTO replaceUser(@RequestBody UserDTO userDTO, @PathVariable Long id) throws SQLException {
+                // the method updateUser returns a userDTO, so we can return it directly
+                return userService.updateUser(id, userDTO);
         }
 
         @Operation(summary = "Updates the image of a user")

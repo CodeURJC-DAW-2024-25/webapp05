@@ -148,23 +148,34 @@ public class UserService {
         return toUserDTO(user);
     }
 
-    public UserDTO updateUser(User user) {
-        return mapper.toUserDTO(userRepository.save(user));
-    }
+    public UserDTO updateUser(Long id, UserDTO userDTO) throws SQLException {
 
-    public UserDTO replaceUser(Long id, UserDTO updatedUserDTO) throws SQLException {
-
-        User oldUser = userRepository.findById(id).orElseThrow();
-        if (oldUser != null) {
-            User updatedUser = toUser(updatedUserDTO);
-            updatedUser.setId(id);
-            updatedUser.setImgUser(BlobProxy.generateProxy(oldUser.getImgUser().getBinaryStream(), oldUser.getImgUser().length()));
-            userRepository.save(updatedUser);
-            return toUserDTO(updatedUser);
+        User user = userRepository.findById(id).orElseThrow();
+        if (userRepository.existsByEmail(userDTO.email())) {
+            throw new IllegalArgumentException("Email is already in use.");
+        }
+        if (userDTO.email() != null && !userDTO.email().isEmpty()) {
+            user.setEmail(userDTO.email());
         } else {
-            throw new NoSuchElementException();
+            user.setEmail(user.getEmail());
+        }
+        if (userDTO.password() != null && !userDTO.password().isEmpty()) {
+            user.setEncodedPassword(passwordEncoder.encode(userDTO.password()));
+        } else {
+            user.setEncodedPassword(user.getEncodedPassword());
+        }
+        if (userDTO.name() != null && !userDTO.name().isEmpty()) {
+            user.setName(userDTO.name());
+        } else {
+            user.setName(user.getName());
+        }
+        if (user.getImgUser() != null) {
+        user.setImgUser(BlobProxy.generateProxy(user.getImgUser().getBinaryStream(), user.getImgUser().length()));
+        } else {
+            user.setImgUser(null);
         }
 
+        return toUserDTO(userRepository.save(user));
     }
 
     public void createUserImage(long id, URI location, InputStream inputStream, long size) {

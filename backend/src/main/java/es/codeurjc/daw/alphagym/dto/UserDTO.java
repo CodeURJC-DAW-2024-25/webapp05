@@ -11,11 +11,11 @@ public record UserDTO(
     Long id,
     String name,
     List<String> roles,
+    
     @Email(message = "Email must be valid")
     @NotBlank(message = "Email is required")
     @Schema(description = "Email address of the user", example = "john.doe@example.com")
     String email,
-
 
     @NotBlank(message = "Password is required")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

@@ -93,7 +93,7 @@ public class WebSecurityConfig {
 						.requestMatchers(HttpMethod.GET, "/api/users/all").hasAnyRole("ADMIN")
 						.requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
 						.requestMatchers(HttpMethod.PUT, "/api/users/*").hasAnyRole("USER", "ADMIN")
-						.requestMatchers(HttpMethod.PUT, "/api/users/*/image").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.PUT, "/api/users/*/image").hasAnyRole("USER", "ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/api/users/*").hasAnyRole("ADMIN")
 
 						// PUBLIC ENDPOINTS
