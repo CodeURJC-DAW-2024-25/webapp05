@@ -10,6 +10,8 @@ import jakarta.validation.constraints.NotBlank;
 public record UserDTO( 
     Long id,
     String name,
+    
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     List<String> roles,
     
     @Email(message = "Email must be valid")

@@ -15,6 +15,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -148,10 +149,10 @@ public class UserRestController {
         public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
 
                 try {
-                userService.deleteUser(id);
-                return ResponseEntity.noContent().build();
+                        userService.deleteUser(id);
+                        return ResponseEntity.noContent().build();
                 } catch (IllegalArgumentException e) {
-                return ResponseEntity.notFound().build();
+                        return ResponseEntity.notFound().build();
                 }
         }
 
@@ -183,8 +184,22 @@ public class UserRestController {
         })
         @PutMapping("/{id}")
         public UserDTO replaceUser(@RequestBody UserDTO userDTO, @PathVariable Long id) throws SQLException {
-                // the method updateUser returns a userDTO, so we can return it directly
-                return userService.updateUser(id, userDTO);
+
+                UserDTO authenticatedUser = userService.getAuthenticatedUserDto()
+                                .orElseThrow(() -> new NoSuchElementException("User not authenticated"));
+
+                // if is admin, can edit any user
+                if (authenticatedUser.roles().contains("ROLE_ADMIN")) {
+                        return userService.updateUser(id, userDTO);
+                }
+
+                // if is user, can edit only his own user
+                if (authenticatedUser.id().equals(id)) {
+                        return userService.updateUser(id, userDTO);
+                }
+
+                // Si no cumple ninguna de las condiciones, devuelve un error 403 (Forbidden)
+                throw new AccessDeniedException("You are not allowed to edit this user.");
         }
 
         @Operation(summary = "Updates the image of a user")
@@ -200,10 +215,16 @@ public class UserRestController {
         public ResponseEntity<Object> replaceUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
                         throws IOException {
 
+                // An user, can edit only his own user image
+                Optional<UserDTO> authenticatedUserDto = userService.getAuthenticatedUserDto();
+                if (authenticatedUserDto.isPresent() && !authenticatedUserDto.get().id().equals(id)) {
+                        throw new AccessDeniedException("You are not allowed to edit this user.");
+                }else{
+
                 userService.replaceUserImage(id, imageFile.getInputStream(), imageFile.getSize());
 
                 return ResponseEntity.noContent().build();
-
+                }
         }
 
         @GetMapping("/reportedComments")

@@ -93,8 +93,9 @@ public class WebSecurityConfig {
 						.requestMatchers(HttpMethod.GET, "/api/users/all").hasAnyRole("ADMIN")
 						.requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
 						.requestMatchers(HttpMethod.PUT, "/api/users/*").hasAnyRole("USER", "ADMIN")
-						.requestMatchers(HttpMethod.PUT, "/api/users/*/image").hasAnyRole("USER", "ADMIN")
+						.requestMatchers(HttpMethod.PUT, "/api/users/*/image").hasRole("USER")
 						.requestMatchers(HttpMethod.DELETE, "/api/users/*").hasAnyRole("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/api/users/*/image").hasRole("ADMIN")
 
 						// PUBLIC ENDPOINTS
 						.requestMatchers(HttpMethod.POST, "/api/users/new").permitAll()
