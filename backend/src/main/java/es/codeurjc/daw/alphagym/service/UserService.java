@@ -19,7 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +33,7 @@ import es.codeurjc.daw.alphagym.dto.UserMapper;
 
 @Service
 public class UserService {
-    
+
     @Autowired
     private UserRepository userRepository;
 
@@ -45,29 +44,27 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-	private UserMapper mapper;
+    private UserMapper mapper;
 
     @Autowired
     private UserMapper userMapper;
 
     private UserDTO toUserDTO(User user) {
         return mapper.toUserDTO(user);
-        }
+    }
 
     private User toUser(UserDTO userDTO) {
         return mapper.toUser(userDTO);
     }
-   
+
     public ResponseEntity<Object> login(LoginRequest loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                    loginRequest.getEmail(),
-                    loginRequest.getPassword()
-                )
-            );
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getEmail(),
+                            loginRequest.getPassword()));
 
-            //Save authentication details in security context
+            // Save authentication details in security context
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             return ResponseEntity.ok("Login successful");
@@ -78,7 +75,7 @@ public class UserService {
 
     public User createUser(String name, String email, String pass, String... roles) throws SQLException, IOException {
         User user = new User();
-    
+
         user.setName(name);
         user.setEmail(email);
         user.setEncodedPassword(passwordEncoder.encode(pass));
@@ -92,8 +89,8 @@ public class UserService {
         Blob imageBlob = new SerialBlob(imageBytes);
         user.setImgUser(imageBlob);
         user.setImage(true);
-    
-        return user; 
+
+        return user;
     }
 
     public void updateUserName(Long userId, String newName) {
@@ -112,10 +109,11 @@ public class UserService {
         }
     }
 
-    public Optional<User> findByEmail(String email){
+    public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-    public Optional<User> findById(Long id){
+
+    public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
 
@@ -139,57 +137,52 @@ public class UserService {
     public UserDTO getUser(String name) {
         return mapper.toUserDTO(userRepository.findByName(name).orElseThrow());
     }
-    
-    public UserDTO updateUser(User user) {
-        return mapper.toUserDTO(userRepository.save(user));
-    }
 
     public UserDTO createUser(UserDTO userDTO) {
         if (userRepository.existsByEmail(userDTO.email())) {
             throw new IllegalArgumentException("Email is already in use.");
         }
         User user = toUser(userDTO);
+        user.setEncodedPassword(passwordEncoder.encode(userDTO.password()));
         userRepository.save(user);
-        return toUserDTO(user);  
+        return toUserDTO(user);
+    }
+
+    public UserDTO updateUser(User user) {
+        return mapper.toUserDTO(userRepository.save(user));
     }
 
     public UserDTO replaceUser(Long id, UserDTO updatedUserDTO) throws SQLException {
 
         User oldUser = userRepository.findById(id).orElseThrow();
-        User updatedUser = toUser(updatedUserDTO);
-        updatedUser.setId(id);
-
-        if (oldUser.getImgUser() != null) {
-
-            //Set the image in the updated post 
-            updatedUser.setImgUser(BlobProxy.generateProxy( 
-                oldUser.getImgUser().getBinaryStream(), 
-                oldUser.getImgUser().length())); 
-            
-                updatedUser.setImgUser(oldUser.getImgUser());  
+        if (oldUser != null) {
+            User updatedUser = toUser(updatedUserDTO);
+            updatedUser.setId(id);
+            updatedUser.setImgUser(BlobProxy.generateProxy(oldUser.getImgUser().getBinaryStream(), oldUser.getImgUser().length()));
+            userRepository.save(updatedUser);
+            return toUserDTO(updatedUser);
+        } else {
+            throw new NoSuchElementException();
         }
-
-        userRepository.save(updatedUser);
-        return toUserDTO(updatedUser);
 
     }
 
     public void createUserImage(long id, URI location, InputStream inputStream, long size) {
-        
+
         User user = userRepository.findById(id).orElseThrow();
-        
-        user.setImgUserPath(location.toString()); //convert URI to String
-        user.setImgUser(BlobProxy.generateProxy(inputStream, size)); //convert InputStream to Blob
+
+        user.setImgUserPath(location.toString()); // convert URI to String
+        user.setImgUser(BlobProxy.generateProxy(inputStream, size)); // convert InputStream to Blob
 
         userRepository.save(user);
 
-   }
+    }
 
-    public InputStreamResource getUserImage(long id) throws SQLException{
+    public InputStreamResource getUserImage(long id) throws SQLException {
 
         User user = userRepository.findById(id).orElseThrow();
 
-        if(user.getImgUser() != null) {
+        if (user.getImgUser() != null) {
             return new InputStreamResource(user.getImgUser().getBinaryStream());
         } else {
             throw new NoSuchElementException();
@@ -197,11 +190,11 @@ public class UserService {
     }
 
     public void replaceUserImage(long id, InputStream inputStream, long size) {
-            
+
         User user = userRepository.findById(id).orElseThrow();
 
-        if(user.getImgUser() == null){    
-            throw new NoSuchElementException();  
+        if (user.getImgUser() == null) {
+            throw new NoSuchElementException();
         }
     }
 
@@ -224,6 +217,13 @@ public class UserService {
         return getAuthenticatedUserDto()
                 .map(UserDTO::id)
                 .orElseThrow(() -> new RuntimeException("User not authenticated"));
+    }
+
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new IllegalArgumentException("User not found with ID: " + id);
+        }
+        userRepository.deleteById(id);
     }
 
 }

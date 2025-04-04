@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 import es.codeurjc.daw.alphagym.model.NutritionComment;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {})
 public interface NutritionCommentMapper{
     
     NutritionCommentDTO toDTO(NutritionComment nutritionComment);

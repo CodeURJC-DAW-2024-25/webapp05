@@ -42,10 +42,10 @@ public class WebSecurityConfig {
 	@Autowired
 	NutritionCommentService nutritionCommentService;
 
-	@Autowired  
+	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
 
-	@Autowired 
+	@Autowired
 	private UnauthorizedHandlerJwt unauthorizedHandlerJwt;
 
 	@Bean
@@ -53,11 +53,11 @@ public class WebSecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-	//Expose AuthenticationManager as a Bean to be used in other services
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
+	// Expose AuthenticationManager as a Bean to be used in other services
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+		return authConfig.getAuthenticationManager();
+	}
 
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
@@ -69,74 +69,77 @@ public class WebSecurityConfig {
 		return authProvider;
 	}
 
-    @Bean 
-	@Order(1) 
+	@Bean
+	@Order(1)
 	public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
-		
+
 		http.authenticationProvider(authenticationProvider());
 
-        http
-			.securityMatcher("/api/**") 
-			.exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
-		
 		http
-			.authorizeHttpRequests(authorize -> authorize     
-			
-				// AUTH ENDPOINTS
-				.requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout").permitAll()
+				.securityMatcher("/api/**")
+				.exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
 
-				// PRIVATE ENDPOINTS
-				
-				//For User
-				.requestMatchers(HttpMethod.GET,"/api/users/all").hasAnyRole("ADMIN")
-				.requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
-				.requestMatchers(HttpMethod.POST,"/api/users/new").permitAll()
-				.requestMatchers(HttpMethod.PUT,"/api/users/**").hasAnyRole("USER", "ADMIN")                
-				.requestMatchers(HttpMethod.DELETE,"/api/users/**").hasRole("ADMIN")
+		http
+				.authorizeHttpRequests(authorize -> authorize
 
-				//For Training
-				.requestMatchers(HttpMethod.POST,"/api/trainings/").hasAnyRole("USER")
-				.requestMatchers(HttpMethod.PUT,"/api/trainings/*").hasAnyRole("USER")
-				.requestMatchers(HttpMethod.PUT,"/api/trainings/*/image").hasAnyRole("USER")
-				.requestMatchers(HttpMethod.DELETE,"/api/trainings/**").hasRole("ADMIN")
+						// AUTH ENDPOINTS
+						.requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/refresh",
+								"/api/v1/auth/logout")
+						.permitAll()
 
-				//For Nutrition
-				.requestMatchers(HttpMethod.POST,"/api/nutritions/").hasAnyRole("USER")
-				.requestMatchers(HttpMethod.PUT,"/api/nutritions/*").hasAnyRole("USER")
-				.requestMatchers(HttpMethod.PUT,"/api/nutritions/*/image").hasAnyRole("USER")
-				.requestMatchers(HttpMethod.DELETE,"/api/nutritions/**").hasRole("ADMIN")
+						// PRIVATE ENDPOINTS
 
-				//For TrainingComments
-				.requestMatchers(HttpMethod.POST,"/api/trainingComments/").hasAnyRole("USER")
-				.requestMatchers(HttpMethod.PUT,"/api/trainingComments/*").hasAnyRole("USER")
-				.requestMatchers(HttpMethod.DELETE,"/api/trainingComments/**").hasRole("ADMIN")
+						// For User
+						.requestMatchers(HttpMethod.GET, "/api/users/all").hasAnyRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
+						.requestMatchers(HttpMethod.PUT, "/api/users/*").hasAnyRole("USER", "ADMIN")
+						.requestMatchers(HttpMethod.PUT, "/api/users/*/image").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.DELETE, "/api/users/*").hasAnyRole("ADMIN")
 
-				//For NutritionComments
-				.requestMatchers(HttpMethod.POST,"/api/nutritionComments/").hasAnyRole("USER")
-				.requestMatchers(HttpMethod.PUT,"/api/nutritionComments/").hasAnyRole("USER")
-				.requestMatchers(HttpMethod.DELETE,"/api/nutritionComments/**").hasRole("ADMIN")
-				
-				// PUBLIC ENDPOINTS    
-				.anyRequest().permitAll() 
-			);
+						// PUBLIC ENDPOINTS
+						.requestMatchers(HttpMethod.POST, "/api/users/new").permitAll()
 
-		//Disable Form login Authentication     
+						// For Training
+						.requestMatchers(HttpMethod.POST, "/api/trainings/").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.PUT, "/api/trainings/*").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.PUT, "/api/trainings/*/image").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.DELETE, "/api/trainings/**").hasRole("ADMIN")
+
+						// For Nutrition
+						.requestMatchers(HttpMethod.POST, "/api/nutritions/").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.PUT, "/api/nutritions/*").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.PUT, "/api/nutritions/*/image").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.DELETE, "/api/nutritions/**").hasRole("ADMIN")
+
+						// For TrainingComments
+						.requestMatchers(HttpMethod.POST, "/api/trainingComments/").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.PUT, "/api/trainingComments/*").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.DELETE, "/api/trainingComments/**").hasRole("ADMIN")
+
+						// For NutritionComments
+						.requestMatchers(HttpMethod.POST, "/api/nutritionComments/").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.PUT, "/api/nutritionComments/").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.DELETE, "/api/nutritionComments/**").hasRole("ADMIN")
+
+						// PUBLIC ENDPOINTS
+						.anyRequest().permitAll());
+
+		// Disable Form login Authentication
 		http.formLogin(formLogin -> formLogin.disable());
 
-		//Disable CSRF protection (it is difficult to implement in REST APIs)    
+		// Disable CSRF protection (it is difficult to implement in REST APIs)
 		http.csrf(csrf -> csrf.disable());
 
-        //Disable Basic Authentication     
+		// Disable Basic Authentication
 		http.httpBasic(httpBasic -> httpBasic.disable());
 
-		//Stateless session     
+		// Stateless session
 		http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-		
-		// Add JWT Token filter     
+
+		// Add JWT Token filter
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
-	
 
 	@Bean
 	@Order(2)
@@ -148,15 +151,16 @@ public class WebSecurityConfig {
 				.authorizeHttpRequests(authorize -> authorize
 						// PUBLIC PAGES
 						.requestMatchers("/").permitAll()
-						.requestMatchers("/images/**", "/css/**", "/js/**").permitAll() // Acceso a los recursos estáticos
-                        .requestMatchers("/index").permitAll()
+						.requestMatchers("/images/**", "/css/**", "/js/**").permitAll() // Acceso a los recursos
+																						// estáticos
+						.requestMatchers("/index").permitAll()
 						.requestMatchers("/login").permitAll()
-                        .requestMatchers("/register").permitAll()
-                        .requestMatchers("/error").permitAll()
-                        .requestMatchers("/trainings").permitAll()
+						.requestMatchers("/register").permitAll()
+						.requestMatchers("/error").permitAll()
+						.requestMatchers("/trainings").permitAll()
 						.requestMatchers("/trainings/*").permitAll()
 						.requestMatchers("/nutritions").permitAll()
-                        .requestMatchers("/nutritions/*").permitAll()
+						.requestMatchers("/nutritions/*").permitAll()
 						.requestMatchers("/trainingComments/*").permitAll()
 						.requestMatchers("/nutritionComments/*").permitAll()
 						.requestMatchers("/trainingComments/*/moreComments").permitAll()
@@ -168,17 +172,17 @@ public class WebSecurityConfig {
 						.requestMatchers("/swagger-ui/**").permitAll()
 
 						// PRIVATE PAGES
-                        .requestMatchers("/account/**").hasAnyRole("USER")
+						.requestMatchers("/account/**").hasAnyRole("USER")
 						.requestMatchers("/editAccount/**").hasAnyRole("USER")
-						.requestMatchers("/nutritions/newNutrition").hasAnyRole("ADMIN","USER")
-						.requestMatchers("/trainings/createRoutine").hasAnyRole("ADMIN","USER")
+						.requestMatchers("/nutritions/newNutrition").hasAnyRole("ADMIN", "USER")
+						.requestMatchers("/trainings/createRoutine").hasAnyRole("ADMIN", "USER")
 						.requestMatchers("/trainings/delete/*").hasAnyRole("ADMIN")
-                        .requestMatchers("/nutritions/delete/*").hasAnyRole("ADMIN")
+						.requestMatchers("/nutritions/delete/*").hasAnyRole("ADMIN")
 						.requestMatchers(("/trainingComments/*")).hasAnyRole("ADMIN", "USER")
 						.requestMatchers(("/trainingComments/*/newComment")).hasAnyRole("ADMIN", "USER")
 						.requestMatchers(("/nutritionComments/*/newComment")).hasAnyRole("ADMIN", "USER")
 						.requestMatchers(("/nutritionComments/*")).hasAnyRole("ADMIN", "USER")
-						.requestMatchers("/admin").hasRole("ADMIN") 
+						.requestMatchers("/admin").hasRole("ADMIN")
 						.requestMatchers("/user/new").hasRole("USER")
 						.requestMatchers("/search").hasRole("ADMIN")
 						.requestMatchers("/trainingComments/*/*/delete").hasAnyRole("ADMIN")
@@ -193,84 +197,99 @@ public class WebSecurityConfig {
 						.requestMatchers("/nutritions/subscribe/*").hasAnyRole("USER")
 						.requestMatchers("/nutritions/unsubscribe/*").hasAnyRole("USER")
 						.requestMatchers("/nutritions/deleteFromList/*").hasAnyRole("USER")
-						//SECURITY FOR EDIT PAGES
-						//EDIT TRAINING
+						// SECURITY FOR EDIT PAGES
+						// EDIT TRAINING
 						.requestMatchers(HttpMethod.GET, "/trainings/editTraining/{trainingId}")
-								.access((authentication, context) -> {
-									Long trainingId = Long.valueOf(context.getVariables().get("trainingId"));
-									return authentication.get().getAuthorities().stream()
-											.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN")) ||
-											trainingService.isOwner( trainingId, authentication.get()) ?
-											new AuthorizationDecision(true) : new AuthorizationDecision(false);
-								})
+						.access((authentication, context) -> {
+							Long trainingId = Long.valueOf(context.getVariables().get("trainingId"));
+							return authentication.get().getAuthorities().stream()
+									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
+									||
+									trainingService.isOwner(trainingId, authentication.get())
+											? new AuthorizationDecision(true)
+											: new AuthorizationDecision(false);
+						})
 						.requestMatchers(HttpMethod.POST, "/trainings/editTraining/{trainingId}")
-								.access((authentication, context) -> {
-									Long trainingId = Long.valueOf(context.getVariables().get("trainingId"));
-									return authentication.get().getAuthorities().stream()
-											.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN")) ||
-											trainingService.isOwner( trainingId, authentication.get()) ?
-											new AuthorizationDecision(true) : new AuthorizationDecision(false);
-								})
-						//EDIT NUTRITION
+						.access((authentication, context) -> {
+							Long trainingId = Long.valueOf(context.getVariables().get("trainingId"));
+							return authentication.get().getAuthorities().stream()
+									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
+									||
+									trainingService.isOwner(trainingId, authentication.get())
+											? new AuthorizationDecision(true)
+											: new AuthorizationDecision(false);
+						})
+						// EDIT NUTRITION
 						.requestMatchers(HttpMethod.GET, "/nutritions/editNutrition/{nutritionId}")
 						.access((authentication, context) -> {
 							Long nutritionId = Long.valueOf(context.getVariables().get("nutritionId"));
 							return authentication.get().getAuthorities().stream()
-									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN")) ||
-									nutritionService.isOwner( nutritionId, authentication.get()) ?
-									new AuthorizationDecision(true) : new AuthorizationDecision(false);
-								})
+									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
+									||
+									nutritionService.isOwner(nutritionId, authentication.get())
+											? new AuthorizationDecision(true)
+											: new AuthorizationDecision(false);
+						})
 						.requestMatchers(HttpMethod.POST, "/nutritions/editNutrition/{nutritionId}")
 						.access((authentication, context) -> {
 							Long nutritionId = Long.valueOf(context.getVariables().get("nutritionId"));
 							return authentication.get().getAuthorities().stream()
-									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN")) ||
-									nutritionService.isOwner( nutritionId, authentication.get()) ?
-									new AuthorizationDecision(true) : new AuthorizationDecision(false);
-								})
-						//EDIT TRAINING COMMENT
+									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
+									||
+									nutritionService.isOwner(nutritionId, authentication.get())
+											? new AuthorizationDecision(true)
+											: new AuthorizationDecision(false);
+						})
+						// EDIT TRAINING COMMENT
 						.requestMatchers(HttpMethod.GET, "/trainingComments/{trainingId}/{commentId}/editcomment")
 						.access((authentication, context) -> {
 							Long commentId = Long.valueOf(context.getVariables().get("commentId"));
 							return authentication.get().getAuthorities().stream()
-									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN")) ||
-									trainingCommentService.isOwnerComment(commentId, authentication.get()) ?
-									new AuthorizationDecision(true) : new AuthorizationDecision(false);
+									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
+									||
+									trainingCommentService.isOwnerComment(commentId, authentication.get())
+											? new AuthorizationDecision(true)
+											: new AuthorizationDecision(false);
 						})
 						.requestMatchers(HttpMethod.POST, "/trainingComments/{trainingId}/{commentId}")
 						.access((authentication, context) -> {
 							Long commentId = Long.valueOf(context.getVariables().get("commentId"));
 							return authentication.get().getAuthorities().stream()
-									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN")) ||
-									trainingCommentService.isOwnerComment(commentId, authentication.get()) ?
-									new AuthorizationDecision(true) : new AuthorizationDecision(false);
+									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
+									||
+									trainingCommentService.isOwnerComment(commentId, authentication.get())
+											? new AuthorizationDecision(true)
+											: new AuthorizationDecision(false);
 						})
-						//EDIT NUTRITION COMMENT
+						// EDIT NUTRITION COMMENT
 						.requestMatchers(HttpMethod.GET, "/nutritionComments/{nutritionId}/{commentId}/editcomment")
 						.access((authentication, context) -> {
 							Long commentId = Long.valueOf(context.getVariables().get("commentId"));
 							return authentication.get().getAuthorities().stream()
-									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN")) ||
-									nutritionCommentService.isOwnerComment(commentId, authentication.get()) ?
-									new AuthorizationDecision(true) : new AuthorizationDecision(false);
+									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
+									||
+									nutritionCommentService.isOwnerComment(commentId, authentication.get())
+											? new AuthorizationDecision(true)
+											: new AuthorizationDecision(false);
 						})
 						.requestMatchers(HttpMethod.POST, "/nutritionComments/{nutritionId}/{commentId}")
 						.access((authentication, context) -> {
 							Long commentId = Long.valueOf(context.getVariables().get("commentId"));
 							return authentication.get().getAuthorities().stream()
-									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN")) ||
-									nutritionCommentService.isOwnerComment(commentId, authentication.get()) ?
-									new AuthorizationDecision(true) : new AuthorizationDecision(false);
+									.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
+									||
+									nutritionCommentService.isOwnerComment(commentId, authentication.get())
+											? new AuthorizationDecision(true)
+											: new AuthorizationDecision(false);
 						})
 
-                        );
+				);
 
-				//.csrf(csrf -> csrf.disable())
-				http.formLogin(formLogin -> formLogin
-						.loginPage("/login")
-						.failureUrl("/login?error=true")
-						.defaultSuccessUrl("/index")
-						.permitAll())
+		http.formLogin(formLogin -> formLogin
+				.loginPage("/login")
+				.failureUrl("/login?error=true")
+				.defaultSuccessUrl("/index")
+				.permitAll())
 
 				.logout(logout -> logout
 						.logoutUrl("/logout")
