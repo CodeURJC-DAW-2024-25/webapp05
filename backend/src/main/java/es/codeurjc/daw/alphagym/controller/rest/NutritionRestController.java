@@ -138,7 +138,7 @@ public class NutritionRestController {
 
             return nutritionService.editDietDTO(id, updateNutritionDTO);
         } else {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para editar esta dieta");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No tienes permisos para editar esta dieta");
         }
     }
 
@@ -206,11 +206,19 @@ public class NutritionRestController {
     })
 
     @PutMapping("/{id}/image")
-    public ResponseEntity<Object> replaceNutritionImage(@PathVariable long id, @RequestParam MultipartFile imgNutrition) throws IOException {
+    public ResponseEntity<Object> replaceNutritionImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        nutritionService.replaceNutritionImage(id, imgNutrition.getInputStream(), imgNutrition.getSize());
+        if (nutritionService.isOwner(id, authentication) || authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
 
-        return ResponseEntity.noContent().build();
+            nutritionService.replaceNutritionImage(id, imageFile.getInputStream(), imageFile.getSize());
+
+            return ResponseEntity.noContent().build();
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "No tienes permisos para editar este entrenamiento");
+        }
     }
 
     @Operation(summary = "Delete the image of a nutrition")
@@ -221,11 +229,19 @@ public class NutritionRestController {
     })
 
     @DeleteMapping("/{id}/image")
-    public ResponseEntity<Object> deleteNutritionImage(@PathVariable long id) throws IOException {
+    public ResponseEntity<Object> deleteNutritionImage(@PathVariable long id) throws IOException, SQLException {
 
-        nutritionService.deleteNutritionImage(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        return ResponseEntity.noContent().build();
+        if (authentication!=null || authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+            nutritionService.deleteNutritionImage(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "No tienes permisos para editar este entrenamiento");
+        }
+
     }
 
     @Operation(summary = "Get paginated nutritions")

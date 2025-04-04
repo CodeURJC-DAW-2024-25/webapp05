@@ -197,13 +197,10 @@ public class NutritionService {
         Nutrition oldNutrition = nutritionRepository.findById(id).orElseThrow();
         Nutrition updatedNutrition = toDomain(updatedNutritionDTO);
         updatedNutrition.setId(id);
-
-        if (oldNutrition.getImage() && updatedNutrition.getImage()){
-
-            updatedNutrition.setImgNutrition(BlobProxy.generateProxy(oldNutrition.getImgNutrition().getBinaryStream(), 
-            oldNutrition.getImgNutrition().length()));
-        }
-
+        updatedNutrition.setImgNutrition(BlobProxy.generateProxy(oldNutrition.getImgNutrition().getBinaryStream(),
+        oldNutrition.getImgNutrition().length()));
+        updatedNutrition.setNutritionComments(oldNutrition.getComments());
+        updatedNutrition.setUser(oldNutrition.getUser());
         nutritionRepository.save(updatedNutrition);
 
         return toDTO(updatedNutrition);
@@ -282,16 +279,17 @@ public class NutritionService {
 		nutritionRepository.save(nutrition);
 	}
 
-	public void deleteNutritionImage(long id) {
+	public void deleteNutritionImage(long id) throws IOException, SQLException {
 
 		Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
 
-		if (!nutrition.getImage()) {
-			throw new NoSuchElementException();
-		}
-
-		nutrition.setImgNutrition(null);
-		nutrition.setImage(false);
+        if(nutrition.getImgNutrition() == null){
+            throw new NoSuchElementException();
+        }
+        ClassPathResource imgFileDefault = new ClassPathResource("static/images/emptyImage.png");
+        byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
+        Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
+        nutrition.setImgNutrition(imageBlobDefault);
 
 		nutritionRepository.save(nutrition);
 	}
