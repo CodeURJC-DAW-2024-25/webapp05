@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -143,26 +144,15 @@ public class UserRestController {
                         @ApiResponse(responseCode = "403", description = "User not authorized", content = @Content),
                         @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
         })
-        @PostMapping("/{id}/delete")
-        public ResponseEntity<Object> deleteUser(@PathVariable Long id) {
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
 
-                UserDTO userdto = userService.getAuthenticatedUserDto()
-                                .orElseThrow(() -> new NoSuchElementException("User not authenticated"));
-
-                if (userdto.roles().contains("ROLE_ADMIN") && userService.findById(id).isPresent()) {
-                        // Only Admin can delete any user
-                        userService.deleteUser(id);
-                        return ResponseEntity.noContent().build();
+                try {
+                userService.deleteUser(id);
+                return ResponseEntity.noContent().build();
+                } catch (IllegalArgumentException e) {
+                return ResponseEntity.notFound().build();
                 }
-                // If the user is not an admin, delete only his own account
-                else if (userdto.id() == (id) && userService.findById(id).isPresent()) {
-                        userService.deleteUser(id);
-                        return ResponseEntity.noContent().build();
-                } else {
-                        // User not found or not authorized to delete this user
-                        return ResponseEntity.status(403).build();
-                }
-
         }
 
         @Operation(summary = "Registers the image of a user")
