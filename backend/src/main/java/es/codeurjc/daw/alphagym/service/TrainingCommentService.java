@@ -6,11 +6,14 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import es.codeurjc.daw.alphagym.model.User;
+
+import org.mapstruct.control.MappingControl.Use;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.daw.alphagym.dto.TrainingCommentDTO;
@@ -18,6 +21,8 @@ import es.codeurjc.daw.alphagym.dto.TrainingCommentMapper;
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.repository.TrainingCommentRepository;
+import es.codeurjc.daw.alphagym.repository.UserRepository;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
@@ -29,6 +34,9 @@ public class TrainingCommentService {
 
     @Autowired
     private TrainingCommentMapper trainingCommentMapper;
+
+    @Autowired
+    private UserRepository userRepository;
         
     public List<TrainingComment> getAllTrainingComments() {
         List<TrainingComment> listTrainingComments = trainingCommentRepository.findAll();
@@ -127,6 +135,15 @@ public class TrainingCommentService {
         return "redirect:/admin";
     }
 
+    public User getAuthorFromComment(Long commentId) {
+        TrainingComment comment = trainingCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            return comment.getUser();
+        } else {
+            return null;
+        }
+    }
+
     //REST METHODS
 
     public Collection<TrainingCommentDTO> getAllTrainingCommentsDTO() {
@@ -136,6 +153,10 @@ public class TrainingCommentService {
     public Collection<TrainingCommentDTO> getTrainingCommentsByIdDTO(Long trainingId) {
         return trainingCommentMapper.toDTOs(trainingCommentRepository.findByTrainingId(trainingId));
     }
+
+    public TrainingCommentDTO getSingleTrainingCommentByIdDTO(Long trainingId) {
+        return trainingCommentMapper.toDTO(trainingCommentRepository.findById(trainingId).orElse(null));
+    }
     
     public List<TrainingCommentDTO> getPaginatedCommentsDTO(Long trainingId, int page, int limit) {
         return trainingCommentRepository
@@ -144,8 +165,9 @@ public class TrainingCommentService {
             .toList();
     }
 
-    public TrainingCommentDTO createTrainingCommentDTO(TrainingCommentDTO trainingCommentDTO) {
+    public TrainingCommentDTO createTrainingCommentDTO(TrainingCommentDTO trainingCommentDTO, User user) {
         TrainingComment trainingComment = toDomain(trainingCommentDTO);
+        trainingComment.setUser(user);
         trainingComment = trainingCommentRepository.save(trainingComment);
         return toDTO(trainingComment);
     }
@@ -160,6 +182,7 @@ public class TrainingCommentService {
 
         if (trainingCommentRepository.existsById(trainingId)) {
             TrainingComment updatedComment = toDomain(updatedCommentDTO);
+            updatedComment.setUser(getAuthorFromComment(trainingId));
             updatedComment.setId(trainingId);
             trainingCommentRepository.save(updatedComment);
             return toDTO(updatedComment);
@@ -210,6 +233,19 @@ public class TrainingCommentService {
     //Data which comes from API result converted to the expected structure in the backend
     public TrainingComment toDomain(TrainingCommentDTO trainingCommentDTO) {
         return trainingCommentMapper.toDomain(trainingCommentDTO);
+    }
+
+
+    public  User getAuthenticationUser (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null ) {
+           Optional<User> user = userRepository.findByEmail(authentication.getName());
+           if (user.isPresent()){
+              return user.get();
+           }
+        }
+        return null;
     }
 
 }

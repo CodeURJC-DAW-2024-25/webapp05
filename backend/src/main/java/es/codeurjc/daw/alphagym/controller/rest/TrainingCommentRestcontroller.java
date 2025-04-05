@@ -59,6 +59,17 @@ public class TrainingCommentRestcontroller {
     public Collection<TrainingCommentDTO> getTrainingCommentsByTrainingId(@PathVariable Long trainingId) {
         return trainingCommentService.getTrainingCommentsByIdDTO(trainingId);
     }
+
+    @Operation(summary = "Get training comment by id",description="Get training comment by id")
+    @ApiResponses(value={
+        @ApiResponse(responseCode="200",description="Training comment found"),
+        @ApiResponse(responseCode="400",description="Bad request"),
+        @ApiResponse(responseCode="404",description="Training comment not found")
+    })
+    @GetMapping("/comment/{id}/")
+    public TrainingCommentDTO getTrainingCommentById(@PathVariable Long id) {
+        return trainingCommentService.getSingleTrainingCommentByIdDTO(id);
+    }
     
     @Operation(summary = "Get paginated training comments",description="Get paginated training comments")
     @ApiResponses(value={
@@ -86,8 +97,15 @@ public class TrainingCommentRestcontroller {
     @PostMapping("/")
     public ResponseEntity<TrainingCommentDTO> createTrainingComment(
             @RequestBody TrainingCommentDTO trainingCommentDTO) throws SQLException, IOException {
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        trainingCommentDTO = trainingCommentService.createTrainingCommentDTO(trainingCommentDTO);
+
+        if (authentication != null) {
+            trainingCommentDTO = trainingCommentService.createTrainingCommentDTO(trainingCommentDTO, trainingCommentService.getAuthenticationUser());
+        }else{
+            trainingCommentDTO = trainingCommentService.createTrainingCommentDTO(trainingCommentDTO, null);
+        }
         
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -129,7 +147,15 @@ public class TrainingCommentRestcontroller {
     })
     @DeleteMapping("/")
     public TrainingCommentDTO deleteTrainingComment(@RequestParam Long id) {
-        return trainingCommentService.deleteCommentbyIdDTO(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication!=null && authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+            return trainingCommentService.deleteCommentbyIdDTO(id);
+        }else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "No tienes permisos para eliminar este comentario de entrenamiento");
+        }
     }
 
     @Operation(summary = "Report training comment",description="Report training comment")
@@ -141,8 +167,17 @@ public class TrainingCommentRestcontroller {
     })
     @PutMapping("/report")
     public ResponseEntity<TrainingCommentDTO> reportComment(@RequestParam Long commentId) {
-        TrainingCommentDTO updatedComment = trainingCommentService.reportTrainingComment(commentId);
-        return ResponseEntity.ok(updatedComment);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication!=null && authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_USER"))) {
+            TrainingCommentDTO updatedComment = trainingCommentService.reportTrainingComment(commentId);
+            return ResponseEntity.ok(updatedComment);
+        }else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "No tienes permisos para reportar este comentario de entrenamiento");
+        }
+        
     }
 
     @Operation(summary = "Unreport training comment",description="Unreport training comment")
@@ -154,8 +189,16 @@ public class TrainingCommentRestcontroller {
     })
     @PutMapping("/valid")
     public ResponseEntity<TrainingCommentDTO> unreportComment(@RequestParam Long commentId) {
-        TrainingCommentDTO updatedComment = trainingCommentService.unreportTrainingComment(commentId);
-        return ResponseEntity.ok(updatedComment);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication!=null && authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+            TrainingCommentDTO updatedComment = trainingCommentService.unreportTrainingComment(commentId);
+            return ResponseEntity.ok(updatedComment);
+        }else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "No tienes permisos para validar este comentario de entrenamiento");
+        }
     }
 
 }
