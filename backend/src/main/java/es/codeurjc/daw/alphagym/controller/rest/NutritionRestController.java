@@ -156,7 +156,7 @@ public class NutritionRestController {
     public NutritionDTO deleteNutrition(@PathVariable Long id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
  
-        if (authentication!=null || authentication.getAuthorities().stream()
+        if (authentication!=null && authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
             return nutritionService.deleteDietDTO(id);
         }else {
@@ -233,7 +233,7 @@ public class NutritionRestController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication!=null || authentication.getAuthorities().stream()
+        if (authentication!=null && authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
             nutritionService.deleteNutritionImage(id);
             return ResponseEntity.noContent().build();

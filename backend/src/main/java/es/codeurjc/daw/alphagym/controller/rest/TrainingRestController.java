@@ -144,7 +144,7 @@ public class TrainingRestController {
     public TrainingDTO deleteTraining(@PathVariable long trainingId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication!=null || authentication.getAuthorities().stream()
+        if (authentication!=null && authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
             return trainingService.deleteTraining(trainingId);
         }else {
@@ -216,7 +216,7 @@ public class TrainingRestController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication!=null || authentication.getAuthorities().stream()
+        if (authentication!=null && authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
              trainingService.deleteTrainingImage(trainingId);
              return ResponseEntity.noContent().build();
