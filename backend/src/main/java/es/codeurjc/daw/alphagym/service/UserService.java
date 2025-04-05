@@ -1,6 +1,7 @@
 package es.codeurjc.daw.alphagym.service;
 
 import es.codeurjc.daw.alphagym.dto.UserDTO;
+import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import es.codeurjc.daw.alphagym.security.LoginRequest;
@@ -23,6 +24,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -203,10 +205,20 @@ public class UserService {
     public void replaceUserImage(long id, InputStream inputStream, long size) {
 
         User user = userRepository.findById(id).orElseThrow();
+        user.setImgUser(BlobProxy.generateProxy(inputStream, size));
+        userRepository.save(user);
+    }
 
-        if (user.getImgUser() == null) {
+    public void deleteUserImage(long id) throws IOException, SQLException {
+        User user = userRepository.findById(id).orElseThrow();
+        if(user.getImgUser() == null){
             throw new NoSuchElementException();
         }
+        ClassPathResource imgFileDefault = new ClassPathResource("static/images/profile-picture-default.jpg");
+        byte[] imageBytesDefault = Files.readAllBytes(imgFileDefault.getFile().toPath());
+        Blob imageBlobDefault = new SerialBlob(imageBytesDefault);
+        user.setImgUser(imageBlobDefault);
+        userRepository.save(user);
     }
 
     public Collection<UserDTO> getUsers() {
