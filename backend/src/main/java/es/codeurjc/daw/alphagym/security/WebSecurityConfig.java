@@ -92,6 +92,7 @@ public class WebSecurityConfig {
 						// For User
 						.requestMatchers(HttpMethod.GET, "/api/users/all").hasAnyRole("ADMIN")
 						.requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
+						.requestMatchers(HttpMethod.GET, "/api/users/*/image").hasRole("USER")
 						.requestMatchers(HttpMethod.PUT, "/api/users/*").hasAnyRole("USER", "ADMIN")
 						.requestMatchers(HttpMethod.PUT, "/api/users/*/image").hasRole("USER")
 						.requestMatchers(HttpMethod.DELETE, "/api/users/*").hasAnyRole("ADMIN")
@@ -111,6 +112,7 @@ public class WebSecurityConfig {
 						.requestMatchers(HttpMethod.POST, "/api/nutritions/").hasAnyRole("USER")
 						.requestMatchers(HttpMethod.PUT, "/api/nutritions/*").hasAnyRole("USER")
 						.requestMatchers(HttpMethod.PUT, "/api/nutritions/*/image").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.PATCH, "/api/trainings/*").hasAnyRole("USER")
 						.requestMatchers(HttpMethod.DELETE, "/api/nutritions/**").hasRole("ADMIN")
 
 						// For TrainingComments
