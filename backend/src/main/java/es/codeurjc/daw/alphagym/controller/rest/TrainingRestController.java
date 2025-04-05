@@ -23,17 +23,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -124,6 +116,31 @@ public class TrainingRestController {
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
 
             return trainingService.replaceTraining(trainingId, trainingDTO);
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "No tienes permisos para editar este entrenamiento");
+        }
+    }
+
+    @Operation(summary = "Replace parcial training")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Training atributes replaced", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = TrainingDTO.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad request - Invalid parameters", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access - Authentication is required", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Forbidden - You don't have permission to access", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Training not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+    @PatchMapping("/{trainingId}")
+    public TrainingDTO replaceParcialTraining(@PathVariable long trainingId, @RequestBody TrainingDTO trainingDTO)
+            throws SQLException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (trainingService.isOwner(trainingId, authentication) || authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+
+            return trainingService.replaceParcialTraining(trainingId, trainingDTO);
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "No tienes permisos para editar este entrenamiento");

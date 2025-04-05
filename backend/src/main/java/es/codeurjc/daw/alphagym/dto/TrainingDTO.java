@@ -5,5 +5,6 @@ public record TrainingDTO (
         String name,
         String description,
         String goal,
-        String intensity){
+        String intensity,
+        int  duration){
 }

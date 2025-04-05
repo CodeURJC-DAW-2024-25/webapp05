@@ -212,6 +212,37 @@ public class TrainingService {
 
     }
 
+    public TrainingDTO replaceParcialTraining(Long trainingId, TrainingDTO trainingDTO) throws SQLException {
+        Training oldTraining = trainingRepository.findById(trainingId).orElseThrow();
+        if (trainingRepository.findById(trainingId)!=null) {
+            Training training = toDomain(trainingDTO);
+            training.setId(trainingId);
+            training.setUser(oldTraining.getUser());
+            training.setTrainingComments(trainingRepository.findById(trainingId).get().getComments());
+            training.setImgTraining(BlobProxy.generateProxy(oldTraining.getImgTraining().getBinaryStream(),oldTraining.getImgTraining().length()));
+            if (training.getName()==null){
+                training.setName(oldTraining.getName());
+            }
+            if (training.getGoal()==null){
+                training.setGoal(oldTraining.getGoal());
+            }
+            if (training.getDescription()==null){
+                training.setDescription(oldTraining.getDescription());
+            }
+            if (training.getIntensity()==null){
+                training.setIntensity(oldTraining.getIntensity());
+            }
+            if (training.getDuration()==0){
+                training.setDuration(oldTraining.getDuration());
+            }
+            trainingRepository.save(training);
+            return toDTO(training);
+        } else {
+            throw new NoSuchElementException();
+        }
+
+    }
+
     public TrainingDTO deleteTraining(Long id){
         Optional<Training> theRoutine = trainingRepository.findById(id);
         if (theRoutine.isPresent()) {

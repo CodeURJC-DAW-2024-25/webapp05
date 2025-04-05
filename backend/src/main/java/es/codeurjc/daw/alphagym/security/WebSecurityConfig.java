@@ -104,6 +104,7 @@ public class WebSecurityConfig {
 						.requestMatchers(HttpMethod.POST, "/api/trainings/").hasAnyRole("USER")
 						.requestMatchers(HttpMethod.PUT, "/api/trainings/*").hasAnyRole("USER")
 						.requestMatchers(HttpMethod.PUT, "/api/trainings/*/image").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.PATCH, "/api/trainings/*").hasAnyRole("USER")
 						.requestMatchers(HttpMethod.DELETE, "/api/trainings/**").hasRole("ADMIN")
 
 						// For Nutrition
