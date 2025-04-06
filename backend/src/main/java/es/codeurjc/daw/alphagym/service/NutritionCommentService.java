@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.server.ResponseStatusException;
 
 import es.codeurjc.daw.alphagym.dto.NutritionCommentDTO;
 import es.codeurjc.daw.alphagym.dto.NutritionCommentMapper;
@@ -20,6 +23,7 @@ import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.NutritionComment;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
+import es.codeurjc.daw.alphagym.repository.UserRepository;
 
 @Service
 public class NutritionCommentService {
@@ -28,6 +32,8 @@ public class NutritionCommentService {
     private NutritionCommentRepository nutritionCommentRepository;
     @Autowired
     private NutritionCommentMapper nutritionCommentMapper;
+    @Autowired
+    private UserRepository userRepository;
 
     public List<NutritionComment> getAllNutritionComments() {
         List<NutritionComment> listNutritionComment = nutritionCommentRepository.findAll();
@@ -124,6 +130,15 @@ public class NutritionCommentService {
         return "redirect:/admin";
     }
 
+    public User getAuthorFromComment(Long commentId) {
+        NutritionComment comment = nutritionCommentRepository.findById(commentId).orElse(null);
+        if (comment != null) {
+            return comment.getUser();
+        } else {
+            return null;
+        }
+    }
+
     /*
      * Add the following DTOs methods
      */
@@ -135,6 +150,10 @@ public class NutritionCommentService {
         return nutritionCommentMapper.toDTOs(nutritionCommentRepository.findByNutritionId(nutritionId));
     }
 
+    public NutritionCommentDTO getSingleNutritionCommentByIdDTO(Long nutritionId) {
+        return nutritionCommentMapper.toDTO(nutritionCommentRepository.findById(nutritionId).orElse(null));
+    }
+
     public List<NutritionCommentDTO> getPaginatedCommentsDTO(Long nutritionId, int page, int limit) {
         return nutritionCommentRepository
                 .findByNutritionId(nutritionId, PageRequest.of(page, limit))
@@ -142,8 +161,9 @@ public class NutritionCommentService {
                 .toList();
     }
 
-    public NutritionCommentDTO createNutritionCommentDTO(NutritionCommentDTO nutritionCommentDTO) {
+    public NutritionCommentDTO createNutritionCommentDTO(NutritionCommentDTO nutritionCommentDTO, User user) {
         NutritionComment nutritionComment = toDomain(nutritionCommentDTO);
+        nutritionComment.setUser(user); // Set the user who created the comment
         nutritionComment = nutritionCommentRepository.save(nutritionComment);
         return toDTO(nutritionComment);
     }
@@ -155,6 +175,9 @@ public class NutritionCommentService {
 
             // Convert the updated DTO to the domain entity
             NutritionComment updatedComment = toDomain(updatedCommentDTO);
+
+            // Set the nutrition and user for the updated comment
+            updatedComment.setUser(getAuthorFromComment(nutritionId));
 
             // Assign the same ID to the updated comment
             updatedComment.setId(nutritionId);
@@ -178,7 +201,7 @@ public class NutritionCommentService {
     }
 
     public NutritionCommentDTO reportNutritionComment(Long commentId) {
-        //Search a comment in the database
+        // Search a comment in the database
         Optional<NutritionComment> optionalComment = nutritionCommentRepository.findById(commentId);
 
         if (optionalComment.isPresent()) {
@@ -221,6 +244,32 @@ public class NutritionCommentService {
     // backend
     public NutritionComment toDomain(NutritionCommentDTO nutritionCommentDTO) {
         return nutritionCommentMapper.toDomain(nutritionCommentDTO);
+    }
+
+    public User getAuthenticationUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null) {
+            Optional<User> user = userRepository.findByEmail(authentication.getName());
+            if (user.isPresent()) {
+                return user.get();
+            }
+        }
+        return null;
+    }
+
+    public NutritionCommentDTO patchUpdateNutritionCommentDTO(Long id, NutritionCommentDTO updateDTO) {
+        NutritionComment comment = nutritionCommentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comentario no encontrado"));
+
+        if (updateDTO.description() != null)
+            comment.setDescription(updateDTO.description());
+        if (updateDTO.name() != null)
+            comment.setName(updateDTO.name());
+        if (updateDTO.isNotified() != null)
+            comment.setIsNotified(updateDTO.isNotified());
+
+        return toDTO(nutritionCommentRepository.save(comment));
     }
 
 }
