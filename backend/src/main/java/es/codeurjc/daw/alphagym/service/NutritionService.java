@@ -22,6 +22,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.NutritionCommentRepository;
 import es.codeurjc.daw.alphagym.repository.NutritionRepository;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -204,6 +206,19 @@ public class NutritionService {
         nutritionRepository.save(updatedNutrition);
 
         return toDTO(updatedNutrition);
+    }
+
+    public NutritionDTO partialUpdateNutritionDTO(Long id, NutritionDTO updateDTO) {
+        Nutrition nutrition = nutritionRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Nutrition not found"));
+
+        if (updateDTO.name() != null) nutrition.setName(updateDTO.name());
+        if (updateDTO.description() != null) nutrition.setDescription(updateDTO.description());
+        if (updateDTO.goal() != null) nutrition.setGoal(updateDTO.goal());
+        if (updateDTO.calories() != null) nutrition.setCalories(updateDTO.calories());
+
+        nutritionRepository.save(nutrition);
+        return toDTO(nutrition);
     }
 
     public NutritionDTO createOrReplaceNutrition(Long id, NutritionDTO nutritionDTO) throws SQLException {

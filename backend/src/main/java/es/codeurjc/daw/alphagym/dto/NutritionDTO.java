@@ -5,5 +5,5 @@ public record NutritionDTO(
     String name,
     String description,
     String goal,
-    int calories) {
+    Integer calories) {
 }

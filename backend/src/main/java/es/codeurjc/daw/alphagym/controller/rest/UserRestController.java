@@ -2,8 +2,14 @@ package es.codeurjc.daw.alphagym.controller.rest;
 
 import java.io.IOException;
 import java.net.URI;
+
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -108,14 +114,22 @@ public class UserRestController {
                         @ApiResponse(responseCode = "404", description = "User not found, user image not found or doesn't have permission to access it", content = @Content),
         })
         @GetMapping("/{id}/image")
-        public ResponseEntity<Object> getUserImage(@PathVariable long id) throws IOException, SQLException {
+        public ResponseEntity<Object> getUserImage(@PathVariable long id) throws  SQLException {
 
-                InputStreamResource userImage = userService.getUserImage(id);
+                Resource userImage = userService.getUserImage(id);
 
-                return ResponseEntity.ok()
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                UserDTO authenticatedUser = userService.getAuthenticatedUserDto()
+                        .orElseThrow(() -> new NoSuchElementException("User not authenticated"));
+
+                if (authentication.getAuthorities().stream()
+                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN")) || (authenticatedUser.id().equals(id)))  {
+                        return ResponseEntity.ok()
                                 .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
                                 .body(userImage);
+                }
 
+                throw new AccessDeniedException("You are not allowed to edit this user.");
         }
 
         @Operation(summary = "Registers a new user")
@@ -198,7 +212,7 @@ public class UserRestController {
                         return userService.updateUser(id, userDTO);
                 }
 
-                // Si no cumple ninguna de las condiciones, devuelve un error 403 (Forbidden)
+                // If not achieve any condition, return error 403 (Forbidden)
                 throw new AccessDeniedException("You are not allowed to edit this user.");
         }
 
@@ -217,7 +231,7 @@ public class UserRestController {
 
                 // An user, can edit only his own user image
                 Optional<UserDTO> authenticatedUserDto = userService.getAuthenticatedUserDto();
-                if (authenticatedUserDto.isPresent() && !authenticatedUserDto.get().id().equals(id)) {
+                if (authenticatedUserDto.isPresent() && !authenticatedUserDto.get().id().equals(id) && (authenticatedUserDto.get().roles().contains("ROLE_ADMIN"))) {
                         throw new AccessDeniedException("You are not allowed to edit this user.");
                 }else{
 
@@ -227,6 +241,27 @@ public class UserRestController {
                 }
         }
 
+        @Operation(summary = "Delete user image")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "204", description = "User image deleted", content = @Content),
+                @ApiResponse(responseCode = "404", description = "User image not found", content = @Content),
+                @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+        })
+        @DeleteMapping("/{id}/image")
+        public ResponseEntity<Object> deletePostImage(@PathVariable long id) throws IOException, SQLException {
+
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+                if (authentication!=null && authentication.getAuthorities().stream()
+                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+                        userService.deleteUserImage(id);
+                        return ResponseEntity.noContent().build();
+                } else {
+                        throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                                "No tienes permisos para editar este entrenamiento");
+                }
+
+        }
         @GetMapping("/reportedComments")
         public ResponseEntity<List<String>> getReportedComments() {
                 List<String> reportedComments = new ArrayList<>();
