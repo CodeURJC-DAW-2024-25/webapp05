@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import es.codeurjc.daw.alphagym.repository.UserRepository;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class TrainingCommentService {
@@ -246,6 +248,20 @@ public class TrainingCommentService {
            }
         }
         return null;
+    }
+
+    public TrainingCommentDTO patchUpdateTrainingCommentDTO(Long id, TrainingCommentDTO updateDTO) {
+        TrainingComment comment = trainingCommentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comentario no encontrado"));
+
+        if (updateDTO.description() != null)
+            comment.setDescription(updateDTO.description());
+        if (updateDTO.name() != null)
+            comment.setName(updateDTO.name());
+        if (updateDTO.isNotified() != null)
+            comment.setIsNotified(updateDTO.isNotified());
+
+        return toDTO(trainingCommentRepository.save(comment));
     }
 
 }

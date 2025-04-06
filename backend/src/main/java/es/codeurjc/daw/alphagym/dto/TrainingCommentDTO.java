@@ -4,7 +4,7 @@ public record TrainingCommentDTO(
     Long id, 
     String name, 
     String description, 
-    boolean isNotified,
+    Boolean isNotified,
     TrainingDTO training,
     UserDTO user) {
 }

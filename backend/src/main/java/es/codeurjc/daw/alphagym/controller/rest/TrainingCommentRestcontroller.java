@@ -24,6 +24,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -198,6 +199,27 @@ public class TrainingCommentRestcontroller {
         }else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "No tienes permisos para validar este comentario de entrenamiento");
+        }
+    }
+
+    @Operation(summary = "Partially update a training comment by ID", description = "Partially update a training comment by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Training comment partially updated"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "403", description = "Forbidden-Access denied"),
+            @ApiResponse(responseCode = "404", description = "Training comment not found")
+    })    
+    @PatchMapping("/{id}")
+    public TrainingCommentDTO patchTrainingComment(@PathVariable Long id,
+    @RequestBody TrainingCommentDTO partialUpdateDTO){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (trainingCommentService.isOwnerComment(id, authentication) || authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+            return trainingCommentService.patchUpdateTrainingCommentDTO(id, partialUpdateDTO);
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "No tienes permisos para editar este comentario de dieta");
         }
     }
 

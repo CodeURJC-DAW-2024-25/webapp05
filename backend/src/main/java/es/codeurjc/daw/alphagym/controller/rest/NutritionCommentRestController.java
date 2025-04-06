@@ -199,7 +199,7 @@ public class NutritionCommentRestController {
 
     @Operation(summary = "Partially update a nutrition comment by ID", description = "Partially update a nutrition comment by ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Nutrition comment unreported"),
+            @ApiResponse(responseCode = "200", description = "Nutrition comment partially updated"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "403", description = "Forbidden-Access denied"),
             @ApiResponse(responseCode = "404", description = "Nutrition comment not found")
