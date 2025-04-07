@@ -146,6 +146,7 @@ public class UserService {
         }
         User user = toUser(userDTO);
         user.setEncodedPassword(passwordEncoder.encode(userDTO.password()));
+        user.setRoles(List.of("USER"));
         userRepository.save(user);
         return toUserDTO(user);
     }
@@ -178,17 +179,6 @@ public class UserService {
         }
 
         return toUserDTO(userRepository.save(user));
-    }
-
-    public void createUserImage(long id, URI location, InputStream inputStream, long size) {
-
-        User user = userRepository.findById(id).orElseThrow();
-
-        user.setImgUserPath(location.toString()); // convert URI to String
-        user.setImgUser(BlobProxy.generateProxy(inputStream, size)); // convert InputStream to Blob
-
-        userRepository.save(user);
-
     }
 
     public InputStreamResource getUserImage(long id) throws SQLException {

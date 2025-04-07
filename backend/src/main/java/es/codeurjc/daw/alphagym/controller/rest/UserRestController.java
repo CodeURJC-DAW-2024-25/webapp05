@@ -169,25 +169,6 @@ public class UserRestController {
                 }
         }
 
-        @Operation(summary = "Registers the image of a user")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "201", description = "Image created correctly", content = @Content),
-                        @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
-                        @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
-                        @ApiResponse(responseCode = "403", description = "User not authorized", content = @Content),
-                        @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
-        })
-        @PostMapping("{id}/image")
-        public ResponseEntity<Object> createUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
-                        throws IOException {
-
-                URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-
-                userService.createUserImage(id, location, imageFile.getInputStream(), imageFile.getSize());
-
-                return ResponseEntity.created(location).build();
-        }
-
         @Operation(summary = "Update a user by its id")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "User updated correctly", content = {
