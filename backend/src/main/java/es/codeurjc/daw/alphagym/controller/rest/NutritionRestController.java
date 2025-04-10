@@ -101,14 +101,6 @@ public class NutritionRestController {
         return ResponseEntity.created(location).body(nutritionService.toDTO(nutrition));
 
     }
-    /*public ResponseEntity<NutritionDTO> createNutrition (@RequestBody NutritionDTO nutritionDTO){
-
-            nutritionDTO = nutritionService.createNutritionDTO(nutritionDTO);
-
-            URI location = fromCurrentRequest().path("/{id}").buildAndExpand(nutritionDTO.id()).toUri();
-
-            return ResponseEntity.created(location).body(nutritionDTO);
-    }*/
 
     @Operation(summary = "Edit a nutrition by ID")
     @ApiResponses(value = {
@@ -206,7 +198,7 @@ public class NutritionRestController {
     })
 
     @GetMapping("/{id}/image")
-    public ResponseEntity<Object> getNutritionImage(@PathVariable long id) throws SQLException, IOException {
+    public ResponseEntity<Object> getNutritionImage(@PathVariable long id) throws SQLException {
 
         Resource postImage = nutritionService.getNutritionImage(id);
 

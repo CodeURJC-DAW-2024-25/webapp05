@@ -9,9 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
 import javax.sql.rowset.serial.SerialBlob;
-
 import es.codeurjc.daw.alphagym.dto.TrainingDTO;
 import es.codeurjc.daw.alphagym.dto.TrainingMapper;
 import es.codeurjc.daw.alphagym.dto.UniqueTrainingDTO;
@@ -23,11 +21,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.net.URI;
-
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;

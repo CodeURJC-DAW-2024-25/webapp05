@@ -1,12 +1,9 @@
 package es.codeurjc.daw.alphagym.service;
 
 import es.codeurjc.daw.alphagym.dto.UserDTO;
-import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import es.codeurjc.daw.alphagym.security.LoginRequest;
-
-import es.codeurjc.daw.alphagym.security.jwt.JwtTokenProvider;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,11 +16,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;

@@ -95,7 +95,7 @@ public class NutritionCommentRestController {
 
     @PostMapping("/")
     public ResponseEntity<NutritionCommentDTO> createNutritionComment(
-            @RequestBody NutritionCommentDTO nutritionCommentDTO) throws SQLException, IOException {
+            @RequestBody NutritionCommentDTO nutritionCommentDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null) {

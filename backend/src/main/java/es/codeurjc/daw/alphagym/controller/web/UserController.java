@@ -43,7 +43,7 @@ public class UserController {
         Principal principal = request.getUserPrincipal();
 
         if (principal != null) {
-            Optional <User> user = userService.findByEmail(principal.getName()); //se usa getName porque asi se hace desde security
+            Optional <User> user = userService.findByEmail(principal.getName());
             if (user.isPresent()){
                 if (user.get().isRole("USER")){
                     model.addAttribute("user", true);
