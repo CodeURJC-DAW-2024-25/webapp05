@@ -305,6 +305,7 @@ public class TrainingService {
                 .map(trainingMapper::toDTO)
                 .toList();
     }
+
     public  User getAuthenticationUser (){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -316,6 +317,7 @@ public class TrainingService {
         }
         return null;
     }
+
 }
 
 
