@@ -29,7 +29,7 @@ Las principales entidades de la aplicación son:
 ## 🔑 Permisos de los usuarios
 - **Anónimo**: Puede ver los diferentes entreamientos y rutinas disponibles, no puede acceder a los comentarios personalizados de entrenamiento ni a los comentarios de nutrición, puede registrarse
 - **Registrado**: Puede ver los diferentes comentarios publicados(Comentario), puede publicar un comentario(Comentario),  puede acceder a sus planes de entrenamiento(Entrenamiento), puede solicitar planes personalizados o automáticos de entrenamiento(Entrenamiento), puede acceder a sus planes de nutrición(Nutrición), puede solicitar planes personalizados o automáticos de nutrición(Nutrición).
-- **Admin**: Tiene todos los permisos de un usuario registrado y permisos para crear planes de entrenamiento y de nutrición.
+- **Admin**: Tiene todos los permisos de un usuario registrado y permisos para crear planes de entrenamiento y de nutrición, además, podrá eliminar tanto dietas y rutinas(y sus respectivos comentarios).
 
 ## 🖼️ Imágenes
 Las siguientes entidades tendrán imágenes asociadas:
@@ -374,18 +374,60 @@ Se puede acceder a la documentación de la API de 2 formas, a traves de consulta
 
 
 ## Creacion de la imagen y contenedores docker
-Se necesita tener instalado docker. Para empezar debemos acceder al proyecto en el cmd 
+Se necesita tener instalado docker en la maquina local. Para empezar debemos acceder al proyecto en el cmd abriendo la teminal en el proyecto desde el explorador de archivos
 
-Posteriormente acceder a la carpeta docker y ejecutar ->  ./create_Image.ps1 
-
-Previamente se ha debido realizar "mvn package" para generar la carpeta tarjet, que contendra el archivo .jar
+Posteriormente ejecutaremos en la teminal desde webapp05 la siguiente instrucción para ejecutar el script te construcción que hará uso del DockerFile para construir la imagen en DockerHub
+```bash
+./docker/create_Image.ps1
+```
 
 Cabe destacar que se necesitara el nombre del usuario de la cuenta de docker para lanzar la imagen, dicho nombre se introducira en el create_Image.ps1 sustituyendo vcandel:
 
 ![image](https://github.com/user-attachments/assets/5291a1b3-a952-4cfe-8c16-2eec34ed020f)
 
-Para crear los contenedores correspondientes en la misma ruta del cmd introduciremos -> docker compose up 
+Para crear los contenedores correspondientes en la misma ruta del cmd introduciremos el siguiente comando para ponernos sobre la carpeta docker
 
+```bash
+cd docker 
+```
+
+Y posteriormente para crear los contenedores a partir de la imagen ejecutaremos: 
+```bash
+docker compose up 
+```
+
+## Lanzar la aplicación en la maquina virtual
+### Requerimientos
+ - Tener el sistema operativo: Ubuntu 22.04
+ - Clave privada de acceso a la maquina virtual: 'appWeb05.key'
+ - Tener conexión activa a eduroam, en nuestro caso usaremos el escritorio de ubuntu proporcionado por la universidad en myApps
+
+### Pasos a seguir para lanzar la aplicación
+Antes de nada importaremos a la unidad R el archivo zip porporcionado por los profesores con las claves necesarias y estraeremos sus archivos al escritorio.
+Posteriormente, abriremos la terminal y navegaremos hacia la carpeta Escritorio y a continuación a la carpeta ssh-keys. Ya en dicha ruta podemos establecer conexión con la maquina virtual con el siguiente comando: 
+```bash
+ssh -i appWeb05.key vmuser@10.100.139.196
+```
+Podemos apreciar los pasos anteriores en la siguiente imagen:
+
+![image](https://github.com/user-attachments/assets/21d7ed0b-b4da-434a-b193-176430b2da26)
+
+En este punto antes de nada necesitaremos instalar en la maquina virtual lo siguiente (y a su derecha el enlace donde se explica como hacerlo):
+  - Docker: [Instrucciones de instalación de docker] (https://docs.docker.com/engine/install/ubuntu/)
+  - Docker Compose: [Instrucciones de instalación de docker compose] (https://docs.docker.com/compose/install/)
+
+Despues procederemos a clonar el repositorio en la maquina virtual con el siguiente comando:
+```bash
+git clone https://github.com/victorcc02/EntregaFase2DAW
+```
+Después procederemos a navegar a dicho proyecto, y despues, acceder a su carpeta docker y ejecutar el comando previamente visto añadiendole "sudo" para darle permisos: 
+```bash
+sudo docker compose up 
+```
+Hecho esto, se habran construido los contenedores a partir de nuestra imagen de DockerHub y podremos acceder a la web a través de la siguiente URL:
+```bash
+https://10.100.139.196:443
+```
 
 ## Diagrama de clases y templates: 
 Este diagrama proporciona información general sobre la estructura de la aplicación y de cómo interactuan entre ellas. Tambien incorpora los nuevos REST Controller:
