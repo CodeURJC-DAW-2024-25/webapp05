@@ -1,0 +1,63 @@
+<ng-container *ngIf="training; else loading">
+  <div class="container mt-5" >
+    <h2 class="text-center">Routine Details of routine {{ training.id }} </h2>
+
+    <div class="mb-3">
+      <img
+        [src]="'/api/trainings/'+training.id+'/image'"
+        class="card-img-top"
+        [alt]="training.name"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Routine Name</label>
+      <p class="form-control">{{ training.name }}</p>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Routine Intensity:</label>
+      <p class="form-control">{{ training.intensity }}</p>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Routine Duration:</label>
+      <p class="form-control">{{ training.duration }}</p>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Routine Goal:</label>
+      <p class="form-control">{{ training.goal }}</p>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Routine exercises:</label>
+      <textarea class="form-control" rows="4" readonly>{{ training.description }}</textarea>
+    </div>
+
+    <div class="mb-3" *ngIf="logged">
+      <a class="btn-load w-100" [routerLink]="['/trainingComments', training.id, 'newComment']">Add Comment</a>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3">
+      <ng-container *ngIf="logged">
+        <ng-container *ngIf="!admin">
+          <button *ngIf="subscribed" class="btn-load goToUnsubscribeRoutine" (click)="onUnsubscribe()">Unsubscribe</button>
+          <button *ngIf="!subscribed" class="btn-load goToSubscribeRoutine" (click)="onSubscribe()">Subscribe</button>
+        </ng-container>
+      </ng-container>
+
+      <a class="btn-load" [routerLink]="['/trainingComments', training.id]">View Comments</a>
+
+      <button *ngIf="canEdit" class="btn-load goToEditRoutine" (click)="goToEdit()">Edit</button>
+
+      <button *ngIf="canDelete" class="btn-load-delete goToDeleteRoutine" (click)="requestDelete()">Delete</button>
+
+      <a class="btn-load" routerLink="/trainings">Return</a>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>

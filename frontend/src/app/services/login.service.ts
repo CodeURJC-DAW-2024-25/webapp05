@@ -10,7 +10,6 @@ export class LoginService {
   public user: UserDTO | undefined;
 
   constructor(private http: HttpClient) {
-    this.reqIsLogged();
   }
 
   public reqIsLogged() {
@@ -52,6 +51,11 @@ export class LoginService {
   public isAdmin() {
     return this.user && this.user.roles.indexOf('ADMIN') !== -1;
   }
+
+  public isAdmint(): boolean {
+    return this.user?.roles?.includes('ADMIN') ?? false;
+  }
+
 
   currentUser() {
     return this.user;
