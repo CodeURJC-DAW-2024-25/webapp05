@@ -11,6 +11,7 @@ import { TrainingDetailComponent } from './components/training/training-detail/t
 import { TrainingFormComponent } from './components/training/training-form/training-form.component';
 import { HomeComponent } from './components/viewsComponent/home/home.component';
 import { NavbarComponent } from './components/viewsComponent/navbar/navbar.component';
+import { FooterComponent } from './components/viewsComponent/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import {ToastrModule} from "ngx-toastr";
 import { provideHttpClient, withFetch } from '@angular/common/http';
@@ -24,6 +25,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
     TrainingFormComponent,
     HomeComponent,
     NavbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
