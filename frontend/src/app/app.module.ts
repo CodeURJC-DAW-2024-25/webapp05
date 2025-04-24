@@ -15,6 +15,7 @@ import { FooterComponent } from './components/viewsComponent/footer/footer.compo
 import { HttpClientModule } from '@angular/common/http';
 import {ToastrModule} from "ngx-toastr";
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { TrainingCommentListComponent } from './components/trainingComment/training-comment-list/training-comment-list.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
     TrainingFormComponent,
     HomeComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    TrainingCommentListComponent
   ],
   imports: [
     BrowserModule,

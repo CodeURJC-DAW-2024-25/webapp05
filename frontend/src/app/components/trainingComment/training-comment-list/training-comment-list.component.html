@@ -1,0 +1,71 @@
+<!-- Start Comments Section -->
+<section class="container py-5 flex-grow-1" id="ajaxPagination">
+    <h2 class="text-center mb-4">Comments for Training Routine: {{ training.name }}</h2>
+  
+    <div class="mb-3">
+      <img
+        [src]="'/api/trainings/' + training.id + '/image'"
+        class="card-img-top"
+        id="uTrainingImage"
+        [alt]="training.name"
+      />
+    </div>
+  
+    <div id="resultsContainer" class="row">
+      <div
+        class="col-12 col-md-4 mb-4"
+        *ngFor="let comment of comments"
+      >
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ comment.name }}</h5>
+            <p class="description">{{ comment.description }}</p>
+          </div>
+  
+          <div class="btn-div-extra">
+            <!-- EL IF TIENE QUE SER CANEDIT -->
+            <a
+              *ngIf="logged"
+              class="btn-load"
+              [routerLink]="['/training', training.id, comment.id, 'editcomment']"
+              >Edit</a
+            >
+  
+            <a
+              *ngIf="admin"
+              class="btn-load-2-delete goToDeleteCommentRoutine"
+              (click)="deleteComment(comment.id)"
+            >
+              Delete
+          </a>
+  
+            <a
+              *ngIf="logged && !admin"
+              class="btn-load-2"
+              [routerLink]="['/training', training.id, comment.id, 'report']"
+              >Report</a
+            >
+          </div>
+        </div>
+      </div>
+  
+      <p *ngIf="comments.length === 0">No hay comentarios todavía para esta rutina</p>
+    </div>
+  
+    <!-- Load more button and add comments button -->
+    <div class="text-center">
+      <a id="loadMore" class="btn-load" (click)="loadMoreComments()">More Comments</a>
+  
+      <a
+        *ngIf="logged"
+        id="addComment"
+        class="btn-load"
+        [routerLink]="['/training', training.id, 'newComment']"
+      >Add Comment</a>
+  
+      <a class="btn-load" (click)="goBack()">Return</a>
+    </div>
+  </section>
+  <!-- End Comments Section -->
+
+  
