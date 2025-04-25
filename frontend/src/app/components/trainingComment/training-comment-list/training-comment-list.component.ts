@@ -17,6 +17,7 @@ export class TrainingCommentListComponent implements OnInit {
   training!: Training;
   trainingId!: number;
   logged: boolean = false;
+  loggedUserId: number = 0;
   admin: boolean = false;
 
   // Pagination
@@ -35,6 +36,10 @@ export class TrainingCommentListComponent implements OnInit {
 
   ngOnInit(): void {
     this.logged = this.loginService.isLogged();
+    /*
+    if (this.logged) {
+      this.loggedUserId = this.loginService.getLoggedUserId() || 0;
+    }*/
     //this.admin = this.loginService.isAdmin();  FALTA ARREGLAR EL METODO isAdmin() EN login.service.ts
     this.trainingId = Number(this.route.snapshot.paramMap.get('id'));
 
@@ -55,8 +60,13 @@ export class TrainingCommentListComponent implements OnInit {
   }
 
   loadComments(id: number): void {
-    this.trainingCommentService.getTrainingComments(this.trainingId, this.page).subscribe({
+    if (this.allLoaded) return;
+  
+    this.trainingCommentService.getTrainingComments(id, this.page).subscribe({
       next: (data) => {
+        if (data.length < this.pageSize) {
+          this.allLoaded = true;
+        }
         this.comments = [...this.comments, ...data];
         this.page++;
       },
@@ -64,8 +74,6 @@ export class TrainingCommentListComponent implements OnInit {
         this.toastr.error('Could not load comments');
       }
     });
-    
-    this.page += 1;
   }
 
   loadMoreComments(): void {
@@ -73,8 +81,8 @@ export class TrainingCommentListComponent implements OnInit {
   }
 
   deleteComment(commentId: number): void {
-    /*if (confirm('Are you sure you want to delete this comment?')) {
-      this.trainingService.deleteComment(this.trainingId, commentId).subscribe({
+    if (confirm('Are you sure you want to delete this comment?')) {
+      this.trainingCommentService.deleteTrainingComment(commentId).subscribe({
         next: () => {
           this.comments = this.comments.filter(c => c.id !== commentId);
           this.toastr.success('Comment deleted');
@@ -83,10 +91,23 @@ export class TrainingCommentListComponent implements OnInit {
           this.toastr.error('Could not delete comment');
         }
       });
-    }*/
+    }
+  }
+
+  report(commentId: number): void {
+    if (confirm('Are you sure you want to report this comment?')) {
+      this.trainingCommentService.reportTrainingComment(commentId).subscribe({
+        next: () => {
+          this.toastr.success('Comment reported');
+        },
+        error: () => {
+          this.toastr.error('Could not report comment');
+        }
+      });
+    }
   }
 
   goBack(): void {
-    this.router.navigate(['/training']);
+    this.router.navigate(['/training', this.trainingId]);
   }
 }

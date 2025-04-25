@@ -23,11 +23,11 @@
           </div>
   
           <div class="btn-div-extra">
-            <!-- EL IF TIENE QUE SER CANEDIT -->
+            <!-- *ngIf="admin || (logged && comment?.user?.id === loggedUserId)" -->
             <a
-              *ngIf="logged"
+              
               class="btn-load"
-              [routerLink]="['/training', training.id, comment.id, 'editcomment']"
+              [routerLink]="['/trainingComments/editComment', training.id, comment.id]"
               >Edit</a>
   
             <a
@@ -40,7 +40,7 @@
             <a
               *ngIf="logged && !admin"
               class="btn-load-2"
-              [routerLink]="['/training', training.id, comment.id, 'report']"
+              (click)="report(comment.id)"
               >Report</a>
           </div>
         </div>
@@ -51,14 +51,15 @@
   
     <!-- Load more button and add comments button -->
     <div class="text-center">
-      <a id="loadMore" class="btn-load" (click)="loadMoreComments()">More Comments</a>
+      <a id="loadMore" class="btn-load" (click)="loadMoreComments()">More Comments</a>&nbsp;
   
+      <!--        *ngIf="logged"  -->
       <a
-        *ngIf="logged"
+
         id="addComment"
         class="btn-load"
-        [routerLink]="['/training', training.id, 'newComment']"
-      >Add Comment</a>
+        [routerLink]="['/trainingComments/newComment', training.id]"
+      >Add Comment</a>&nbsp;
   
       <a class="btn-load" (click)="goBack()">Return</a>
     </div>
