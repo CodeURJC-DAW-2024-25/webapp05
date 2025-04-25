@@ -9,6 +9,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TrainingListComponent } from './components/training/training-list/training-list.component';
 import { TrainingDetailComponent } from './components/training/training-detail/training-detail.component';
 import { TrainingFormComponent } from './components/training/training-form/training-form.component';
+import { NutritionListComponent } from './components/nutrition/nutrition-list/nutrition-list.component';
+import { NutritionDetailComponent } from './components/nutrition/nutrition-detail/nutrition-detail.component';
+import { NutritionFormComponent } from './components/nutrition/nutrition-form/nutrition-form.component';
 import { HomeComponent } from './components/viewsComponent/home/home.component';
 import { NavbarComponent } from './components/viewsComponent/navbar/navbar.component';
 import { FooterComponent } from './components/viewsComponent/footer/footer.component';
@@ -24,6 +27,9 @@ import { TrainingCommentListComponent } from './components/trainingComment/train
     TrainingListComponent,
     TrainingDetailComponent,
     TrainingFormComponent,
+    NutritionListComponent,
+    NutritionDetailComponent, 
+    NutritionFormComponent,
     HomeComponent,
     NavbarComponent,
     FooterComponent,

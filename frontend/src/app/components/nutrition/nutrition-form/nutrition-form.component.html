@@ -1,0 +1,83 @@
+<div class="container mt-5">
+    <h2 class="text-center">
+      {{ formTitle }}
+    </h2>
+  
+    <form [formGroup]="nutritionForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3 text-center">
+        <img
+          src="/assets/placeholder-nutrition.png"
+          class="card-img-top"
+          style="max-width: 300px; border-radius: 10px"
+          alt="Diet image"
+        />
+      </div>
+  
+      <!-- Input: Diet Name -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Diet Name</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="name"
+          [ngClass]="{ 'is-invalid': nutritionForm.get('name')?.invalid && nutritionForm.get('name')?.touched }"
+          placeholder="Enter nutrition name"
+        />
+        <div class="invalid-feedback">Name is required</div>
+      </div>
+  
+      <!-- Input: Calories -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Diet Calories (kilocalories)</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="calories"
+          cal="100"
+          [ngClass]="{ 'is-invalid': nutritionForm.get('calories')?.invalid && nutritionForm.get('calories')?.touched }"
+        />
+        <div class="invalid-feedback">Enter a valid calories</div>
+      </div>
+  
+      <!-- Select: Goal -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Diet Goal</label>
+        <select
+          class="form-select"
+          formControlName="goal"
+          [ngClass]="{ 'is-invalid': nutritionForm.get('goal')?.invalid && nutritionForm.get('goal')?.touched }"
+        >
+          <option value="" disabled selected>Select goal</option>
+          <option *ngFor="let g of goals" [value]="g">{{ g }}</option>
+        </select>
+        <div class="invalid-feedback">Goal is required</div>
+      </div>
+  
+      <!-- Textarea: Description -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Diet Exercises</label>
+        <textarea
+          class="form-control"
+          rows="4"
+          formControlName="description"
+          placeholder="Describe exercises in detail"
+          [ngClass]="{ 'is-invalid': nutritionForm.get('description')?.invalid && nutritionForm.get('description')?.touched }"
+        ></textarea>
+        <div class="invalid-feedback">Description is required</div>
+      </div>
+  
+      <!-- Buttons -->
+      <div class="d-flex justify-content-center gap-3">
+        <button class="btn btn-primary" type="submit">
+          {{ isEditMode ? 'Save changes' : 'Create nutrition' }}
+        </button>
+        <a [routerLink]="['/nutritions', nutritionId]" class="btn btn-secondary" *ngIf="isEditMode">
+          Cancel
+        </a>
+        <a routerLink="/nutritions" class="btn btn-secondary" *ngIf="!isEditMode">
+          Back to list
+        </a>
+      </div>
+    </form>
+  </div>
+  
