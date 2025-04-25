@@ -1,13 +1,13 @@
 <!-- Start Comments Section -->
 <section class="container py-5 flex-grow-1" id="ajaxPagination">
-    <h2 class="text-center mb-4">Comments for Training Routine: {{ training.name }}</h2>
+    <h2 class="text-center mb-4">Comments for Nutrition Diet: {{ nutrition.name }}</h2>
   
     <div class="mb-3">
       <img
-        [src]="'/api/trainings/' + training.id + '/image'"
+        [src]="'/api/nutritions/' + nutrition.id + '/image'"
         class="card-img-top"
-        id="uTrainingImage"
-        [alt]="training.name"
+        id="uNutritionImage"
+        [alt]="nutrition.name"
       />
     </div>
   
@@ -23,46 +23,42 @@
           </div>
   
           <div class="btn-div-extra">
-            <!-- EL IF TIENE QUE SER CANEDIT -->
             <a
               *ngIf="logged"
               class="btn-load"
-              [routerLink]="['/training', training.id, comment.id, 'editcomment']"
-              >Edit</a>
+              [routerLink]="['/nutrition', nutrition.id, comment.id, 'editcomment']"
+            >Edit</a>
   
             <a
               *ngIf="admin"
-              class="btn-load-2-delete goToDeleteCommentRoutine"
+              class="btn-load-2-delete goToDeleteCommentDiet"
               (click)="deleteComment(comment.id)"
-            >
-              Delete</a>
+            >Delete</a>
   
             <a
               *ngIf="logged && !admin"
               class="btn-load-2"
-              [routerLink]="['/training', training.id, comment.id, 'report']"
-              >Report</a>
+              [routerLink]="['/nutrition', nutrition.id, comment.id, 'report']"
+            >Report</a>
           </div>
         </div>
       </div>
   
-      <p *ngIf="comments.length === 0">No hay comentarios todavía para esta rutina</p>
+      <p *ngIf="comments.length === 0">No hay comentarios todavía para esta dieta</p>
     </div>
   
     <!-- Load more button and add comments button -->
     <div class="text-center">
       <a id="loadMore" class="btn-load" (click)="loadMoreComments()">More Comments</a>
-  
+  <!--*ngIf="logged"-->
       <a
-        *ngIf="logged"
         id="addComment"
         class="btn-load"
-        [routerLink]="['/training', training.id, 'newComment']"
+        [routerLink]="['/nutrition','new', nutrition.id]"
       >Add Comment</a>
-  
+        
       <a class="btn-load" (click)="goBack()">Return</a>
     </div>
   </section>
   <!-- End Comments Section -->
-
   

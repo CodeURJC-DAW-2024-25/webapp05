@@ -19,6 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
 import {ToastrModule} from "ngx-toastr";
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { TrainingCommentListComponent } from './components/trainingComment/training-comment-list/training-comment-list.component';
+import { NutritionCommentListComponent } from './components/nutritionComment/nutritionComment-list/nutritionComment-list.component';
+import { NutritionCommentFormComponent } from './components/nutritionComment/nutritionComment-form/nutritionComment-form.component';
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import { TrainingCommentListComponent } from './components/trainingComment/train
     HomeComponent,
     NavbarComponent,
     FooterComponent,
-    TrainingCommentListComponent
+    TrainingCommentListComponent,
+    NutritionCommentListComponent,
+    NutritionCommentFormComponent
   ],
   imports: [
     BrowserModule,

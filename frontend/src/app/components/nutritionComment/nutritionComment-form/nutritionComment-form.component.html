@@ -1,0 +1,29 @@
+<div class="container mt-5 flex-grow-1">
+  <h2 class="text-center">Create a new comment</h2>
+  <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="commentTitle" class="form-label">Comment title:</label>
+      <input
+        type="text"
+        id="commentTitle"
+        class="form-control"
+        formControlName="name"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="commentText" class="form-label">Comment:</label>
+      <textarea
+        id="commentText"
+        rows="4"
+        class="form-control"
+        formControlName="description"
+        required
+      ></textarea>
+    </div>
+    <div class="d-flex justify-content-center gap-3">
+      <button type="submit" class="btn-load" [disabled]="commentForm.invalid">Submit Comment</button>
+      <button type="button" class="btn-load" (click)="onCancel()">Return</button>
+    </div>
+  </form>
+</div>

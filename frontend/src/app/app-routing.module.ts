@@ -9,6 +9,8 @@ import { NutritionDetailComponent } from './components/nutrition/nutrition-detai
 import { NutritionFormComponent } from './components/nutrition/nutrition-form/nutrition-form.component';
 import {HomeComponent} from "./components/viewsComponent/home/home.component";
 import { TrainingCommentListComponent } from './components/trainingComment/training-comment-list/training-comment-list.component';
+import { NutritionCommentFormComponent } from './components/nutritionComment/nutritionComment-form/nutritionComment-form.component';
+import { NutritionCommentListComponent } from './components/nutritionComment/nutritionComment-list/nutritionComment-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,7 +22,9 @@ const routes: Routes = [
   { path: 'nutrition/:id', component: NutritionDetailComponent },
   { path: 'nutrition/edit/:id', component: NutritionFormComponent },
   { path: 'nutrition/new/:id', component: NutritionFormComponent },
-  { path: 'trainingComments/:id', component: TrainingCommentListComponent }
+  { path: 'trainingComments/:id', component: TrainingCommentListComponent },
+  { path: 'nutritionComments/:id', component: NutritionCommentListComponent },
+  { path: 'nutritionComments/new/:id', component: NutritionCommentFormComponent }
 ];
 
 @NgModule({
