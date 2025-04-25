@@ -11,6 +11,7 @@ import { TrainingCommentDTO } from '../../../dto/training-comment.dto';
 export class TrainingCommentFormComponent implements OnInit {
   commentForm!: FormGroup;
   trainingId!: number;
+  commentId!: number;
   isEditMode = false;
 
   
@@ -23,13 +24,60 @@ export class TrainingCommentFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.trainingId = +this.route.snapshot.paramMap.get('id')!;
+    const idParam = this.route.snapshot.paramMap.get('commentId');
     this.commentForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
     });
+
+    if (idParam) {
+      this.commentId = parseInt(idParam, 10);
+      this.isEditMode = true;
+
+      this.trainingCommentService.getTrainingCommentById(this.commentId).subscribe({
+        next: (trainingComment) => {
+          this.commentForm.patchValue(trainingComment);
+        },
+        error: () => {
+          console.error('Error loading training');
+        }
+      });
+    }
+
   }
 
   onSubmit(): void {
+      if (this.commentForm.invalid) {
+        this.commentForm.markAllAsTouched();
+        return;
+      }
+  
+      const trainingComment: TrainingCommentDTO = this.commentForm.value;
+
+      if (this.isEditMode && this.commentId !== null) {
+        this.trainingCommentService.updateTrainingComment(this.commentId, trainingComment).subscribe({
+          next: () => {
+            this.router.navigate(['/trainingComments', this.trainingId]);
+          },
+          error: (err) => {
+            console.error('Error updating training', err);
+          }
+        });
+      } else {
+        this.trainingCommentService.createComment(trainingComment).subscribe({
+          next: (created) => {
+            this.router.navigate(['/trainingComments', this.trainingId]);
+          },
+          error: (err) => {
+            console.error('Error creating training', err);
+          }
+        });
+      }
+
+
+
+
+
     if (this.commentForm.valid) {
       const comment = {
         ...this.commentForm.value,

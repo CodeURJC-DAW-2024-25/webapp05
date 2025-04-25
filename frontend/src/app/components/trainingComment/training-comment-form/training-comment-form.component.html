@@ -1,5 +1,7 @@
 <div class="container mt-5 flex-grow-1">
-    <h2 class="text-center">Create a new comment</h2>
+    <h2 class="text-center">
+      {{ isEditMode ? 'Edit your comment' : 'Create a new comment' }}
+    </h2>
     <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <label for="commentTitle" class="form-label">Comment title:</label>
@@ -8,7 +10,7 @@
           id="commentTitle"
           class="form-control"
           formControlName="name"
-          required
+          [ngClass]="{ 'is-invalid': commentForm.get('name')?.invalid && commentForm.get('name')?.touched }"
         />
       </div>
       <div class="mb-3">
@@ -18,7 +20,7 @@
           rows="4"
           class="form-control"
           formControlName="description"
-          required
+          [ngClass]="{ 'is-invalid': commentForm.get('description')?.invalid && commentForm.get('description')?.touched }"
         ></textarea>
       </div>
       <div class="d-flex justify-content-center gap-3">

@@ -29,4 +29,12 @@ export class TrainingCommentService {
     return this.http.delete<void>(`${this.BASE_URL}/?id=${id}`);
   }
 
+  getTrainingCommentById(id: number): Observable<any> {
+    return this.http.get<TrainingCommentDTO>(`${this.BASE_URL}/comment/${id}/`);
+  }
+
+  updateTrainingComment(id: number, comment: TrainingCommentDTO): Observable<any> {
+    return this.http.put<TrainingCommentDTO>(`${this.BASE_URL}/?id=${id}`, comment);
+  }
+
 }
