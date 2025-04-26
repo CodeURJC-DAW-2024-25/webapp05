@@ -17,11 +17,13 @@ export class NutritionCommentListComponent implements OnInit {
   nutrition!: Nutrition;
   nutritionId!: number;
   logged: boolean = false;
+  loggedUserId: number = 0;
   admin: boolean = false;
 
   // Pagination
   page: number = 0;
   pageSize: number = 10;
+  allLoaded: boolean = false;
 
   constructor(
     private nutritionService: NutritionService,
@@ -47,15 +49,20 @@ export class NutritionCommentListComponent implements OnInit {
         this.nutrition = nutrition;
       },
       error: (err) => {
-        console.error('Error loading nutrition', err);
-        this.toastr.error('Error loading nutrition details', 'Error');
+        console.error('Error loading nutrition comment', err);
+        this.toastr.error('Error loading nutrition comment details', 'Error');
       }
     });
   }
 
   loadComments(id: number): void {
-    this.nutritionCommentService.getNutritionComments(this.nutritionId, this.page).subscribe({
+    if (this.allLoaded) return; //Avoid loading more if all comments are loaded
+    
+    this.nutritionCommentService.getNutritionComments(id, this.page).subscribe({
       next: (data) => {
+        if (data.length < this.pageSize) {
+            this.allLoaded = true;
+        }
         this.comments = [...this.comments, ...data];
         this.page++;
       },
@@ -70,10 +77,8 @@ export class NutritionCommentListComponent implements OnInit {
   }
 
   deleteComment(commentId: number): void {
-    // Implementación opcional al tener permiso de admin
-    /*
     if (confirm('Are you sure you want to delete this comment?')) {
-      this.nutritionCommentService.deleteComment(this.nutritionId, commentId).subscribe({
+      this.nutritionCommentService.deleteNutritionComment(commentId).subscribe({
         next: () => {
           this.comments = this.comments.filter(c => c.id !== commentId);
           this.toastr.success('Comment deleted');
@@ -83,8 +88,20 @@ export class NutritionCommentListComponent implements OnInit {
         }
       });
     }
-    */
   }
+
+  report(commentId: number): void {
+    if (confirm('Are you sure you want to report this comment?')) {
+        this.nutritionCommentService.reportNutritionComment(commentId).subscribe({
+        next: () => {
+            this.toastr.success('Comment reported');
+        },
+        error: () => {
+        this.toastr.error('Could not report comment');
+        }
+     });
+    } 
+} 
 
   goBack(): void {
     this.router.navigate(['/nutrition']);

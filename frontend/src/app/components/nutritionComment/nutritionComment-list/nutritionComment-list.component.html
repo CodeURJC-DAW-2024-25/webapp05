@@ -24,9 +24,9 @@
   
           <div class="btn-div-extra">
             <a
-              *ngIf="logged"
+
               class="btn-load"
-              [routerLink]="['/nutrition', nutrition.id, comment.id, 'editcomment']"
+              [routerLink]="['/nutritionComments/editComment', nutrition.id, comment.id]"
             >Edit</a>
   
             <a
@@ -38,7 +38,7 @@
             <a
               *ngIf="logged && !admin"
               class="btn-load-2"
-              [routerLink]="['/nutrition', nutrition.id, comment.id, 'report']"
+              (click)="report(comment.id)"
             >Report</a>
           </div>
         </div>
@@ -49,13 +49,13 @@
   
     <!-- Load more button and add comments button -->
     <div class="text-center">
-      <a id="loadMore" class="btn-load" (click)="loadMoreComments()">More Comments</a>
+      <a id="loadMore" class="btn-load" (click)="loadMoreComments()">More Comments</a>&nbsp;
   <!--*ngIf="logged"-->
       <a
         id="addComment"
         class="btn-load"
-        [routerLink]="['/nutrition','new', nutrition.id]"
-      >Add Comment</a>
+        [routerLink]="['/nutritionComments/newComment', nutrition.id]"
+      >Add Comment</a>&nbsp;
         
       <a class="btn-load" (click)="goBack()">Return</a>
     </div>
