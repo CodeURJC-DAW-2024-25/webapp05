@@ -1,69 +1,61 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Training } from '../../../dto/training.dto';
 import { TrainingService } from '../../../services/training.service';
 import { LoginService } from '../../../services/login.service';
-import { FormBuilder } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Training } from '../../../dto/training.dto';
 
 @Component({
   selector: 'app-training-list',
-  templateUrl: './training-list.component.html'
+  templateUrl: './training-list.component.html',
 })
 export class TrainingListComponent implements OnInit {
+
   trainings: Training[] = [];
+  page: number = 0;
+  pageSize: number = 10;
+  allLoaded: boolean = false;
   logged: boolean = false;
 
-  // Paginación
-  page: number = 0;
-  pageSize: number = 6;
-  allLoaded: boolean = false;
-
   constructor(
-
     private trainingService: TrainingService,
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.logged = this.loginService.isLogged();
-    this.trainingService.getAllTrainings().subscribe({
-      next: (res: Training[]) => {
-
-        this.trainings = res;
-
-      },
-      error: (err) => {
-        console.error('Error loading trainings', err);
-      }
-    });
-    this.logged = this.loginService.isLogged();
+    this.loadTrainings();
   }
 
-  loadCards(): void {
+  loadTrainings(): void {
     if (this.allLoaded) return;
-
-    /*this.trainingService.getTrainingsPaginated(this.page, this.pageSize).subscribe({
-      next: (res: Training[]) => {
-        if (res.length < this.pageSize) {
-          this.allLoaded = true; // No hay más para cargar
+  
+    // Resetear el array de entrenamientos si es la primera carga o si estamos cargando más
+    if (this.page === 0) {
+      this.trainings = []; // Limpia la lista si es la primera vez que se cargan datos
+    }
+  
+    // Enviar solo page al backend (el tamaño debería ser el predeterminado en el backend)
+    this.trainingService.getTrainings(this.page).subscribe({
+      next: (data) => {
+        if (data.length < this.pageSize) {
+          this.allLoaded = true;
         }
-        this.trainings = [...this.trainings, ...res]; // Concatenar
-        this.page++; // Siguiente página para próxima llamada
-      },
-      error: (err) => {
-        console.error('Error loading more trainings', err);
-      }
-    });*/
-    this.trainingService.getAllTrainings().subscribe({
-      next: (res: Training[]) => {
-        this.trainings = res;
-
+        this.trainings = [...this.trainings, ...data];  // Agregar los entrenamientos cargados
+        this.page++;  // Incrementar la página para la siguiente carga
       },
       error: (err) => {
         console.error('Error loading trainings', err);
+        this.toastr.error('Could not load trainings', 'Error');
       }
     });
+  }
+  
+
+  loadMoreTrainings(): void {
+    this.loadTrainings();
   }
 
   goToRoutine(trainingId: number): void {

@@ -9,26 +9,8 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class TrainingService {
-  private trainings: Training[] = [
-    {
-      id: 1,
-      name: 'Entrenamiento de fuerza',
-      intensity:'100%',
-      duration: 60,
-      goal:'Increase weight',
-      description: 'Ejercicios de fuerza y resistencia',
-    },
-    {
-      id: 2,
-      name: 'Cardio intenso',
-      intensity:'80%',
-      duration: 40,
-      goal:'Lose weight',
-      description: 'Spring interval training',
-    },
-  ];
 
-  private baseUrl = "/api/trainings/";
+  private readonly baseUrl = "/api/trainings/";
 
   constructor(private http: HttpClient) {}
 
@@ -37,8 +19,8 @@ export class TrainingService {
   }
 
   subscribeToTraining(id: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/${id}/subscribe`, {}, { withCredentials: true });
-  }
+        return this.http.delete(`${this.baseUrl}/${id}`, { withCredentials: true });
+      }
 
   unsubscribeFromTraining(id: number): Observable<any> {
     return this.http.post(`${this.baseUrl}/${id}/unsubscribe`, {}, { withCredentials: true });
@@ -47,7 +29,7 @@ export class TrainingService {
   isSubscribed(id: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.baseUrl}/${id}/isSubscribed`, { withCredentials: true });
   }
-
+  
   deleteTraining(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`, { withCredentials: true });
   }
@@ -60,14 +42,20 @@ export class TrainingService {
     return this.http.post<Training>(`${this.baseUrl}`, training);
   }
 
-  getAllTrainings(): Observable<Training[]> {
-    return this.http.get<Training[]>(`${this.baseUrl}`);
+  getTrainings(page: number): Observable<Training[]> {
+    return this.http.get<Training[]>(`${this.baseUrl}paginated?page=${page}`);
   }
+  
+  
+  
+  
+  
 
   /*getTrainingsPaginated(page: number, size: number): Observable<Training[]> {
     return this.http.get<Training[]>(`${this.baseUrl}?page=${page}&size=${size}`);
   }*/
 
+  /*  
   loadTraining(trainingId?: number): Observable<Training | null> {
     if (trainingId != null && !isNaN(trainingId)) {
       return this.http.get<Training>(`${this.baseUrl}/${trainingId}`);
@@ -87,4 +75,5 @@ export class TrainingService {
       return this.http.post<Training>(this.baseUrl, training);
     }
   }
+    */
 }
