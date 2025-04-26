@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.net.URI;
+
 import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.TrainingComment;
 import es.codeurjc.daw.alphagym.model.User;
@@ -260,6 +261,36 @@ public class TrainingService {
             return toDTO(training);
         }
         return null;
+    }
+
+    public boolean subscribeTrainingDTO(Long trainingId, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("USer not found"));
+        Training training = trainingRepository.findById(trainingId)
+                .orElseThrow(() -> new IllegalArgumentException("Training not found"));
+    
+        if (user.getTrainings().contains(training)) {
+            return true;
+        }
+    
+        user.getTrainings().add(training);
+        userRepository.save(user);
+        return false; 
+    }
+
+    public boolean unsubscribeTrainingDTO(Long trainingId, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Training training = trainingRepository.findById(trainingId)
+                .orElseThrow(() -> new IllegalArgumentException("Training not found"));
+    
+        if (!user.getTrainings().contains(training)) {
+            return false;
+        }
+    
+        user.getTrainings().remove(training);
+        userRepository.save(user);
+        return true;
     }
 
     public InputStreamResource getTrainingImage(long trainingId) throws SQLException {

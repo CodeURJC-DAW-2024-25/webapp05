@@ -4,6 +4,7 @@ import java.net.URI;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+
 import java.io.IOException;
 
 import org.springframework.core.io.Resource;
@@ -267,6 +268,59 @@ public class NutritionRestController {
 
         List<NutritionDTO> nutritionDTOs = nutritionService.getPaginatedNutritionsDTO(page, limit);
         return ResponseEntity.ok(nutritionDTOs);
+    }
+
+    @Operation(summary = "Subscribe a user to a nutrition")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User subscribed to nutrition successfully", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request - Invalid input data", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Nutrition or User not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+
+    @PostMapping("/{nutritionId}/subscribed/{userId}")
+    public ResponseEntity<String> subscribeNutrition(@PathVariable Long nutritionId, @PathVariable Long userId) {
+        try {
+            boolean alreadySubscribed = nutritionService.subscribeNutritionDTO(nutritionId, userId);
+            
+            if (alreadySubscribed) {
+                return ResponseEntity.ok("The user was already subscribed to this nutrition.");
+            } else {
+                return ResponseEntity.status(HttpStatus.CREATED).body("User subscribed from nutrition successfully");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Unsubscribe a user from a nutrition")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User unsubscribed from nutrition successfully", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request - Invalid input data", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Nutrition or User not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+
+    @PostMapping("/{nutritionId}/unsubscribed/{userId}")
+    public ResponseEntity<String> unsubscribeNutrition(@PathVariable Long nutritionId, @PathVariable Long userId) {
+        try {
+            boolean unsubscribed = nutritionService.unsubscribeNutritionDTO(nutritionId, userId);
+    
+            if (unsubscribed) {
+                return ResponseEntity.ok("User unsubscribed from nutrition successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("User is not subscribed to this nutrition. Subscribe first before unsubscribing.");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        }
     }
 
 

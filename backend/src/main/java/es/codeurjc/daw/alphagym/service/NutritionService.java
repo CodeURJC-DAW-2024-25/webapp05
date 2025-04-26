@@ -260,6 +260,36 @@ public class NutritionService {
         return nutritionDTO;*/
     }
 
+    public boolean subscribeNutritionDTO(Long nutritionId, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Nutrition nutrition = nutritionRepository.findById(nutritionId)
+                .orElseThrow(() -> new IllegalArgumentException("Nutrition not found"));
+    
+        if (user.getNutritions().contains(nutrition)) {
+            return true;
+        }
+    
+        user.getNutritions().add(nutrition);
+        userRepository.save(user);
+        return false; 
+    }
+
+    public boolean unsubscribeNutritionDTO(Long nutritionId, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Nutrition nutrition = nutritionRepository.findById(nutritionId)
+                .orElseThrow(() -> new IllegalArgumentException("Nutrition not found"));
+    
+        if (!user.getNutritions().contains(nutrition)) {
+            return false;
+        }
+    
+        user.getNutritions().remove(nutrition);
+        userRepository.save(user);
+        return true;
+    }
+
     public Resource getNutritionImage(Long id) throws SQLException {
 
         Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();

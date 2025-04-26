@@ -256,4 +256,57 @@ public class TrainingRestController {
         List<TrainingDTO> trainingDTOs = trainingService.getPaginatedTrainingsDTO(page, limit);
         return ResponseEntity.ok(trainingDTOs);
     }
+
+    @Operation(summary = "Subscribe a user to a training")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User subscribed to training successfully", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request - Invalid input data", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Training or User not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+
+    @PostMapping("/{trainingId}/subscribed/{userId}")
+    public ResponseEntity<String> subscribeTraining(@PathVariable Long trainingId, @PathVariable Long userId) {
+        try {
+            boolean alreadySubscribed = trainingService.subscribeTrainingDTO(trainingId, userId);
+            
+            if (alreadySubscribed) {
+                return ResponseEntity.ok("The user was already subscribed to this training.");
+            } else {
+                return ResponseEntity.status(HttpStatus.CREATED).body("User subscribed from training successfully");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Unsubscribe a user from a training")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User unsubscribed from training successfully", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request - Invalid input data", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Training or User not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+
+    @PostMapping("/{trainingId}/unsubscribed/{userId}")
+    public ResponseEntity<String> unsubscribeTraining(@PathVariable Long trainingId, @PathVariable Long userId) {
+        try {
+            boolean unsubscribed = trainingService.unsubscribeTrainingDTO(trainingId, userId);
+    
+            if (unsubscribed) {
+                return ResponseEntity.ok("User unsubscribed from training successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("User is not subscribed to this training. Subscribe first before unsubscribing.");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        }
+    }
 }
