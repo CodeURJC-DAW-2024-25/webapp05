@@ -499,6 +499,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+//Method to load more cards
 function loadMoreCards() {
   let loadMoreButton = document.getElementById("loadMore");
   let resultsContainer = document.getElementById("resultsContainer");
@@ -555,5 +556,27 @@ function loadMoreCards() {
 
   xhr.send();
 }
+
+document.addEventListener("click", function(event) {
+  const target = event.target;
+  if (target.classList.contains("goToShowRoutine")) {
+    const trainingId = target.getAttribute("data-training-id");
+    if (trainingId) {
+      //Redirect directly without asking
+      window.location.href = `/trainings/${trainingId}`;
+    }
+  }
+
+    //Nutrition links
+    if (target.classList.contains("goToNutritionDetail")) {
+      event.preventDefault(); //Avoid the <a> to act by default
+      const nutritionId = target.getAttribute("data-nutrition-id");
+      if (nutritionId) {
+        window.location.href = `/nutritions/${nutritionId}`;
+      }
+    }
+});
+
+
 
 
