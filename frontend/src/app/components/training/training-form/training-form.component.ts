@@ -10,8 +10,9 @@ import { Training } from '../../../dto/training.dto';
 })
 export class TrainingFormComponent implements OnInit {
   trainingForm!: FormGroup;
-  trainingId: number | null = null;
+  trainingId!: number ;
   isEditMode = false;
+  isLoading = false;
   intensities: string[] = ['50%', '60%', '70%', '80%', '100%'];
   goals: string[] = ['Lose weight', 'Maintain weight', 'Increase weight'];
 
@@ -23,21 +24,6 @@ export class TrainingFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam) {
-      this.trainingId = parseInt(idParam, 10);
-      this.isEditMode = true;
-
-      this.trainingService.getTrainingById(this.trainingId).subscribe({
-        next: (training) => {
-          this.trainingForm.patchValue(training);
-        },
-        error: () => {
-          console.error('Error loading training');
-        }
-      });
-    }
-
     this.trainingForm = this.fb.group({
       name: ['', Validators.required],
       intensity: ['', Validators.required],
@@ -45,7 +31,28 @@ export class TrainingFormComponent implements OnInit {
       goal: ['', Validators.required],
       description: ['', Validators.required],
     });
+
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam !== null && !isNaN(+idParam)) {
+      this.trainingId = parseInt(idParam, 10);
+      this.isEditMode = true;
+
+      this.isLoading = true;
+      this.trainingService.getTrainingById(this.trainingId).subscribe({
+        next: (training) => {
+          this.trainingForm.patchValue(training);
+          this.isLoading = false;
+        },
+        error: () => {
+          console.error('Error loading training');
+          this.isLoading = false;
+        }
+      });
+    }else{
+      this.isEditMode = false;
+    }
   }
+
 
   onSubmit(): void {
     if (this.trainingForm.invalid) {
@@ -58,7 +65,7 @@ export class TrainingFormComponent implements OnInit {
     if (this.isEditMode && this.trainingId !== null) {
       this.trainingService.updateTraining(this.trainingId, training).subscribe({
         next: () => {
-          this.router.navigate(['/trainings', this.trainingId]);
+          this.router.navigate(['/training', this.trainingId]);
         },
         error: (err) => {
           console.error('Error updating training', err);
@@ -67,7 +74,7 @@ export class TrainingFormComponent implements OnInit {
     } else {
       this.trainingService.createTraining(training).subscribe({
         next: (created) => {
-          this.router.navigate(['/trainings', created.id]);
+          this.router.navigate(['/training', created.id]);
         },
         error: (err) => {
           console.error('Error creating training', err);
@@ -75,6 +82,7 @@ export class TrainingFormComponent implements OnInit {
       });
     }
   }
+
   get formTitle(): string {
     return this.isEditMode ? `Edit the routine ${this.trainingId}` : 'Create new routine';
   }

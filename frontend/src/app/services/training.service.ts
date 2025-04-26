@@ -32,8 +32,8 @@ export class TrainingService {
 
   constructor(private http: HttpClient) {}
 
-  getTrainingById(id: number): Observable<Training> {
-    return this.http.get<Training>(`${this.baseUrl}/${id}`);
+  getTrainingById(id: number): Observable<any> {
+    return this.http.get<Training>(`${this.baseUrl}${id}`);
   }
 
   subscribeToTraining(id: number): Observable<any> {
@@ -52,12 +52,12 @@ export class TrainingService {
     return this.http.delete(`${this.baseUrl}/${id}`, { withCredentials: true });
   }
 
-  updateTraining(id: number, training: Training): Observable<Training> {
-    return this.http.put<Training>(`${this.baseUrl}/${id}`, training, { withCredentials: true });
+  updateTraining(id: number, training: Training): Observable<any> {
+    return this.http.put<Training>(`${this.baseUrl}/${id}`, training);
   }
 
-  createTraining(training: Training): Observable<Training> {
-    return this.http.post<Training>(`${this.baseUrl}`, training, { withCredentials: true });
+  createTraining(training: Training): Observable<any> {
+    return this.http.post<Training>(`${this.baseUrl}`, training);
   }
 
   getAllTrainings(): Observable<Training[]> {
@@ -67,4 +67,24 @@ export class TrainingService {
   /*getTrainingsPaginated(page: number, size: number): Observable<Training[]> {
     return this.http.get<Training[]>(`${this.baseUrl}?page=${page}&size=${size}`);
   }*/
+
+  loadTraining(trainingId?: number): Observable<Training | null> {
+    if (trainingId != null && !isNaN(trainingId)) {
+      return this.http.get<Training>(`${this.baseUrl}/${trainingId}`);
+    } else {
+      console.log('No hay trainingId, no se carga ningún training');
+      return of(null); // Retorna un observable vacío
+    }
+  }
+
+  // Save training
+  saveTraining(training: Training): Observable<Training> {
+    if (training.id != null && !isNaN(training.id)) {
+      // Edit
+      return this.http.put<Training>(`${this.baseUrl}/${training.id}`, training);
+    } else {
+      // Create
+      return this.http.post<Training>(this.baseUrl, training);
+    }
+  }
 }

@@ -1,96 +1,88 @@
-<div class="container mt-5">
-  <h2 class="text-center">
-    {{ formTitle }}
-  </h2>
+ <div class="container mt-5">
+    <h2 class="text-center">
+      {{ formTitle }}
+    </h2>
 
-  <form [formGroup]="trainingForm" (ngSubmit)="onSubmit()">
-    <div class="mb-3 text-center">
-      <img
-        src="/assets/placeholder-training.png"
-        class="card-img-top"
-        style="max-width: 300px; border-radius: 10px"
-        alt="Routine image"
-      />
-    </div>
+    <form [formGroup]="trainingForm" (ngSubmit)="onSubmit()">
 
-    <!-- Input: Routine Name -->
-    <div class="mb-3">
-      <label class="form-label fw-bold">Routine Name</label>
-      <input
-        type="text"
-        class="form-control"
-        formControlName="name"
-        [ngClass]="{ 'is-invalid': trainingForm.get('name')?.invalid && trainingForm.get('name')?.touched }"
-        placeholder="Enter training name"
-      />
-      <div class="invalid-feedback">Name is required</div>
-    </div>
+      <!-- Input: Routine Name -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Routine Name</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="name"
+          [ngClass]="{ 'is-invalid': trainingForm.get('name')?.invalid && trainingForm.get('name')?.touched }"
+          placeholder="Enter training name"
+        />
+      </div>
 
-    <!-- Select: Intensity -->
-    <div class="mb-3">
-      <label class="form-label fw-bold">Routine Intensity</label>
-      <select
-        class="form-select"
-        formControlName="intensity"
-        [ngClass]="{ 'is-invalid': trainingForm.get('intensity')?.invalid && trainingForm.get('intensity')?.touched }"
-      >
-        <option value="" disabled selected>Select intensity</option>
-        <option *ngFor="let i of intensities" [value]="i">{{ i }}</option>
-      </select>
-      <div class="invalid-feedback">Intensity is required</div>
-    </div>
+      <!-- Select: Intensity -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Routine Intensity</label>
+        <select
+          class="form-select"
+          formControlName="intensity"
+          [ngClass]="{ 'is-invalid': trainingForm.get('intensity')?.invalid && trainingForm.get('intensity')?.touched }"
+        >
+          <option value="" disabled>Select intensity</option>
+          <option *ngFor="let i of intensities" [value]="i">{{ i }}</option>
+        </select>
 
-    <!-- Input: Duration -->
-    <div class="mb-3">
-      <label class="form-label fw-bold">Routine Duration (minutes)</label>
-      <input
-        type="number"
-        class="form-control"
-        formControlName="duration"
-        min="1"
-        [ngClass]="{ 'is-invalid': trainingForm.get('duration')?.invalid && trainingForm.get('duration')?.touched }"
-      />
-      <div class="invalid-feedback">Enter a valid duration</div>
-    </div>
+      </div>
 
-    <!-- Select: Goal -->
-    <div class="mb-3">
-      <label class="form-label fw-bold">Routine Goal</label>
-      <select
-        class="form-select"
-        formControlName="goal"
-        [ngClass]="{ 'is-invalid': trainingForm.get('goal')?.invalid && trainingForm.get('goal')?.touched }"
-      >
-        <option value="" disabled selected>Select goal</option>
-        <option *ngFor="let g of goals" [value]="g">{{ g }}</option>
-      </select>
-      <div class="invalid-feedback">Goal is required</div>
-    </div>
+      <!-- Input: Duration -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Routine Duration (minutes)</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="duration"
+          min="1"
+          [ngClass]="{ 'is-invalid': trainingForm.get('duration')?.invalid && trainingForm.get('duration')?.touched }"
+        />
 
-    <!-- Textarea: Description -->
-    <div class="mb-3">
-      <label class="form-label fw-bold">Routine Exercises</label>
-      <textarea
-        class="form-control"
-        rows="4"
-        formControlName="description"
-        placeholder="Describe exercises in detail"
-        [ngClass]="{ 'is-invalid': trainingForm.get('description')?.invalid && trainingForm.get('description')?.touched }"
-      ></textarea>
-      <div class="invalid-feedback">Description is required</div>
-    </div>
+      </div>
 
-    <!-- Buttons -->
-    <div class="d-flex justify-content-center gap-3">
-      <button class="btn btn-primary" type="submit">
-        {{ isEditMode ? 'Save changes' : 'Create training' }}
-      </button>
-      <a [routerLink]="['/trainings', trainingId]" class="btn btn-secondary" *ngIf="isEditMode">
-        Cancel
-      </a>
-      <a routerLink="/trainings" class="btn btn-secondary" *ngIf="!isEditMode">
-        Back to list
-      </a>
-    </div>
-  </form>
-</div>
+      <!-- Select: Goal -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Routine Goal</label>
+        <select
+          class="form-select"
+          formControlName="goal"
+          [ngClass]="{ 'is-invalid': trainingForm.get('goal')?.invalid && trainingForm.get('goal')?.touched }"
+        >
+          <option value="" disabled>Select goal</option>
+          <option *ngFor="let g of goals" [value]="g">{{ g }}</option>
+        </select>
+      </div>
+
+      <!-- Textarea: Description -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Routine Exercises</label>
+        <textarea
+          class="form-control"
+          rows="4"
+          formControlName="description"
+          placeholder="Describe exercises in detail"
+          [ngClass]="{ 'is-invalid': trainingForm.get('description')?.invalid && trainingForm.get('description')?.touched }"
+        ></textarea>
+      </div>
+
+      <!-- Buttons -->
+      <div class="d-flex justify-content-center gap-3">
+        <button class="btn btn-primary" type="submit">
+          {{ isEditMode ? 'Save changes' : 'Create training' }}
+        </button>
+
+        <a *ngIf="isEditMode" [routerLink]="['/training', trainingId]" class="btn btn-secondary">
+          Cancel
+        </a>
+
+        <a *ngIf="!isEditMode" routerLink="/training" class="btn btn-secondary">
+          Back to list
+        </a>
+      </div>
+    </form>
+  </div>
+

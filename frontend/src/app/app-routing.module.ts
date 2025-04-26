@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'training', component: TrainingListComponent },
   { path: 'training/:id', component: TrainingDetailComponent },
   { path: 'training/edit/:id', component: TrainingFormComponent },
-  { path: 'training/new/:id', component: TrainingFormComponent },
+  { path: 'training/new', component: TrainingFormComponent },
   { path: 'nutrition', component: NutritionListComponent },
   { path: 'nutrition/:id', component: NutritionDetailComponent },
   { path: 'nutrition/edit/:id', component: NutritionFormComponent },
