@@ -51,7 +51,7 @@ export class LoginService {
   }
 
   public isAdmin() {
-    return this.user && this.user.roles.indexOf('ADMIN') !== -1;
+    return this.user?.roles?.indexOf('ADMIN') !== -1;
   }
 
   public isAdmint(): boolean {

@@ -1,18 +1,21 @@
-export interface UserDTO {
-    id?: number;
+export class UserDTO {
+    id: number;
     name: string;
-    roles: string[];
+    roles?: string[];
     email: string;
     password: string;
-}
 
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface RegisterRequest {
-  name: string;
-  email: string;
-  password: string;
+    constructor(
+      id: number,
+      name: string,
+      roles: string[],
+      email: string,
+      password: string
+    ) {
+      this.id = id;
+      this.name = name;
+      this.roles = roles;
+      this.email = email;
+      this.password = password;
+    }
 }
