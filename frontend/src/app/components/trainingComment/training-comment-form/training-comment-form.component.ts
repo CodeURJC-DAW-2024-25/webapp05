@@ -13,6 +13,7 @@ export class TrainingCommentFormComponent implements OnInit {
   trainingId!: number;
   commentId!: number;
   isEditMode = false;
+  isLoading = false;
 
   
   constructor(
@@ -23,6 +24,7 @@ export class TrainingCommentFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.trainingId = +this.route.snapshot.paramMap.get('id')!;
     const idParam = this.route.snapshot.paramMap.get('commentId');
     this.commentForm = this.fb.group({
@@ -43,7 +45,7 @@ export class TrainingCommentFormComponent implements OnInit {
         }
       });
     }
-
+    this.isLoading = false;
   }
 
   onSubmit(): void {

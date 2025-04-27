@@ -13,6 +13,7 @@ export class NutritionCommentFormComponent implements OnInit {
   nutritionId!: number;
   commentId!: number;
   isEditMode = false;
+  isLoading = false;
 
 
   constructor(
@@ -23,6 +24,7 @@ export class NutritionCommentFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.nutritionId = +this.route.snapshot.paramMap.get('id')!;
     const idParam = this.route.snapshot.paramMap.get('commentId');
     this.commentForm = this.fb.group({
@@ -43,6 +45,7 @@ export class NutritionCommentFormComponent implements OnInit {
         }
       });
     }
+    this.isLoading = false;
   }
 
   onSubmit(): void {
