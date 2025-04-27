@@ -1,21 +1,13 @@
 export class UserDTO {
-    id: number;
-    name: string;
-    roles?: string[];
-    email: string;
-    password: string;
+  public password?: string;
 
-    constructor(
-      id: number,
-      name: string,
-      roles: string[],
-      email: string,
-      password: string
-    ) {
-      this.id = id;
-      this.name = name;
-      this.roles = roles;
-      this.email = email;
-      this.password = password;
-    }
+  constructor(
+    public id: number,
+    public name: string,
+    public roles: string[] = [],
+    public email: string,
+    password?: string
+  ) {
+    this.password = undefined;
+  }
 }
