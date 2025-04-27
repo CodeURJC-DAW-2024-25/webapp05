@@ -107,7 +107,7 @@ public class WebSecurityConfig {
 								"/api/v1/auth/logout")
 						.permitAll()
 
-						// PRIVATE ENDPOINTS
+						.requestMatchers("/spa/**").permitAll()
 
 						// For User
 						.requestMatchers(HttpMethod.GET, "/api/users/all").hasAnyRole("ADMIN")
