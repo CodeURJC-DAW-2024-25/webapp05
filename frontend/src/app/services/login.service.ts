@@ -10,6 +10,7 @@ import { API_URL } from "../../config";
 export class LoginService {
   private logged = new BehaviorSubject<boolean>(false);
   private user = new BehaviorSubject<UserDTO | null>(null);
+  private token: string | null = localStorage.getItem('token');
 
   get isLoggedIn() {
     return this.logged.asObservable();
@@ -28,6 +29,8 @@ export class LoginService {
         switchMap(response => {
           if (response.status === 200) {
             this.logged.next(true);
+            this.token = response.body?.token; //save token
+            localStorage.setItem('token', this.token ?? '');  // save token in local storage
             console.log('Login successful, fetching user...');
             return this.fetchCurrentUser().pipe(
               tap(user => {
@@ -63,6 +66,8 @@ export class LoginService {
             console.log('Logout successful');
             this.logged.next(false);
             this.user.next(null);
+            this.token = null;
+            localStorage.removeItem('token');  // remove token from local storage
             this.router.navigate(['/']);
           }
         })

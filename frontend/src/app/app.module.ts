@@ -15,7 +15,7 @@ import { NutritionFormComponent } from './components/nutrition/nutrition-form/nu
 import { HomeComponent } from './components/viewsComponent/home/home.component';
 import { NavbarComponent } from './components/viewsComponent/navbar/navbar.component';
 import { FooterComponent } from './components/viewsComponent/footer/footer.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {ToastrModule} from "ngx-toastr";
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { TrainingCommentListComponent } from './components/trainingComment/training-comment-list/training-comment-list.component';
@@ -23,6 +23,7 @@ import { TrainingCommentFormComponent } from './components/trainingComment/train
 import { NutritionCommentListComponent } from './components/nutritionComment/nutritionComment-list/nutritionComment-list.component';
 import { NutritionCommentFormComponent } from './components/nutritionComment/nutritionComment-form/nutritionComment-form.component';
 import { LoginComponent } from './components/viewsComponent/login/login.component';
+import { Interceptor } from './services/interceptor';
 
 
 @NgModule({
@@ -49,10 +50,18 @@ import { LoginComponent } from './components/viewsComponent/login/login.componen
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule, // Requerido por ngx-toastr
+    BrowserAnimationsModule,
     ToastrModule.forRoot(),
   ],
-  providers: [provideHttpClient(withFetch())],
+  providers: [
+    // Registramos el interceptor aquí
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true  // Esto asegura que el interceptor se ejecute para todas las peticiones HTTP
+    },
+    provideHttpClient(withFetch())  // Esta línea está bien como está si lo necesitas
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
