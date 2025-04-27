@@ -3,6 +3,7 @@ FROM node:20.17.0 as angular
 WORKDIR /app
 COPY frontend/package*.json .
 RUN npm install
+COPY frontend .
 RUN npm run build
 
 # Package the application of Spring Boot with Maven
