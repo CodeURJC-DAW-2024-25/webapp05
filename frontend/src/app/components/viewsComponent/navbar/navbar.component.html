@@ -15,12 +15,12 @@
           <a class="nav-link" routerLink="/training">Training</a>
         </li>
 
-        <ng-container *ngIf="loginService.isLogged(); else loggedOutLinks">
+        <ng-container *ngIf="loginService.isLogged; else loggedOutLinks">
           <li class="nav-item">
             <a class="nav-link" routerLink="/account">Account</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" (click)="loginService.logOut()">Log out</a>
+            <a class="nav-link" (click)="loginService.logout()">Log out</a>
           </li>
         </ng-container>
 

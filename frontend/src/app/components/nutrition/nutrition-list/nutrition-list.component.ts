@@ -27,18 +27,20 @@ export class NutritionListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.logged = this.loginService.isLogged();
+    this.loginService.isLoggedIn.subscribe((isLoggedIn: boolean) => {
+      this.logged = isLoggedIn;
+    });
     this.loadNutritions();
   }
 
   loadNutritions(): void {
     if (this.allLoaded) return;
-  
+
     // Reset the nutrition array if it is the first load or if we are loading more.
     if (this.page === 0) {
       this.nutritions = []; // Clear the list if this is the first time data is uploaded.
     }
-  
+
     // Send only page to backend (size should be the default size in the backend)
     this.nutritionService.getNutritions(this.page).subscribe({
       next: (data) => {
@@ -54,7 +56,7 @@ export class NutritionListComponent implements OnInit {
       }
     });
   }
-  
+
 
   loadMoreNutritions(): void {
     this.loadNutritions();

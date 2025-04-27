@@ -13,16 +13,20 @@ export class LoginComponent {
   constructor(private loginService: LoginService, private router: Router) { }
 
   onSubmit() {
-    this.loginService.logIn(this.username, this.password).subscribe(
-      (_) => {
-        console.log('Login successful');
-        this.loginService.reqIsLogged(); // Actualizar estado
-        this.router.navigate(['/']); // Redirigir a home (o donde quieras)
+    this.loginService.isLogged.subscribe({
+      next: (loggedStatus) => {
+        // Check if the user is logged in
+        if (loggedStatus) {
+          // the user is logged in
+        } else {
+          // the user is not logged in
+        }
       },
-      (error) => {
-        console.error('Login failed', error);
-        // Aquí podrías mostrar un error en pantalla si quieres
+      error: (err) => {
+        console.error('Error checking logged status', err);
       }
-    );
+    });
+
   }
+
 }

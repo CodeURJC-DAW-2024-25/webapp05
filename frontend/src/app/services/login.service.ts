@@ -8,11 +8,11 @@ import { API_URL } from "../../config";
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {
-  private logged = new BehaviorSubject<boolean>(false);
-  private user = new BehaviorSubject<UserDTO | null>(null);
-  private token: string | null = localStorage.getItem('token');
+  public logged = new BehaviorSubject<boolean>(false);
+  public user = new BehaviorSubject<UserDTO | null>(null);
+  public token: string | null = localStorage.getItem('token');
 
-  get isLoggedIn() {
+  get isLogged() {
     return this.logged.asObservable();
   }
 
