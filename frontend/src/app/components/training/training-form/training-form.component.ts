@@ -24,6 +24,7 @@ export class TrainingFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.trainingForm = this.fb.group({
       name: ['', Validators.required],
       intensity: ['', Validators.required],
@@ -33,24 +34,22 @@ export class TrainingFormComponent implements OnInit {
     });
 
     const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam !== null && !isNaN(+idParam)) {
+    if (idParam) {
       this.trainingId = parseInt(idParam, 10);
-      this.isEditMode = true;
+      if(this.trainingId > 0) {
+        this.isEditMode = true;
 
-      this.isLoading = true;
-      this.trainingService.getTrainingById(this.trainingId).subscribe({
-        next: (training) => {
-          this.trainingForm.patchValue(training);
-          this.isLoading = false;
-        },
-        error: () => {
-          console.error('Error loading training');
-          this.isLoading = false;
-        }
-      });
-    }else{
-      this.isEditMode = false;
+        this.trainingService.getTrainingById(this.trainingId).subscribe({
+          next: (training) => {
+            this.trainingForm.patchValue(training);
+          },
+          error: () => {
+            console.error('Error loading training');
+          }
+        });
+      }
     }
+    this.isLoading = false;
   }
 
 
