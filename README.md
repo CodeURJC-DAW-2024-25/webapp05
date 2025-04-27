@@ -686,27 +686,27 @@ Breve resumen de tu aportación al proyecto.
 ### Adrián Esteban Martín
 
 #### Descripción general: 
-Breve resumen de tu aportación al proyecto.
+Mi función durante esta fase se ha basado básicamente en la implementacion de la entidad "Nutrition" en Angular aunque también he ayudado a solucionar fallos menores de otros componentes
 
 #### Mis 5 commits más relevantes
 
 | Commit | Descripción                          | Link |
 | ------ | ------------------------------------ | ---- |
-| #1     | | []() |
-| #2     | | []() |
-| #3     | | []() |
-| #4     | | []() |
+| #1     | Nutrition angular | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/c88d208a91aa92402f08338229eec5b24d63642f](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/c88d208a91aa92402f08338229eec5b24d63642f) |
+| #2     | training form componen | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/de8cba5c0d779012e910d7b5518a33383ac9976d](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/de8cba5c0d779012e910d7b5518a33383ac9976d) |
+| #3     | Add subscribe and unsubscribe to API REST for use in angular | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/25acf7d998e7418f65ac3dc414469d4c178a162c](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/25acf7d998e7418f65ac3dc414469d4c178a162c) |
+| #4     | Fix the nutrition form | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/bd4bdd6d5cabef0999cb0276e03289dd25eac7dd](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/bd4bdd6d5cabef0999cb0276e03289dd25eac7dd) |
 | #5     | | []() |
 
 #### Los 5 ficheros que más he modificado
 
 | Número fichero | Fichero |
 | -------------- | ------- |
-| #1             | []() |
-| #2             | []() |
-| #3             | []() |
-| #4             | []() |
-| #5             | []() |
+| #1             | [Nutrition.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/services/nutrition.service.ts) |
+| #2             | [Nutrition-form.component.html](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/nutrition/nutrition-form/nutrition-form.component.html) |
+| #3             | [Nutrition-form.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/nutrition/nutrition-form/nutrition-form.component.ts) |
+| #4             | [Nutrition-list.component.html](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/nutrition/nutrition-list/nutrition-list.component.html) |
+| #5             | [Nutrition-list.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/nutrition/nutrition-list/nutrition-list.component.ts) |
 
 ### Xavi
 
