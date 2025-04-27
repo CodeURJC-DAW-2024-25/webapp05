@@ -1,13 +1,18 @@
+# Build angular application
+FROM node:20.17.0 as angular
+WORKDIR /app
+COPY frontend/package*.json .
+RUN npm install
+RUN npm run build
+
+# Package the application of Spring Boot with Maven
 FROM maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY ../backend/pom.xml ./pom.xml
 COPY ../backend/src ./src
-
-
-# Run Maven command to build the project
 RUN mvn clean package -DskipTests -Pproduction
 
-# Execution
+#Create docker image with compiled project
 FROM eclipse-temurin:21-jdk
 WORKDIR /app
 # Copy the generated JAR file from the build stage
