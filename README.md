@@ -601,6 +601,8 @@ La aplicación estará disponible en: http://localhost:4200
 
 
 ## Diagrama de clases y templates de la SPA
+![image](https://github.com/user-attachments/assets/a7a2bb7d-4920-4552-8c24-1a2fae5d4880)
+
 
 ## Participación de miembros
 
