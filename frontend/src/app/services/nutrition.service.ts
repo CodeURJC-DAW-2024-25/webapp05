@@ -9,33 +9,17 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class NutritionService {
-  private nutritions: Nutrition[] = [
-    {
-      id: 1,
-      name: 'Nutricion de deficit calorico',
-      calories: 200,
-      goal:'Lose weight',
-      description: 'Nutricion basada en la ingesta de proteinas',
-    },
-    {
-      id: 2,
-      name: 'Nutricion de superavit calorico',
-      calories: 400,
-      goal:'Increase weight',
-      description: 'Nutriicion basada en la ingesta de carbohidratos',
-    },
-  ];
 
-  private baseUrl = "/api/nutritions/";
+  private readonly baseUrl = "/api/nutritions/";
 
   constructor(private http: HttpClient) {}
 
-  getNutritionById(id: number): Observable<Nutrition> {
-    return this.http.get<Nutrition>(`${this.baseUrl}/${id}`);
+  getNutritionById(id: number): Observable<any> {
+    return this.http.get<Nutrition>(`${this.baseUrl}${id}`);
   }
 
   subscribeToNutrition(id: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/${id}/subscribe`, {}, { withCredentials: true });
+    return this.http.delete(`${this.baseUrl}/${id}`, { withCredentials: true });
   }
 
   unsubscribeFromNutrition(id: number): Observable<any> {
@@ -50,19 +34,40 @@ export class NutritionService {
     return this.http.delete(`${this.baseUrl}/${id}`, { withCredentials: true });
   }
 
-  updateNutrition(id: number, nutrition: Nutrition): Observable<Nutrition> {
-    return this.http.put<Nutrition>(`${this.baseUrl}/${id}`, nutrition, { withCredentials: true });
+  updateNutrition(id: number, nutrition: Nutrition): Observable<any> {
+    return this.http.put<Nutrition>(`${this.baseUrl}/${id}`, nutrition);
   }
 
   createNutrition(nutrition: Nutrition): Observable<Nutrition> {
     return this.http.post<Nutrition>(`${this.baseUrl}`, nutrition, { withCredentials: true });
   }
 
-  getAllNutritions(): Observable<Nutrition[]> {
-    return this.http.get<Nutrition[]>(`${this.baseUrl}`);
+  getNutritions(page: number): Observable<Nutrition[]> {
+    return this.http.get<Nutrition[]>(`${this.baseUrl}paginated?page=${page}`);
   }
 
-  /*getTrainingsPaginated(page: number, size: number): Observable<Training[]> {
-    return this.http.get<Training[]>(`${this.baseUrl}?page=${page}&size=${size}`);
-  }*/
+  /*getNutritionsPaginated(page: number, size: number): Observable<Nutrition[]> {
+    return this.http.get<Nutrition[]>(`${this.baseUrl}?page=${page}&size=${size}`);
+  }
+  
+   loadNutrition(nutritionId?: number): Observable<Nutrition | null> {
+     if (nutritionId != null && !isNaN(nutritionId)) {
+       return this.http.get<Nutrition>(`${this.baseUrl}/${nutritionId}`);
+     } else {
+       console.log('No hay nutritionId, no se carga ningún nutrition');
+       return of(null); // Retorna un observable vacío
+     }
+   }
+ 
+   // Save nutrition
+   savenutrition(nutrition: Nutrition): Observable<Nutrition> {
+     if (nutrition.id != null && !isNaN(nutrition.id)) {
+       // Edit
+       return this.http.put<Nutrition>(`${this.baseUrl}/${nutrition.id}`, nutrition);
+     } else {
+       // Create
+       return this.http.post<Nutrition>(this.baseUrl, nutrition);
+     }
+   }  
+  */
 }

@@ -32,19 +32,19 @@ export class TrainingListComponent implements OnInit {
   loadTrainings(): void {
     if (this.allLoaded) return;
   
-    // Resetear el array de entrenamientos si es la primera carga o si estamos cargando más
+    // Reset the training array if it is the first load or if we are loading more.
     if (this.page === 0) {
-      this.trainings = []; // Limpia la lista si es la primera vez que se cargan datos
+      this.trainings = []; // Clear the list if this is the first time data is uploaded.
     }
   
-    // Enviar solo page al backend (el tamaño debería ser el predeterminado en el backend)
+    // Send only page to backend (size should be the default size in the backend)
     this.trainingService.getTrainings(this.page).subscribe({
       next: (data) => {
         if (data.length < this.pageSize) {
           this.allLoaded = true;
         }
-        this.trainings = [...this.trainings, ...data];  // Agregar los entrenamientos cargados
-        this.page++;  // Incrementar la página para la siguiente carga
+        this.trainings = [...this.trainings, ...data];  // Add uploaded trainings
+        this.page++;  // Increment the page for the next load
       },
       error: (err) => {
         console.error('Error loading trainings', err);

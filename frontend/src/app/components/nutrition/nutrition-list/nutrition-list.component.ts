@@ -4,66 +4,60 @@ import { Nutrition } from '../../../dto/nutrition.dto';
 import { NutritionService } from '../../../services/nutrition.service';
 import { LoginService } from '../../../services/login.service';
 import { FormBuilder } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-nutrition-list',
-  templateUrl: './nutrition-list.component.html'
+  templateUrl: './nutrition-list.component.html',
 })
 export class NutritionListComponent implements OnInit {
   nutritions: Nutrition[] = [];
   logged: boolean = false;
-
-  // Paginación
   page: number = 0;
-  pageSize: number = 3;
+  pageSize: number = 10;
   allLoaded: boolean = false;
 
   constructor(
 
     private nutritionService: NutritionService,
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.logged = this.loginService.isLogged();
-    this.nutritionService.getAllNutritions().subscribe({
-      next: (res: Nutrition[]) => {
-
-        this.nutritions = res;
-
-      },
-      error: (err) => {
-        console.error('Error loading nutritions', err);
-      }
-    });
-    this.logged = this.loginService.isLogged();
+    this.loadNutritions();
   }
 
-  loadCards(): void {
+  loadNutritions(): void {
     if (this.allLoaded) return;
-
-    /*this.trainingService.getTrainingsPaginated(this.page, this.pageSize).subscribe({
-      next: (res: Training[]) => {
-        if (res.length < this.pageSize) {
-          this.allLoaded = true; // No hay más para cargar
+  
+    // Reset the nutrition array if it is the first load or if we are loading more.
+    if (this.page === 0) {
+      this.nutritions = []; // Clear the list if this is the first time data is uploaded.
+    }
+  
+    // Send only page to backend (size should be the default size in the backend)
+    this.nutritionService.getNutritions(this.page).subscribe({
+      next: (data) => {
+        if (data.length < this.pageSize) {
+          this.allLoaded = true;
         }
-        this.trainings = [...this.trainings, ...res]; // Concatenar
-        this.page++; // Siguiente página para próxima llamada
-      },
-      error: (err) => {
-        console.error('Error loading more trainings', err);
-      }
-    });*/
-    this.nutritionService.getAllNutritions().subscribe({
-      next: (res: Nutrition[]) => {
-        this.nutritions = res;
-
+        this.nutritions = [...this.nutritions, ...data];  // Add uploaded nutritions
+        this.page++;  // Increment the page for the next load
       },
       error: (err) => {
         console.error('Error loading nutritions', err);
+        this.toastr.error('Could not load nutritions', 'Error');
       }
     });
+  }
+  
+
+  loadMoreNutritions(): void {
+    this.loadNutritions();
   }
 
   goToDiet(nutritionId: number): void {

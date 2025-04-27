@@ -1,17 +1,9 @@
-<div class="container mt-5">
+<div class="container mt-5" *ngIf="!isLoading; else loading">
     <h2 class="text-center">
       {{ formTitle }}
     </h2>
   
     <form [formGroup]="nutritionForm" (ngSubmit)="onSubmit()">
-      <div class="mb-3 text-center">
-        <img
-          src="/assets/placeholder-nutrition.png"
-          class="card-img-top"
-          style="max-width: 300px; border-radius: 10px"
-          alt="Diet image"
-        />
-      </div>
   
       <!-- Input: Diet Name -->
       <div class="mb-3">
@@ -55,7 +47,7 @@
   
       <!-- Textarea: Description -->
       <div class="mb-3">
-        <label class="form-label fw-bold">Diet Exercises</label>
+        <label class="form-label fw-bold">Diet Meals</label>
         <textarea
           class="form-control"
           rows="4"
@@ -71,13 +63,19 @@
         <button class="btn btn-primary" type="submit">
           {{ isEditMode ? 'Save changes' : 'Create nutrition' }}
         </button>
-        <a [routerLink]="['/nutritions', nutritionId]" class="btn btn-secondary" *ngIf="isEditMode">
+        <a [routerLink]="['/nutrition', nutritionId]" class="btn btn-secondary" *ngIf="isEditMode">
           Cancel
         </a>
-        <a routerLink="/nutritions" class="btn btn-secondary" *ngIf="!isEditMode">
+        <a routerLink="/nutrition" class="btn btn-secondary" *ngIf="!isEditMode">
           Back to list
         </a>
       </div>
     </form>
   </div>
+
+  <ng-template #loading>
+    <div class="text-center mt-5">
+      Loading...
+    </div>
+  </ng-template>
   
