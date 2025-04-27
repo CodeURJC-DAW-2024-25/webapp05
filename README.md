@@ -570,6 +570,167 @@ Sobretodo he trabajado en la API Rest de la entidad de "Nutrition" aunque tambi�
 | #4             | [NutritionMapper.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/dto/NutritionMapper.java)                                  |
 | #5             | [NutritionDTO.java](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/backend/src/main/java/es/codeurjc/daw/alphagym/dto/NutritionDTO.java)                                    |
 
+# Fase 3
 
+## Preparación del entorno de desarrollo
+Primero deberemos acceder a la carpeta de frontend
+```bash
+cd frontend
+```
+Instalar de forma global la versión 17.0.9 de Angular CLI:
+```bash
+npm install -g @angular/cli@17.0.9
+```
+Instalar las dependencias del proyecto
+```bash
+npm install
+```
+Instalar bootstrap
+```bash
+npm install bootstrap
+```
+Instalar una librería para mostrar notificaciones
+```bash
+npm install ngx-toastr --save
+```
+Compilar y lanzar el servidor de desarrollo de Angular usando el proxy de configuración
+```bash
+ng serve --proxy-config proxy.conf.json
+```
+La aplicación estará disponible en: http://localhost:4200
+
+
+## Diagrama de clases y templates de la SPA
+
+## Participación de miembros
+
+### Catalin Mazarache
+
+#### Descripcion general: 
+He participado en la fase de Angular de los NutritionComments más arreglo de errores de otros componentes
+
+
+#### Mis 5 commits mas relevantes
+
+| Commit | Descripción                          | Link                                                                                                                                                                                                 |
+| ------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1     | feat : NutritionComments Angular First steps | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/c546d4b8cd54608466498c3ab4402f24b4258cc8](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/c546d4b8cd54608466498c3ab4402f24b4258cc8) |
+| #2     | feat : Update NutritionComments Angular Typescript files    | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/8ad3a0db94d157d2700bcf769ce9687d2fd2dc59](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/8ad3a0db94d157d2700bcf769ce9687d2fd2dc59) |
+| #3     | feat : Handle click events for dynamically loaded nutrition and training cards | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/5324b922b1c0eb7a1d3c56ab56951eb051985ba3](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/5324b922b1c0eb7a1d3c56ab56951eb051985ba3) |
+| #4     | feat: Training-List - Show more routines  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/dec654fd3929eb283061b79b48d8053afb5f6005](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/dec654fd3929eb283061b79b48d8053afb5f6005) |
+| #5     |   | []() |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero                                                                                                                                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1             | [nutritionComment.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/services/nutritionComment.service.ts)              |
+| #2             | [nutritionComment-form.component.html](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/nutritionComment/nutritionComment-form/nutritionComment-form.component.html)                                    |
+| #3             | [nutritionComment-form.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/nutritionComment/nutritionComment-form/nutritionComment-form.component.ts)            |
+| #4             | [nutritionComment-list.component.html](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/nutritionComment/nutritionComment-list/nutritionComment-list.component.html)                                  |
+| #5             | [nutritionComment-list.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/nutritionComment/nutritionComment-list/nutritionComment-list.component.ts)                                    |
+
+
+### Adrián Dueñas Mínguez
+
+#### Descripción general: 
+Breve resumen de tu aportación al proyecto.
+
+#### Mis 5 commits más relevantes
+
+| Commit | Descripción                          | Link |
+| ------ | ------------------------------------ | ---- |
+| #1     | | []() |
+| #2     | | []() |
+| #3     | | []() |
+| #4     | | []() |
+| #5     | | []() |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero |
+| -------------- | ------- |
+| #1             | []() |
+| #2             | []() |
+| #3             | []() |
+| #4             | []() |
+| #5             | []() |
+
+### Víctor Candel Casado
+
+#### Descripción general: 
+Breve resumen de tu aportación al proyecto.
+
+#### Mis 5 commits más relevantes
+
+| Commit | Descripción                          | Link |
+| ------ | ------------------------------------ | ---- |
+| #1     | | []() |
+| #2     | | []() |
+| #3     | | []() |
+| #4     | | []() |
+| #5     | | []() |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero |
+| -------------- | ------- |
+| #1             | []() |
+| #2             | []() |
+| #3             | []() |
+| #4             | []() |
+| #5             | []() |
+
+### Adrián Esteban Martín
+
+#### Descripción general: 
+Breve resumen de tu aportación al proyecto.
+
+#### Mis 5 commits más relevantes
+
+| Commit | Descripción                          | Link |
+| ------ | ------------------------------------ | ---- |
+| #1     | | []() |
+| #2     | | []() |
+| #3     | | []() |
+| #4     | | []() |
+| #5     | | []() |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero |
+| -------------- | ------- |
+| #1             | []() |
+| #2             | []() |
+| #3             | []() |
+| #4             | []() |
+| #5             | []() |
+
+### Xavi
+
+#### Descripción general: 
+Breve resumen de tu aportación al proyecto.
+
+#### Mis 5 commits más relevantes
+
+| Commit | Descripción                          | Link |
+| ------ | ------------------------------------ | ---- |
+| #1     | | []() |
+| #2     | | []() |
+| #3     | | []() |
+| #4     | | []() |
+| #5     | | []() |
+
+#### Los 5 ficheros que más he modificado
+
+| Número fichero | Fichero |
+| -------------- | ------- |
+| #1             | []() |
+| #2             | []() |
+| #3             | []() |
+| #4             | []() |
+| #5             | []() |
+
+## Vídeo
 
 
