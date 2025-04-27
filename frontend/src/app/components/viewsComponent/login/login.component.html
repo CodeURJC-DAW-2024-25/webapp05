@@ -1,0 +1,30 @@
+<div class="container-account">
+  <img src="/assets/images/gym5.jpg" class="fondo-login" alt="gym-login" />
+
+  <div class="form-container">
+    <p class="title">Welcome Back</p>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <input
+        type="email"
+        class="input"
+        placeholder="Email"
+        name="username"
+        [(ngModel)]="username"
+        required />
+
+      <input
+        type="password"
+        class="input"
+        placeholder="Password"
+        name="password"
+        [(ngModel)]="password"
+        required />
+
+      <button type="submit" class="btn-load">Login</button>
+
+      <p>Don't have an account?
+        <a routerLink="/register">Sign up</a>
+      </p>
+    </form>
+  </div>
+</div>

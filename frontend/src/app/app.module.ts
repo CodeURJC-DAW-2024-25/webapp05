@@ -22,6 +22,7 @@ import { TrainingCommentListComponent } from './components/trainingComment/train
 import { TrainingCommentFormComponent } from './components/trainingComment/training-comment-form/training-comment-form.component';
 import { NutritionCommentListComponent } from './components/nutritionComment/nutritionComment-list/nutritionComment-list.component';
 import { NutritionCommentFormComponent } from './components/nutritionComment/nutritionComment-form/nutritionComment-form.component';
+import { LoginComponent } from './components/viewsComponent/login/login.component';
 
 
 @NgModule({
@@ -31,7 +32,7 @@ import { NutritionCommentFormComponent } from './components/nutritionComment/nut
     TrainingDetailComponent,
     TrainingFormComponent,
     NutritionListComponent,
-    NutritionDetailComponent, 
+    NutritionDetailComponent,
     NutritionFormComponent,
     HomeComponent,
     NavbarComponent,
@@ -39,7 +40,8 @@ import { NutritionCommentFormComponent } from './components/nutritionComment/nut
     TrainingCommentListComponent,
     TrainingCommentFormComponent,
     NutritionCommentListComponent,
-    NutritionCommentFormComponent
+    NutritionCommentFormComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { UserDTO } from '../dto/user.dto';
 
 const BASE_URL = '/api/auth';
@@ -9,7 +10,7 @@ export class LoginService {
   public logged: boolean = false;
   public user: UserDTO | undefined;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   public reqIsLogged() {
@@ -41,6 +42,7 @@ export class LoginService {
         console.log('LOGOUT: Successfully');
         this.logged = false;
         this.user = undefined;
+        this.router.navigate(['/']); // <-- Redirect to home page
       });
   }
 

@@ -12,6 +12,7 @@ import { TrainingCommentListComponent } from './components/trainingComment/train
 import { TrainingCommentFormComponent } from './components/trainingComment/training-comment-form/training-comment-form.component';
 import { NutritionCommentFormComponent } from './components/nutritionComment/nutritionComment-form/nutritionComment-form.component';
 import { NutritionCommentListComponent } from './components/nutritionComment/nutritionComment-list/nutritionComment-list.component';
+import { LoginComponent } from './components/viewsComponent/login/login.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,7 +29,8 @@ const routes: Routes = [
   { path: 'trainingComments/newComment/:id', component: TrainingCommentFormComponent },
   { path: 'trainingComments/editComment/:id/:commentId', component: TrainingCommentFormComponent },
   { path: 'nutritionComments/newComment/:id', component: NutritionCommentFormComponent },
-  { path: 'nutritionComments/editComment/:id/:commentId', component: NutritionCommentFormComponent }
+  { path: 'nutritionComments/editComment/:id/:commentId', component: NutritionCommentFormComponent },
+  { path: 'login', component: LoginComponent },
 ];
 
 @NgModule({
