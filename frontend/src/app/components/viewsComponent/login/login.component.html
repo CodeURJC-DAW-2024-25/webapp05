@@ -3,48 +3,50 @@
 
   <div class="form-container">
     <p class="title">Welcome Back</p>
-    <form [formGroup]="loginForm">
-
-      <input
-        type="email"
-        class="input"
-        placeholder="Email"
-        formControlName="email"
-        [ngClass]="{
-          'is-invalid':
-            loginForm.get('email')?.invalid &&
-            (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
-        }"
-        required
-      />
-      <div class="invalid-feedback" *ngIf="loginForm.get('email')?.errors">
-        <small *ngIf="loginForm.get('email')?.hasError('required')">
-          Email is required
-        </small>
-        <small *ngIf="loginForm.get('email')?.hasError('email')">
-          Enter a valid email
-        </small>
+    <form [formGroup]="loginForm " (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <input
+          type="email"
+          class="input"
+          placeholder="Email"
+          formControlName="email"
+          [ngClass]="{
+            'is-invalid':
+              loginForm.get('email')?.invalid &&
+              (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
+          }"
+          required
+        />
+        <div class="invalid-feedback" *ngIf="loginForm.get('email')?.errors">
+          <small *ngIf="loginForm.get('email')?.hasError('required')">
+            Email is required
+          </small>
+          <small *ngIf="loginForm.get('email')?.hasError('email')">
+            Enter a valid email
+          </small>
+        </div>
       </div>
 
-      <input
-        type="password"
-        class="input"
-        placeholder="Password"
-        formControlName="password"
-        [ngClass]="{
-          'is-invalid':
-            loginForm.get('password')?.invalid &&
-            (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)
-        }"
-        required
-      />
-      <div class="invalid-feedback" *ngIf="loginForm.get('password')?.errors">
-        <small>Password is required</small>
+      <div class="form-group">
+        <input
+          type="password"
+          class="input"
+          placeholder="Password"
+          formControlName="password"
+          [ngClass]="{
+            'is-invalid':
+              loginForm.get('password')?.invalid &&
+              (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)
+          }"
+          required
+        />
+        <div class="invalid-feedback" *ngIf="loginForm.get('password')?.errors">
+          <small>Password is required</small>
+        </div>
+        <p class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
       </div>
 
-      <p class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
-
-      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+      <button type="submit" class="btn btn-primary" type="submit" [disabled]="isLoading">
         Login
       </button>
 

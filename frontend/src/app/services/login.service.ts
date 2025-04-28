@@ -33,8 +33,9 @@ export class LoginService {
   private user = new BehaviorSubject<UserDTO | null>(null);
   private admin = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.checkAuthStatus();
+  constructor(
+    private http: HttpClient,
+    private router: Router) {
   }
 
   get isLogged() {
@@ -121,13 +122,6 @@ export class LoginService {
     this.logged.next(false);
     const errorMessage = error.error?.message || 'Authentication failed';
     return throwError(() => new Error(errorMessage));
-  }
-
-  private checkAuthStatus(): void {
-    this.refreshToken().subscribe({
-      next: () => this.fetchUserInfo(),
-      error: () => {  }
-    });
   }
 
   get currentAuthStatus(): boolean {

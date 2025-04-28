@@ -11,6 +11,8 @@ import { RegisterRequest } from '../../../dto/user.dto';
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   registerErrorMessage: string | null = null;
+  isRegistering = false;
+  registerSuccess = false;
 
   constructor(
     private fb: FormBuilder,

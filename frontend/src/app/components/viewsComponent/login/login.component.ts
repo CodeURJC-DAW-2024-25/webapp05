@@ -11,19 +11,18 @@ import { LoginRequest } from './../../../dto/user.dto';
 export class LoginComponent {
   loginForm!: FormGroup;
   errorMessage: string | null = null;
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
     private router: Router
-  ) {}
-
-  ngOnInit(): void {
+  ){
     this.loginForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
     });
+
   }
 
   onLogin() {
@@ -32,6 +31,7 @@ export class LoginComponent {
       return;
     }
 
+    this.isLoading = true;
     this.errorMessage = null;
 
     const credentials: LoginRequest = {
