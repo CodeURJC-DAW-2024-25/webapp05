@@ -678,7 +678,6 @@ He participado en la fase de Angular de los componentes relacionados con la enti
 
 | Número fichero | Fichero |
 | -------------- | ------- |
-
 | #1     |  [training-detail.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/training/training-detail/training-detail.component.ts) |
 | #2     |  [training-form.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/training/training-form/training-form.component.ts) |
 | #3     |  [training-list.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/training/training-list/training-list.component.ts) |
