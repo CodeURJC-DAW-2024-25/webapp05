@@ -1,7 +1,7 @@
 <ng-container *ngIf="nutrition; else loading">
     <div class="container mt-5" >
       <h2 class="text-center">Diet Details of diet {{ nutrition.id }} </h2>
-  
+
       <div class="mb-3">
         <img
           [src]="'/api/nutritions/'+nutrition.id+'/image'"
@@ -9,31 +9,31 @@
           [alt]="nutrition.name"
         />
       </div>
-  
+
       <div class="mb-3">
         <label class="form-label fw-bold">Diet Name</label>
         <p class="form-control">{{ nutrition.name }}</p>
       </div>
-  
+
       <div class="mb-3">
         <label class="form-label fw-bold">Diet Calories:</label>
         <p class="form-control">{{ nutrition.calories }}</p>
       </div>
-  
+
       <div class="mb-3">
         <label class="form-label fw-bold">Diet Goal:</label>
         <p class="form-control">{{ nutrition.goal }}</p>
       </div>
-  
+
       <div class="mb-3">
         <label class="form-label fw-bold">Diets Meals:</label>
         <textarea class="form-control" rows="4" readonly>{{ nutrition.description }}</textarea>
       </div>
-  
+
       <div class="mb-3" *ngIf="logged">
         <a class="btn-load w-100" [routerLink]="['/nutritionComments', nutrition.id, 'newComment']">Add Comment</a>
       </div>
-  
+
       <div class="d-flex justify-content-center gap-3">
         <ng-container *ngIf="logged">
           <ng-container *ngIf="!admin">
@@ -41,18 +41,18 @@
             <button *ngIf="!subscribed" class="btn-load goToSubscribeDiet" (click)="onSubscribe()">Subscribe</button>
           </ng-container>
         </ng-container>
-  
+
         <a class="btn-load" [routerLink]="['/nutritionComments', nutrition.id]">View Comments</a>
-  
+
         <button *ngIf="canEdit" class="btn-load goToEditDiet" (click)="goToEdit()">Edit</button>
-  
+
         <button *ngIf="canDelete" class="btn-load-delete goToDeleteDiet" (click)="requestDelete()">Delete</button>
-  
+
         <a class="btn-load" routerLink="/nutrition">Return</a>
       </div>
     </div>
   </ng-container>
-  
+
   <ng-template #loading>
     <p>Loading...</p>
   </ng-template>

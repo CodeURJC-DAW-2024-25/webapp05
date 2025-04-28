@@ -7,6 +7,8 @@ export interface Nutrition {
   calories: number;
   goal:string;
   description: string;
+  dishImagePath: string;
+  image: boolean;
   user?: {
     id: number;
   };

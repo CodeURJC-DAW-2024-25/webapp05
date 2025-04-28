@@ -13,7 +13,9 @@ export class NutritionFormComponent implements OnInit {
   nutritionId!: number;
   isEditMode = false;
   isLoading = false;
+  calories: string[] = ['100', '200', '300', '400', '500'];
   goals: string[] = ['Lose weight', 'Maintain weight', 'Increase weight'];
+  previewImage: string | ArrayBuffer | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -29,13 +31,13 @@ export class NutritionFormComponent implements OnInit {
         goal: ['', Validators.required],
         description: ['', Validators.required],
       });
-    
+
       const idParam = this.route.snapshot.paramMap.get('id');
       if (idParam) {
         this.nutritionId = parseInt(idParam, 10);
         if(this.nutritionId > 0) {
           this.isEditMode = true;
-  
+
           this.nutritionService.getNutritionById(this.nutritionId).subscribe({
             next: (nutrition) => {
               this.nutritionForm.patchValue(nutrition);
@@ -48,6 +50,9 @@ export class NutritionFormComponent implements OnInit {
       }
       this.isLoading = false;
     }
+
+
+
 
   onSubmit(): void {
     if (this.nutritionForm.invalid) {
@@ -79,5 +84,17 @@ export class NutritionFormComponent implements OnInit {
   }
   get formTitle(): string {
     return this.isEditMode ? `Edit the diet ${this.nutritionId}` : 'Create new diet';
+  }
+
+  onImageSelected(event: Event) {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewImage = reader.result;
+      };
+      reader.readAsDataURL(file);
+      this.nutritionForm.patchValue({ imageField: file });
+    }
   }
 }

@@ -8,6 +8,8 @@ export interface Training {
   duration: number;
   goal:string;
   description: string;
+  dishImagePath: string;
+  image: boolean;
   user?: {
     id: number;
   };

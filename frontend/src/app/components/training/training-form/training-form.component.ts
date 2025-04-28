@@ -15,6 +15,7 @@ export class TrainingFormComponent implements OnInit {
   isLoading = false;
   intensities: string[] = ['50%', '60%', '70%', '80%', '100%'];
   goals: string[] = ['Lose weight', 'Maintain weight', 'Increase weight'];
+  previewImage: string | ArrayBuffer | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -84,5 +85,17 @@ export class TrainingFormComponent implements OnInit {
 
   get formTitle(): string {
     return this.isEditMode ? `Edit the routine ${this.trainingId}` : 'Create new routine';
+  }
+
+  onImageSelected(event: Event) {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewImage = reader.result;
+      };
+      reader.readAsDataURL(file);
+      this.trainingForm.patchValue({ imageField: file });
+    }
   }
 }

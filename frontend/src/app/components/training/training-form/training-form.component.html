@@ -3,7 +3,20 @@
       {{ formTitle }}
     </h2>
 
-    <form [formGroup]="trainingForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3" *ngIf="isEditMode">
+      <img [src]="'/api/trainings/' + trainingId + '/image'" [alt]="trainingForm.get('name')" class="card-img-top">
+    </div>
+
+
+    <form [formGroup]="trainingForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" novalidate>
+
+
+      <div class="d-flex justify-content-center gap-3" *ngIf="isEditMode">
+        <div class="btn btn-primary">
+          <input type="file" class="form-control" id="imageField" (change)="onImageSelected($event)">
+          <label for="imageField">Change Image</label>
+        </div>
+      </div>
 
       <!-- Input: Routine Name -->
       <div class="mb-3">
