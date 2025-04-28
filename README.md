@@ -661,27 +661,29 @@ He participado en la fase de Angular de los TrainingComments y en el arreglo de 
 ### Víctor Candel Casado
 
 #### Descripción general: 
-Breve resumen de tu aportación al proyecto.
+He participado en la fase de Angular de los componentes relacionados con la entidad de training y en el arreglo de errores de otros componentes asi como en dockerizaciónde la aplicación angular. También he inicializado la vista de la pagina principal
 
 #### Mis 5 commits más relevantes
 
 | Commit | Descripción                          | Link |
 | ------ | ------------------------------------ | ---- |
-| #1     | | []() |
-| #2     | | []() |
-| #3     | | []() |
-| #4     | | []() |
-| #5     | | []() |
+| #1     |  Initialize 3 different components of training and start creating other components     | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/2d08ec2a562c1319006059ed3f5e4804fe6c5981](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/2d08ec2a562c1319006059ed3f5e4804fe6c5981) |
+| #2    | Training form component    | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/de8cba5c0d779012e910d7b5518a33383ac9976d](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/de8cba5c0d779012e910d7b5518a33383ac9976d) |
+| #3   | Add subscribe ... | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/25acf7d998e7418f65ac3dc414469d4c178a162c](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/25acf7d998e7418f65ac3dc414469d4c178a162c) |
+| #4    | Fix Training-List    | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/dec654fd3929eb283061b79b48d8053afb5f6005](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/dec654fd3929eb283061b79b48d8053afb5f6005) |
+| #5    |  Start angular virtualitation| [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/bfe11a896162cc0baedbda8b9d2eb17868cdb01d](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/bfe11a896162cc0baedbda8b9d2eb17868cdb01d) |
+
 
 #### Los 5 ficheros que más he modificado
 
 | Número fichero | Fichero |
 | -------------- | ------- |
-| #1             | []() |
-| #2             | []() |
-| #3             | []() |
-| #4             | []() |
-| #5             | []() |
+
+| #1     |  [training-detail.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/training/training-detail/training-detail.component.ts) |
+| #2     |  [training-form.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/training/training-form/training-form.component.ts) |
+| #3     |  [training-list.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/training/training-list/training-list.component.ts) |
+| #4     |  [training.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/services/training.service.ts) |
+| #5     |  [home.component.html](https://github.com/CodeURJC-DAW-2024-25/webapp05/blob/main/frontend/src/app/components/viewsComponent/home/home.component.html) |
 
 ### Adrián Esteban Martín
 
@@ -696,7 +698,7 @@ Mi función durante esta fase se ha basado básicamente en la implementacion de 
 | #2     | training form componen | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/de8cba5c0d779012e910d7b5518a33383ac9976d](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/de8cba5c0d779012e910d7b5518a33383ac9976d) |
 | #3     | Add subscribe and unsubscribe to API REST for use in angular | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/25acf7d998e7418f65ac3dc414469d4c178a162c](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/25acf7d998e7418f65ac3dc414469d4c178a162c) |
 | #4     | Fix the nutrition form | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/bd4bdd6d5cabef0999cb0276e03289dd25eac7dd](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/bd4bdd6d5cabef0999cb0276e03289dd25eac7dd) |
-| #5     | | []() |
+| #5     | Start angular virtualitation| [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/bfe11a896162cc0baedbda8b9d2eb17868cdb01d](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/bfe11a896162cc0baedbda8b9d2eb17868cdb01d) |
 
 #### Los 5 ficheros que más he modificado
 
