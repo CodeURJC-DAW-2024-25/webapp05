@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { UserDTO } from '../dto/user.dto';
-import { API_URL } from '../../config';
 
 @Injectable({
   providedIn: 'root'

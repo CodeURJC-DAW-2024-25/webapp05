@@ -3,7 +3,7 @@
 
   <div class="form-container">
     <p class="title">Welcome Back</p>
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <form [formGroup]="loginForm">
 
       <input
         type="email"
@@ -43,6 +43,10 @@
       </div>
 
       <p class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+        Login
+      </button>
 
       <p>Don't have an account?
         <a routerLink="/register">Sign up</a>
