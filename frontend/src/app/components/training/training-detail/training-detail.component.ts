@@ -50,16 +50,53 @@ export class TrainingDetailComponent implements OnInit {
   }
 
   private setPermissions(training: Training): void {
-    const user = this.loginService.currentUser();
-    this.admin = this.loginService.isAdmin() || false;
-    this.logged = this.loginService.logged;
-    this.canDelete = this.loginService.isAdmin() || false ;
-    this.canEdit = this.loginService.isAdmin() ||
-      (user?.id !== undefined && user?.id === training.user?.id);
-  }
+      this.loginService.currentUser.subscribe({
+        next: (user) => {
+          this.loginService.isAdmin.subscribe({
+            next: (isAdmin) => {
+              this.admin = isAdmin || false;
+            },
+            error: (err) => {
+              console.error('Error checking admin status', err);
+              this.admin = false;
+            }
+          });
+          this.loginService.isLogged.subscribe({
+            next: (isLogged) => {
+              this.logged = isLogged;
+            },
+            error: (err) => {
+              console.error('Error checking logged status', err);
+              this.logged = false;
+            }
+          });
+          this.loginService.isAdmin.subscribe({
+            next: (isAdmin) => {
+              this.canDelete = isAdmin || false;
+            },
+            error: (err) => {
+              console.error('Error checking admin status', err);
+              this.canDelete = false;
+            }
+          });
+          this.loginService.isAdmin.subscribe({
+            next: (isAdmin) => {
+              this.canEdit = isAdmin || (user?.id !== undefined && user?.id === training.user?.id);
+            },
+            error: (err) => {
+              console.error('Error checking admin status', err);
+              this.canEdit = user?.id !== undefined && user?.id === training.user?.id;
+            }
+            });
+          },
+          error: (err) => {
+            console.error('Error getting current user', err);
+          }
+        });
+      }
 
   private checkSubscription(): void {
-    if (this.loginService.isLogged()) {
+    if (this.loginService.isLogged) {
       this.trainingService.isSubscribed(this.trainingId).subscribe({
         next: (res) => {
           this.subscribed = res;

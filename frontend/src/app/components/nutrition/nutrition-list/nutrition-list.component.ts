@@ -27,7 +27,7 @@ export class NutritionListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loginService.isLoggedIn.subscribe((isLoggedIn: boolean) => {
+    this.loginService.isLogged.subscribe((isLoggedIn: boolean) => {
       this.logged = isLoggedIn;
     });
     this.loadNutritions();

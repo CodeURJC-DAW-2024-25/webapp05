@@ -3,24 +3,46 @@
 
   <div class="form-container">
     <p class="title">Welcome Back</p>
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+
       <input
         type="email"
         class="input"
         placeholder="Email"
-        name="username"
-        [(ngModel)]="username"
-        required />
+        formControlName="email"
+        [ngClass]="{
+          'is-invalid':
+            loginForm.get('email')?.invalid &&
+            (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
+        }"
+        required
+      />
+      <div class="invalid-feedback" *ngIf="loginForm.get('email')?.errors">
+        <small *ngIf="loginForm.get('email')?.hasError('required')">
+          Email is required
+        </small>
+        <small *ngIf="loginForm.get('email')?.hasError('email')">
+          Enter a valid email
+        </small>
+      </div>
 
       <input
         type="password"
         class="input"
         placeholder="Password"
-        name="password"
-        [(ngModel)]="password"
-        required />
+        formControlName="password"
+        [ngClass]="{
+          'is-invalid':
+            loginForm.get('password')?.invalid &&
+            (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)
+        }"
+        required
+      />
+      <div class="invalid-feedback" *ngIf="loginForm.get('password')?.errors">
+        <small>Password is required</small>
+      </div>
 
-      <button type="submit" class="btn-load">Login</button>
+      <p class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
 
       <p>Don't have an account?
         <a routerLink="/register">Sign up</a>

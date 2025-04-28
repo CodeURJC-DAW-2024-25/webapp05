@@ -35,7 +35,9 @@ export class TrainingCommentListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.logged = this.loginService.isLogged();
+    this.loginService.isLogged.subscribe((isLogged) => {
+      this.logged = isLogged;
+    });
     /*
     if (this.logged) {
       this.loggedUserId = this.loginService.getLoggedUserId() || 0;
@@ -61,7 +63,7 @@ export class TrainingCommentListComponent implements OnInit {
 
   loadComments(id: number): void {
     if (this.allLoaded) return;
-  
+
     this.trainingCommentService.getTrainingComments(id, this.page).subscribe({
       next: (data) => {
         if (data.length < this.pageSize) {

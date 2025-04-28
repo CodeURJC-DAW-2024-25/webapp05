@@ -1,13 +1,19 @@
-export class UserDTO {
-  public password?: string;
 
-  constructor(
-    public id: number,
-    public name: string,
-    public roles: string[] = [],
-    public email: string,
-    password?: string
-  ) {
-    this.password = undefined;
-  }
+export interface UserDTO {
+  id: number;
+  username: string;
+  email: string;
+  password?: string;
+  roles?: string[];
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
+  username: string;
+  email: string;
+  password: string;
 }

@@ -52,7 +52,7 @@ export class NutritionDetailComponent implements OnInit {
   private setPermissions(nutrition: Nutrition): void {
     this.loginService.currentUser.subscribe({
       next: (user) => {
-        this.loginService.isAdmin().subscribe({
+        this.loginService.isAdmin.subscribe({
           next: (isAdmin) => {
             this.admin = isAdmin || false;
           },
@@ -61,7 +61,7 @@ export class NutritionDetailComponent implements OnInit {
             this.admin = false;
           }
         });
-        this.loginService.logged.subscribe({
+        this.loginService.isLogged.subscribe({
           next: (isLogged) => {
             this.logged = isLogged;
           },
@@ -70,7 +70,7 @@ export class NutritionDetailComponent implements OnInit {
             this.logged = false;
           }
         });
-        this.loginService.isAdmin().subscribe({
+        this.loginService.isAdmin.subscribe({
           next: (isAdmin) => {
             this.canDelete = isAdmin || false;
           },
@@ -79,7 +79,7 @@ export class NutritionDetailComponent implements OnInit {
             this.canDelete = false;
           }
         });
-        this.loginService.isAdmin().subscribe({
+        this.loginService.isAdmin.subscribe({
           next: (isAdmin) => {
             this.canEdit = isAdmin || (user?.id !== undefined && user?.id === nutrition.user?.id);
           },
@@ -94,7 +94,6 @@ export class NutritionDetailComponent implements OnInit {
         }
       });
     }
-
 
   private checkSubscription(): void {
     if (this.loginService.isLogged) {

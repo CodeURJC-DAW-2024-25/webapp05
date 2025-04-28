@@ -25,18 +25,20 @@ export class TrainingListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.logged = this.loginService.isLogged();
+    this.loginService.isLogged.subscribe((isLoggedIn: boolean) => {
+      this.logged = isLoggedIn;
+    });
     this.loadTrainings();
   }
 
   loadTrainings(): void {
     if (this.allLoaded) return;
-  
+
     // Reset the training array if it is the first load or if we are loading more.
     if (this.page === 0) {
       this.trainings = []; // Clear the list if this is the first time data is uploaded.
     }
-  
+
     // Send only page to backend (size should be the default size in the backend)
     this.trainingService.getTrainings(this.page).subscribe({
       next: (data) => {
@@ -52,7 +54,7 @@ export class TrainingListComponent implements OnInit {
       }
     });
   }
-  
+
 
   loadMoreTrainings(): void {
     this.loadTrainings();
