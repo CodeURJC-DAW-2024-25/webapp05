@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../../../services/login.service';
 import { Router } from '@angular/router';
 import { LoginRequest } from './../../../dto/user.dto';
-import { UserService } from './../../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +14,6 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService,
     private loginService: LoginService,
     private router: Router
   ) {}
