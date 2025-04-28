@@ -15,26 +15,23 @@
           <a class="nav-link" routerLink="/training">Training</a>
         </li>
 
-        <ng-container *ngIf="loginService.isLogged; else loggedOutLinks">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/account">Account</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" (click)="loginService.logout()">Log out</a>
-          </li>
-        </ng-container>
+        <!-- Show "Account" and "Logout" if user is logged-->
+        <li class="nav-item" *ngIf="loginService.isLogged | async">
+          <a class="nav-link" routerLink="/account">Account</a>
+        </li>
+        <li class="nav-item" *ngIf="loginService.isLogged | async">
+          <a class="nav-link" (click)="loginService.logout()">Log out</a>
+        </li>
 
-        <ng-template #loggedOutLinks>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/register">Register</a>
-          </li>
-        </ng-template>
+        <!-- show "Login" y "Register" if user is not logged -->
+        <li class="nav-item" *ngIf="!(loginService.isLogged | async)">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+        <li class="nav-item" *ngIf="!(loginService.isLogged | async)">
+          <a class="nav-link" routerLink="/register">Register</a>
+        </li>
 
       </ul>
     </div>
   </div>
 </nav>
-
