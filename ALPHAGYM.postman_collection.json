@@ -11,6 +11,60 @@
 			"name": "User",
 			"item": [
 				{
+					"name": "Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/users/me",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/users/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get all users",
 					"request": {
 						"method": "GET",
@@ -47,6 +101,28 @@
 								"api",
 								"users",
 								"reportedComments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/users/3/image",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"users",
+								"3",
+								"image"
 							]
 						}
 					},
@@ -125,22 +201,104 @@
 					"response": []
 				},
 				{
-					"name": "me",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "Create User",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"type": "bearer"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"cata\",\r\n    \"email\": \"cata@prueba.com\",\r\n    \"roles\": [\"ADMIN\"],\r\n    \"password\": \"pass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/users/new",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"users",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"prueba de admin\",\r\n    \"email\": \"coraima@prueba2.com\",\r\n    \"password\": \"pass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/users/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"users",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Image",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
 								{
-									"key": "token",
-									"value": "{{vault:authorization-secret}}",
-									"type": "string"
+									"key": "imageFile",
+									"type": "file",
+									"src": "c:\\Users\\medin\\OneDrive\\Imágenes\\FOTO MIA RANDOM.png"
 								}
 							]
 						},
-						"method": "GET",
+						"url": {
+							"raw": "https://localhost:8443/api/users/2/image",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"users",
+								"2",
+								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -152,7 +310,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/users/me",
+							"raw": "https://localhost:8443/api/users/4",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -161,42 +319,23 @@
 							"path": [
 								"api",
 								"users",
-								"me"
+								"4"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get user by id",
+					"name": "Delete User Image",
 					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create User",
-					"request": {
-						"auth": {
-							"type": "bearer"
-						},
-						"method": "POST",
+						"method": "DELETE",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"prueba@prueba.com\",\r\n    \"password\": \"prueba\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"mode": "formdata",
+							"formdata": []
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/users/",
+							"raw": "https://localhost:8443/api/users/3/image",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -205,7 +344,8 @@
 							"path": [
 								"api",
 								"users",
-								""
+								"3",
+								"image"
 							]
 						}
 					},
@@ -243,7 +383,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/trainings/1",
+							"raw": "https://localhost:8443/api/trainings/2",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -252,7 +392,7 @@
 							"path": [
 								"api",
 								"trainings",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -286,13 +426,35 @@
 					"response": []
 				},
 				{
+					"name": "Get TrainingImage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/trainings/1/image",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"trainings",
+								"1",
+								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create Training",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Pecho a fuego\",\r\n  \"description\": \"Absolutamente 4 series de todas las maquinas de pecho que te encuentres en el gimnasio\",\r\n  \"intensity\": \"100%\",\r\n  \"goal\": \"Increase volume\"\r\n}",
+							"raw": "{\r\n  \"name\": \"Brazo al fallo\",\r\n  \"description\": \"Absolutamente 4 series de todas las maquinas de brazo que te encuentres en el gimnasio\",\r\n  \"intensity\": \"100%\",\r\n  \"goal\": \"Increase volume\",\r\n  \"duration\":90\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -330,7 +492,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/trainings/1",
+							"raw": "https://localhost:8443/api/trainings/13",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -339,7 +501,39 @@
 							"path": [
 								"api",
 								"trainings",
-								"1"
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Replace TrainingImage",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imageFile",
+									"type": "file",
+									"src": "/C:/Users/vcand/OneDrive - Universidad Rey Juan Carlos/Escritorio/foto matricula.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/trainings/2/image",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"trainings",
+								"2",
+								"image"
 							]
 						}
 					},
@@ -376,50 +570,6 @@
 					"response": []
 				},
 				{
-					"name": "Get TrainingImage",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://localhost:8443/api/trainings/1/image",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "8443",
-							"path": [
-								"api",
-								"trainings",
-								"1",
-								"image"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Replace TrainingImage",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "https://localhost:8443/api/trainings/1/image",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "8443",
-							"path": [
-								"api",
-								"trainings",
-								"1",
-								"image"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Delete TrainingImage",
 					"request": {
 						"method": "DELETE",
@@ -436,6 +586,64 @@
 								"trainings",
 								"1",
 								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Parcial Edition Training",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"name\": \"Isquios al fallo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/trainings/14",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"trainings",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscribed Training",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "Subscribed Training",
+							"host": [
+								"Subscribed Training"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unsubscribed Training",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "Unsubscribed Training",
+							"host": [
+								"Unsubscribed Training"
 							]
 						}
 					},
@@ -522,7 +730,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Dieta de régimen\",\r\n  \"description\": \"Dieta para perder peso centrando las comidas en verduras\",\r\n  \"image\": true,\r\n  \"goal\": \"Perder peso\",\r\n  \"calories\": 300,\r\n  \"id\": 1 ,\r\n  \"user\": null\r\n}",
+							"raw": "{\r\n  \"name\": \"Dieta de volumen para flacos\",\r\n  \"description\": \"Dieta para ganar peso a base de carbohidratos\",\r\n  \"goal\": \"Ganar peso\",\r\n  \"calories\": 900\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -552,7 +760,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Dieta de régimen\",\r\n  \"description\": \"Dieta para perder peso basandose en vegetales\",\r\n  \"image\": true,\r\n  \"goal\": \"Perder peso\",\r\n  \"calories\": 250,\r\n  \"id\": 1 ,\r\n  \"user\": null\r\n}",
+							"raw": "{\r\n  \"name\": \"Dieta de régimen\",\r\n  \"description\": \"Dieta para perder peso basandose en vegetales\",\r\n  \"goal\": \"Perder peso\",\r\n  \"calories\": 250\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -560,7 +768,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/nutritions/1",
+							"raw": "https://localhost:8443/api/nutritions/4",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -569,7 +777,7 @@
 							"path": [
 								"api",
 								"nutritions",
-								"1"
+								"4"
 							]
 						}
 					},
@@ -581,7 +789,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/nutritions/1",
+							"raw": "https://localhost:8443/api/nutritions/4",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -590,7 +798,7 @@
 							"path": [
 								"api",
 								"nutritions",
-								"1"
+								"4"
 							]
 						}
 					},
@@ -623,8 +831,18 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imageFile",
+									"type": "file",
+									"src": "/C:/Users/vcand/OneDrive - Universidad Rey Juan Carlos/Escritorio/regimen.jpeg"
+								}
+							]
+						},
 						"url": {
-							"raw": "https://localhost:8443/api/nutritions/1/image",
+							"raw": "https://localhost:8443/api/nutritions/5/image",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -633,7 +851,7 @@
 							"path": [
 								"api",
 								"nutritions",
-								"1",
+								"5",
 								"image"
 							]
 						}
@@ -657,6 +875,100 @@
 								"nutritions",
 								"1",
 								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Parcial Edition Diet",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"Dieta para perder peso basandose en vegetales\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/nutritions/4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"nutritions",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscribed Nutrition",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/nutritions/1/subscribed/20000",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"nutritions",
+								"1",
+								"subscribed",
+								"20000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unsubscribed Nutrition",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/nutritions/1/unsubscribed/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"nutritions",
+								"1",
+								"unsubscribed",
+								"2"
 							]
 						}
 					},
@@ -704,6 +1016,29 @@
 								"api",
 								"trainingComments",
 								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get trainingComment By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/trainingComments/comment/5/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"trainingComments",
+								"comment",
+								"5",
 								""
 							]
 						}
@@ -894,6 +1229,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Partial Edition TrainingComment",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"description\": \"Ejercicios de brazo\",\r\n  \"name\": \"Brazo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/trainingComments/24",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"trainingComments",
+								"24"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -952,6 +1317,14 @@
 								"3"
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get nutritionComment By Id",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				},
@@ -1058,7 +1431,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/nutritionComments/?id=11",
+							"raw": "https://localhost:8443/api/nutritionComments/?id=2",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -1072,7 +1445,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "11"
+									"value": "2"
 								}
 							]
 						}
@@ -1127,6 +1500,109 @@
 								{
 									"key": "commentId",
 									"value": "7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Edition NutritionComment",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"description\": \"Una de champiñones\",\r\n  \"name\": \"Comida del domingo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/nutritionComments/34",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"nutritionComments",
+								"34"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "Search Trainings by name",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/search/trainings/name?name=Chest Plan",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"search",
+								"trainings",
+								"name"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Chest Plan"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Nutritions by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/search/nutritions/name?name=Caloric Deficit",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"search",
+								"nutritions",
+								"name"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Caloric Deficit"
 								}
 							]
 						}
