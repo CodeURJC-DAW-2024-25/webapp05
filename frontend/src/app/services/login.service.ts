@@ -54,7 +54,7 @@ export class LoginService {
       withCredentials: true
     }).pipe(
       tap(response => this.handleLoginSuccess(response)),
-      catchError(error => this.handleAuthError(error))
+      catchError(error => this.handleLoginError(error))
     );
   }
 
@@ -62,7 +62,7 @@ export class LoginService {
     return this.http.post<RegisterResponse>(`${API_URL}/auth/register`, credentials, {
       withCredentials: true
     }).pipe(
-      catchError(error => this.handleAuthError(error))
+      catchError(error => this.handleLoginError(error))
     );
   }
 
@@ -71,7 +71,7 @@ export class LoginService {
       withCredentials: true
     }).pipe(
       tap(() => this.handleLogoutSuccess()),
-      catchError(error => this.handleAuthError(error))
+      catchError(error => this.handleLoginError(error))
     );
   }
 
@@ -80,7 +80,7 @@ export class LoginService {
       withCredentials: true
     }).pipe(
       tap(response => this.handleRefreshSuccess(response)),
-      catchError(error => this.handleAuthError(error))
+      catchError(error => this.handleLoginError(error))
     );
   }
 
@@ -117,7 +117,7 @@ export class LoginService {
     this.router.navigate(['/login']);
   }
 
-  private handleAuthError(error: any): Observable<never> {
+  private handleLoginError(error: any): Observable<never> {
     this.logged.next(false);
     const errorMessage = error.error?.message || 'Authentication failed';
     return throwError(() => new Error(errorMessage));

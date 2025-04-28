@@ -11,14 +11,22 @@ import { UserService } from './../../../services/user.service';
 })
 export class LoginComponent {
   loginForm!: FormGroup;
-  registerForm!: FormGroup;
-  isLoading = false;
   errorMessage: string | null = null;
-  isRegistering = false;
-  registerSuccess = false;
-  registerErrorMessage: string | null = null;
 
-  constructor(private loginService: LoginService, private userService: UserService, private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private loginService: LoginService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+    });
+  }
 
   onLogin() {
     if (this.loginForm.invalid) {
@@ -26,7 +34,6 @@ export class LoginComponent {
       return;
     }
 
-    this.isLoading = true;
     this.errorMessage = null;
 
     const credentials: LoginRequest = {
@@ -36,12 +43,10 @@ export class LoginComponent {
 
     this.loginService.login(credentials).subscribe({
       next: () => {
-        this.isLoading = false;
         this.router.navigate(['/']);
       },
-      error: (err) => {
-        this.isLoading = false;
-        this.errorMessage = err.message || 'Login failed. Please try again.';
+      error: (error) => {
+        this.errorMessage = error.message || 'Login failed. Please try again.';
         this.loginForm.get('password')?.reset();
       }
     });
