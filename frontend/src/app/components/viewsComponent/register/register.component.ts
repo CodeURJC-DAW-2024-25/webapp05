@@ -3,12 +3,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../services/login.service';
 import { RegisterRequest } from '../../../dto/user.dto';
+import { UserService } from '../../../services/user.service';
+import { UserDTO } from '../../../dto/user.dto';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   registerForm!: FormGroup;
   registerErrorMessage: string | null = null;
   isRegistering = false;
@@ -17,14 +19,14 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
-    private router: Router
-  ) {}
+    public router: Router,
+    private userService: UserService
+  ) {
 
-  ngOnInit(): void {
     this.registerForm = this.fb.group({
-      name: ['', Validators.required],
+      username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
     });
   }
 
@@ -34,14 +36,22 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    this.isRegistering = true;
     this.registerErrorMessage = null;
 
-    const credentials: RegisterRequest = {
+    const registerData: RegisterRequest = {
       username: this.registerForm.value,
       email: this.registerForm.value,
-      password: this.registerForm.value };
+      password: this.registerForm.value
+    };
 
-    this.loginService.register(credentials).subscribe({
+    const userRegistration: Omit<UserDTO, 'id'> = {
+      username: registerData.username,
+      email: registerData.email,
+      password: registerData.password,
+    };
+
+    this.userService.registerUser(userRegistration).subscribe({
       next: () => {
         this.router.navigate(['/login']);
       },
@@ -50,4 +60,15 @@ export class RegisterComponent implements OnInit {
       },
     });
   }
+
+  get regUsername() {
+    return this.registerForm.get('username');
+  }
+  get regRmail() {
+    return this.registerForm.get('email');
+  }
+  get regPassword() {
+    return this.registerForm.get('password');
+  }
+
 }

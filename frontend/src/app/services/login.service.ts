@@ -36,6 +36,7 @@ export class LoginService {
   constructor(
     private http: HttpClient,
     private router: Router) {
+      this.fetchUserInfo();
   }
 
   get isLogged() {
@@ -92,7 +93,7 @@ export class LoginService {
   }
 
   private fetchUserInfo(): void {
-    this.http.get<UserDTO>(`/api/v1/users/me`, { withCredentials: true })
+    this.http.get<UserDTO>(`/api/users/me`, { withCredentials: true })
       .subscribe({
         next: (user: UserDTO) => {
           this.user.next(user);

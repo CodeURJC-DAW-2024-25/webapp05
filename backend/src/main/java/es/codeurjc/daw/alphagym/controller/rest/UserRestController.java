@@ -2,6 +2,8 @@ package es.codeurjc.daw.alphagym.controller.rest;
 
 import java.io.IOException;
 import java.net.URI;
+import java.security.Principal;
+
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -73,8 +77,10 @@ public class UserRestController {
                         @ApiResponse(responseCode = "401", description = "User not authenticated")
         })
         @GetMapping("/me")
-        public ResponseEntity<UserDTO> getAuthenticatedUser() {
-                return userService.getAuthenticatedUserDto()
+        public ResponseEntity<UserDTO> getAuthenticatedUser(HttpServletRequest request) {
+                Principal principal = request.getUserPrincipal();
+                
+                return userService.getAuthenticatedUserDto(principal.getName())
                                 .map(ResponseEntity::ok)
                                 .orElseGet(() -> ResponseEntity.status(401).build());
         }
@@ -99,7 +105,7 @@ public class UserRestController {
                 return userService.getUser(user.get().getName());
 
         }
-
+        /*
         @Operation(summary = "Gets the image of a user by its id")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "Found the user image", content = @Content),
@@ -125,6 +131,7 @@ public class UserRestController {
 
                 throw new AccessDeniedException("You are not allowed to edit this user.");
         }
+        */
 
         @Operation(summary = "Registers a new user")
         @ApiResponses(value = {
@@ -163,7 +170,7 @@ public class UserRestController {
                         return ResponseEntity.notFound().build();
                 }
         }
-
+        /* 
         @Operation(summary = "Update a user by its id")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "User updated correctly", content = {
@@ -190,7 +197,9 @@ public class UserRestController {
                 // If not achieve any condition, return error 403 (Forbidden)
                 throw new AccessDeniedException("You are not allowed to edit this user.");
         }
+        */
 
+        /* 
         @Operation(summary = "Updates the image of a user")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "201", description = "Image created correctly", content = @Content),
@@ -200,6 +209,7 @@ public class UserRestController {
                         @ApiResponse(responseCode = "403", description = "User not authorized", content = @Content),
                         @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
         })
+        /* 
         @PutMapping("/{id}/image")
         public ResponseEntity<Object> replaceUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
                         throws IOException {
@@ -215,7 +225,7 @@ public class UserRestController {
                 return ResponseEntity.noContent().build();
                 }
         }
-
+        */
         @Operation(summary = "Delete user image")
         @ApiResponses(value = {
                 @ApiResponse(responseCode = "204", description = "User image deleted", content = @Content),

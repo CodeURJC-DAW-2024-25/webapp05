@@ -111,12 +111,12 @@ public class WebSecurityConfig {
 
 						// For User
 						.requestMatchers(HttpMethod.GET, "/api/users/all").hasAnyRole("ADMIN")
-						.requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
 						.requestMatchers(HttpMethod.GET, "/api/users/*/image").hasRole("USER")
 						.requestMatchers(HttpMethod.PUT, "/api/users/*").hasAnyRole("USER", "ADMIN")
 						.requestMatchers(HttpMethod.PUT, "/api/users/*/image").hasAnyRole("USER", "ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/api/users/*").hasAnyRole("ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/api/users/*/image").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/api/users/me").permitAll()
 
 						// PUBLIC ENDPOINTS
 						.requestMatchers(HttpMethod.POST, "/api/users/new").permitAll()

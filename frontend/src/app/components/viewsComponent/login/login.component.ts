@@ -35,9 +35,8 @@ export class LoginComponent {
     this.errorMessage = null;
 
     const credentials: LoginRequest = {
-      email: this.loginForm.value,
-      password: this.loginForm.value };
-
+      email: this.loginForm.get('email')?.value,
+      password: this.loginForm.get('password')?.value };
 
     this.loginService.login(credentials).subscribe({
       next: () => {
@@ -50,4 +49,8 @@ export class LoginComponent {
     });
   }
 
+  get username() { return this.loginForm.get('username'); }
+  get password() { return this.loginForm.get('password'); }
+
 }
+
