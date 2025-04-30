@@ -5,7 +5,7 @@
 
   <div class="container-account2">
     <form class="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-      <input type="hidden" name="id" [value]="user?.id" />
+      <input type="hidden" name="id" [value]="user.id" />
 
       <img *ngIf="user.image" [src]="previewUrl || '/account/image'" class="card-img-top" alt="User Image" id="previewImage" />
       <input type="file" (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" />
@@ -13,10 +13,10 @@
       <div class="profile-container">
         <div class="form-container">
           <h2 class="title">Nombre:</h2>
-          <input type="text" class="input" {{ user.username }} name="name" />
+          <input type="text" class="input" [value]="user.username" name="name" />
 
           <h2 class="title">Email:</h2>
-          <input type="email" class="input" {{ user.email }} name="email" />
+          <input type="email" class="input" [value]="user.email" name="email" />
         </div>
         <div class="button-save">
           <button class="btn-load" type="submit">Save</button>

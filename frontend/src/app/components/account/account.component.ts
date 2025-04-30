@@ -31,8 +31,8 @@ export class AccountComponent implements OnInit {
   }
 
   loadUserPlans() {
-    this.http.get<any[]>(`/api/users/${this.user?.id}/trainings`).subscribe(data => this.trainings = data);
-    this.http.get<any[]>(`/api/users/${this.user?.id}/nutritions`).subscribe(data => this.nutritions = data);
+    this.http.get<any[]>(`/api/users/trainingList`).subscribe(data => this.trainings = data);
+    this.http.get<any[]>(`/api/users/nutritionList`).subscribe(data => this.nutritions = data);
   }
 
   onFileSelected(event: Event) {
