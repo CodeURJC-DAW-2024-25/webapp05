@@ -369,6 +369,19 @@ public class NutritionService {
         }
         return null;
     }
+
+    public Collection<NutritionDTO> getAllDtoUserNutritions() {
+        User currentUser = getAuthenticationUser();
+        if (currentUser != null) {
+            List<Nutrition> nutritions = currentUser.getNutritions();
+
+            return nutritions.stream()
+                    .map(nutritionMapper::toDTO)
+                    .toList();
+        }
+
+        return null;
+    }
 }
 
 

@@ -2,9 +2,14 @@ package es.codeurjc.daw.alphagym.controller.rest;
 
 import java.io.IOException;
 import java.net.URI;
+
+import es.codeurjc.daw.alphagym.dto.NutritionDTO;
+import es.codeurjc.daw.alphagym.dto.TrainingDTO;
+import es.codeurjc.daw.alphagym.service.*;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,9 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import es.codeurjc.daw.alphagym.dto.UserDTO;
 import es.codeurjc.daw.alphagym.model.User;
-import es.codeurjc.daw.alphagym.service.NutritionCommentService;
-import es.codeurjc.daw.alphagym.service.TrainingCommentService;
-import es.codeurjc.daw.alphagym.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -46,6 +48,12 @@ public class UserRestController {
 
         @Autowired
         private UserService userService;
+
+        @Autowired
+        private NutritionService nutritionService;
+
+        @Autowired
+        private TrainingService trainingService;
 
         @Autowired
         private NutritionCommentService nutritionCommentService;
@@ -260,6 +268,38 @@ public class UserRestController {
                 }
 
                 return ResponseEntity.ok(reportedComments); // Return 200 OK with the list of comments
+        }
+
+        @Operation(summary = "Get all trainings of user")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200", description = "Found all trainings", content = {
+                        @Content(mediaType = "application/json", schema = @Schema(implementation = TrainingDTO.class))}),
+                @ApiResponse(responseCode = "400", description = "Bad request - Invalid parameters", content = @Content),
+                @ApiResponse(responseCode = "401", description = "Unauthorized access - Authentication is required", content = @Content),
+                @ApiResponse(responseCode = "403", description = "Forbidden - You don't have permission to access", content = @Content),
+                @ApiResponse(responseCode = "404", description = "Trainings not found", content = @Content),
+                @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+        })
+        @PreAuthorize("isAuthenticated()")
+        @GetMapping("/trainingList")
+        public Collection<TrainingDTO> getUserTrainings() {
+                return trainingService.getAllDtoUserTrainings();
+        }
+
+        @Operation(summary = "Get all nutritions of user")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200", description = "Found all nutritions", content = {
+                        @Content(mediaType = "application/json", schema = @Schema(implementation = NutritionDTO.class))}),
+                @ApiResponse(responseCode = "400", description = "Bad request - Invalid parameters", content = @Content),
+                @ApiResponse(responseCode = "401", description = "Unauthorized access - Authentication is required", content = @Content),
+                @ApiResponse(responseCode = "403", description = "Forbidden - You don't have permission to access", content = @Content),
+                @ApiResponse(responseCode = "404", description = "Nutritions not found", content = @Content),
+                @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+        })
+        @PreAuthorize("isAuthenticated()")
+        @GetMapping("/nutritionList")
+        public Collection<NutritionDTO> getUserNutritions() {
+                return nutritionService.getAllDtoUserNutritions();
         }
 
 }

@@ -116,6 +116,11 @@ public class WebSecurityConfig {
 						.requestMatchers(HttpMethod.PUT, "/api/users/*/image").hasAnyRole("USER", "ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/api/users/*").hasAnyRole("ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/api/users/*/image").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/api/users/me").authenticated()
+						.requestMatchers(HttpMethod.GET, "/api/users/trainingList").authenticated()
+						.requestMatchers(HttpMethod.GET, "/api/users/nutritionList").authenticated()
+						.requestMatchers(HttpMethod.GET, "/api/v1/users/trainingList").authenticated()
+						.requestMatchers(HttpMethod.GET, "/api/v1/users/nutritionList").authenticated()
 						.requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
 
 						// PUBLIC ENDPOINTS

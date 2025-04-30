@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import javax.sql.rowset.serial.SerialBlob;
-import es.codeurjc.daw.alphagym.dto.TrainingDTO;
-import es.codeurjc.daw.alphagym.dto.TrainingMapper;
-import es.codeurjc.daw.alphagym.dto.UniqueTrainingDTO;
+
+import es.codeurjc.daw.alphagym.dto.*;
+import es.codeurjc.daw.alphagym.model.Nutrition;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -342,6 +342,19 @@ public class TrainingService {
               return user.get();
            }
         }
+        return null;
+    }
+
+    public Collection<TrainingDTO> getAllDtoUserTrainings() {
+        User currentUser = getAuthenticationUser();
+        if (currentUser != null) {
+            List<Training> trainings = currentUser.getTrainings();
+
+            return trainings.stream()
+                    .map(trainingMapper::toDTO)
+                    .toList();
+        }
+
         return null;
     }
 
