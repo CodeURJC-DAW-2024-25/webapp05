@@ -210,22 +210,22 @@ public class UserService {
         return mapper.toUserDTOs(userRepository.findAll());
     }
 
-    public Optional<UserDTO> getAuthenticatedUserDto(String email) {
+    public Optional<UserDTO> getAuthenticatedUserDto() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (email != null && !email.isEmpty()) {
-            return userRepository.findByEmail(email)
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+            return userRepository.findByEmail(userDetails.getUsername())
                     .map(userMapper::toUserDTO);
         }
 
-        
         return Optional.empty();
     }
 
-    /*public Long getAuthenticatedUserId() {
+    public Long getAuthenticatedUserId() {
         return getAuthenticatedUserDto()
                 .map(UserDTO::id)
                 .orElseThrow(() -> new RuntimeException("User not authenticated"));
-    }*/
+    }
 
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {

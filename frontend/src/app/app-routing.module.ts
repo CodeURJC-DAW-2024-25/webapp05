@@ -7,13 +7,14 @@ import { TrainingFormComponent } from './components/training/training-form/train
 import { NutritionListComponent } from './components/nutrition/nutrition-list/nutrition-list.component';
 import { NutritionDetailComponent } from './components/nutrition/nutrition-detail/nutrition-detail.component';
 import { NutritionFormComponent } from './components/nutrition/nutrition-form/nutrition-form.component';
-import {HomeComponent} from "./components/viewsComponent/home/home.component";
+import { HomeComponent } from './components/viewsComponent/home/home.component';
 import { TrainingCommentListComponent } from './components/trainingComment/training-comment-list/training-comment-list.component';
 import { TrainingCommentFormComponent } from './components/trainingComment/training-comment-form/training-comment-form.component';
 import { NutritionCommentFormComponent } from './components/nutritionComment/nutritionComment-form/nutritionComment-form.component';
 import { NutritionCommentListComponent } from './components/nutritionComment/nutritionComment-list/nutritionComment-list.component';
 import { LoginComponent } from './components/viewsComponent/login/login.component';
 import { RegisterComponent } from './components/viewsComponent/register/register.component';
+import { AccountComponent } from './components/account/account.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'nutritionComments/editComment/:id/:commentId', component: NutritionCommentFormComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'account', component: AccountComponent }
 ];
 
 @NgModule({
@@ -40,3 +42,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+

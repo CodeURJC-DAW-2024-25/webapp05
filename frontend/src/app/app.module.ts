@@ -23,6 +23,8 @@ import { NutritionCommentListComponent } from './components/nutritionComment/nut
 import { NutritionCommentFormComponent } from './components/nutritionComment/nutritionComment-form/nutritionComment-form.component';
 import { LoginComponent } from './components/viewsComponent/login/login.component';
 import { RegisterComponent } from './components/viewsComponent/register/register.component';
+import { AccountComponent } from './components/account/account.component';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -43,7 +45,8 @@ import { RegisterComponent } from './components/viewsComponent/register/register
     NutritionCommentListComponent,
     NutritionCommentFormComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ import { RegisterComponent } from './components/viewsComponent/register/register
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    CommonModule,
   ],
   providers: [
     provideHttpClient(withFetch())  // Esta línea está bien como está si lo necesitas

@@ -1,0 +1,71 @@
+<div *ngIf="user">
+  <div class="form-container2">
+    <h1 class="title">Profile</h1>
+  </div>
+
+  <div class="container-account2">
+    <form class="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+      <input type="hidden" name="id" [value]="user?.id" />
+
+      <img *ngIf="user.image" [src]="previewUrl || '/account/image'" class="card-img-top" alt="User Image" id="previewImage" />
+      <input type="file" (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" />
+
+      <div class="profile-container">
+        <div class="form-container">
+          <h2 class="title">Nombre:</h2>
+          <input type="text" class="input" {{ user.username }} name="name" />
+
+          <h2 class="title">Email:</h2>
+          <input type="email" class="input" {{ user.email }} name="email" />
+        </div>
+        <div class="button-save">
+          <button class="btn-load" type="submit">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <section>
+    <div class="container-account2">
+      <!-- Training Plans -->
+      <div class="form-container-plans2">
+        <h1 class="title">Training</h1>
+        <ul *ngIf="trainings?.length; else noTrainings">
+          <li *ngFor="let training of trainings" class="card shadow-sm">
+            <div class="card-body">
+              <div *ngIf="training.imgTraining" id="training/nutrition-picture-container">
+                <img [src]="'/training/image/' + training.id" alt="training" class="training" />
+              </div>
+              <h5 class="card-title">{{ training.name }}</h5>
+              <button class="btn-load-2" (click)="deleteTraining(training.id)">Delete</button>
+              <button class="btn-load-2" (click)="showTraining(training.id)">Show more details</button>
+            </div>
+          </li>
+        </ul>
+        <ng-template #noTrainings>
+          <p>There are no training plans added to the profile</p>
+        </ng-template>
+      </div>
+
+      <!-- Nutrition Plans -->
+      <div class="form-container-plans2">
+        <h1 class="title">Nutrition</h1>
+        <ul *ngIf="nutritions?.length; else noNutritions">
+          <li *ngFor="let nutrition of nutritions" class="card shadow-sm">
+            <div class="card-body">
+              <div id="training/nutrition-picture-container">
+                <img [src]="'/nutrition/image/' + nutrition.id" alt="nutrition" class="nutrition-image" />
+              </div>
+              <h5 class="card-title">{{ nutrition.name }}</h5>
+              <button class="btn-load-2" (click)="deleteNutrition(nutrition.id)">Delete</button>
+              <button class="btn-load-2" (click)="showNutrition(nutrition.id)">Show more details</button>
+            </div>
+          </li>
+        </ul>
+        <ng-template #noNutritions>
+          <p>There are no nutrition plans added to the profile</p>
+        </ng-template>
+      </div>
+    </div>
+  </section>
+</div>

@@ -28,7 +28,7 @@ export interface DecodedToken {
 @Injectable({ providedIn: 'root' })
 
 export class LoginService {
-  private readonly API_URL = `/api/v1/auth`;
+  //private readonly API_URL = `/api/v1/auth`;
   private logged = new BehaviorSubject<boolean>(false);
   private user = new BehaviorSubject<UserDTO | null>(null);
   private admin = new BehaviorSubject<boolean>(false);
@@ -52,7 +52,7 @@ export class LoginService {
   }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${API_URL}/auth/login`, credentials, {
+    return this.http.post<LoginResponse>(`api/auth/login`, credentials, {
       withCredentials: true
     }).pipe(
       tap(response => this.handleLoginSuccess(response)),
@@ -61,7 +61,7 @@ export class LoginService {
   }
 
   register(credentials: RegisterRequest): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>(`${API_URL}/auth/register`, credentials, {
+    return this.http.post<RegisterResponse>(`api/auth/register`, credentials, {
       withCredentials: true
     }).pipe(
       catchError(error => this.handleLoginError(error))
@@ -69,7 +69,7 @@ export class LoginService {
   }
 
   logout(): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.API_URL}/logout`, {}, {
+    return this.http.post<LoginResponse>(`api/auth/logout`, {}, {
       withCredentials: true
     }).pipe(
       tap(() => this.handleLogoutSuccess()),
@@ -78,7 +78,7 @@ export class LoginService {
   }
 
   refreshToken(): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.API_URL}/refresh`, {}, {
+    return this.http.post<LoginResponse>(`api/auth/refresh`, {}, {
       withCredentials: true
     }).pipe(
       tap(response => this.handleRefreshSuccess(response)),
@@ -116,6 +116,7 @@ export class LoginService {
 
   private handleLogoutSuccess(): void {
     this.logged.next(false);
+    this.user.next(null);
     this.router.navigate(['/login']);
   }
 
