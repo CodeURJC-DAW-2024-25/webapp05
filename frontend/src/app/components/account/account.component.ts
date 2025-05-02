@@ -47,19 +47,32 @@ export class AccountComponent implements OnInit {
   }
 
   onSubmit() {
-    const formData = new FormData();
     if (!this.user) return;
 
-    formData.append('id', this.user.id.toString());
-    formData.append('name', this.user.username);
-    formData.append('email', this.user.email);
-    if (this.selectedFile) {
-      formData.append('imageField', this.selectedFile);
-    }
-
-    this.http.post('/api/users/edit', formData).subscribe({
-      next: () => alert('Saved successfully'),
-      error: err => alert('Error saving: ' + err.message)
+    // 1. Update user (PUT + JSON)
+    this.http.put(`https://localhost:8443/api/users/${this.user.id}`, {
+      id: this.user.id,
+      username: this.user.username,
+      email: this.user.email
+    }, {
+      withCredentials: true
+    }).subscribe({
+      next: () => {
+        // 2. if image is selected, upload it (PUT + FormData)
+        if (this.selectedFile) {
+          const imageData = new FormData();
+          imageData.append('imageFile', this.selectedFile);
+          this.http.put(`https://localhost:8443/api/users/${this.user?.id}/image`, imageData, {
+            withCredentials: true
+          }).subscribe({
+            next: () => alert('Saved successfully'),
+            error: err => alert('Error uploading image: ' + err.message)
+          });
+        } else {
+          alert('Saved successfully');
+        }
+      },
+      error: err => alert('Error saving user: ' + err.message)
     });
   }
 

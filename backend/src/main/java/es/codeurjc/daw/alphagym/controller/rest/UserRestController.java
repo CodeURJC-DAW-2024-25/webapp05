@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -101,13 +102,13 @@ public class UserRestController {
                 Optional<User> user = userService.findById(id);
 
                 if (user.isEmpty()) {
-                        throw new NoSuchElementException();
+                        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
                 }
 
                 return userService.getUser(user.get().getName());
 
         }
-        
+
         @Operation(summary = "Gets the image of a user by its id")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "Found the user image", content = @Content),
@@ -116,19 +117,20 @@ public class UserRestController {
                         @ApiResponse(responseCode = "404", description = "User not found, user image not found or doesn't have permission to access it", content = @Content),
         })
         @GetMapping("/{id}/image")
-        public ResponseEntity<Object> getUserImage(@PathVariable long id) throws  SQLException {
+        public ResponseEntity<Object> getUserImage(@PathVariable long id) throws SQLException {
 
                 Resource userImage = userService.getUserImage(id);
 
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 UserDTO authenticatedUser = userService.getAuthenticatedUserDto()
-                        .orElseThrow(() -> new NoSuchElementException("User not authenticated"));
+                                .orElseThrow(() -> new NoSuchElementException("User not authenticated"));
 
                 if (authentication.getAuthorities().stream()
-                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN")) || (authenticatedUser.id().equals(id)))  {
+                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))
+                                || (authenticatedUser.id().equals(id))) {
                         return ResponseEntity.ok()
-                                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                                .body(userImage);
+                                        .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                                        .body(userImage);
                 }
 
                 throw new AccessDeniedException("You are not allowed to edit this user.");
@@ -179,6 +181,8 @@ public class UserRestController {
                         @ApiResponse(responseCode = "400", description = "User not updated", content = @Content),
                         @ApiResponse(responseCode = "403", description = "User not authorized", content = @Content)
         })
+        @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+        @PreAuthorize("isAuthenticated()")
         @PutMapping("/{id}")
         public UserDTO replaceUser(@RequestBody UserDTO userDTO, @PathVariable Long id) throws SQLException {
 
@@ -208,43 +212,46 @@ public class UserRestController {
                         @ApiResponse(responseCode = "403", description = "User not authorized", content = @Content),
                         @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
         })
-
+        @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+        @PreAuthorize("isAuthenticated()")
         @PutMapping("/{id}/image")
         public ResponseEntity<Object> replaceUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
                         throws IOException {
 
                 // An user, can edit only his own user image
                 Optional<UserDTO> authenticatedUserDto = userService.getAuthenticatedUserDto();
-                if (authenticatedUserDto.isPresent() && !authenticatedUserDto.get().id().equals(id) && (authenticatedUserDto.get().roles().contains("ROLE_ADMIN"))) {
+                if (authenticatedUserDto.isEmpty() || (!authenticatedUserDto.get().id().equals(id)
+                                && !authenticatedUserDto.get().roles().contains("ROLE_ADMIN"))) {
                         throw new AccessDeniedException("You are not allowed to edit this user.");
-                }else{
+                }
 
                 userService.replaceUserImage(id, imageFile.getInputStream(), imageFile.getSize());
 
                 return ResponseEntity.noContent().build();
-                }
         }
+
         @Operation(summary = "Delete user image")
         @ApiResponses(value = {
-                @ApiResponse(responseCode = "204", description = "User image deleted", content = @Content),
-                @ApiResponse(responseCode = "404", description = "User image not found", content = @Content),
-                @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+                        @ApiResponse(responseCode = "204", description = "User image deleted", content = @Content),
+                        @ApiResponse(responseCode = "404", description = "User image not found", content = @Content),
+                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
         })
         @DeleteMapping("/{id}/image")
         public ResponseEntity<Object> deletePostImage(@PathVariable long id) throws IOException, SQLException {
 
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-                if (authentication!=null && authentication.getAuthorities().stream()
-                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+                if (authentication != null && authentication.getAuthorities().stream()
+                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
                         userService.deleteUserImage(id);
                         return ResponseEntity.noContent().build();
                 } else {
                         throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                                "No tienes permisos para editar este entrenamiento");
+                                        "No tienes permisos para editar este entrenamiento");
                 }
 
         }
+
         @GetMapping("/reportedComments")
         public ResponseEntity<List<String>> getReportedComments() {
                 List<String> reportedComments = new ArrayList<>();
@@ -272,13 +279,13 @@ public class UserRestController {
 
         @Operation(summary = "Get all trainings of user")
         @ApiResponses(value = {
-                @ApiResponse(responseCode = "200", description = "Found all trainings", content = {
-                        @Content(mediaType = "application/json", schema = @Schema(implementation = TrainingDTO.class))}),
-                @ApiResponse(responseCode = "400", description = "Bad request - Invalid parameters", content = @Content),
-                @ApiResponse(responseCode = "401", description = "Unauthorized access - Authentication is required", content = @Content),
-                @ApiResponse(responseCode = "403", description = "Forbidden - You don't have permission to access", content = @Content),
-                @ApiResponse(responseCode = "404", description = "Trainings not found", content = @Content),
-                @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+                        @ApiResponse(responseCode = "200", description = "Found all trainings", content = {
+                                        @Content(mediaType = "application/json", schema = @Schema(implementation = TrainingDTO.class)) }),
+                        @ApiResponse(responseCode = "400", description = "Bad request - Invalid parameters", content = @Content),
+                        @ApiResponse(responseCode = "401", description = "Unauthorized access - Authentication is required", content = @Content),
+                        @ApiResponse(responseCode = "403", description = "Forbidden - You don't have permission to access", content = @Content),
+                        @ApiResponse(responseCode = "404", description = "Trainings not found", content = @Content),
+                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
         })
         @PreAuthorize("isAuthenticated()")
         @GetMapping("/trainingList")
@@ -288,13 +295,13 @@ public class UserRestController {
 
         @Operation(summary = "Get all nutritions of user")
         @ApiResponses(value = {
-                @ApiResponse(responseCode = "200", description = "Found all nutritions", content = {
-                        @Content(mediaType = "application/json", schema = @Schema(implementation = NutritionDTO.class))}),
-                @ApiResponse(responseCode = "400", description = "Bad request - Invalid parameters", content = @Content),
-                @ApiResponse(responseCode = "401", description = "Unauthorized access - Authentication is required", content = @Content),
-                @ApiResponse(responseCode = "403", description = "Forbidden - You don't have permission to access", content = @Content),
-                @ApiResponse(responseCode = "404", description = "Nutritions not found", content = @Content),
-                @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+                        @ApiResponse(responseCode = "200", description = "Found all nutritions", content = {
+                                        @Content(mediaType = "application/json", schema = @Schema(implementation = NutritionDTO.class)) }),
+                        @ApiResponse(responseCode = "400", description = "Bad request - Invalid parameters", content = @Content),
+                        @ApiResponse(responseCode = "401", description = "Unauthorized access - Authentication is required", content = @Content),
+                        @ApiResponse(responseCode = "403", description = "Forbidden - You don't have permission to access", content = @Content),
+                        @ApiResponse(responseCode = "404", description = "Nutritions not found", content = @Content),
+                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
         })
         @PreAuthorize("isAuthenticated()")
         @GetMapping("/nutritionList")

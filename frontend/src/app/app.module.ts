@@ -26,8 +26,6 @@ import { RegisterComponent } from './components/viewsComponent/register/register
 import { AccountComponent } from './components/account/account.component';
 import { CommonModule } from '@angular/common';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,7 +56,7 @@ import { CommonModule } from '@angular/common';
     CommonModule,
   ],
   providers: [
-    provideHttpClient(withFetch())  // Esta línea está bien como está si lo necesitas
+    provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })
