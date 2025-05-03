@@ -61,9 +61,9 @@ export class RegisterComponent implements OnInit {
       next: () => {
         this.isRegistering = false;
         this.registerSuccess = true;
-        this.router.navigate(['/login']);
+        this.registerForm.reset();
         setTimeout(() => {
-          this.router.navigate(['/login']);
+          this.registerSuccess = false;
         }, 3000);
       },
       error: (error) => {
@@ -77,7 +77,7 @@ export class RegisterComponent implements OnInit {
   get regUsername() {
     return this.registerForm.get('username');
   }
-  get regRmail() {
+  get regEmail() {
     return this.registerForm.get('email');
   }
   get regPassword() {

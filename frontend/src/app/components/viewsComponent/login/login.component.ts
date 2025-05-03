@@ -44,7 +44,8 @@ export class LoginComponent {
       },
       error: (error) => {
         this.errorMessage = error.message || 'Login failed. Please try again.';
-        this.loginForm.get('password')?.reset();
+        this.loginForm.reset();
+        this.isLoading = false; 
       }
     });
   }
