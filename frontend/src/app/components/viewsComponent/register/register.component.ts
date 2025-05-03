@@ -10,7 +10,7 @@ import { UserDTO } from '../../../dto/user.dto';
   selector: 'app-register',
   templateUrl: './register.component.html',
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   registerErrorMessage: string | null = null;
   isRegistering = false;
@@ -26,7 +26,13 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+      password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+    });
+  }
+
+  ngOnInit(): void {
+    this.registerForm.valueChanges.subscribe(() => {
+      this.registerErrorMessage = null;
     });
   }
 
@@ -40,9 +46,9 @@ export class RegisterComponent {
     this.registerErrorMessage = null;
 
     const registerData: RegisterRequest = {
-      username: this.registerForm.value,
-      email: this.registerForm.value,
-      password: this.registerForm.value
+      username: this.registerForm.value.username,
+      email: this.registerForm.value.email,
+      password: this.registerForm.value.password
     };
 
     const userRegistration: Omit<UserDTO, 'id'> = {
@@ -53,10 +59,17 @@ export class RegisterComponent {
 
     this.userService.registerUser(userRegistration).subscribe({
       next: () => {
+        this.isRegistering = false;
+        this.registerSuccess = true;
         this.router.navigate(['/login']);
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 3000);
       },
       error: (error) => {
+        this.isRegistering = false;
         this.registerErrorMessage = error.message || 'Registration failed. Please try again.';
+        this.registerForm.reset();
       },
     });
   }
