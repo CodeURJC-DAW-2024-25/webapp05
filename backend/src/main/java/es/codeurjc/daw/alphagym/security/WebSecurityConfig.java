@@ -103,13 +103,11 @@ public class WebSecurityConfig {
 				.authorizeHttpRequests(authorize -> authorize
 
 						// AUTH ENDPOINTS
-						.requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/refresh",
-								"/api/v1/auth/logout")
-						.permitAll()
+						.requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/refresh","/api/v1/auth/logout").permitAll()
 
 						.requestMatchers("/spa/**").permitAll()
 
-						// For User
+						// PRIVATE USER ENDPOINTS
 						.requestMatchers(HttpMethod.GET, "/api/users/all").hasAnyRole("ADMIN")
 						.requestMatchers(HttpMethod.GET, "/api/users/*/image").hasRole("USER")
 						.requestMatchers(HttpMethod.PUT, "/api/users/*").hasAnyRole("USER", "ADMIN")
@@ -122,6 +120,9 @@ public class WebSecurityConfig {
 						.requestMatchers(HttpMethod.GET, "/api/v1/users/trainingList").authenticated()
 						.requestMatchers(HttpMethod.GET, "/api/v1/users/nutritionList").authenticated()
 						.requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
+						.requestMatchers(HttpMethod.PUT, "/api/v1/users/me").authenticated()
+						.requestMatchers(HttpMethod.POST, "/api/v1/users/new").permitAll()
+
 
 						// PUBLIC ENDPOINTS
 						.requestMatchers(HttpMethod.POST, "/api/users/new").permitAll()
