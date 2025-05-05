@@ -1,7 +1,7 @@
 
 export interface UserDTO {
   id: number;
-  username: string;
+  name: string;
   email: string;
   password?: string;
   roles?: string[];
@@ -14,7 +14,7 @@ export interface LoginRequest {
 }
 
 export interface RegisterRequest {
-  username: string;
+  name: string;
   email: string;
   password: string;
 }

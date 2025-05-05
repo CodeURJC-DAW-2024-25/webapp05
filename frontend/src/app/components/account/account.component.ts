@@ -52,7 +52,7 @@ export class AccountComponent implements OnInit {
     // 1. Update user (PUT + JSON)
     this.http.put(`https://localhost:8443/api/users/${this.user.id}`, {
       id: this.user.id,
-      username: this.user.username,
+      username: this.user.name,
       email: this.user.email
     }, {
       withCredentials: true

@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
   ) {
 
     this.registerForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
     });
@@ -45,16 +45,16 @@ export class RegisterComponent implements OnInit {
     this.isRegistering = true;
     this.registerErrorMessage = null;
 
-    const registerData: RegisterRequest = {
-      username: this.registerForm.value.username,
+    const credentials: RegisterRequest = {
+      name: this.registerForm.value.username,
       email: this.registerForm.value.email,
       password: this.registerForm.value.password
     };
 
     const userRegistration: Omit<UserDTO, 'id'> = {
-      username: registerData.username,
-      email: registerData.email,
-      password: registerData.password,
+      name: credentials.name,
+      email: credentials.email,
+      password: credentials.password,
     };
 
     this.userService.registerUser(userRegistration).subscribe({
@@ -62,6 +62,8 @@ export class RegisterComponent implements OnInit {
         this.isRegistering = false;
         this.registerSuccess = true;
         this.registerForm.reset();
+        this.router.navigate(['/login']);
+
         setTimeout(() => {
           this.registerSuccess = false;
         }, 3000);
@@ -75,7 +77,7 @@ export class RegisterComponent implements OnInit {
   }
 
   get regUsername() {
-    return this.registerForm.get('username');
+    return this.registerForm.get('name');
   }
   get regEmail() {
     return this.registerForm.get('email');
