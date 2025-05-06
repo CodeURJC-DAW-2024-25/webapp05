@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit {
     this.registerErrorMessage = null;
 
     const credentials: RegisterRequest = {
-      name: this.registerForm.value.username,
+      name: this.registerForm.value.name,
       email: this.registerForm.value.email,
       password: this.registerForm.value.password
     };

@@ -30,7 +30,7 @@ export class UserService {
   }
 
   updateUser(userData: Partial<UserDTO>): Observable<UserDTO> {
-    return this.http.put<UserDTO>(`${this.apiUrl}/me`, userData);
+    return this.http.put<UserDTO>(`${this.apiUrl}/${userData.id}`, userData);
   }
 
   deleteUser(id: number): Observable<void> {

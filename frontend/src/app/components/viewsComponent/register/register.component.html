@@ -9,13 +9,13 @@
         <input type="text" class="input" placeholder="Name" formControlName="name"
           [ngClass]="{
             'is-invalid':
-              registerForm.get('username')?.invalid &&
-              (registerForm.get('username')?.touched || registerForm.get('username')?.dirty)
+              registerForm.get('name')?.invalid &&
+              (registerForm.get('name')?.touched || registerForm.get('name')?.dirty)
           }"
           required/>
         <div class="invalid-feedback"
-          *ngIf="registerForm.get('username')?.hasError('required') &&
-                 (registerForm.get('username')?.touched || registerForm.get('username')?.dirty)">Name is required
+          *ngIf="registerForm.get('name')?.hasError('required') &&
+                 (registerForm.get('name')?.touched || registerForm.get('name')?.dirty)">Name is required
         </div>
       </div>
       <p></p>
