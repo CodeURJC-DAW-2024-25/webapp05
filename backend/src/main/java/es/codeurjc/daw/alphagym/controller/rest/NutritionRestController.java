@@ -7,11 +7,15 @@ import java.util.List;
 
 import java.io.IOException;
 
+import es.codeurjc.daw.alphagym.model.Training;
+import es.codeurjc.daw.alphagym.model.User;
+import es.codeurjc.daw.alphagym.service.UserService;
 import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +41,9 @@ public class NutritionRestController {
 
     @Autowired
     private NutritionService nutritionService;
+
+    @Autowired
+    private UserService userService;
 
     @Operation(summary = "Get all nutritions")
     @ApiResponses(value = {
@@ -279,10 +286,12 @@ public class NutritionRestController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
 
-    @PostMapping("/{nutritionId}/subscribed/{userId}")
-    public ResponseEntity<String> subscribeNutrition(@PathVariable Long nutritionId, @PathVariable Long userId) {
+    @PostMapping("/subscribed/{nutritionId}")
+    public ResponseEntity<String> subscribeNutrition(@PathVariable Long nutritionId) {
         try {
-            boolean alreadySubscribed = nutritionService.subscribeNutritionDTO(nutritionId, userId);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+            boolean alreadySubscribed = nutritionService.subscribeNutritionDTO(nutritionId, email);
             
             if (alreadySubscribed) {
                 return ResponseEntity.ok("The user was already subscribed to this nutrition.");
@@ -305,10 +314,13 @@ public class NutritionRestController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
 
-    @PostMapping("/{nutritionId}/unsubscribed/{userId}")
-    public ResponseEntity<String> unsubscribeNutrition(@PathVariable Long nutritionId, @PathVariable Long userId) {
+    @PostMapping("/unsubscribed/{nutritionId}")
+    public ResponseEntity<String> unsubscribeNutrition(@PathVariable Long nutritionId) {
         try {
-            boolean unsubscribed = nutritionService.unsubscribeNutritionDTO(nutritionId, userId);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+
+            boolean unsubscribed = nutritionService.unsubscribeNutritionDTO(nutritionId, email);
     
             if (unsubscribed) {
                 return ResponseEntity.ok("User unsubscribed from nutrition successfully");
@@ -323,6 +335,19 @@ public class NutritionRestController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/isSubscribed/{nutritionId}")
+    public ResponseEntity<Boolean> isSubscribed(@PathVariable Long nutritionId) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            Nutrition nutrition = nutritionService.getNutrition(nutritionId);
+            boolean subscribed = userService.isSubscribedToNutrition(authentication.getName(), nutrition);
+            return ResponseEntity.ok(subscribed);
+        }else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+        }
+
+    }
     
 }

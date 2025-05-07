@@ -1,6 +1,8 @@
 package es.codeurjc.daw.alphagym.service;
 
 import es.codeurjc.daw.alphagym.dto.UserDTO;
+import es.codeurjc.daw.alphagym.model.Nutrition;
+import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.repository.UserRepository;
 import es.codeurjc.daw.alphagym.security.LoginRequest;
@@ -234,4 +236,22 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public boolean isSubscribedToTraining(String name, Training training) {
+
+        Optional<User> userOpt = userRepository.findByEmail(name);
+        if (userOpt.isPresent()) {
+            return userOpt.get().isSubscribedToTraining(training);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isSubscribedToNutrition(String name, Nutrition nutrition) {
+        Optional<User> userOpt = userRepository.findByEmail(name);
+        if (userOpt.isPresent()) {
+            return userOpt.get().isSubscribedToNutrition(nutrition);
+        } else {
+            return false;
+        }
+    }
 }

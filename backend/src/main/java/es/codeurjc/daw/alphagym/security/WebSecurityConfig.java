@@ -133,7 +133,7 @@ public class WebSecurityConfig {
 						.requestMatchers(HttpMethod.PUT, "/api/trainings/*/image").hasAnyRole("USER")
 						.requestMatchers(HttpMethod.PATCH, "/api/trainings/*").hasAnyRole("USER")
 						.requestMatchers(HttpMethod.DELETE, "/api/trainings/**").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.POST, "/api/trainings/*/subscribed/*")
+						.requestMatchers(HttpMethod.POST, "/api/trainings/subscribed/*")
 	.access((authentication, context) ->
 			authentication.get().getAuthorities().stream()
 				.anyMatch(a -> a.getAuthority().equals("ROLE_USER")) &&
@@ -142,7 +142,7 @@ public class WebSecurityConfig {
 				? new AuthorizationDecision(true)
 				: new AuthorizationDecision(false)
 	)
-						.requestMatchers(HttpMethod.POST, "/api/trainings/*/unsubscribed/*")
+						.requestMatchers(HttpMethod.POST, "/api/trainings/unsubscribed/*")
 	.access((authentication, context) ->
 			authentication.get().getAuthorities().stream()
 				.anyMatch(a -> a.getAuthority().equals("ROLE_USER")) &&
@@ -152,13 +152,23 @@ public class WebSecurityConfig {
 				: new AuthorizationDecision(false)
 	)
 
+						.requestMatchers(HttpMethod.GET, "/api/trainings/isSubscribed/*")
+	.access((authentication, context) ->
+			authentication.get().getAuthorities().stream()
+					.anyMatch(a -> a.getAuthority().equals("ROLE_USER")) &&
+					authentication.get().getAuthorities().stream()
+							.noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
+					? new AuthorizationDecision(true)
+					: new AuthorizationDecision(false)
+	)
+
 						// For Nutrition
 						.requestMatchers(HttpMethod.POST, "/api/nutritions/").hasAnyRole("USER")
 						.requestMatchers(HttpMethod.PUT, "/api/nutritions/*").hasAnyRole("USER")
 						.requestMatchers(HttpMethod.PUT, "/api/nutritions/*/image").hasAnyRole("USER")
 						.requestMatchers(HttpMethod.PATCH, "/api/nutritions/*").hasAnyRole("USER")
 						.requestMatchers(HttpMethod.DELETE, "/api/nutritions/**").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.POST, "/api/nutritions/*/subscribed/*")
+						.requestMatchers(HttpMethod.POST, "/api/nutritions/subscribed/*")
     .access((authentication, context) ->
         authentication.get().getAuthorities().stream()
             .anyMatch(a -> a.getAuthority().equals("ROLE_USER")) &&
@@ -167,7 +177,7 @@ public class WebSecurityConfig {
             ? new AuthorizationDecision(true)
             : new AuthorizationDecision(false)
     )
-						.requestMatchers(HttpMethod.POST, "/api/nutritions/*/unsubscribed/*")
+						.requestMatchers(HttpMethod.POST, "/api/nutritions/unsubscribed/*")
     .access((authentication, context) ->
         authentication.get().getAuthorities().stream()
             .anyMatch(a -> a.getAuthority().equals("ROLE_USER")) &&
@@ -176,6 +186,15 @@ public class WebSecurityConfig {
             ? new AuthorizationDecision(true)
             : new AuthorizationDecision(false)
     )
+						.requestMatchers(HttpMethod.GET, "/api/nutritions/isSubscribed/*")
+						.access((authentication, context) ->
+								authentication.get().getAuthorities().stream()
+										.anyMatch(a -> a.getAuthority().equals("ROLE_USER")) &&
+										authentication.get().getAuthorities().stream()
+												.noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
+										? new AuthorizationDecision(true)
+										: new AuthorizationDecision(false)
+						)
 
 
 						// For TrainingComments

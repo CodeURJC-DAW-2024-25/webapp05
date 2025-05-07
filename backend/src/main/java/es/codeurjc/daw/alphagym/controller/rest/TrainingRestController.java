@@ -8,7 +8,9 @@ import java.io.IOException;
 import es.codeurjc.daw.alphagym.dto.TrainingDTO;
 import es.codeurjc.daw.alphagym.dto.UniqueTrainingDTO;
 import es.codeurjc.daw.alphagym.model.Training;
+import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.service.TrainingService;
+import es.codeurjc.daw.alphagym.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +37,9 @@ public class TrainingRestController {
 
     @Autowired
     TrainingService trainingService;
+
+    @Autowired
+    UserService userService;
 
     @Operation(summary = "Get all trainings")
     @ApiResponses(value = {
@@ -266,10 +272,12 @@ public class TrainingRestController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
 
-    @PostMapping("/{trainingId}/subscribed/{userId}")
-    public ResponseEntity<String> subscribeTraining(@PathVariable Long trainingId, @PathVariable Long userId) {
+    @PostMapping("/subscribed/{trainingId}")
+    public ResponseEntity<String> subscribeTraining(@PathVariable Long trainingId) {
         try {
-            boolean alreadySubscribed = trainingService.subscribeTrainingDTO(trainingId, userId);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+            boolean alreadySubscribed = trainingService.subscribeTrainingDTO(trainingId, email);
             
             if (alreadySubscribed) {
                 return ResponseEntity.ok("The user was already subscribed to this training.");
@@ -292,10 +300,12 @@ public class TrainingRestController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
 
-    @PostMapping("/{trainingId}/unsubscribed/{userId}")
-    public ResponseEntity<String> unsubscribeTraining(@PathVariable Long trainingId, @PathVariable Long userId) {
+    @PostMapping("/unsubscribed/{trainingId}")
+    public ResponseEntity<String> unsubscribeTraining(@PathVariable Long trainingId) {
         try {
-            boolean unsubscribed = trainingService.unsubscribeTrainingDTO(trainingId, userId);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+            boolean unsubscribed = trainingService.unsubscribeTrainingDTO(trainingId, email);
     
             if (unsubscribed) {
                 return ResponseEntity.ok("User unsubscribed from training successfully");
@@ -308,5 +318,19 @@ public class TrainingRestController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
         }
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/isSubscribed/{trainingId}")
+    public ResponseEntity<Boolean> isSubscribed(@PathVariable long trainingId) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            Training training = trainingService.getTraining(trainingId);
+            boolean subscribed = userService.isSubscribedToTraining(authentication.getName(), training);
+            return ResponseEntity.ok(subscribed);
+        }else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+        }
+
     }
 }

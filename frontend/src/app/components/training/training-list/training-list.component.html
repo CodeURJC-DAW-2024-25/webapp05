@@ -19,7 +19,7 @@
     <button id="loadMore" class="btn-load" (click)="loadMoreTrainings()">
       More Routines
     </button>
-    <a id="newRoutine" class="btn-load" [routerLink]="['/training/new/0']">
+    <a *ngIf="logged" id="newRoutine" class="btn-load" [routerLink]="['/training/new/0']">
       New Routine
     </a>
   </div>

@@ -253,15 +253,10 @@ public class NutritionService {
             return toDTO(nutrition);
         }
         return null;
-        /*Nutrition nutrition = nutritionRepository.findById(id).orElseThrow();
-
-        NutritionDTO nutritionDTO = toDTO(nutrition);
-        nutritionRepository.deleteById(id);
-        return nutritionDTO;*/
     }
 
-    public boolean subscribeNutritionDTO(Long nutritionId, Long userId) {
-        User user = userRepository.findById(userId)
+    public boolean subscribeNutritionDTO(Long nutritionId, String name) {
+        User user = userRepository.findByEmail(name)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         Nutrition nutrition = nutritionRepository.findById(nutritionId)
                 .orElseThrow(() -> new IllegalArgumentException("Nutrition not found"));
@@ -275,8 +270,8 @@ public class NutritionService {
         return false; 
     }
 
-    public boolean unsubscribeNutritionDTO(Long nutritionId, Long userId) {
-        User user = userRepository.findById(userId)
+    public boolean unsubscribeNutritionDTO(Long nutritionId, String name) {
+        User user = userRepository.findByEmail(name)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         Nutrition nutrition = nutritionRepository.findById(nutritionId)
                 .orElseThrow(() -> new IllegalArgumentException("Nutrition not found"));

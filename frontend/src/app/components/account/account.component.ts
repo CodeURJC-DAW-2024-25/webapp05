@@ -62,7 +62,7 @@ export class AccountComponent implements OnInit {
         if (this.selectedFile) {
           const imageData = new FormData();
           imageData.append('imageFile', this.selectedFile);
-          this.http.put(`https://localhost:8443/api/users/${this.user?.id}/image`, imageData, {
+          this.http.put(`cusers/${this.user?.id}/image`, imageData, {
             withCredentials: true
           }).subscribe({
             next: () => alert('Saved successfully'),
@@ -77,7 +77,7 @@ export class AccountComponent implements OnInit {
   }
 
   deleteTraining(id: number) {
-    this.http.delete(`/api/trainings/${id}`).subscribe(() => this.loadUserPlans());
+    return this.http.post(`https://localhost:8443/api/trainings/unsubscribed/${id}`, { withCredentials: true });
   }
 
   showTraining(id: number) {
@@ -85,7 +85,7 @@ export class AccountComponent implements OnInit {
   }
 
   deleteNutrition(id: number) {
-    this.http.delete(`/api/nutritions/${id}`).subscribe(() => this.loadUserPlans());
+    return this.http.post(`https://localhost:8443/api/nutritions/unsubscribed/${id}`, { withCredentials: true });
   }
 
   showNutrition(id: number) {

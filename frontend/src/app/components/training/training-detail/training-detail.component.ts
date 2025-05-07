@@ -25,7 +25,7 @@ export class TrainingDetailComponent implements OnInit {
     private router: Router,
     private trainingService: TrainingService,
     private loginService: LoginService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +40,10 @@ export class TrainingDetailComponent implements OnInit {
         this.isLoading = false;
         this.training = training;
         this.setPermissions(training);
-        this.checkSubscription();
+        if (this.logged && !this.admin){
+          this.checkSubscription();
+        }
+
       },
       error: (err) => {
         console.error('Error loading training', err);
@@ -96,7 +99,7 @@ export class TrainingDetailComponent implements OnInit {
       }
 
   private checkSubscription(): void {
-    if (this.loginService.isLogged) {
+    if (this.loginService.currentUser!=null) {
       this.trainingService.isSubscribed(this.trainingId).subscribe({
         next: (res) => {
           this.subscribed = res;
@@ -113,9 +116,9 @@ export class TrainingDetailComponent implements OnInit {
       next: () => {
         this.subscribed = true;
         this.toastr.success('Successfully subscribed to training', 'Success');
-      },
+        },
       error: (err) => {
-        console.error('Error subscribing:', err);
+        console.error('Error subscribing to training', err);
         this.toastr.error('Error subscribing to training', 'Error');
       }
     });
@@ -126,9 +129,8 @@ export class TrainingDetailComponent implements OnInit {
       next: () => {
         this.subscribed = false;
         this.toastr.success('Successfully unsubscribed from training', 'Success');
-      },
+        },
       error: (err) => {
-        console.error('Error unsubscribing:', err);
         this.toastr.error('Error unsubscribing from training', 'Error');
       }
     });

@@ -66,6 +66,15 @@ public class User {
 
     public User() {}
 
+
+    public Boolean isSubscribedToTraining(Training training) {
+        return this.trainings.contains(training);
+    }
+
+    public Boolean isSubscribedToNutrition(Nutrition nutrition) {
+        return this.nutritions.contains(nutrition);
+    }
+
     public Boolean isRole(String rol) {
 		return this.roles.contains(rol);
 	}

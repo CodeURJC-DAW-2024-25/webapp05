@@ -263,8 +263,8 @@ public class TrainingService {
         return null;
     }
 
-    public boolean subscribeTrainingDTO(Long trainingId, Long userId) {
-        User user = userRepository.findById(userId)
+    public boolean subscribeTrainingDTO(Long trainingId, String name) {
+        User user = userRepository.findByEmail(name)
                 .orElseThrow(() -> new IllegalArgumentException("USer not found"));
         Training training = trainingRepository.findById(trainingId)
                 .orElseThrow(() -> new IllegalArgumentException("Training not found"));
@@ -278,8 +278,8 @@ public class TrainingService {
         return false; 
     }
 
-    public boolean unsubscribeTrainingDTO(Long trainingId, Long userId) {
-        User user = userRepository.findById(userId)
+    public boolean unsubscribeTrainingDTO(Long trainingId, String name) {
+        User user = userRepository.findByEmail(name)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         Training training = trainingRepository.findById(trainingId)
                 .orElseThrow(() -> new IllegalArgumentException("Training not found"));

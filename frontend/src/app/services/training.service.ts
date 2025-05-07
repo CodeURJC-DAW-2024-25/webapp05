@@ -19,43 +19,43 @@ export class TrainingService {
   }
 
   subscribeToTraining(id: number): Observable<any> {
-        return this.http.delete(`${this.baseUrl}/${id}`, { withCredentials: true });
+        return this.http.post(`${this.baseUrl}subscribed/${id}`,{}, { withCredentials: true , responseType: 'text'});
       }
 
   unsubscribeFromTraining(id: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/${id}/unsubscribe`, {}, { withCredentials: true });
+    return this.http.post(`${this.baseUrl}unsubscribed/${id}`, {}, { withCredentials: true , responseType: 'text'});
   }
 
   isSubscribed(id: number): Observable<boolean> {
-    return this.http.get<boolean>(`${this.baseUrl}/${id}/isSubscribed`, { withCredentials: true });
+    return this.http.get<boolean>(`${this.baseUrl}isSubscribed/${id}`);
   }
-  
+
   deleteTraining(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`, { withCredentials: true });
+    return this.http.delete(`${this.baseUrl}${id}`, { withCredentials: true });
   }
 
   updateTraining(id: number, training: Training): Observable<any> {
-    return this.http.put<Training>(`${this.baseUrl}/${id}`, training);
+    return this.http.put<Training>(`${this.baseUrl}${id}`, training, { withCredentials: true} );
   }
 
   createTraining(training: Training): Observable<any> {
-    return this.http.post<Training>(`${this.baseUrl}`, training);
+    return this.http.post<Training>(`${this.baseUrl}`, training, { withCredentials: true});
   }
 
   getTrainings(page: number): Observable<Training[]> {
     return this.http.get<Training[]>(`${this.baseUrl}paginated?page=${page}`);
   }
-  
-  
-  
-  
-  
+
+
+
+
+
 
   /*getTrainingsPaginated(page: number, size: number): Observable<Training[]> {
     return this.http.get<Training[]>(`${this.baseUrl}?page=${page}&size=${size}`);
   }*/
 
-  /*  
+  /*
   loadTraining(trainingId?: number): Observable<Training | null> {
     if (trainingId != null && !isNaN(trainingId)) {
       return this.http.get<Training>(`${this.baseUrl}/${trainingId}`);
