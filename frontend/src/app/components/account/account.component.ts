@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../../services/login.service';
-import { UserDTO } from '../../dto/user.dto';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {LoginService} from '../../services/login.service';
+import {UserService} from '../../services/user.service';
+import {UserDTO} from '../../dto/user.dto';
+import {HttpClient} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-account',
@@ -17,9 +19,12 @@ export class AccountComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
+    private userService: UserService,
+    private toastr: ToastrService,
     private http: HttpClient,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.loginService.currentUser.subscribe(user => {
@@ -77,7 +82,15 @@ export class AccountComponent implements OnInit {
   }
 
   deleteTraining(id: number) {
-    return this.http.post(`https://localhost:8443/api/trainings/unsubscribed/${id}`, { withCredentials: true });
+    this.userService.unsubscribeFromTraining(id).subscribe({
+      next: () => {
+        this.trainings = this.trainings.filter(training => training.id !== id);
+        this.toastr.success('Successfully unsubscribed from training', 'Success');
+      },
+      error: (err) => {
+        this.toastr.error('Error unsubscribing from training', 'Error');
+      }
+    });
   }
 
   showTraining(id: number) {
@@ -85,7 +98,7 @@ export class AccountComponent implements OnInit {
   }
 
   deleteNutrition(id: number) {
-    return this.http.post(`https://localhost:8443/api/nutritions/unsubscribed/${id}`, { withCredentials: true });
+    return this.http.post(`https://localhost:8443/api/nutritions/unsubscribed/${id}`, {withCredentials: true});
   }
 
   showNutrition(id: number) {

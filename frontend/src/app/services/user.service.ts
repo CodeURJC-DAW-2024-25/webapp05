@@ -37,4 +37,7 @@ export class UserService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
+  unsubscribeFromTraining(id: number): Observable<any> {
+    return this.http.post(`api/trainings/unsubscribed/${id}`, {}, { withCredentials: true , responseType: 'text'});
+  }
 }
