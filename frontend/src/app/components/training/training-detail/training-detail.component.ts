@@ -4,6 +4,7 @@ import { TrainingService } from '../../../services/training.service';
 import { Training } from '../../../dto/training.dto';
 import { LoginService } from '../../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-training-detail',
@@ -13,7 +14,6 @@ export class TrainingDetailComponent implements OnInit {
   training: Training | null = null;
   trainingId!: number;
   canEdit: boolean = false;
-  canDelete: boolean = false;
   subscribed: boolean = false;
   isLoading: boolean = true;
   showConfirmationModal: boolean = false;
@@ -53,50 +53,32 @@ export class TrainingDetailComponent implements OnInit {
   }
 
   private setPermissions(training: Training): void {
-      this.loginService.currentUser.subscribe({
-        next: (user) => {
-          this.loginService.isAdmin.subscribe({
-            next: (isAdmin) => {
-              this.admin = isAdmin || false;
-            },
-            error: (err) => {
-              console.error('Error checking admin status', err);
-              this.admin = false;
-            }
-          });
-          this.loginService.isLogged.subscribe({
-            next: (isLogged) => {
-              this.logged = isLogged;
-            },
-            error: (err) => {
-              console.error('Error checking logged status', err);
-              this.logged = false;
-            }
-          });
-          this.loginService.isAdmin.subscribe({
-            next: (isAdmin) => {
-              this.canDelete = isAdmin || false;
-            },
-            error: (err) => {
-              console.error('Error checking admin status', err);
-              this.canDelete = false;
-            }
-          });
-          this.loginService.isAdmin.subscribe({
-            next: (isAdmin) => {
-              this.canEdit = isAdmin || (user?.id !== undefined && user?.id === training.user?.id);
-            },
-            error: (err) => {
-              console.error('Error checking admin status', err);
-              this.canEdit = user?.id !== undefined && user?.id === training.user?.id;
-            }
-            });
-          },
-          error: (err) => {
-            console.error('Error getting current user', err);
-          }
-        });
+    combineLatest([
+      this.loginService.currentUser,
+      this.loginService.isAdmin,
+      this.loginService.isLogged
+    ]).subscribe({
+      next: ([currentUser, isAdmin, isLogged]) => {
+        this.logged = isLogged;
+        this.admin = isAdmin;
+
+        const currentUserId = currentUser?.id ? Number(currentUser.id) : null;
+        const trainingAuthorId = training.userId ? Number(training.userId) : null;
+
+
+        const isAuthor = currentUserId !== null &&
+          trainingAuthorId !== null &&
+          currentUserId === trainingAuthorId;
+
+        this.canEdit = isAdmin || isAuthor;
+
+      },
+      error: (err) => {
+        console.error('Error checking permissions:', err);
+        this.canEdit = false;
       }
+    });
+  }
 
   private checkSubscription(): void {
     if (this.loginService.currentUser!=null) {
@@ -147,7 +129,7 @@ export class TrainingDetailComponent implements OnInit {
     this.trainingService.deleteTraining(this.trainingId).subscribe({
       next: () => {
         this.toastr.success('Training deleted successfully', 'Success');
-        this.router.navigate(['/trainings']);
+        this.router.navigate(['/training']);
       },
       error: (err) => {
         console.error('Error deleting training:', err);

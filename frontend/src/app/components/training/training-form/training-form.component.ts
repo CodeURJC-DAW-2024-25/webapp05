@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrainingService } from '../../../services/training.service';
+import { LoginService } from '../../../services/login.service';
 import { Training } from '../../../dto/training.dto';
 
 @Component({
@@ -21,7 +22,8 @@ export class TrainingFormComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private trainingService: TrainingService
+    private trainingService: TrainingService,
+    private loginService: LoginService,
   ) {}
 
   ngOnInit(): void {

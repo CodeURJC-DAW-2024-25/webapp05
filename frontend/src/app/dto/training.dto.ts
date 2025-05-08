@@ -10,7 +10,5 @@ export interface Training {
   description: string;
   dishImagePath: string;
   image: boolean;
-  user?: {
-    id: number;
-  };
+  userId: number | null;
 }

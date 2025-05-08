@@ -6,7 +6,8 @@ public record UniqueTrainingDTO(
         String description,
         String goal,
         String intensity,
-        int duration
+        int duration,
+        Long userId
 
         /* List <TrainingCommentDTO> trainingComments*/) {
 }

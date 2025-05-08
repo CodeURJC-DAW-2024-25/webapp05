@@ -84,10 +84,16 @@ public class TrainingRestController {
     public ResponseEntity<TrainingDTO> createTraining(@RequestBody TrainingDTO trainingDTO)
             throws SQLException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = authentication != null ? trainingService.getAuthenticationUser() : null;
 
         Training training = trainingService.toDomain(trainingDTO);
-        if(authentication!=null){
+        if(authentication!=null && !authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))){
             training = trainingService.createTraining(training, trainingService.getAuthenticationUser());
+
+            if(user != null) {
+                training.setUser(user);
+            }
         }else{
             training = trainingService.createTraining(training, null);
         }
