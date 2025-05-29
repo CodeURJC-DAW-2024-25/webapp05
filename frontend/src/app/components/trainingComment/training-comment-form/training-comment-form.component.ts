@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TrainingCommentService } from '../../../services/trainingcomment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrainingCommentDTO } from '../../../dto/training-comment.dto';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-training-comment-form',
@@ -14,17 +15,35 @@ export class TrainingCommentFormComponent implements OnInit {
   commentId!: number;
   isEditMode = false;
   isLoading = false;
+  logged: boolean = false;
+  admin: boolean = false;
 
   
   constructor(
     private fb: FormBuilder,
     private trainingCommentService: TrainingCommentService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private loginService: LoginService,
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
+
+    // Check if the user is logged in
+    this.loginService.isLogged.subscribe((isLogged) => {
+        this.logged = isLogged;
+      });
+      this.loginService.isAdmin.subscribe((isLogged)=>{
+        this.admin = isLogged;
+      }); 
+
+    if (!this.logged) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+
     this.trainingId = +this.route.snapshot.paramMap.get('id')!;
     const idParam = this.route.snapshot.paramMap.get('commentId');
     this.commentForm = this.fb.group({

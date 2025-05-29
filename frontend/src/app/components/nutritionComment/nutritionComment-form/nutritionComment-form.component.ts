@@ -30,19 +30,18 @@ export class NutritionCommentFormComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
 
-  // Comprobar si el usuario está logueado
-  this.loginService.isLogged.subscribe((isLogged) => {
-      this.logged = isLogged;
-    });
-    this.loginService.isAdmin.subscribe((isLogged)=>{
-      this.admin = isLogged;
-    }); // Activa cuando tengas isAdmin implementado
+    // Check if the user is logged in
+    this.loginService.isLogged.subscribe((isLogged) => {
+        this.logged = isLogged;
+      });
+      this.loginService.isAdmin.subscribe((isLogged)=>{
+        this.admin = isLogged;
+      }); 
 
-  // Si no está logueado, no debería seguir
-  if (!this.logged) {
-    this.router.navigate(['/login']); // o mostrar un mensaje
-    return;
-  }
+    if (!this.logged) {
+      this.router.navigate(['/login']);
+      return;
+    }
 
 
     this.nutritionId = +this.route.snapshot.paramMap.get('id')!;
