@@ -38,7 +38,9 @@ export class NutritionCommentListComponent implements OnInit {
     this.loginService.isLogged.subscribe((isLogged) => {
       this.logged = isLogged;
     });
-    // this.admin = this.loginService.isAdmin(); // Activa cuando tengas isAdmin implementado
+    this.loginService.isAdmin.subscribe((isLogged)=>{
+      this.admin = isLogged;
+    }); // Activa cuando tengas isAdmin implementado
     this.nutritionId = Number(this.route.snapshot.paramMap.get('id'));
 
     this.loadNutrition(this.nutritionId);
@@ -101,7 +103,7 @@ export class NutritionCommentListComponent implements OnInit {
         error: () => {
         this.toastr.error('Could not report comment');
         }
-     });
+    });
     } 
 } 
 

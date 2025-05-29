@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NutritionCommentService } from '../../../services/nutritionComment.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NutritionCommentDTO } from '../../../dto/nutrition-comment.dto';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-nutrition-comment-form',
@@ -14,17 +15,36 @@ export class NutritionCommentFormComponent implements OnInit {
   commentId!: number;
   isEditMode = false;
   isLoading = false;
+  logged: boolean = false;
+  admin: boolean = false;
 
 
   constructor(
     private fb: FormBuilder,
     private nutritionCommentService: NutritionCommentService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private loginService: LoginService,
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
+
+  // Comprobar si el usuario está logueado
+  this.loginService.isLogged.subscribe((isLogged) => {
+      this.logged = isLogged;
+    });
+    this.loginService.isAdmin.subscribe((isLogged)=>{
+      this.admin = isLogged;
+    }); // Activa cuando tengas isAdmin implementado
+
+  // Si no está logueado, no debería seguir
+  if (!this.logged) {
+    this.router.navigate(['/login']); // o mostrar un mensaje
+    return;
+  }
+
+
     this.nutritionId = +this.route.snapshot.paramMap.get('id')!;
     const idParam = this.route.snapshot.paramMap.get('commentId');
     this.commentForm = this.fb.group({
@@ -57,7 +77,7 @@ export class NutritionCommentFormComponent implements OnInit {
      
     if (this.isEditMode && this.commentId !== null) {
       this.nutritionCommentService.updateNutritionComment(this.commentId, nutritionComment).subscribe({
-       next: () => {
+      next: () => {
         this.router.navigate(['/nutritionComments', this.nutritionId]);
         },
         error: (err) => {

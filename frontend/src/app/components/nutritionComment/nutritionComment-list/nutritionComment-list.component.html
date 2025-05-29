@@ -52,6 +52,7 @@
       <a id="loadMore" class="btn-load" (click)="loadMoreComments()">More Comments</a>&nbsp;
   <!--*ngIf="logged"-->
       <a
+        *ngIf="logged"
         id="addComment"
         class="btn-load"
         [routerLink]="['/nutritionComments/newComment', nutrition.id]"
