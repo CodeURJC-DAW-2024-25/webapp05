@@ -34,8 +34,8 @@ export class NutritionCommentFormComponent implements OnInit {
     this.loginService.isLogged.subscribe((isLogged) => {
         this.logged = isLogged;
       });
-      this.loginService.isAdmin.subscribe((isLogged)=>{
-        this.admin = isLogged;
+      this.loginService.isAdmin.subscribe((isAdmin)=>{
+        this.admin = isAdmin;
       }); 
 
     if (!this.logged) {

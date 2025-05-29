@@ -38,11 +38,9 @@ export class TrainingCommentListComponent implements OnInit {
     this.loginService.isLogged.subscribe((isLogged) => {
       this.logged = isLogged;
     });
-    /*
-    if (this.logged) {
-      this.loggedUserId = this.loginService.getLoggedUserId() || 0;
-    }*/
-    //this.admin = this.loginService.isAdmin();  FALTA ARREGLAR EL METODO isAdmin() EN login.service.ts
+    this.loginService.isAdmin.subscribe((isAdmin)=>{
+      this.admin = isAdmin;
+    });
     this.trainingId = Number(this.route.snapshot.paramMap.get('id'));
 
     this.loadTraining(this.trainingId);
