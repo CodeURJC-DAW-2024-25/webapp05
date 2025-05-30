@@ -30,13 +30,13 @@
         More Diets
       </button>
       <a
+        *ngIf="logged"
         id="newDiet"
         class="btn-load"
         [routerLink]="['/nutrition/new/0']"
       >
         New Diet
       </a>
-      <!-- CUANDO ESTE IMPLEMENTADA SEGURIDAD AÑADIR LINEA ANTERIOR ID="NEWDIET": *ngIf="logged"-->
     </div>
   </section>
   

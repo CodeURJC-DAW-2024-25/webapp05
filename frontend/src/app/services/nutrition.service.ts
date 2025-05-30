@@ -19,7 +19,7 @@ export class NutritionService {
   }
 
   subscribeToNutrition(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`, { withCredentials: true });
+    return this.http.post(`${this.baseUrl}subscribed/${id}`,{}, { withCredentials: true , responseType: 'text'});
   }
 
   unsubscribeFromNutrition(id: number): Observable<any> {
