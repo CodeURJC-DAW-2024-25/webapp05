@@ -23,11 +23,11 @@ export class NutritionService {
   }
 
   unsubscribeFromNutrition(id: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/${id}/unsubscribe`, {}, { withCredentials: true });
+    return this.http.post(`${this.baseUrl}unsubscribed/${id}`, {}, { withCredentials: true , responseType: 'text'});
   }
 
   isSubscribed(id: number): Observable<boolean> {
-    return this.http.get<boolean>(`${this.baseUrl}/${id}/isSubscribed`, { withCredentials: true });
+    return this.http.get<boolean>(`${this.baseUrl}isSubscribed/${id}`);
   }
 
   deleteNutrition(id: number): Observable<any> {
