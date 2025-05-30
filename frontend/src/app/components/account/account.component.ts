@@ -98,7 +98,15 @@ export class AccountComponent implements OnInit {
   }
 
   deleteNutrition(id: number) {
-    return this.http.post(`https://localhost:8443/api/nutritions/unsubscribed/${id}`, {withCredentials: true});
+    this.userService.unsubscribeFromNutrition(id).subscribe({
+      next: () => {
+        this.nutritions = this.nutritions.filter(nutrition => nutrition.id !== id);
+        this.toastr.success('Successfully unsubscribed from nutrition', 'Success');
+      },
+      error: (err) => {
+        this.toastr.error('Error unsubscribing from nutrition', 'Error');
+      }
+    });
   }
 
   showNutrition(id: number) {

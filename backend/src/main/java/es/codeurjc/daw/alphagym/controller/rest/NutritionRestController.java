@@ -7,7 +7,6 @@ import java.util.List;
 
 import java.io.IOException;
 
-import es.codeurjc.daw.alphagym.model.Training;
 import es.codeurjc.daw.alphagym.model.User;
 import es.codeurjc.daw.alphagym.service.UserService;
 import org.springframework.core.io.Resource;
@@ -94,10 +93,16 @@ public class NutritionRestController {
    public ResponseEntity<NutritionDTO> createNutrition (@RequestBody NutritionDTO nutritionDTO)
             throws SQLException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = authentication != null ? nutritionService.getAuthenticationUser() : null;
 
         Nutrition nutrition = nutritionService.toDomain(nutritionDTO);
-        if(authentication!=null){
+        if(authentication!=null && !authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))){
             nutrition = nutritionService.createNutrition(nutrition, nutritionService.getAuthenticationUser());
+            
+            if(user != null) {
+                nutrition.setUser(user);
+            }
         }else{
             nutrition = nutritionService.createNutrition(nutrition, null);
         }

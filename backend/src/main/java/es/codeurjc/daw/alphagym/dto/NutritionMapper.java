@@ -12,13 +12,16 @@ import es.codeurjc.daw.alphagym.model.Nutrition;
 @Mapper(componentModel = "spring")
 public interface NutritionMapper {
 
+    @Mapping(target = "userId", source = "user.id")
+    UniqueNutritionDTO toUniqueDTO(Nutrition nutrition);
+
+    @Mapping(target = "userId", source = "user.id")
     NutritionDTO toDTO(Nutrition nutrition);
 
+    @Mapping(target = "userId", source = "user.id")
     List<NutritionDTO> toDTOs(Collection<Nutrition> nutritions);
 
     @Mapping(target = "imgNutrition", ignore = true)
+    @Mapping(target = "user", ignore = true)
     Nutrition toDomain(NutritionDTO nutritionDTO);
-
-    //@Mapping(target = "books", ignore = true)
-    //Shop toDomain(ShopBasicDTO shopDTO);
 }

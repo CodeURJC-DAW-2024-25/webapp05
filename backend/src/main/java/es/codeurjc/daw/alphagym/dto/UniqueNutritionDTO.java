@@ -1,6 +1,6 @@
 package es.codeurjc.daw.alphagym.dto;
 
-public record NutritionDTO(
+public record UniqueNutritionDTO(
     Long id,
     String name,
     String description,

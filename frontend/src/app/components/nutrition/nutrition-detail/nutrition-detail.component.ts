@@ -4,6 +4,7 @@ import { NutritionService } from '../../../services/nutrition.service';
 import { Nutrition } from '../../../dto/nutrition.dto';
 import { LoginService } from '../../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-nutrition-detail',
@@ -13,7 +14,6 @@ export class NutritionDetailComponent implements OnInit {
   nutrition: Nutrition | null = null;
   nutritionId!: number;
   canEdit: boolean = false;
-  canDelete: boolean = false;
   subscribed: boolean = false;
   isLoading: boolean = true;
   showConfirmationModal: boolean = false;
@@ -50,50 +50,32 @@ export class NutritionDetailComponent implements OnInit {
   }
 
   private setPermissions(nutrition: Nutrition): void {
-    this.loginService.currentUser.subscribe({
-      next: (user) => {
-        this.loginService.isAdmin.subscribe({
-          next: (isAdmin) => {
-            this.admin = isAdmin || false;
-          },
-          error: (err) => {
-            console.error('Error checking admin status', err);
-            this.admin = false;
-          }
-        });
-        this.loginService.isLogged.subscribe({
-          next: (isLogged) => {
-            this.logged = isLogged;
-          },
-          error: (err) => {
-            console.error('Error checking logged status', err);
-            this.logged = false;
-          }
-        });
-        this.loginService.isAdmin.subscribe({
-          next: (isAdmin) => {
-            this.canDelete = isAdmin || false;
-          },
-          error: (err) => {
-            console.error('Error checking admin status', err);
-            this.canDelete = false;
-          }
-        });
-        this.loginService.isAdmin.subscribe({
-          next: (isAdmin) => {
-            this.canEdit = isAdmin || (user?.id !== undefined && user?.id === nutrition.user?.id);
-          },
-          error: (err) => {
-            console.error('Error checking admin status', err);
-            this.canEdit = user?.id !== undefined && user?.id === nutrition.user?.id;
-          }
-          });
-        },
-        error: (err) => {
-          console.error('Error getting current user', err);
-        }
-      });
-    }
+    combineLatest([
+      this.loginService.currentUser,
+      this.loginService.isAdmin,
+      this.loginService.isLogged
+    ]).subscribe({
+      next: ([currentUser, isAdmin, isLogged]) => {
+        this.logged = isLogged;
+        this.admin = isAdmin;
+
+        const currentUserId = currentUser?.id ? Number(currentUser.id) : null;
+        const nutritionAuthorId = nutrition.userId ? Number(nutrition.userId) : null;
+
+
+        const isAuthor = currentUserId !== null &&
+          nutritionAuthorId !== null &&
+          currentUserId === nutritionAuthorId;
+
+        this.canEdit = isAdmin || isAuthor;
+
+      },
+      error: (err) => {
+        console.error('Error checking permissions:', err);
+        this.canEdit = false;
+      }
+    });
+  }
 
   private checkSubscription(): void {
     if (this.loginService.isLogged) {
@@ -145,7 +127,7 @@ export class NutritionDetailComponent implements OnInit {
     this.nutritionService.deleteNutrition(this.nutritionId).subscribe({
       next: () => {
         this.toastr.success('Nutrition deleted successfully', 'Success');
-        this.router.navigate(['/nutritions']);
+        this.router.navigate(['/nutrition']);
       },
       error: (err) => {
         console.error('Error deleting nutrition:', err);

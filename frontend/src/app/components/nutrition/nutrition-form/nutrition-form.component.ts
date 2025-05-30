@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NutritionService } from '../../../services/nutrition.service';
 import { Nutrition } from '../../../dto/nutrition.dto';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-nutrition-form',
@@ -21,7 +22,8 @@ export class NutritionFormComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private nutritionService: NutritionService
+    private nutritionService: NutritionService,
+    private loginService: LoginService
   ) {}
 
   ngOnInit(): void {
