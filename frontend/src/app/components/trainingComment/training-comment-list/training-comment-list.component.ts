@@ -37,6 +37,7 @@ export class TrainingCommentListComponent implements OnInit {
   ngOnInit(): void {
     this.loginService.isLogged.subscribe((isLogged) => {
       this.logged = isLogged;
+      this.loggedUserId = this.loginService.getLoggedUserId();
     });
     this.loginService.isAdmin.subscribe((isAdmin)=>{
       this.admin = isAdmin;

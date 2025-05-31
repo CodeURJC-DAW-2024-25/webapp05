@@ -23,9 +23,8 @@
           </div>
   
           <div class="btn-div-extra">
-            <!-- *ngIf="admin || (logged && comment?.user?.id === loggedUserId)" -->
             <a
-              
+              *ngIf="admin || (logged && comment?.user?.id === loggedUserId)"
               class="btn-load"
               [routerLink]="['/trainingComments/editComment', training.id, comment.id]"
               >Edit</a>

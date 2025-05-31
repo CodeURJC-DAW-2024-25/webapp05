@@ -51,6 +51,11 @@ export class LoginService {
     return this.admin.asObservable();
   }
 
+  getLoggedUserId(): number {
+    const user = this.user.value;
+    return user ? user.id : 0;
+  }
+
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.API_URL}/login`, credentials, {
       withCredentials: true

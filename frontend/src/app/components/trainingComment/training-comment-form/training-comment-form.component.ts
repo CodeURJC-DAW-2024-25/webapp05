@@ -4,6 +4,10 @@ import { TrainingCommentService } from '../../../services/trainingcomment.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrainingCommentDTO } from '../../../dto/training-comment.dto';
 import { LoginService } from '../../../services/login.service';
+import { Training } from '../../../dto/training.dto';
+import { TrainingService } from '../../../services/training.service';
+import { UserService } from '../../../services/user.service';
+import { UserDTO } from '../../../dto/user.dto';
 
 @Component({
   selector: 'app-training-comment-form',
@@ -17,6 +21,8 @@ export class TrainingCommentFormComponent implements OnInit {
   isLoading = false;
   logged: boolean = false;
   admin: boolean = false;
+  currentTraining!: Training;
+  currentUser!: UserDTO;
 
   
   constructor(
@@ -25,6 +31,8 @@ export class TrainingCommentFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private loginService: LoginService,
+    private trainingService: TrainingService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +53,24 @@ export class TrainingCommentFormComponent implements OnInit {
 
 
     this.trainingId = +this.route.snapshot.paramMap.get('id')!;
+    this.trainingService.getTrainingById(this.trainingId).subscribe({
+      next: (training) => {
+        this.currentTraining = training;
+      },
+      error: () => {
+        console.error('Error loading training');
+      }
+    });
+
+    this.userService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.currentUser = user;
+      },
+      error: () => {
+        console.error('Error loading user');
+      }
+    });
+
     const idParam = this.route.snapshot.paramMap.get('commentId');
     this.commentForm = this.fb.group({
       name: ['', Validators.required],
@@ -72,8 +98,15 @@ export class TrainingCommentFormComponent implements OnInit {
         this.commentForm.markAllAsTouched();
         return;
       }
-  
-      const trainingComment: TrainingCommentDTO = this.commentForm.value;
+      
+      const formValues = this.commentForm.value;
+
+      const trainingComment: TrainingCommentDTO = {
+        ...formValues,
+        isNotified: false,
+        training: this.currentTraining,
+        user: this.currentUser
+      };
 
       if (this.isEditMode && this.commentId !== null) {
         this.trainingCommentService.updateTrainingComment(this.commentId, trainingComment).subscribe({
