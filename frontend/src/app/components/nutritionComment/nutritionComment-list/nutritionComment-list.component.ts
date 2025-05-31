@@ -38,8 +38,8 @@ export class NutritionCommentListComponent implements OnInit {
     this.loginService.isLogged.subscribe((isLogged) => {
       this.logged = isLogged;
     });
-    this.loginService.isAdmin.subscribe((isLogged)=>{
-      this.admin = isLogged;
+    this.loginService.isAdmin.subscribe((isAdmin)=>{
+      this.admin = isAdmin;
     }); // Activa cuando tengas isAdmin implementado
     this.nutritionId = Number(this.route.snapshot.paramMap.get('id'));
 

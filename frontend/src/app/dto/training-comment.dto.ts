@@ -5,7 +5,7 @@ export interface TrainingCommentDTO {
   id: number;
   name: string;
   description: string;
-  isNotified: boolean;
+  isNotified: boolean | false;
   training: Training;
   user?: UserDTO;
 }

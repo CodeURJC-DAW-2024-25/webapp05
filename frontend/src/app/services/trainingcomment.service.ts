@@ -18,7 +18,7 @@ export class TrainingCommentService {
   }
 
   createComment(comment: TrainingCommentDTO): Observable<any> {
-      return this.http.post<TrainingCommentDTO>(`${this.BASE_URL}`, comment);
+      return this.http.post<TrainingCommentDTO>(`${this.BASE_URL}/`, comment);
   }
 
   reportTrainingComment(id: number): Observable<any> {

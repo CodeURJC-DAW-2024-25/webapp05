@@ -31,7 +31,7 @@
       </div>
 
       <div class="mb-3" *ngIf="logged">
-        <a class="btn-load w-100" [routerLink]="['/nutritionComments', nutrition.id, 'newComment']">Add Comment</a>
+        <a class="btn-load w-100" [routerLink]="['/nutritionComments', 'newComment', nutrition.id]">Add Comment</a>
       </div>
 
       <div class="d-flex justify-content-center gap-3">
