@@ -37,10 +37,11 @@ export class NutritionCommentListComponent implements OnInit {
   ngOnInit(): void {
     this.loginService.isLogged.subscribe((isLogged) => {
       this.logged = isLogged;
+      this.loggedUserId = this.loginService.getLoggedUserId();
     });
     this.loginService.isAdmin.subscribe((isAdmin)=>{
       this.admin = isAdmin;
-    }); // Activa cuando tengas isAdmin implementado
+    });
     this.nutritionId = Number(this.route.snapshot.paramMap.get('id'));
 
     this.loadNutrition(this.nutritionId);
@@ -108,6 +109,6 @@ export class NutritionCommentListComponent implements OnInit {
 } 
 
   goBack(): void {
-    this.router.navigate(['/nutrition']);
+    this.router.navigate(['/nutrition', this.nutritionId]);
   }
 }

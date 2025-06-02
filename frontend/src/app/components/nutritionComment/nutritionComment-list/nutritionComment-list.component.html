@@ -24,7 +24,7 @@
   
           <div class="btn-div-extra">
             <a
-
+              *ngIf="admin || (logged && comment?.user?.id === loggedUserId)"
               class="btn-load"
               [routerLink]="['/nutritionComments/editComment', nutrition.id, comment.id]"
             >Edit</a>

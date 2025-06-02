@@ -5,7 +5,7 @@ export interface NutritionCommentDTO {
   id: number;
   name: string;
   description: string;
-  isNotified: boolean;
+  isNotified: boolean | false;
   nutrition: Nutrition;
   user?: UserDTO;
 }

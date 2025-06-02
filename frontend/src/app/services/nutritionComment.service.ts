@@ -17,7 +17,7 @@ export class NutritionCommentService{
     }
 
     createComment(comment: NutritionCommentDTO): Observable<any> {
-        return this.http.post<NutritionCommentDTO>(`${this.BASE_URL}`, comment);
+        return this.http.post<NutritionCommentDTO>(`${this.BASE_URL}/`, comment);
     }
 
     reportNutritionComment(id: number): Observable<any> {

@@ -1,8 +1,6 @@
 package es.codeurjc.daw.alphagym.controller.rest;
 
-import java.io.IOException;
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
@@ -119,7 +117,7 @@ public class NutritionCommentRestController {
             @ApiResponse(responseCode = "403", description = "Forbidden-Access denied"),
             @ApiResponse(responseCode = "404", description = "Nutrition comment not found")
     })
-    @PutMapping("/{id}")
+    @PutMapping("/")
     public NutritionCommentDTO updateNutritionComment(
             @RequestParam Long id,
             @RequestBody NutritionCommentDTO updatedCommentDTO) {
