@@ -17,6 +17,7 @@ export class TrainingFormComponent implements OnInit {
   intensities: string[] = ['50%', '60%', '70%', '80%', '100%'];
   goals: string[] = ['Lose weight', 'Maintain weight', 'Increase weight'];
   previewImage: string | ArrayBuffer | null = null;
+  selectedImageFile?: File;
 
   constructor(
     private fb: FormBuilder,
@@ -63,41 +64,57 @@ export class TrainingFormComponent implements OnInit {
     }
 
     const training: Training = this.trainingForm.value;
-
-    if (this.isEditMode && this.trainingId !== null) {
-      this.trainingService.updateTraining(this.trainingId, training).subscribe({
-        next: () => {
-          this.router.navigate(['/training', this.trainingId]);
-        },
-        error: (err) => {
-          console.error('Error updating training', err);
-        }
-      });
-    } else {
-      this.trainingService.createTraining(training).subscribe({
-        next: (created) => {
-          this.router.navigate(['/training', created.id]);
-        },
-        error: (err) => {
-          console.error('Error creating training', err);
-        }
-      });
+    const updateData$ = this.isEditMode
+      ? this.trainingService.updateTraining(this.trainingId, training)
+      : this.trainingService.createTraining(training);
+    
+    if (!this.trainingForm.dirty && this.selectedImageFile && this.isEditMode) {
+      this.uploadImageOnly(); // solo imagen
+      return;
     }
+
+    updateData$.subscribe({
+      next: (response) => {
+        const id = this.isEditMode ? this.trainingId : response.id;
+
+        if (this.selectedImageFile) {
+          this.uploadImage(id);
+        } else {
+          this.router.navigate(['/training', id]);
+        }
+      },
+      error: (err) => {
+        console.error('Error saving training', err);
+      }
+    });
   }
 
   get formTitle(): string {
     return this.isEditMode ? `Edit the routine ${this.trainingId}` : 'Create new routine';
   }
 
-  onImageSelected(event: Event) {
-    const file = (event.target as HTMLInputElement)?.files?.[0];
-    if (file) {
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files.length > 0) {
+      this.selectedImageFile = input.files[0];
+
       const reader = new FileReader();
       reader.onload = () => {
-        this.previewImage = reader.result;
+        this.previewImage = reader.result as string;
       };
-      reader.readAsDataURL(file);
-      this.trainingForm.patchValue({ imageField: file });
+      reader.readAsDataURL(this.selectedImageFile);
     }
+  }
+
+  uploadImage(id: number) {
+    this.trainingService.uploadTrainingImage(id, this.selectedImageFile!).subscribe({
+      next: () => this.router.navigate(['/training', id]),
+      error: (err) => console.error('Error uploading image', err)
+    });
+  }
+
+  uploadImageOnly() {
+    this.uploadImage(this.trainingId);
   }
 }

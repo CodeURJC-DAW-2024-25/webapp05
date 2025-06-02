@@ -46,7 +46,12 @@ export class TrainingService {
     return this.http.get<Training[]>(`${this.baseUrl}paginated?page=${page}`);
   }
 
+  uploadTrainingImage(id: number, imageFile: File) {
+    const formData = new FormData();
+    formData.append('imageFile', imageFile);
 
+    return this.http.put<any>(`${this.baseUrl}${id}/image`, formData);
+  }
 
 
 
