@@ -33,9 +33,6 @@
         <ul *ngIf="trainings?.length; else noTrainings">
           <li *ngFor="let training of trainings" class="card shadow-sm">
             <div class="card-body">
-              <div *ngIf="training.imgTraining" id="training/nutrition-picture-container">
-                <img [src]="'/training/image/' + training.id" alt="training" class="training" />
-              </div>
               <h5 class="card-title">{{ training.name }}</h5>
               <button class="btn-load-2" (click)="deleteTraining(training.id)">Delete</button>
               <button class="btn-load-2" (click)="showTraining(training.id)">Show more details</button>
@@ -53,9 +50,6 @@
         <ul *ngIf="nutritions?.length; else noNutritions">
           <li *ngFor="let nutrition of nutritions" class="card shadow-sm">
             <div class="card-body">
-              <div id="training/nutrition-picture-container">
-                <img [src]="'/nutrition/image/' + nutrition.id" alt="nutrition" class="nutrition-image" />
-              </div>
               <h5 class="card-title">{{ nutrition.name }}</h5>
               <button class="btn-load-2" (click)="deleteNutrition(nutrition.id)">Delete</button>
               <button class="btn-load-2" (click)="showNutrition(nutrition.id)">Show more details</button>
