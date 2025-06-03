@@ -198,13 +198,13 @@ public class WebSecurityConfig {
 
 
 						// For TrainingComments
-						.requestMatchers(HttpMethod.POST, "/api/trainingComments/").hasAnyRole("USER")
-						.requestMatchers(HttpMethod.PUT, "/api/trainingComments/*").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.POST, "/api/trainingComments/").hasAnyRole("USER","ADMIN")
+						.requestMatchers(HttpMethod.PUT, "/api/trainingComments/*").hasAnyRole("USER","ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/api/trainingComments/**").hasRole("ADMIN")
 
 						// For NutritionComments
-						.requestMatchers(HttpMethod.POST, "/api/nutritionComments/").hasAnyRole("USER")
-						.requestMatchers(HttpMethod.PUT, "/api/nutritionComments/").hasAnyRole("USER")
+						.requestMatchers(HttpMethod.POST, "/api/nutritionComments/").hasAnyRole("USER","ADMIN")
+						.requestMatchers(HttpMethod.PUT, "/api/nutritionComments/*").hasAnyRole("USER","ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/api/nutritionComments/**").hasRole("ADMIN")
 
 						// PUBLIC ENDPOINTS
