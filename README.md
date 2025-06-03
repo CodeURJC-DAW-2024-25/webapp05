@@ -620,7 +620,7 @@ He participado en la fase de Angular de los NutritionComments más arreglo de er
 | #2     | feat : Update NutritionComments Angular Typescript files    | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/8ad3a0db94d157d2700bcf769ce9687d2fd2dc59](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/8ad3a0db94d157d2700bcf769ce9687d2fd2dc59) |
 | #3     | feat : Handle click events for dynamically loaded nutrition and training cards | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/5324b922b1c0eb7a1d3c56ab56951eb051985ba3](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/5324b922b1c0eb7a1d3c56ab56951eb051985ba3) |
 | #4     | feat: Training-List - Show more routines  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/dec654fd3929eb283061b79b48d8053afb5f6005](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/dec654fd3929eb283061b79b48d8053afb5f6005) |
-| #5     |   | []() |
+| #5     | feat: Handle access to add or edit a Nutrition Comment  | [https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/f27549836f952d7b709ff08adab289794efd7f6a](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/f27549836f952d7b709ff08adab289794efd7f6a) |
 
 #### Los 5 ficheros que más he modificado
 
