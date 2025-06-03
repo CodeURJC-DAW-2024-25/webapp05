@@ -40,7 +40,9 @@ export class NutritionDetailComponent implements OnInit {
         this.isLoading = false;
         this.nutrition = nutrition;
         this.setPermissions(nutrition);
-        this.checkSubscription();
+        if (this.logged && !this.admin){
+          this.checkSubscription();
+        }
       },
       error: (err) => {
         console.error('Error loading nutrition', err);
@@ -78,7 +80,7 @@ export class NutritionDetailComponent implements OnInit {
   }
 
   private checkSubscription(): void {
-    if (this.loginService.isLogged) {
+    if (this.loginService.currentUser!=null) {
       this.nutritionService.isSubscribed(this.nutritionId).subscribe({
         next: (res) => {
           this.subscribed = res;

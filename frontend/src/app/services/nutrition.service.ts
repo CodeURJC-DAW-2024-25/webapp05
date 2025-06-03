@@ -46,6 +46,13 @@ export class NutritionService {
     return this.http.get<Nutrition[]>(`${this.baseUrl}paginated?page=${page}`);
   }
 
+  uploadNutritionImage(id: number, imageFile: File) {
+    const formData = new FormData();
+    formData.append('imageFile', imageFile);
+
+    return this.http.put<any>(`${this.baseUrl}${id}/image`, formData);
+  }
+
   /*getNutritionsPaginated(page: number, size: number): Observable<Nutrition[]> {
     return this.http.get<Nutrition[]>(`${this.baseUrl}?page=${page}&size=${size}`);
   }

@@ -17,6 +17,7 @@ export class NutritionFormComponent implements OnInit {
   calories: string[] = ['100', '200', '300', '400', '500'];
   goals: string[] = ['Lose weight', 'Maintain weight', 'Increase weight'];
   previewImage: string | ArrayBuffer | null = null;
+  selectedImageFile?: File;
 
   constructor(
     private fb: FormBuilder,
@@ -63,40 +64,59 @@ export class NutritionFormComponent implements OnInit {
     }
 
     const nutrition: Nutrition = this.nutritionForm.value;
-
-    if (this.isEditMode && this.nutritionId !== null) {
-      this.nutritionService.updateNutrition(this.nutritionId, nutrition).subscribe({
-        next: () => {
-          this.router.navigate(['/nutrition', this.nutritionId]);
-        },
-        error: (err) => {
-          console.error('Error updating nutrition', err);
-        }
-      });
-    } else {
-      this.nutritionService.createNutrition(nutrition).subscribe({
-        next: (created) => {
-          this.router.navigate(['/nutrition', created.id]);
-        },
-        error: (err) => {
-          console.error('Error creating nutrition', err);
-        }
-      });
-    }
+    const updateData$ = this.isEditMode
+    ? this.nutritionService.updateNutrition(this.nutritionId, nutrition)
+    : this.nutritionService.createNutrition(nutrition);
+  
+  if (!this.nutritionForm.dirty && this.selectedImageFile && this.isEditMode) {
+    this.uploadImageOnly(); 
+    return;
   }
+
+  updateData$.subscribe({
+    next: (response) => {
+      const id = this.isEditMode ? this.nutritionId : response.id;
+
+      if (this.selectedImageFile) {
+        this.uploadImage(id);
+      } else {
+        this.router.navigate(['/nutrition', id]);
+      }
+    },
+    error: (err) => {
+      console.error('Error saving nutrition', err);
+    }
+  });
+}
+
   get formTitle(): string {
     return this.isEditMode ? `Edit the diet ${this.nutritionId}` : 'Create new diet';
   }
 
-  onImageSelected(event: Event) {
-    const file = (event.target as HTMLInputElement)?.files?.[0];
-    if (file) {
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files.length > 0) {
+      this.selectedImageFile = input.files[0];
+      
       const reader = new FileReader();
       reader.onload = () => {
-        this.previewImage = reader.result;
+        this.previewImage = reader.result as string;
       };
-      reader.readAsDataURL(file);
-      this.nutritionForm.patchValue({ imageField: file });
+      reader.readAsDataURL(this.selectedImageFile);
     }
   }
+  uploadImage(id: number) {
+    this.nutritionService.uploadNutritionImage(id, this.selectedImageFile!).subscribe({
+      next: () => this.router.navigate(['/nutrition', id]),
+      error: (err) => console.error('Error uploading image', err)
+    });
+  }
+
+  uploadImageOnly() {
+    this.uploadImage(this.nutritionId);
+  }
 }
+
+
+
