@@ -159,11 +159,6 @@ public class UserService {
         } else {
             user.setEmail(user.getEmail());
         }
-        if (userDTO.password() != null && !userDTO.password().isEmpty()) {
-            user.setEncodedPassword(passwordEncoder.encode(userDTO.password()));
-        } else {
-            user.setEncodedPassword(user.getEncodedPassword());
-        }
         if (userDTO.name() != null && !userDTO.name().isEmpty()) {
             user.setName(userDTO.name());
         } else {
