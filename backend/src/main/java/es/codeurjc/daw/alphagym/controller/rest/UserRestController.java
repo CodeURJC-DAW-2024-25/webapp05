@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,7 @@ public class UserRestController {
                         @ApiResponse(responseCode = "200", description = "Found all users", content = {
                                         @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
                         @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                        @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
                         @ApiResponse(responseCode = "404", description = "Users not found", content = @Content)
         })
         @GetMapping("/all")
@@ -132,7 +134,15 @@ public class UserRestController {
         @GetMapping("/{id}/image")
         public ResponseEntity<Object> getUserImage(@PathVariable long id) throws SQLException {
 
-                Resource userImage = userService.getUserImage(id);
+                Resource userImage;
+                try {
+                        userImage = userService.getUserImage(id);
+                        if (userImage == null) {
+                                throw new NoSuchElementException("User image not found for id: " + id);
+                        }
+                } catch (NoSuchElementException e) {
+                        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User image not found");
+                }
 
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 UserDTO authenticatedUser = userService.getAuthenticatedUserDto()
@@ -146,7 +156,8 @@ public class UserRestController {
                                         .body(userImage);
                 }
 
-                throw new AccessDeniedException("You are not allowed to edit this user.");
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                                "Access denied, you are not allowed to access this user image");
         }
 
         @Operation(summary = "Registers a new user")
@@ -156,16 +167,20 @@ public class UserRestController {
                         @ApiResponse(responseCode = "409", description = "User already exists", content = @Content)
         })
         @PostMapping("/new")
-        public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
+                if (userService.existsByEmail(userDTO.email())) {
+                        return ResponseEntity.status(HttpStatus.CONFLICT)
+                                        .body(Map.of("error", "Email is already in use"));
+                }
 
                 userDTO = userService.createUser(userDTO);
 
                 URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                                 .path("/{id}")
-                                .buildAndExpand(userDTO.id()).toUri();
+                                .buildAndExpand(userDTO.id())
+                                .toUri();
 
                 return ResponseEntity.created(location).body(userDTO);
-
         }
 
         @Operation(summary = "Deletes a user by its id")
@@ -177,14 +192,44 @@ public class UserRestController {
                         @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
         })
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-
+        public ResponseEntity<String> deleteUser(@PathVariable Long id) {
                 try {
                         userService.deleteUser(id);
-                        return ResponseEntity.noContent().build();
+                        return ResponseEntity.ok("User deleted correctly");
                 } catch (IllegalArgumentException e) {
-                        return ResponseEntity.notFound().build();
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+                } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                        .body("Could not delete the user due to an internal error. " +
+                                                        "It is possible that the user with the specified ID does not exist.");
                 }
+        }
+
+        @Operation(summary = "Updates the image of a user")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "201", description = "Image created correctly", content = @Content),
+                        @ApiResponse(responseCode = "204", description = "Image updated correctly", content = @Content),
+                        @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
+                        @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                        @ApiResponse(responseCode = "403", description = "User not authorized", content = @Content),
+                        @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+        })
+        @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+        @PreAuthorize("isAuthenticated()")
+        @PutMapping("/{id}/image")
+        public ResponseEntity<Object> replaceUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
+                        throws IOException {
+
+                // An user, can edit only his own user image
+                Optional<UserDTO> authenticatedUserDto = userService.getAuthenticatedUserDto();
+                if (authenticatedUserDto.isEmpty() || (!authenticatedUserDto.get().id().equals(id)
+                                && !authenticatedUserDto.get().roles().contains("ROLE_ADMIN"))) {
+                        throw new AccessDeniedException("You are not allowed to edit this user.");
+                }
+
+                userService.replaceUserImage(id, imageFile.getInputStream(), imageFile.getSize());
+
+                return ResponseEntity.noContent().build();
         }
 
         @Operation(summary = "Update a user by its id")
@@ -216,53 +261,38 @@ public class UserRestController {
                 throw new AccessDeniedException("You are not allowed to edit this user.");
         }
 
-        @Operation(summary = "Updates the image of a user")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "201", description = "Image created correctly", content = @Content),
-                        @ApiResponse(responseCode = "204", description = "Image updated correctly", content = @Content),
-                        @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
-                        @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
-                        @ApiResponse(responseCode = "403", description = "User not authorized", content = @Content),
-                        @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
-        })
-        @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
-        @PreAuthorize("isAuthenticated()")
-        @PutMapping("/{id}/image")
-        public ResponseEntity<Object> replaceUserImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
-                        throws IOException {
-
-                // An user, can edit only his own user image
-                Optional<UserDTO> authenticatedUserDto = userService.getAuthenticatedUserDto();
-                if (authenticatedUserDto.isEmpty() || (!authenticatedUserDto.get().id().equals(id)
-                                && !authenticatedUserDto.get().roles().contains("ROLE_ADMIN"))) {
-                        throw new AccessDeniedException("You are not allowed to edit this user.");
-                }
-
-                userService.replaceUserImage(id, imageFile.getInputStream(), imageFile.getSize());
-
-                return ResponseEntity.noContent().build();
-        }
+        
 
         @Operation(summary = "Delete user image")
         @ApiResponses(value = {
-                        @ApiResponse(responseCode = "204", description = "User image deleted", content = @Content),
+                        @ApiResponse(responseCode = "200", description = "User image deleted", content = @Content),
+                        @ApiResponse(responseCode = "403", description = "Forbidden: You are not allowed to delete this user image", content = @Content),
                         @ApiResponse(responseCode = "404", description = "User image not found", content = @Content),
                         @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
         })
         @DeleteMapping("/{id}/image")
-        public ResponseEntity<Object> deleteUserImage(@PathVariable long id) throws IOException, SQLException {
+        public ResponseEntity<String> deleteUserImage(@PathVariable long id) {
+                try {
+                        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                        if (authentication != null && authentication.getAuthorities().stream()
+                                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority()
+                                                        .equals("ROLE_ADMIN"))) {
 
-                if (authentication != null && authentication.getAuthorities().stream()
-                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
-                        userService.deleteUserImage(id);
-                        return ResponseEntity.noContent().build();
-                } else {
-                        throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                                        "You are not allowed to delete this user image.");
+                                userService.deleteUserImage(id);
+                                return ResponseEntity.ok("User image deleted successfully");
+                        } else {
+                                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                                                .body("Forbidden: You are not allowed to delete this user image.");
+                        }
+
+                } catch (NoSuchElementException e) {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                        .body("User image not found or user does not exist.");
+                } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                        .body("An internal error occurred while trying to delete the user image.");
                 }
-
         }
 
         @GetMapping("/reportedComments")

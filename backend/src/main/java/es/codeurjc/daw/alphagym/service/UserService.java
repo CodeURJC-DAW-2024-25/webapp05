@@ -138,14 +138,29 @@ public class UserService {
     }
 
     public UserDTO createUser(UserDTO userDTO) {
-        if (userRepository.existsByEmail(userDTO.email())) {
-            throw new IllegalArgumentException("Email is already in use.");
-        }
         User user = toUser(userDTO);
         user.setEncodedPassword(passwordEncoder.encode(userDTO.password()));
         user.setRoles(List.of("USER"));
+
+        try {
+            ClassPathResource imgFileDefault = new ClassPathResource("static/images/emptyImage.png");
+            try (InputStream inputStream = imgFileDefault.getInputStream()) {
+                byte[] imageBytes = inputStream.readAllBytes();
+                Blob imageBlob = new SerialBlob(imageBytes);
+                user.setImgUser(imageBlob);
+                user.setImage(true);
+            }
+        } catch (IOException | SQLException e) {
+
+            throw new RuntimeException("Error setting default image", e);
+        }
+
         userRepository.save(user);
         return toUserDTO(user);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 
     public UserDTO updateUser(Long id, UserDTO userDTO) throws SQLException {
@@ -165,7 +180,7 @@ public class UserService {
             user.setName(user.getName());
         }
         if (user.getImgUser() != null) {
-        user.setImgUser(BlobProxy.generateProxy(user.getImgUser().getBinaryStream(), user.getImgUser().length()));
+            user.setImgUser(BlobProxy.generateProxy(user.getImgUser().getBinaryStream(), user.getImgUser().length()));
         } else {
             user.setImgUser(null);
         }
@@ -193,7 +208,7 @@ public class UserService {
 
     public void deleteUserImage(long id) throws IOException, SQLException {
         User user = userRepository.findById(id).orElseThrow();
-        if(user.getImgUser() == null){
+        if (user.getImgUser() == null) {
             throw new NoSuchElementException();
         }
         ClassPathResource imgFileDefault = new ClassPathResource("static/images/profile-picture-default.jpg");
@@ -250,14 +265,14 @@ public class UserService {
         }
     }
 
-    public  User getAuthenticationUser (){
+    public User getAuthenticationUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication != null ) {
-           Optional<User> user = userRepository.findByEmail(authentication.getName());
-           if (user.isPresent()){
-              return user.get();
-           }
+        if (authentication != null) {
+            Optional<User> user = userRepository.findByEmail(authentication.getName());
+            if (user.isPresent()) {
+                return user.get();
+            }
         }
         return null;
     }
