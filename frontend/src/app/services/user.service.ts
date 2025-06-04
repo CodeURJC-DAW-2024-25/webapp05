@@ -44,4 +44,8 @@ export class UserService {
   unsubscribeFromNutrition(id: number): Observable<any> {
     return this.http.post(`api/nutritions/unsubscribed/${id}`, {}, { withCredentials: true , responseType: 'text'});
   }
+
+  reportedComments(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/reportedCommentsValues`);
+  }
 }

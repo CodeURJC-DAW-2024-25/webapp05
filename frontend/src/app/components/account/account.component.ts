@@ -1,16 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import {LoginService} from '../../services/login.service';
 import {UserService} from '../../services/user.service';
 import {UserDTO} from '../../dto/user.dto';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
 })
-export class AccountComponent implements OnInit {
+export class AccountComponent implements OnInit, AfterViewInit {
+  @ViewChild('chartCanvas') chartCanvas!: ElementRef;
+  pieChart: any;
+
   user: UserDTO | null = null;
   trainings: any[] = [];
   nutritions: any[] = [];
@@ -31,8 +35,13 @@ export class AccountComponent implements OnInit {
       this.user = user;
       if (user) {
         this.loadUserPlans();
+        this.generateChart();
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    // El gráfico se genera al terminar la carga de los datos
   }
 
   loadUserPlans() {
@@ -112,4 +121,65 @@ export class AccountComponent implements OnInit {
   showNutrition(id: number) {
     this.router.navigate(['/nutrition', id]);
   }
+
+  generateChart() {
+  this.userService.reportedComments().subscribe({
+    next: (data: number[]) => {
+      if (this.pieChart) {
+        this.pieChart.destroy();
+      }
+
+      // Extraemos los valores según el orden
+      const trainingVisible = data[2];
+      const nutritionVisible = data[3];
+      const trainingHidden = data[5];
+      const nutritionHidden = data[6];
+
+      const total = data[0];
+      const reported = data[1];
+      const unreported = data[4];
+
+      this.pieChart = new Chart(this.chartCanvas.nativeElement, {
+        type: 'pie',
+        data: {
+          labels: [
+            'Reportados',
+            'No Reportados'
+          ],
+          datasets: [
+            {
+              data: [
+                reported,
+                unreported
+              ],
+              backgroundColor: ['#D96C6C', '#42A5F5'],
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top'
+            },
+            tooltip: {
+              callbacks: {
+                label: function (tooltipItem) {
+                  const label = tooltipItem.label || '';
+                  const value = tooltipItem.raw;
+                  return `${label}: ${value}`;
+                }
+              }
+            }
+          }
+        }
+      });
+    },
+    error: err => {
+      console.error('Error fetching reported comments data:', err);
+    }
+  });
+}
+
+
 }
