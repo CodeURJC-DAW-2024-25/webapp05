@@ -100,6 +100,19 @@ public class UserRestController {
         @GetMapping("/{id}")
         public UserDTO getUser(@Parameter(description = "User id", required = true) @PathVariable Long id) {
 
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+                if (authentication == null || !authentication.isAuthenticated()) {
+                        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authorized");
+                }
+
+                boolean isAdmin = authentication.getAuthorities().stream()
+                                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+
+                if (!isAdmin) {
+                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied");
+                }
+
                 Optional<User> user = userService.findById(id);
 
                 if (user.isEmpty()) {
@@ -107,7 +120,6 @@ public class UserRestController {
                 }
 
                 return userService.getUser(user.get().getName());
-
         }
 
         @Operation(summary = "Gets the image of a user by its id")
@@ -289,7 +301,8 @@ public class UserRestController {
                         return ResponseEntity.noContent().build(); // Return 204 No Content if there are no reported
                                                                    // comments
                 } else {
-                        reportedComments.add((reportsArray1[0] + reportsArray2[0] + reportsArray1[1] + reportsArray2[1]));
+                        reportedComments.add(
+                                        (reportsArray1[0] + reportsArray2[0] + reportsArray1[1] + reportsArray2[1]));
                         reportedComments.add((reportsArray1[0] + reportsArray2[0]));
                         reportedComments.add(reportsArray1[0]);
                         reportedComments.add(reportsArray2[0]);

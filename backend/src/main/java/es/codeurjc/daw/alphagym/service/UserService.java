@@ -249,4 +249,16 @@ public class UserService {
             return false;
         }
     }
+
+    public  User getAuthenticationUser (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null ) {
+           Optional<User> user = userRepository.findByEmail(authentication.getName());
+           if (user.isPresent()){
+              return user.get();
+           }
+        }
+        return null;
+    }
 }
