@@ -117,12 +117,10 @@ public class WebSecurityConfig {
 						.requestMatchers(HttpMethod.GET, "/api/users/me").authenticated()
 						.requestMatchers(HttpMethod.GET, "/api/users/trainingList").authenticated()
 						.requestMatchers(HttpMethod.GET, "/api/users/nutritionList").authenticated()
-						.requestMatchers(HttpMethod.GET, "/api/v1/users/trainingList").authenticated()
-						.requestMatchers(HttpMethod.GET, "/api/v1/users/nutritionList").authenticated()
-						.requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
-						.requestMatchers(HttpMethod.PUT, "/api/v1/users/me").authenticated()
-						.requestMatchers(HttpMethod.POST, "/api/v1/users/new").permitAll()
-
+						.requestMatchers(HttpMethod.GET, "/api/users/trainingList").authenticated()
+						.requestMatchers(HttpMethod.GET, "/api/users/nutritionList").authenticated()
+						.requestMatchers(HttpMethod.PUT, "/api/users/me").authenticated()
+						.requestMatchers(HttpMethod.GET, "/api/users/reportedComments").hasRole("ADMIN")
 
 						// PUBLIC ENDPOINTS
 						.requestMatchers(HttpMethod.POST, "/api/users/new").permitAll()

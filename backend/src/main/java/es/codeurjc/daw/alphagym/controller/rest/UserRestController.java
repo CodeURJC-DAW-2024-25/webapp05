@@ -94,6 +94,7 @@ public class UserRestController {
                                         @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
                         @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
                         @ApiResponse(responseCode = "401", description = "User not authorized", content = @Content),
+                        @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
                         @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
         })
         @GetMapping("/{id}")
@@ -237,7 +238,7 @@ public class UserRestController {
                         @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
         })
         @DeleteMapping("/{id}/image")
-        public ResponseEntity<Object> deletePostImage(@PathVariable long id) throws IOException, SQLException {
+        public ResponseEntity<Object> deleteUserImage(@PathVariable long id) throws IOException, SQLException {
 
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -247,7 +248,7 @@ public class UserRestController {
                         return ResponseEntity.noContent().build();
                 } else {
                         throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                                        "No tienes permisos para editar este entrenamiento");
+                                        "You are not allowed to delete this user image.");
                 }
 
         }
