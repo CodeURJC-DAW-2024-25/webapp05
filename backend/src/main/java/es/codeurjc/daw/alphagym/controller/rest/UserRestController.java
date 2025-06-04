@@ -277,6 +277,29 @@ public class UserRestController {
                 return ResponseEntity.ok(reportedComments); // Return 200 OK with the list of comments
         }
 
+        @GetMapping("/reportedCommentsValues")
+        public ResponseEntity<List<Long>> getReportedCommentsValues() {
+                List<Long> reportedComments = new ArrayList<>();
+
+                Long[] reportsArray1 = trainingCommentService.getReportAmmmounts();
+                Long[] reportsArray2 = nutritionCommentService.getReportAmmmounts();
+
+                if (reportsArray1.length == 0 && reportsArray2.length == 0) {
+                        return ResponseEntity.noContent().build(); // Return 204 No Content if there are no reported
+                                                                   // comments
+                } else {
+                        reportedComments.add((reportsArray1[0] + reportsArray2[0] + reportsArray1[1] + reportsArray2[1]));
+                        reportedComments.add((reportsArray1[0] + reportsArray2[0]));
+                        reportedComments.add(reportsArray1[0]);
+                        reportedComments.add(reportsArray2[0]);
+                        reportedComments.add((reportsArray1[1] + reportsArray2[1]));
+                        reportedComments.add(reportsArray1[1]);
+                        reportedComments.add(reportsArray2[1]);
+                }
+
+                return ResponseEntity.ok(reportedComments); // Return 200 OK with the list of comments
+        }
+
         @Operation(summary = "Get all trainings of user")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "Found all trainings", content = {
