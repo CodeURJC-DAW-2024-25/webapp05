@@ -233,6 +233,7 @@ public class WebSecurityConfig {
 		http.authenticationProvider(authenticationProvider());
 
 		http
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 				.authorizeHttpRequests(authorize -> authorize
 						// PUBLIC PAGES
 						.requestMatchers("/").permitAll()

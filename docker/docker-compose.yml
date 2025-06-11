@@ -36,11 +36,4 @@ services:
       context: ../
       dockerfile: docker/Dockerfile
     
-    networks:
-      - gymdb-network  # Connect to the custom network
-
-volumes:
-  db_data:  # Define the volume for database data
-
-networks:
-  gymdb-network:  # Define the custom network
+    
