@@ -105,9 +105,6 @@ public class WebSecurityConfig {
 						// AUTH ENDPOINTS
 						.requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/refresh","/api/v1/auth/logout").permitAll()
 
-						.requestMatchers("/spa/**").permitAll()
-						.requestMatchers("/new/**").permitAll()
-
 						// PRIVATE USER ENDPOINTS
 						.requestMatchers(HttpMethod.GET, "/api/users/all").hasAnyRole("ADMIN")
 						.requestMatchers(HttpMethod.GET, "/api/users/*/image").hasRole("USER")
@@ -237,6 +234,8 @@ public class WebSecurityConfig {
 				.authorizeHttpRequests(authorize -> authorize
 						// PUBLIC PAGES
 						.requestMatchers("/").permitAll()
+						.requestMatchers("/spa/**").permitAll()
+						.requestMatchers("/new/**").permitAll()
 						.requestMatchers("/images/**", "/css/**", "/js/**").permitAll() // Acceso a los recursos
 																						// estáticos
 						.requestMatchers("/index").permitAll()
