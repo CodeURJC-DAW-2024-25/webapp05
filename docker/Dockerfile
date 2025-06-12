@@ -5,8 +5,8 @@ COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/src/assets/ ./src/assets/
 COPY frontend/ .
-RUN npx ng build --configuration production
-
+#RUN npx ng build --configuration production
+RUN npm run build -- --configuration production --base-href="/spa/"
 # Package the application of Spring Boot with Maven
 FROM maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /app
