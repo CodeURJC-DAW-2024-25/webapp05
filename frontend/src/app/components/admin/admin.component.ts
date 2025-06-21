@@ -29,9 +29,9 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loginService.currentUser.subscribe((user) => {
-       if (user?.roles?.includes('ROLE_ADMIN')) {
-        this.admin = user;
-        this.shouldGenerateChart = true;
+      this.admin = user;
+      if (user) {
+      this.shouldGenerateChart = true;
       } else {
         this.admin = null;
         this.shouldGenerateChart = false;

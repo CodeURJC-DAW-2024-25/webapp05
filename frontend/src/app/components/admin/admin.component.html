@@ -3,17 +3,25 @@
   <div class="w-100 d-flex justify-content-center">
     <div class="form-container-plans3">
       <p class="title text-center">Admin Profile</p>
-      <div class="form">
-        <input type="text" class="input" [value]="admin?.name" readonly />
-        <input type="email" class="input" [value]="admin?.email" readonly />
+      <div *ngIf="admin">
+        <div class="form">
+          <input type="text" class="input" [value]="admin?.name" readonly />
+          <input type="email" class="input" [value]="admin?.email" readonly />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Título para el gráfico -->
+  <div class="w-100 d-flex justify-content-center">
+    <div class="form-container-plans3">
+      <p class="title text-center">Graphic: Reported vs. Non-Reported</p>
+      <!-- Chart -->
+      <div style="max-width: 400px; margin: auto; padding: 2rem 0;">
+        <canvas #chartCanvas></canvas>
       </div>
     </div>
   </div>
 
-  <!-- Chart -->
-  <div style="max-width: 400px; margin: auto; padding: 2rem 0;">
-    <canvas #chartCanvas></canvas>
-  </div>
 
   <!-- Comentarios -->
   <section class="w-100 mt-4">
