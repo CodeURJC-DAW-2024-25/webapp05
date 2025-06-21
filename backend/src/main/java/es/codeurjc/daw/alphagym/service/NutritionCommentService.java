@@ -161,6 +161,10 @@ public class NutritionCommentService {
                 .toList();
     }
 
+    public List<NutritionCommentDTO> getReportedCommentsDTO() {
+        return nutritionCommentMapper.toDTOs(nutritionCommentRepository.findByIsNotified(true));
+    } 
+
     public NutritionCommentDTO createNutritionCommentDTO(NutritionCommentDTO nutritionCommentDTO, User user) {
         NutritionComment nutritionComment = toDomain(nutritionCommentDTO);
         nutritionComment.setUser(user); // Set the user who created the comment

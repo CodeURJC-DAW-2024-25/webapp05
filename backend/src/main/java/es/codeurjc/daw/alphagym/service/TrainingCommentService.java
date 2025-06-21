@@ -164,6 +164,10 @@ public class TrainingCommentService {
             .toList();
     }
 
+    public List<TrainingCommentDTO> getReportedCommentsDTO() {
+        return trainingCommentMapper.toDTOs(trainingCommentRepository.findByIsNotified(true));
+    } 
+
     public TrainingCommentDTO createTrainingCommentDTO(TrainingCommentDTO trainingCommentDTO, User user) {
         TrainingComment trainingComment = toDomain(trainingCommentDTO);
         trainingComment.setUser(user);

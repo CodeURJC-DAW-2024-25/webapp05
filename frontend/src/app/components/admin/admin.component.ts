@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import Chart from 'chart.js/auto';
 import { UserDTO } from '../../dto/user.dto';
+import { TrainingCommentDTO } from '../../dto/training-comment.dto';
+import { NutritionCommentDTO } from '../../dto/nutrition-comment.dto';
 
 @Component({
   selector: 'app-admin',
@@ -16,7 +18,8 @@ export class AdminComponent implements OnInit, AfterViewInit {
   pieChart: any;
 
   admin: UserDTO | null = null;
-  reportedComments: any[] = [];
+  reportedTrainingComments: TrainingCommentDTO[] = [];
+  reportedNutritionComments: NutritionCommentDTO[] = [];
   shouldGenerateChart = false;
 
   constructor(
@@ -45,9 +48,15 @@ export class AdminComponent implements OnInit, AfterViewInit {
     }
   }
 
-  loadReportedComments() {
-    this.http.get<any[]>(`/api/users/reportedComments`).subscribe(data => this.reportedComments = data);
-  }
+loadReportedComments(): void {
+  this.userService.loadReportedNutritionComments().subscribe(comments => {
+    this.reportedNutritionComments = comments;
+  });
+
+  this.userService.loadReportedTrainingComments().subscribe(comments => {
+    this.reportedTrainingComments = comments;
+  });
+}
 
   generateChart() {
     this.userService.reportedComments().subscribe({

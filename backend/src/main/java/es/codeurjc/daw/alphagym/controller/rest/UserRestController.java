@@ -3,7 +3,9 @@ package es.codeurjc.daw.alphagym.controller.rest;
 import java.io.IOException;
 import java.net.URI;
 
+import es.codeurjc.daw.alphagym.dto.NutritionCommentDTO;
 import es.codeurjc.daw.alphagym.dto.NutritionDTO;
+import es.codeurjc.daw.alphagym.dto.TrainingCommentDTO;
 import es.codeurjc.daw.alphagym.dto.TrainingDTO;
 import es.codeurjc.daw.alphagym.service.*;
 import org.springframework.core.io.Resource;
@@ -341,6 +343,26 @@ public class UserRestController {
                         reportedComments.add(reportsArray2[1]);
                 }
 
+                return ResponseEntity.ok(reportedComments); // Return 200 OK with the list of comments
+        }
+
+        @GetMapping("/reportedTrainingComments")
+        public ResponseEntity<List<TrainingCommentDTO>> getReportedTrainingComments() {
+                List<TrainingCommentDTO> reportedComments = trainingCommentService.getReportedCommentsDTO();
+
+                if (reportedComments.size() == 0) {
+                        return ResponseEntity.noContent().build(); // Return 204 No Content if there are no reported comments
+                }
+                return ResponseEntity.ok(reportedComments); // Return 200 OK with the list of comments
+        }
+
+        @GetMapping("/reportedNutritionComments")
+        public ResponseEntity<List<NutritionCommentDTO>> getReportedNutritionComments() {
+                List<NutritionCommentDTO> reportedComments = nutritionCommentService.getReportedCommentsDTO();
+
+                if (reportedComments.size() == 0) {
+                        return ResponseEntity.noContent().build(); // Return 204 No Content if there are no reported comments
+                }
                 return ResponseEntity.ok(reportedComments); // Return 200 OK with the list of comments
         }
 
