@@ -50,10 +50,10 @@ export class UserService {
   }
 
   loadReportedTrainingComments(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/reportedComments`);
+    return this.http.get<any[]>(`${this.apiUrl}/reportedTrainingComments`);
   }
 
   loadReportedNutritionComments(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/reportedComments`);
+    return this.http.get<any[]>(`${this.apiUrl}/reportedNutritionComments`);
   }
 }

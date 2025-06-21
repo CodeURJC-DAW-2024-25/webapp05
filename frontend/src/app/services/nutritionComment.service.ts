@@ -23,6 +23,10 @@ export class NutritionCommentService{
     reportNutritionComment(id: number): Observable<any> {
         return this.http.put<void>(`${this.BASE_URL}/report?commentId=${id}`, {}); 
     }
+ 
+    unreportNutritionComment(id: number): Observable<any> {
+        return this.http.put<void>(`${this.BASE_URL}/valid?commentId=${id}`, {});
+    }
     
     deleteNutritionComment(id: number): Observable<void> {
         return this.http.delete<void>(`${this.BASE_URL}/${id}`);

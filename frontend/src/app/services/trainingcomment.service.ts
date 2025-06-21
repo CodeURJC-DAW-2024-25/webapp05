@@ -25,6 +25,10 @@ export class TrainingCommentService {
     return this.http.put<void>(`${this.BASE_URL}/report?commentId=${id}`, {});
   }
 
+  unreportTrainingComment(id: number): Observable<any> {
+    return this.http.put<void>(`${this.BASE_URL}/valid?commentId=${id}`, {});
+  }
+
   deleteTrainingComment(id: number): Observable<any> {
     return this.http.delete<void>(`${this.BASE_URL}/?id=${id}`);
   }

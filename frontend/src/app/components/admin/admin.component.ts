@@ -8,6 +8,8 @@ import Chart from 'chart.js/auto';
 import { UserDTO } from '../../dto/user.dto';
 import { TrainingCommentDTO } from '../../dto/training-comment.dto';
 import { NutritionCommentDTO } from '../../dto/nutrition-comment.dto';
+import { TrainingCommentService } from '../../services/trainingcomment.service';
+import { NutritionCommentService } from '../../services/nutritionComment.service';
 
 @Component({
   selector: 'app-admin',
@@ -27,7 +29,9 @@ export class AdminComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private toastr: ToastrService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private trainingCommentService: TrainingCommentService,
+    private nutritionCommentService: NutritionCommentService
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +39,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
       this.admin = user;
       if (user) {
       this.shouldGenerateChart = true;
+      this.loadReportedComments();
       } else {
         this.admin = null;
         this.shouldGenerateChart = false;
@@ -56,6 +61,46 @@ export class AdminComponent implements OnInit, AfterViewInit {
     this.userService.loadReportedTrainingComments().subscribe(comments => {
       this.reportedTrainingComments = comments;
     });
+  }
+
+  validateTrainingComment(comment: TrainingCommentDTO): void {
+    this.trainingCommentService.unreportTrainingComment(comment.id).subscribe({
+      next: () => {
+        this.loadReportedComments();
+      },
+      error: () => this.toastr.error('Error validating comment'),
+    });
+  }
+
+  validateNutritionComment(comment: NutritionCommentDTO): void {
+    this.nutritionCommentService.unreportNutritionComment(comment.id).subscribe({
+      next: () => {
+        this.loadReportedComments();
+      },
+      error: () => this.toastr.error('Error validating comment'),
+    });
+  }
+
+  deleteTrainingComment(comment: TrainingCommentDTO): void {
+    if (confirm('Are you sure you want to delete this comment?')) {
+      this.trainingCommentService.deleteTrainingComment(comment.id).subscribe({
+        next: () => {
+          this.loadReportedComments();
+        },
+        error: () => this.toastr.error('Failed to delete comment'),
+      });
+    }
+  }
+
+  deleteNutritionComment(comment: NutritionCommentDTO): void {
+    if (confirm('Are you sure you want to delete this comment?')) {
+      this.nutritionCommentService.deleteNutritionComment(comment.id).subscribe({
+        next: () => {
+          this.loadReportedComments();
+        },
+        error: () => this.toastr.error('Failed to delete comment'),
+      });
+    }
   }
 
   generateChart() {
