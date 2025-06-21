@@ -13,11 +13,12 @@
       <div class="profile-container">
         <div class="form-container">
           <h2 class="title">Nombre:</h2>
-          <input type="text" class="input" [value]="user.name" name="name" />
+          <input type="text" class="input" [(ngModel)]="user.name" name="name" required />
 
           <h2 class="title">Email:</h2>
-          <input type="email" class="input" [value]="user.email" name="email" />
+          <input type="email" class="input" [(ngModel)]="user.email" name="email" required />
         </div>
+
         <div class="button-save">
           <button class="btn-load" type="submit">Save</button>
         </div>

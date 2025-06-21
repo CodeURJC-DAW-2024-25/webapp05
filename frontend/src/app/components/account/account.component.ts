@@ -76,7 +76,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
         if (this.selectedFile) {
           const imageData = new FormData();
           imageData.append('imageFile', this.selectedFile);
-          this.http.put(`cusers/${this.user?.id}/image`, imageData, {
+          this.http.put(`users/${this.user?.id}/image`, imageData, {
             withCredentials: true
           }).subscribe({
             next: () => alert('Saved successfully'),

@@ -12,9 +12,10 @@ import { TrainingCommentListComponent } from './components/trainingComment/train
 import { TrainingCommentFormComponent } from './components/trainingComment/training-comment-form/training-comment-form.component';
 import { NutritionCommentFormComponent } from './components/nutritionComment/nutritionComment-form/nutritionComment-form.component';
 import { NutritionCommentListComponent } from './components/nutritionComment/nutritionComment-list/nutritionComment-list.component';
-import { LoginComponent } from './components/viewsComponent/login/login.component';
-import { RegisterComponent } from './components/viewsComponent/register/register.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 import { AccountComponent } from './components/account/account.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -34,7 +35,8 @@ const routes: Routes = [
   { path: 'nutritionComments/editComment/:id/:commentId', component: NutritionCommentFormComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'account', component: AccountComponent }
+  { path: 'account', component: AccountComponent },
+  { path: 'admin', component: AdminComponent},
 ];
 
 @NgModule({

@@ -15,16 +15,22 @@
           <a class="nav-link" routerLink="/training">Training</a>
         </li>
 
-        <!-- Show "Account" and "Logout" if user is logged-->
-        <li class="nav-item" *ngIf="loginService.isLogged | async">
+         <!-- Show "Account" if user is logged and NOT admin -->
+        <li class="nav-item" *ngIf="(loginService.isLogged | async) && !(loginService.isAdmin | async)">
           <a class="nav-link" routerLink="/account">Account {{ user?.name }}</a>
         </li>
+
+        <!-- Show "Admin if user is admin"-->
+        <li class="nav-item" *ngIf="(loginService.isLogged | async) && (loginService.isAdmin | async)">
+          <a class="nav-link" routerLink="/admin">Admin</a>
+        </li>
+        <!-- Show "Logout" if user is logged -->
         <li class="nav-item" *ngIf="loginService.isLogged | async">
           <a class="nav-link" (click)="logout()">Log out</a>
         </li>
 
         <!-- show "Login" y "Register" if user is not logged -->
-        <li class="nav-item" *ngIf="!(loginService.isLogged | async)">
+        <li class="nav-item" *ngIf="!(loginService.currentUser| async)">
           <a class="nav-link" routerLink="/login">Login</a>
         </li>
         <li class="nav-item" *ngIf="!(loginService.isLogged | async)">

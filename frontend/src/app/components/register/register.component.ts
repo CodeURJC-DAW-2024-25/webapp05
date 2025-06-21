@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from '../../../services/login.service';
-import { RegisterRequest } from '../../../dto/user.dto';
-import { UserService } from '../../../services/user.service';
-import { UserDTO } from '../../../dto/user.dto';
+import { LoginService } from '../../services/login.service';
+import { RegisterRequest } from '../../dto/user.dto';
+import { UserService } from '../../services/user.service';
+import { UserDTO } from '../../dto/user.dto';
 
 @Component({
   selector: 'app-register',

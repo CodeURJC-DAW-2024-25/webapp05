@@ -1,0 +1,62 @@
+<div class="container d-flex flex-column align-items-center mt-4">
+
+  <div class="w-100 d-flex justify-content-center">
+    <div class="form-container-plans3">
+      <p class="title text-center">Admin Profile</p>
+      <div class="form">
+        <input type="text" class="input" [value]="admin?.name" readonly />
+        <input type="email" class="input" [value]="admin?.email" readonly />
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div style="max-width: 400px; margin: auto; padding: 2rem 0;">
+    <canvas #chartCanvas></canvas>
+  </div>
+
+  <!-- Comentarios -->
+  <section class="w-100 mt-4">
+    <div class="container-account2 d-flex flex-wrap justify-content-center">
+<!-- Añadir funcionalidad cuando este implementada la API de comentarios
+
+ -------------------Training--------------------
+      <div class="form-container-plans2">
+        <h1 class="title">Reported Training Comments</h1>
+        <ng-container *ngIf="trainingComments?.length > 0; else noTrainingComments">
+          <div *ngFor="let comment of trainingComments" class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">{{ comment.name }}</h5>
+              <p class="description">{{ comment.description }}</p>
+              <a [routerLink]="['/trainingComments', comment.id, 'unreport']" class="btn-load-3">Validate</a>
+              <a [routerLink]="['/trainingComments', comment.id, 'editcommentAdmin']" class="btn-load">Edit</a>
+              <a [routerLink]="['/trainingComments', comment.id, 'deleteAdmin']" class="btn-load-2">Delete</a>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noTrainingComments>
+          <p>There are no training comments reported.</p>
+        </ng-template>
+      </div>
+ -------------------nutrition--------------------
+      <div class="form-container-plans2">
+        <h1 class="title">Reported Nutrition Comments</h1>
+        <ng-container *ngIf="nutritionComments?.length > 0; else noNutritionComments">
+          <div *ngFor="let comment of nutritionComments" class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">{{ comment.name }}</h5>
+              <p class="description">{{ comment.description }}</p>
+              <a [routerLink]="['/nutritionComments', comment.id, 'unreport']" class="btn-load-3">Validate</a>
+              <a [routerLink]="['/nutritionComments', comment.id, 'editcommentAdmin']" class="btn-load">Edit</a>
+              <a [routerLink]="['/nutritionComments', comment.id, 'deleteAdmin']" class="btn-load-2">Delete</a>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noNutritionComments>
+          <p>There are no nutrition comments reported.</p>
+        </ng-template>
+      </div>
+    </div>
+  </section>
+  -->
+</div>

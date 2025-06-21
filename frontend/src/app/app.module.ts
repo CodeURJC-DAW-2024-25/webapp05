@@ -21,10 +21,11 @@ import { TrainingCommentListComponent } from './components/trainingComment/train
 import { TrainingCommentFormComponent } from './components/trainingComment/training-comment-form/training-comment-form.component';
 import { NutritionCommentListComponent } from './components/nutritionComment/nutritionComment-list/nutritionComment-list.component';
 import { NutritionCommentFormComponent } from './components/nutritionComment/nutritionComment-form/nutritionComment-form.component';
-import { LoginComponent } from './components/viewsComponent/login/login.component';
-import { RegisterComponent } from './components/viewsComponent/register/register.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 import { AccountComponent } from './components/account/account.component';
 import { CommonModule } from '@angular/common';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { CommonModule } from '@angular/common';
     NutritionCommentFormComponent,
     LoginComponent,
     RegisterComponent,
-    AccountComponent
+    AccountComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,

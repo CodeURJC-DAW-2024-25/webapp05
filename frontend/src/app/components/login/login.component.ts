@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginService } from '../../../services/login.service';
+import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
-import { LoginRequest } from './../../../dto/user.dto';
+import { LoginRequest } from '../../dto/user.dto';
 
 @Component({
   selector: 'app-login',
@@ -45,7 +45,7 @@ export class LoginComponent {
       error: (error) => {
         this.errorMessage = error.message || 'Login failed. Please try again.';
         this.loginForm.reset();
-        this.isLoading = false; 
+        this.isLoading = false;
       }
     });
   }
