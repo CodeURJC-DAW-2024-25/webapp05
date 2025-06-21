@@ -48,15 +48,15 @@ export class AdminComponent implements OnInit, AfterViewInit {
     }
   }
 
-loadReportedComments(): void {
-  this.userService.loadReportedNutritionComments().subscribe(comments => {
-    this.reportedNutritionComments = comments;
-  });
+  loadReportedComments(): void {
+    this.userService.loadReportedNutritionComments().subscribe(comments => {
+      this.reportedNutritionComments = comments;
+    });
 
-  this.userService.loadReportedTrainingComments().subscribe(comments => {
-    this.reportedTrainingComments = comments;
-  });
-}
+    this.userService.loadReportedTrainingComments().subscribe(comments => {
+      this.reportedTrainingComments = comments;
+    });
+  }
 
   generateChart() {
     this.userService.reportedComments().subscribe({
