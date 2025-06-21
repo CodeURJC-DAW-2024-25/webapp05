@@ -5,11 +5,11 @@ COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/src/assets/ ./src/assets/
 COPY frontend/ .
-#RUN npx ng build --configuration production
-RUN npm run build -- --configuration production --base-href="/spa/"
+RUN npx ng build --configuration production
+#RUN npm run build -- --configuration production --base-href="/spa/"
 # Package the application of Spring Boot with Maven
 FROM maven:3.9.9-eclipse-temurin-21 AS build
-WORKDIR /app
+WORKDIR /gymdb
 COPY ../backend/pom.xml ./pom.xml
 RUN mvn dependency:go-offline
 COPY ../backend/src ./src
@@ -23,6 +23,6 @@ RUN mvn clean package -DskipTests -Pproduction
 FROM eclipse-temurin:21-jdk
 WORKDIR /app
 # Copy the generated JAR file from the build stage
-COPY --from=build /app/target/*.jar .
+COPY --from=build /gymdb/target/backend-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 443
-CMD ["java", "-jar", "backend-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "app.jar"]
