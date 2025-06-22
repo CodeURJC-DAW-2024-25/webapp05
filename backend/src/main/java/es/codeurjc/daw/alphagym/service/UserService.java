@@ -164,29 +164,33 @@ public class UserService {
     }
 
     public UserDTO updateUser(Long id, UserDTO userDTO) throws SQLException {
+    User user = userRepository.findById(id).orElseThrow();
 
-        User user = userRepository.findById(id).orElseThrow();
-        if (userRepository.existsByEmail(userDTO.email())) {
-            throw new IllegalArgumentException("Email is already in use.");
-        }
-        if (userDTO.email() != null && !userDTO.email().isEmpty()) {
-            user.setEmail(userDTO.email());
-        } else {
-            user.setEmail(user.getEmail());
-        }
-        if (userDTO.name() != null && !userDTO.name().isEmpty()) {
-            user.setName(userDTO.name());
-        } else {
-            user.setName(user.getName());
-        }
-        if (user.getImgUser() != null) {
-            user.setImgUser(BlobProxy.generateProxy(user.getImgUser().getBinaryStream(), user.getImgUser().length()));
-        } else {
-            user.setImgUser(null);
-        }
-
-        return toUserDTO(userRepository.save(user));
+    // Validate email: must not be null, empty, or just whitespace
+    String email = userDTO.email();
+    if (email == null || email.trim().isEmpty()) {
+        throw new IllegalArgumentException("Email cannot be empty.");
     }
+
+    // Check if the email is already used by another user
+    Optional<User> existingUser = userRepository.findByEmail(email.trim());
+    if (existingUser.isPresent() && !existingUser.get().getId().equals(user.getId())) {
+        throw new IllegalArgumentException("Email is already in use.");
+    }
+
+    user.setEmail(email.trim());
+
+    // Validate name: must not be null, empty, or just whitespace
+    String name = userDTO.name();
+    if (name == null || name.trim().isEmpty()) {
+        throw new IllegalArgumentException("Name cannot be empty.");
+    }
+
+    user.setName(name.trim());
+
+    return toUserDTO(userRepository.save(user));
+    }
+
 
     public InputStreamResource getUserImage(long id) throws SQLException {
 

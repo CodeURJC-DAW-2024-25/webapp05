@@ -47,6 +47,10 @@ export class LoginService {
     return this.user.asObservable();
   }
 
+  getCurrentUserValue(): UserDTO | null {
+  return this.user.value;
+  }
+
   get isAdmin() {
     return this.admin.asObservable();
   }
@@ -141,4 +145,9 @@ export class LoginService {
   get currentAuthStatus(): boolean {
     return this.logged.value;
   }
+
+  updateCurrentUser(user: UserDTO): void {
+  this.user.next(user);
+  }
+
 }

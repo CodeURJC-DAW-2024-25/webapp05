@@ -22,15 +22,29 @@ export class UserService {
   }
 
   getCurrentUser(): Observable<UserDTO> {
-    return this.http.get<UserDTO>(`${this.apiUrl}/me`);
+    return this.http.get<UserDTO>(`/api/users/me`, {
+      withCredentials: true
+    });
   }
+
 
   registerUser(userData: Omit<UserDTO, 'id'>): Observable<{id: number}> {
     return this.http.post<{id: number}>(`${this.apiUrl}/new`, userData);
   }
 
-  updateUser(userData: Partial<UserDTO>): Observable<UserDTO> {
-    return this.http.put<UserDTO>(`${this.apiUrl}/${userData.id}`, userData);
+  updateUser(id: number, userData: Partial<UserDTO>): Observable<UserDTO> {
+    return this.http.put<UserDTO>(`${this.apiUrl}/${id}`, userData, {
+      withCredentials: true
+    });
+  }
+
+  updateUserImage(id: number, imageFile: File): Observable<void> {
+    const formData = new FormData();
+    formData.append('imageFile', imageFile);
+
+    return this.http.put<void>(`${this.apiUrl}/${id}/image`, formData, {
+      withCredentials: true,
+    });
   }
 
   deleteUser(id: number): Observable<void> {

@@ -6,24 +6,30 @@
   </div>
 
   <div class="container-account2">
-    <form class="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+    <form #profileForm="ngForm" class="form" (ngSubmit)="onSubmit($event, profileForm)" enctype="multipart/form-data">
       <input type="hidden" name="id" [value]="user.id" />
 
-      <img *ngIf="user.image" [src]="previewUrl || '/account/image'" class="card-img-top" alt="User Image" id="previewImage" />
+      <img [src]="previewUrl || '/api/users/' + user.id + '/image'" class="card-img-top" alt="User" id="previewImage" />
       <input type="file" (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" />
 
       <div class="profile-container">
         <div class="form-container">
           <h2 class="title">Nombre:</h2>
-          <input type="text" class="input" [(ngModel)]="user.name" name="name" required />
+          <input type="text" class="input" [(ngModel)]="user.name" name="name" required  #nameInput="ngModel"/>
+      <div *ngIf="nameInput.invalid && nameInput.touched" class="text-danger">
+        Name is required.
+      </div>
 
           <h2 class="title">Email:</h2>
-          <input type="email" class="input" [(ngModel)]="user.email" name="email" required />
+          <input type="email" class="input" [(ngModel)]="user.email" name="email" required #emailInput="ngModel"/>
+      <div *ngIf="emailInput.invalid && emailInput.touched" class="text-danger">
+        A valid email is required.
+      </div>
         </div>
 
-        <div class="button-save">
-          <button class="btn-load" type="submit">Save</button>
-        </div>
+      <div class="button-save">
+      <button class="btn-load" type="submit" [disabled]="!profileForm.valid">Save</button>
+    </div>
       </div>
     </form>
   </div>
