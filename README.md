@@ -642,11 +642,11 @@ He participado en la fase de Angular de los TrainingComments y en el arreglo de 
 
 | Commit | Descripción                          | Link |
 | ------ | ------------------------------------ | ---- |
-| #1     | | [training comments angular done](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/9615530affadd88364fab463a27499aca99e71df) |
-| #2     | | [Nutrition Comments Angular done](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/8ad3a0db94d157d2700bcf769ce9687d2fd2dc59) |
-| #3     | | [angular trainingComments - lists finished , forms started](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/51d1b2148b3dd0980a822d7a3894d89b88edc97c) |
-| #4     | | [TrainingComment angular - shows comments](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/e9b8bf23646f6704352c78e87a2054a0ddd7b08e) |
-| #5     | | [Comments loading check](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/fe20f6a477d43c1654462a06505d25cc184c7e18) |
+| #1     | Finished training comments | [training comments angular done](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/9615530affadd88364fab463a27499aca99e71df) |
+| #2     | Finished nutrition comments| [Nutrition Comments Angular done](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/8ad3a0db94d157d2700bcf769ce9687d2fd2dc59) |
+| #3     | Listing training comments  | [angular trainingComments - lists finished , forms started](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/51d1b2148b3dd0980a822d7a3894d89b88edc97c) |
+| #4     | Details of training comment| [TrainingComment angular - shows comments](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/e9b8bf23646f6704352c78e87a2054a0ddd7b08e) |
+| #5     | Load training comments     | [Comments loading check](https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/fe20f6a477d43c1654462a06505d25cc184c7e18) |
 
 #### Los 5 ficheros que más he modificado
 
