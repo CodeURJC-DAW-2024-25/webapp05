@@ -43,6 +43,10 @@ export class AdminComponent implements OnInit, AfterViewInit {
       } else {
         this.admin = null;
         this.shouldGenerateChart = false;
+        this.toastr.error('Please log in as an admin to access this page.', 'Error');
+        // Redirect to login page if not logged in
+        this.router.navigate(['/login']);
+      return;
       }
     });
   }

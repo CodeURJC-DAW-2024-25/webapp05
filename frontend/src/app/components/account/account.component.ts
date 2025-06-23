@@ -35,6 +35,11 @@ export class AccountComponent implements OnInit {
       this.user = user;
       if (user) {
         this.loadUserPlans();
+      }else{
+        this.user = null;
+        this.toastr.error('Please log in to access your account.', 'Error');
+        // Redirect to login page if not logged in
+        this.router.navigate(['/login']);
       }
     });
   }
