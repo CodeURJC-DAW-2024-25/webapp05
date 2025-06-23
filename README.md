@@ -10,6 +10,9 @@
 | Adrián | Dueñas Mínguez  |   a.duenas.2021@alumnos.urjc.es | AdriDM-urjc |
 | Víctor | Candel Casado     |   v.candel.2020@alumnos.urjc.es  | victorcc02 |
 
+## Video de la aplicación
+[Link](https://youtu.be/ke92OaB2oZc)
+
 ## 🔗 Herramientas de coordinación
 Usamos **Trello** para la organización del equipo. Puedes acceder al tablero público aquí: [GymBros Trello](https://trello.com/w/daw051)
 
