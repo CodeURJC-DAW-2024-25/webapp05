@@ -14,7 +14,7 @@ COPY ../backend/pom.xml ./pom.xml
 RUN mvn dependency:go-offline
 COPY ../backend/src ./src
 
-COPY --from=angular /app/dist/webapp05 ./src/main/resources/static/new
+COPY --from=angular /app/dist/webapp05/browser ./src/main/resources/static/new
 RUN mvn clean package -DskipTests -Pproduction
 
 

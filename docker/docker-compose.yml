@@ -7,7 +7,7 @@ services:
       - MYSQL_DATABASE=gymdb  # Name of the database to be created
       - MYSQL_ROOT_PASSWORD=pass  # Root password for MySQL
     ports:
-      - "3306"  # Map port 3306 on the host to port 3306 in the container
+      - "3307:3306"  # Map port 3306 on the host to port 3306 in the container
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 10s
@@ -25,9 +25,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=pass  # Database password
       #- JWT_SECRET=miClaveSecretaSeguraParaJWT1234567890abcdef  # Secret key for JWT
     restart: on-failure  # Restart the container on failure
-    build:
-      context: ../
-      dockerfile: docker/Dockerfile
+  
     depends_on:
       db:
         condition: service_healthy
