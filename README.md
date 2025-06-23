@@ -730,7 +730,7 @@ En esta fase me he encargado de inicializar el proyecto de angular, principalmen
 
 | Número fichero | Fichero |
 | -------------- | ------- |
-| #1             | [https://github.com/CodeURJC-DAW-2024-25/webapp05/tree/main/frontend/src/app/components/account] (https://github.com/CodeURJC-DAW-2024-25/webapp05/tree/main/frontend/src/app/components/account) |
+| #1             | [frontend/src/app/components/account] (https://github.com/CodeURJC-DAW-2024-25/webapp05/tree/main/frontend/src/app/components/account) |
 | #2             | [frontend/src/app/components/admin] (https://github.com/CodeURJC-DAW-2024-25/webapp05/tree/main/frontend/src/app/components/admin) |
 | #3             | [frontend/src/app/components/login] (https://github.com/CodeURJC-DAW-2024-25/webapp05/tree/main/frontend/src/app/components/login) |
 | #4             | [frontend/src/app/components/register] (https://github.com/CodeURJC-DAW-2024-25/webapp05/tree/main/frontend/src/app/components/register) |
