@@ -3,18 +3,17 @@
       {{ formTitle }}
     </h2>
 
-   <div class="mb-3" *ngIf="isEditMode">
+   <div class="mb-3">
      <img
-       *ngIf="previewImage; else currentImage"
+       *ngIf="previewImage; else defaultOrCurrentImage"
        [src]="previewImage"
        alt="Preview"
        class="card-img-top"
      />
-     <ng-template #currentImage>
+     <ng-template #defaultOrCurrentImage>
        <img
-         *ngIf="trainingId"
-         [src]="'/api/trainings/' + trainingId + '/image'"
-         [alt]="trainingForm.get('name')"
+         [src]="isEditMode && trainingId ? '/api/trainings/' + trainingId + '/image' : defaultImage"
+         [alt]="trainingForm.get('name')?.value || 'Default Training Image'"
          class="card-img-top"
        />
      </ng-template>
@@ -24,7 +23,7 @@
     <form [formGroup]="trainingForm" (ngSubmit)="onSubmit()" novalidate>
 
 
-      <div class="d-flex justify-content-center gap-3" *ngIf="isEditMode">
+      <div class="d-flex justify-content-center gap-3">
         <div>
           <label for="imageField" class="btn btn-primary">Change Image</label>
           <input type="file" class="form-control d-none" id="imageField" (change)="onImageSelected($event)">

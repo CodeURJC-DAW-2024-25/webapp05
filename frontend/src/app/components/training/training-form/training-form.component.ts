@@ -18,6 +18,7 @@ export class TrainingFormComponent implements OnInit {
   goals: string[] = ['Lose weight', 'Maintain weight', 'Increase weight'];
   previewImage: string | ArrayBuffer | null = null;
   selectedImageFile?: File;
+  defaultImage: string = '/assets/images/emptyImage.png';
 
   constructor(
     private fb: FormBuilder,
@@ -53,6 +54,10 @@ export class TrainingFormComponent implements OnInit {
         });
       }
     }
+
+    if (!this.isEditMode) {
+      this.previewImage = this.defaultImage;
+    }
     this.isLoading = false;
   }
 
@@ -67,8 +72,8 @@ export class TrainingFormComponent implements OnInit {
     const updateData$ = this.isEditMode
       ? this.trainingService.updateTraining(this.trainingId, training)
       : this.trainingService.createTraining(training);
-    
-    if (!this.trainingForm.dirty && this.selectedImageFile && this.isEditMode) {
+
+    if (!this.trainingForm.dirty && this.selectedImageFile) {
       this.uploadImageOnly(); // solo imagen
       return;
     }
