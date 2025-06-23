@@ -720,8 +720,8 @@ En esta fase me he encargado de inicializar el proyecto de angular, principalmen
 
 | Commit | Descripción                          | Link |
 | ------ | ------------------------------------ | ---- |
-| #1     | | [Admin component] | (https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ff06243a3c6da1e8d664df2e558589d9686510c4)
-| #2     | | [Register component] | (https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/8932e7e3ceccf6be5d0ab49b0860eed0f9b303e2) 
+| #1     | | [Admin component] (https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/ff06243a3c6da1e8d664df2e558589d9686510c4) |
+| #2     | | [Register component] (https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/8932e7e3ceccf6be5d0ab49b0860eed0f9b303e2) | 
 | #3     | | [Login component] | (https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/9554e1a6f51612977ebf2b6e41a1a429d211ccc8) 
 | #4     | | [User Angular] | (https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/a904c757afd4dd8fa44dc04918c9609ac31bc706) 
 | #5     | | [Account component] | (https://github.com/CodeURJC-DAW-2024-25/webapp05/commit/8bedb82f828755fed999a427efe3a4684fef2bc2) 
