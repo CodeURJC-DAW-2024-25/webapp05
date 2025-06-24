@@ -31,18 +31,24 @@ export class AccountComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe((user) => {
-      this.user = user;
-      if (user) {
+    const currentUser = this.loginService.getCurrentUserValue();
+    if (!currentUser) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.userService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.user = user;
         this.loadUserPlans();
-      }else{
-        this.user = null;
-        this.toastr.error('Please log in to access your account.', 'Error');
-        // Redirect to login page if not logged in
+      },
+      error: (err) => {
+        this.toastr.error('Authentication required. Please log in.', 'Error');
         this.router.navigate(['/login']);
       }
     });
   }
+
 
   loadUserPlans() {
     this.http
