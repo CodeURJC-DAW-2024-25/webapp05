@@ -163,7 +163,7 @@ public class NutritionCommentService {
 
     public List<NutritionCommentDTO> getReportedCommentsDTO() {
         return nutritionCommentMapper.toDTOs(nutritionCommentRepository.findByIsNotified(true));
-    } 
+    }
 
     public NutritionCommentDTO createNutritionCommentDTO(NutritionCommentDTO nutritionCommentDTO, User user) {
         NutritionComment nutritionComment = toDomain(nutritionCommentDTO);

@@ -32,14 +32,14 @@ export class NutritionCommentListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loginService.isLogged.subscribe((isLogged) => {
       this.logged = isLogged;
       this.loggedUserId = this.loginService.getLoggedUserId();
     });
-    this.loginService.isAdmin.subscribe((isAdmin)=>{
+    this.loginService.isAdmin.subscribe((isAdmin) => {
       this.admin = isAdmin;
     });
     this.nutritionId = Number(this.route.snapshot.paramMap.get('id'));
@@ -62,11 +62,11 @@ export class NutritionCommentListComponent implements OnInit {
 
   loadComments(id: number): void {
     if (this.allLoaded) return; //Avoid loading more if all comments are loaded
-    
+
     this.nutritionCommentService.getNutritionComments(id, this.page).subscribe({
       next: (data) => {
         if (data.length < this.pageSize) {
-            this.allLoaded = true;
+          this.allLoaded = true;
         }
         this.comments = [...this.comments, ...data];
         this.page++;
@@ -97,16 +97,16 @@ export class NutritionCommentListComponent implements OnInit {
 
   report(commentId: number): void {
     if (confirm('Are you sure you want to report this comment?')) {
-        this.nutritionCommentService.reportNutritionComment(commentId).subscribe({
+      this.nutritionCommentService.reportNutritionComment(commentId).subscribe({
         next: () => {
-            this.toastr.success('Comment reported');
+          this.toastr.success('Comment reported');
         },
         error: () => {
-        this.toastr.error('Could not report comment');
+          this.toastr.error('Could not report comment');
         }
-    });
-    } 
-} 
+      });
+    }
+  }
 
   goBack(): void {
     this.router.navigate(['/nutrition', this.nutritionId]);

@@ -32,14 +32,14 @@ export class TrainingCommentListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loginService.isLogged.subscribe((isLogged) => {
       this.logged = isLogged;
       this.loggedUserId = this.loginService.getLoggedUserId();
     });
-    this.loginService.isAdmin.subscribe((isAdmin)=>{
+    this.loginService.isAdmin.subscribe((isAdmin) => {
       this.admin = isAdmin;
     });
     this.trainingId = Number(this.route.snapshot.paramMap.get('id'));
@@ -50,14 +50,14 @@ export class TrainingCommentListComponent implements OnInit {
 
   loadTraining(id: number): void {
     this.trainingService.getTrainingById(this.trainingId).subscribe({
-        next: (training) => {
-          this.training = training;
-        },
-        error: (err) => {
-          console.error('Error loading training', err);
-          this.toastr.error('Error loading training details', 'Error');
-        }
-      });
+      next: (training) => {
+        this.training = training;
+      },
+      error: (err) => {
+        console.error('Error loading training', err);
+        this.toastr.error('Error loading training details', 'Error');
+      }
+    });
   }
 
   loadComments(id: number): void {

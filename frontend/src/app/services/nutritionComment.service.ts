@@ -5,13 +5,13 @@ import { environment } from '../../environments/environment';
 import { NutritionCommentDTO } from '../dto/nutrition-comment.dto';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
-export class NutritionCommentService{
+export class NutritionCommentService {
     private readonly BASE_URL = '/api/nutritionComments';
-    
-    constructor(private http: HttpClient) {}
-    
+
+    constructor(private http: HttpClient) { }
+
     getNutritionComments(nutritionId: number, page: number): Observable<any> {
         return this.http.get<NutritionCommentDTO[]>(`${this.BASE_URL}/?page=${page}&nutritionId=${nutritionId}`);
     }
@@ -21,13 +21,13 @@ export class NutritionCommentService{
     }
 
     reportNutritionComment(id: number): Observable<any> {
-        return this.http.put<void>(`${this.BASE_URL}/report?commentId=${id}`, {}); 
+        return this.http.put<void>(`${this.BASE_URL}/report?commentId=${id}`, {});
     }
- 
+
     unreportNutritionComment(id: number): Observable<any> {
         return this.http.put<void>(`${this.BASE_URL}/valid?commentId=${id}`, {});
     }
-    
+
     deleteNutritionComment(id: number): Observable<void> {
         return this.http.delete<void>(`${this.BASE_URL}/${id}`);
     }

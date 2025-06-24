@@ -11,14 +11,14 @@ import { TrainingCommentDTO } from '../dto/training-comment.dto';
 export class TrainingCommentService {
   private readonly BASE_URL = '/api/trainingComments';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getTrainingComments(trainingId: number, page: number): Observable<any> {
     return this.http.get<TrainingCommentDTO[]>(`${this.BASE_URL}/?page=${page}&trainingId=${trainingId}`);
   }
 
   createComment(comment: TrainingCommentDTO): Observable<any> {
-      return this.http.post<TrainingCommentDTO>(`${this.BASE_URL}/`, comment);
+    return this.http.post<TrainingCommentDTO>(`${this.BASE_URL}/`, comment);
   }
 
   reportTrainingComment(id: number): Observable<any> {

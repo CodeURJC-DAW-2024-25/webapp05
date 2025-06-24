@@ -42,13 +42,13 @@ export class NutritionCommentFormComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
 
-    // Solo una llamada para verificar si el usuario está logueado
+    // Check if user is logged in
     this.userService.getCurrentUser().subscribe({
       next: (user) => {
         this.currentUser = user;
         this.isLoading = false;
 
-        // Cargar la nutrición solo si el usuario está logueado
+        // Load nutrition details
         this.nutritionId = +this.route.snapshot.paramMap.get('id')!;
         this.nutritionService.getNutritionById(this.nutritionId).subscribe({
           next: (nutrition) => {
@@ -59,7 +59,7 @@ export class NutritionCommentFormComponent implements OnInit {
           }
         });
 
-        // Cargar el comentario si es modo edición
+        // Initialize the comment form
         const idParam = this.route.snapshot.paramMap.get('commentId');
         this.commentForm = this.fb.group({
           name: ['', Validators.required],
