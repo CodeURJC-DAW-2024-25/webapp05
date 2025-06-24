@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrainingService } from '../../../services/training.service';
-import { LoginService } from '../../../services/login.service';
 import { Training } from '../../../dto/training.dto';
+import { UserService } from '../../../services/user.service';
+import { ToastrService } from 'ngx-toastr';
+import { of } from 'rxjs';
+import { UserDTO } from '../../../dto/user.dto';
 
 @Component({
   selector: 'app-training-form',
@@ -19,17 +22,44 @@ export class TrainingFormComponent implements OnInit {
   previewImage: string | ArrayBuffer | null = null;
   selectedImageFile?: File;
   defaultImage: string = '/assets/images/emptyImage.png';
+  user: UserDTO | null = null;
+  canEdit: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private toastr: ToastrService,
     private trainingService: TrainingService,
-    private loginService: LoginService,
+    private userService: UserService,
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.userService.getCurrentUser().subscribe({
+      next: (user) => {
+      this.user = user;
+      if (user) {
+        this.loadTraining();
+        this.isLoading = false;
+      // }else{
+      //   this.isLoading = false;
+      //   this.toastr.error('Please log in to access this part of web.', 'Error');
+      //   // Redirect to login page if not logged in
+      //   this.router.navigate(['/login']);
+       }
+      },
+      error: () => {
+        this.isLoading = false;
+        this.toastr.error('Please log in to access this part of web.', 'Error');
+        // Redirect to login page if not logged in
+        this.router.navigate(['/login']);
+      }
+    });
+  
+  }
+
+  loadTraining(){
     this.trainingForm = this.fb.group({
       name: ['', Validators.required],
       intensity: ['', Validators.required],
@@ -46,9 +76,28 @@ export class TrainingFormComponent implements OnInit {
 
         this.trainingService.getTrainingById(this.trainingId).subscribe({
           next: (training) => {
-            this.trainingForm.patchValue(training);
+
+            const currentUserId = this.user?.id ?? null;
+            const trainingAuthorId = training.userId ?? null;
+
+            const isAuthor = currentUserId !== null &&
+              trainingAuthorId !== null &&
+              Number(currentUserId) === Number(trainingAuthorId);
+
+            this.canEdit = currentUserId == 1 || isAuthor;
+            if (this.canEdit) {
+              this.trainingForm.patchValue(training);
+              this.isLoading = false;
+              return;
+            } else {
+              this.isLoading = false;
+              this.toastr.error('You cant edit this training.', 'Error');
+              this.router.navigate(['/training' , this.trainingId]);
+              return;
+            }
           },
           error: () => {
+            this.isLoading = false;
             console.error('Error loading training');
           }
         });

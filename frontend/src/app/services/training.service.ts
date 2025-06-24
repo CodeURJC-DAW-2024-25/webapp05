@@ -52,33 +52,4 @@ export class TrainingService {
 
     return this.http.put<any>(`${this.baseUrl}${id}/image`, formData);
   }
-
-
-
-
-  /*getTrainingsPaginated(page: number, size: number): Observable<Training[]> {
-    return this.http.get<Training[]>(`${this.baseUrl}?page=${page}&size=${size}`);
-  }*/
-
-  /*
-  loadTraining(trainingId?: number): Observable<Training | null> {
-    if (trainingId != null && !isNaN(trainingId)) {
-      return this.http.get<Training>(`${this.baseUrl}/${trainingId}`);
-    } else {
-      console.log('No hay trainingId, no se carga ningún training');
-      return of(null); // Retorna un observable vacío
-    }
-  }
-
-  // Save training
-  saveTraining(training: Training): Observable<Training> {
-    if (training.id != null && !isNaN(training.id)) {
-      // Edit
-      return this.http.put<Training>(`${this.baseUrl}/${training.id}`, training);
-    } else {
-      // Create
-      return this.http.post<Training>(this.baseUrl, training);
-    }
-  }
-    */
 }
