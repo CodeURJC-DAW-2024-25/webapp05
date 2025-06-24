@@ -135,7 +135,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"user@user.com\",\r\n  \"password\": \"pass\"\r\n}\r\n",
+							"raw": "{\r\n  \"email\": \"admin@admin.com\",\r\n  \"password\": \"adminpass\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -240,7 +240,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"prueba de admin\",\r\n    \"email\": \"coraima@prueba2.com\",\r\n    \"password\": \"pass\"\r\n}",
+							"raw": "{\r\n    \"name\": \"lalala\",\r\n    \"email\": \"lalala@prueba2.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -248,7 +248,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/users/3",
+							"raw": "https://localhost:8443/api/users/2",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -257,7 +257,7 @@
 							"path": [
 								"api",
 								"users",
-								"3"
+								"2"
 							]
 						}
 					},
@@ -346,6 +346,48 @@
 								"users",
 								"3",
 								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user training list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/users/trainingList",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"users",
+								"trainingList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user nutrition list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/users/nutritionList",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"users",
+								"nutritionList"
 							]
 						}
 					},
@@ -626,10 +668,22 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
 						"url": {
-							"raw": "Subscribed Training",
+							"raw": "https://localhost:8443/api/trainings/subscribed/5",
+							"protocol": "https",
 							"host": [
-								"Subscribed Training"
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"trainings",
+								"subscribed",
+								"5"
 							]
 						}
 					},
@@ -641,9 +695,39 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "Unsubscribed Training",
+							"raw": "https://localhost:8443/api/trainings/unsubscribed/5",
+							"protocol": "https",
 							"host": [
-								"Unsubscribed Training"
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"trainings",
+								"unsubscribed",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "isSubscribed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/trainings/isSubscribed/5",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"trainings",
+								"isSubscribed",
+								"5"
 							]
 						}
 					},
@@ -925,7 +1009,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/nutritions/1/subscribed/20000",
+							"raw": "https://localhost:8443/api/nutritions/subscribed/2",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -934,9 +1018,8 @@
 							"path": [
 								"api",
 								"nutritions",
-								"1",
 								"subscribed",
-								"20000"
+								"2"
 							]
 						}
 					},
@@ -957,7 +1040,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/nutritions/1/unsubscribed/2",
+							"raw": "https://localhost:8443/api/nutritions/unsubscribed/2",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -966,8 +1049,29 @@
 							"path": [
 								"api",
 								"nutritions",
-								"1",
 								"unsubscribed",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "isSuscribed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/nutritions/isSubscribed/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"nutritions",
+								"isSubscribed",
 								"2"
 							]
 						}
@@ -1028,7 +1132,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/trainingComments/comment/5/",
+							"raw": "https://localhost:8443/api/trainingComments/comment/3/",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -1038,7 +1142,7 @@
 								"api",
 								"trainingComments",
 								"comment",
-								"5",
+								"3",
 								""
 							]
 						}
@@ -1120,7 +1224,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"description\": \"Comentario flipante de entranamiento, waos\",\r\n  \"name\": \"Comentario generico\",\r\n  \"isNotified\": false,\r\n  \"training\": { \"id\": 1 },\r\n  \"user\": null\r\n}",
+							"raw": "{\r\n  \"description\": \"Comentario 3 de junio\",\r\n  \"name\": \"Comentario 3 de junio\",\r\n  \"isNotified\": false,\r\n  \"training\": { \"id\": 1 },\r\n  \"user\": null\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1229,36 +1333,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Partial Edition TrainingComment",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\t\"description\": \"Ejercicios de brazo\",\r\n  \"name\": \"Brazo\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://localhost:8443/api/trainingComments/24",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "8443",
-							"path": [
-								"api",
-								"trainingComments",
-								"24"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -1324,7 +1398,22 @@
 					"name": "Get nutritionComment By Id",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/nutritionComments/comment/1/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"nutritionComments",
+								"comment",
+								"1",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -1396,7 +1485,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"description\": \"Entrega Martes 25 \",\r\n  \"name\": \"Nueva dieta de Cata\",\r\n  \"isNotified\": true,\r\n  \"nutrition\": { \"id\": 1 },\r\n  \"user\": null\r\n}",
+							"raw": "{\r\n  \"description\": \"Martes 3 de Junio \",\r\n  \"name\": \"Nueva dieta de Cata\",\r\n  \"isNotified\": true,\r\n  \"nutrition\": { \"id\": 1 },\r\n  \"user\": null\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1404,7 +1493,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/nutritionComments/?id=11",
+							"raw": "https://localhost:8443/api/nutritionComments/?id=2",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -1418,7 +1507,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "11"
+									"value": "2"
 								}
 							]
 						}
@@ -1458,7 +1547,7 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/nutritionComments/report?commentId=29",
+							"raw": "https://localhost:8443/api/nutritionComments/report?commentId=1",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -1472,7 +1561,7 @@
 							"query": [
 								{
 									"key": "commentId",
-									"value": "29"
+									"value": "1"
 								}
 							]
 						}
