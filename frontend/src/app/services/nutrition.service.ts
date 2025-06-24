@@ -52,29 +52,4 @@ export class NutritionService {
 
     return this.http.put<any>(`${this.baseUrl}${id}/image`, formData);
   }
-
-  /*getNutritionsPaginated(page: number, size: number): Observable<Nutrition[]> {
-    return this.http.get<Nutrition[]>(`${this.baseUrl}?page=${page}&size=${size}`);
-  }
-  
-   loadNutrition(nutritionId?: number): Observable<Nutrition | null> {
-     if (nutritionId != null && !isNaN(nutritionId)) {
-       return this.http.get<Nutrition>(`${this.baseUrl}/${nutritionId}`);
-     } else {
-       console.log('No hay nutritionId, no se carga ningún nutrition');
-       return of(null); // Retorna un observable vacío
-     }
-   }
- 
-   // Save nutrition
-   savenutrition(nutrition: Nutrition): Observable<Nutrition> {
-     if (nutrition.id != null && !isNaN(nutrition.id)) {
-       // Edit
-       return this.http.put<Nutrition>(`${this.baseUrl}/${nutrition.id}`, nutrition);
-     } else {
-       // Create
-       return this.http.post<Nutrition>(this.baseUrl, nutrition);
-     }
-   }  
-  */
 }

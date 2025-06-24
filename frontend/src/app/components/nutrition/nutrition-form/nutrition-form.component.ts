@@ -4,6 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NutritionService } from '../../../services/nutrition.service';
 import { Nutrition } from '../../../dto/nutrition.dto';
 import { LoginService } from '../../../services/login.service';
+import { UserService } from '../../../services/user.service';
+import { ToastrService } from 'ngx-toastr';
+import { of } from 'rxjs';
+import { UserDTO } from '../../../dto/user.dto';
 
 @Component({
   selector: 'app-nutrition-form',
@@ -18,41 +22,93 @@ export class NutritionFormComponent implements OnInit {
   goals: string[] = ['Lose weight', 'Maintain weight', 'Increase weight'];
   previewImage: string | ArrayBuffer | null = null;
   selectedImageFile?: File;
+  defaultImage: string = '/assets/images/emptyImage.png';
+  user: UserDTO | null = null;
+  canEdit: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private toastr: ToastrService,
     private nutritionService: NutritionService,
-    private loginService: LoginService
+    private userService: UserService,
   ) {}
 
   ngOnInit(): void {
-    this.nutritionForm = this.fb.group({
-        name: ['', Validators.required],
-        calories: [0, [Validators.required, Validators.min(1)]],
-        goal: ['', Validators.required],
-        description: ['', Validators.required],
-      });
-
-      const idParam = this.route.snapshot.paramMap.get('id');
-      if (idParam) {
-        this.nutritionId = parseInt(idParam, 10);
-        if(this.nutritionId > 0) {
-          this.isEditMode = true;
-
-          this.nutritionService.getNutritionById(this.nutritionId).subscribe({
-            next: (nutrition) => {
-              this.nutritionForm.patchValue(nutrition);
-            },
-            error: () => {
-              console.error('Error loading nutrition');
-            }
-          });
-        }
+    this.isLoading = true;
+    this.userService.getCurrentUser().subscribe({
+      next: (user) => {
+      this.user = user;
+      if (user) {
+        this.loadNutrition();
+        this.isLoading = false;
+      // }else{
+      //   this.isLoading = false;
+      //   this.toastr.error('Please log in to access this part of web.', 'Error');
+      //   // Redirect to login page if not logged in
+      //   this.router.navigate(['/login']);
+       }
+      },
+      error: () => {
+        this.isLoading = false;
+        this.toastr.error('Please log in to access this part of web.', 'Error');
+        // Redirect to login page if not logged in
+        this.router.navigate(['/login']);
       }
-      this.isLoading = false;
+    });
+  
+  }
+
+  loadNutrition(){
+    this.nutritionForm = this.fb.group({
+      name: ['', Validators.required],
+      calories: [0, [Validators.required, Validators.min(1)]],
+      goal: ['', Validators.required],
+      description: ['', Validators.required],
+    });
+
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.nutritionId = parseInt(idParam, 10);
+      if(this.nutritionId > 0) {
+        this.isEditMode = true;
+
+        this.nutritionService.getNutritionById(this.nutritionId).subscribe({
+          next: (nutrition) => {
+
+            const currentUserId = this.user?.id ?? null;
+            const nutritionAuthorId = nutrition.userId ?? null;
+
+            const isAuthor = currentUserId !== null &&
+              nutritionAuthorId !== null &&
+              Number(currentUserId) === Number(nutritionAuthorId);
+
+            this.canEdit = currentUserId == 1 || isAuthor;
+            if (this.canEdit) {
+              this.nutritionForm.patchValue(nutrition);
+              this.isLoading = false;
+              return;
+            } else {
+              this.isLoading = false;
+              this.toastr.error('You cant edit this nutrition.', 'Error');
+              this.router.navigate(['/nutrition' , this.nutritionId]);
+              return;
+            }
+          },
+          error: () => {
+            this.isLoading = false;
+            console.error('Error loading nutrition');
+          }
+        });
+      }
     }
+
+    if (!this.isEditMode) {
+      this.previewImage = this.defaultImage;
+    }
+    this.isLoading = false;
+  }
 
 
 
