@@ -29,6 +29,18 @@ export class NutritionDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Check if the user is logged in
+    this.loginService.isLogged.subscribe((isLogged) => {
+        this.logged = isLogged;
+      });
+      this.loginService.isAdmin.subscribe((isAdmin)=>{
+        this.admin = isAdmin;
+      }); 
+
+    if (!this.logged) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.loadNutritionDetails();
   }
 

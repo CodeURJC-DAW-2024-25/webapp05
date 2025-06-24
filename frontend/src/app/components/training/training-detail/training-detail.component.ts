@@ -26,9 +26,21 @@ export class TrainingDetailComponent implements OnInit {
     private trainingService: TrainingService,
     private loginService: LoginService,
     private toastr: ToastrService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    // Check if the user is logged in
+    this.loginService.isLogged.subscribe((isLogged) => {
+      this.logged = isLogged;
+    });
+    this.loginService.isAdmin.subscribe((isAdmin) => {
+      this.admin = isAdmin;
+    });
+
+    if (!this.logged) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.loadTrainingDetails();
   }
 
@@ -40,7 +52,7 @@ export class TrainingDetailComponent implements OnInit {
         this.isLoading = false;
         this.training = training;
         this.setPermissions(training);
-        if (this.logged && !this.admin){
+        if (this.logged && !this.admin) {
           this.checkSubscription();
         }
 
@@ -81,7 +93,7 @@ export class TrainingDetailComponent implements OnInit {
   }
 
   private checkSubscription(): void {
-    if (this.loginService.currentUser!=null) {
+    if (this.loginService.currentUser != null) {
       this.trainingService.isSubscribed(this.trainingId).subscribe({
         next: (res) => {
           this.subscribed = res;
@@ -98,7 +110,7 @@ export class TrainingDetailComponent implements OnInit {
       next: () => {
         this.subscribed = true;
         this.toastr.success('Successfully subscribed to training', 'Success');
-        },
+      },
       error: (err) => {
         console.error('Error subscribing to training', err);
         this.toastr.error('Error subscribing to training', 'Error');
@@ -111,7 +123,7 @@ export class TrainingDetailComponent implements OnInit {
       next: () => {
         this.subscribed = false;
         this.toastr.success('Successfully unsubscribed from training', 'Success');
-        },
+      },
       error: (err) => {
         this.toastr.error('Error unsubscribing from training', 'Error');
       }
