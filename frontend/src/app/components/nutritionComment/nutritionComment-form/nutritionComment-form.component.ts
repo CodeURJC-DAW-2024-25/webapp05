@@ -8,6 +8,8 @@ import { Nutrition } from '../../../dto/nutrition.dto';
 import { NutritionService } from '../../../services/nutrition.service';
 import { UserService } from '../../../services/user.service';
 import { UserDTO } from '../../../dto/user.dto';
+import { ToastrService } from 'ngx-toastr';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -33,67 +35,63 @@ export class NutritionCommentFormComponent implements OnInit {
     private router: Router,
     private loginService: LoginService,
     private nutritionService: NutritionService,
-    private userService: UserService
+    private userService: UserService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
     this.isLoading = true;
 
-    // Check if the user is logged in
-    this.loginService.isLogged.subscribe((isLogged) => {
-      this.logged = isLogged;
-    });
-    this.loginService.isAdmin.subscribe((isAdmin) => {
-      this.admin = isAdmin;
-    });
-
-    if (!this.logged) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
-
-    this.nutritionId = +this.route.snapshot.paramMap.get('id')!;
-    this.nutritionService.getNutritionById(this.nutritionId).subscribe({
-      next: (nutrition) => {
-        this.currentNutrition = nutrition;
-      },
-      error: () => {
-        console.error('Error loading nutrition');
-      }
-    });
-
+    // Solo una llamada para verificar si el usuario está logueado
     this.userService.getCurrentUser().subscribe({
       next: (user) => {
         this.currentUser = user;
-      }
-      ,
-      error: () => {
-        console.error('Error loading current user');
-      }
-    });
+        this.isLoading = false;
 
-    const idParam = this.route.snapshot.paramMap.get('commentId');
-    this.commentForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-    });
+        // Cargar la nutrición solo si el usuario está logueado
+        this.nutritionId = +this.route.snapshot.paramMap.get('id')!;
+        this.nutritionService.getNutritionById(this.nutritionId).subscribe({
+          next: (nutrition) => {
+            this.currentNutrition = nutrition;
+          },
+          error: () => {
+            console.error('Error loading nutrition');
+          }
+        });
 
-    if (idParam) {
-      this.commentId = parseInt(idParam, 10);
-      this.isEditMode = true;
+        // Cargar el comentario si es modo edición
+        const idParam = this.route.snapshot.paramMap.get('commentId');
+        this.commentForm = this.fb.group({
+          name: ['', Validators.required],
+          description: ['', Validators.required],
+        });
 
-      this.nutritionCommentService.getNutritionCommentById(this.commentId).subscribe({
-        next: (nutritionComment) => {
-          this.commentForm.patchValue(nutritionComment);
-        },
-        error: () => {
-          console.error('Error loading nutrition comment');
+        if (idParam) {
+          this.commentId = parseInt(idParam, 10);
+          this.isEditMode = true;
+
+          this.nutritionCommentService.getNutritionCommentById(this.commentId).subscribe({
+            next: (nutritionComment) => {
+              this.commentForm.patchValue(nutritionComment);
+            },
+            error: () => {
+              console.error('Error loading nutrition comment');
+            }
+          });
         }
-      });
-    }
-    this.isLoading = false;
+
+      },
+      error: (err) => {
+        this.isLoading = false;
+        if (err.status === 401 || err.status === 403) {
+          this.router.navigate(['/login']);
+        } else {
+          this.toastr.error('Unexpected error while loading user.', 'Error');
+        }
+      }
+    });
   }
+
 
   onSubmit(): void {
     if (this.commentForm.invalid) {
@@ -102,7 +100,7 @@ export class NutritionCommentFormComponent implements OnInit {
     }
 
     const formValues = this.commentForm.value;
-    
+
     const nutritionComment: NutritionCommentDTO = {
       ...formValues,
       isNotified: false,
