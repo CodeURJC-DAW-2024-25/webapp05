@@ -1,5 +1,6 @@
 package es.codeurjc.daw.alphagym.service;
 
+import es.codeurjc.daw.alphagym.controller.rest.NoSuchElementExceptionCA;
 import es.codeurjc.daw.alphagym.dto.UserDTO;
 import es.codeurjc.daw.alphagym.model.Nutrition;
 import es.codeurjc.daw.alphagym.model.Training;
@@ -33,6 +34,8 @@ import es.codeurjc.daw.alphagym.dto.UserMapper;
 @Service
 public class UserService {
 
+    private final NoSuchElementExceptionCA noSuchElementExceptionCA;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -47,6 +50,10 @@ public class UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    UserService(NoSuchElementExceptionCA noSuchElementExceptionCA) {
+        this.noSuchElementExceptionCA = noSuchElementExceptionCA;
+    }
 
     private UserDTO toUserDTO(User user) {
         return mapper.toUserDTO(user);
@@ -164,33 +171,29 @@ public class UserService {
     }
 
     public UserDTO updateUser(Long id, UserDTO userDTO) throws SQLException {
-    User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository.findById(id).orElseThrow();
 
-    // Validate email: must not be null, empty, or just whitespace
-    String email = userDTO.email();
-    if (email == null || email.trim().isEmpty()) {
-        throw new IllegalArgumentException("Email cannot be empty.");
+        String email = userDTO.email();
+        String name = userDTO.name();
+
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be empty.");
+        }
+
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty.");
+        }
+
+        Optional<User> existingUser = userRepository.findByEmail(email.trim());
+        if (existingUser.isPresent() && !existingUser.get().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("Email is already in use.");
+        }
+        
+        user.setEmail(email.trim());
+        user.setName(name.trim());
+
+        return toUserDTO(userRepository.save(user));
     }
-
-    // Check if the email is already used by another user
-    Optional<User> existingUser = userRepository.findByEmail(email.trim());
-    if (existingUser.isPresent() && !existingUser.get().getId().equals(user.getId())) {
-        throw new IllegalArgumentException("Email is already in use.");
-    }
-
-    user.setEmail(email.trim());
-
-    // Validate name: must not be null, empty, or just whitespace
-    String name = userDTO.name();
-    if (name == null || name.trim().isEmpty()) {
-        throw new IllegalArgumentException("Name cannot be empty.");
-    }
-
-    user.setName(name.trim());
-
-    return toUserDTO(userRepository.save(user));
-    }
-
 
     public InputStreamResource getUserImage(long id) throws SQLException {
 

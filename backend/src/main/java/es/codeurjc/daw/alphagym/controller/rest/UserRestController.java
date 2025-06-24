@@ -255,7 +255,7 @@ public class UserRestController {
                 }
 
                 // if is user, can edit only his own user
-                if (authenticatedUser.id().equals(id)) {
+                if (authenticatedUser.id().equals(id) && userDTO.email() != null && !userDTO.email().trim().isEmpty()) {
                         return userService.updateUser(id, userDTO);
                 }
 
